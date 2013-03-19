@@ -13,7 +13,9 @@ public class Main {
 			method();
 		}
 	}
-	
+	/**
+	 * This method does nothing of value
+	 */
 	private static void method(){
 		System.out.print("4Ö2 ");
 	}
