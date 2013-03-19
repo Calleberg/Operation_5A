@@ -9,12 +9,12 @@ public class Main {
 		System.out.println("vidare was here");
 		//hej
 		//Kilroy was here
-		for(int ö = 7; ö > 2; ö++){
+		while(true){
 			method();
 		}
 	}
 	
 	private static void method(){
-		System.out.print("4Ö 42 ");
+		System.out.print("4Ö2 ");
 	}
 }
