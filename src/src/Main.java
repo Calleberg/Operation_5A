@@ -8,5 +8,10 @@ public class Main {
 		System.out.println("vidare was here");
 		//hej
 		//Kilroy was here
+		method();
+	}
+	
+	private static void method(){
+		
 	}
 }
