@@ -6,7 +6,7 @@ public class Main {
 		System.out.println("testLinus");
 		System.out.println("testCalleberg");
 		System.out.println("testJonatan");
-		System.out.println("vidare was here");
+		System.out.println("vidare was heddsre");
 		//hej
 		//Kilroy was here
 		while(true){
