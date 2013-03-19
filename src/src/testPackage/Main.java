@@ -9,10 +9,12 @@ public class Main {
 		System.out.println("vidare was here");
 		//hej
 		//Kilroy was here
-		method();
+		for(int ö = 7; ö > 2; ö++){
+			method();
+		}
 	}
 	
 	private static void method(){
-		//TODO: Add stuffs
+		System.out.print("4Ö 42 ");
 	}
 }
