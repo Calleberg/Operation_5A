@@ -20,6 +20,6 @@ public class Main {
 	 * This method does nothing of value
 	 */
 	private static void method(){
-		System.out.print("4Ö2 ");
+		System.out.print("4Ö2 77");
 	}
 }
