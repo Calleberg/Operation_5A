@@ -1,9 +1,8 @@
 package sprite;
 
 import geometrical.Position;
-import java.awt.Point;
 
-public class Player {
+public class Player implements Sprite {
 	private Position position;
 	private float direction;
 	private float speed;
@@ -28,6 +27,12 @@ public class Player {
 	}
 	public float getY(){
 		return position.getY();
+	}
+	public void setX(float x){
+		position.setX(x);
+	}
+	public void setY(float y){
+		position.setY(y);
 	}
 	
 	
