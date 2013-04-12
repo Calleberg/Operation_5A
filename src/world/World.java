@@ -16,4 +16,10 @@ public class World {
 	public List<Player> getSprites() {
 		return this.sprites;
 	}
+	
+	public void update() {
+		for(int i = 0; i < sprites.size(); i++) {
+			sprites.get(i).move();
+		}
+	}
 }

@@ -1,14 +1,20 @@
 package base;
 
+import java.awt.event.KeyEvent;
+
+import sprite.Player;
+
 import model.GameModel;
 
 public class GameController extends Thread {
 
 	private int sleep;
 	private GameModel model;
+	private Input input;
 	
-	public GameController(GameModel model) {
+	public GameController(GameModel model, Input input) {
 		this.model = model;
+		this.input = input;
 		this.sleep = 1000 / 60;
 		this.start();
 	}
@@ -25,7 +31,23 @@ public class GameController extends Thread {
 		}
 	}
 	
+	public void handleMouseAt(float x, float y) {
+		float dx = model.getPlayer().getX() - x;
+		float dy = model.getPlayer().getY() - y;
+		float dir = (float)Math.atan(dy/dx);
+		if(dx < 0) {
+			dir -= (float)(Math.PI);
+		}
+		model.getPlayer().setDirection(-dir + (float)Math.PI);
+	}
+	
 	public void update() {
+		if(input.isPressed(KeyEvent.VK_W)) {
+			model.getPlayer().setState(Player.State.MOVING);
+		}else{
+			model.getPlayer().setState(Player.State.STANDING);
+		}
+		
 		model.update();
 	}
 }

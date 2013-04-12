@@ -26,7 +26,12 @@ public class GameModel {
 		this.pcs.removePropertyChangeListener(pcl);
 	}
 	
+	public Player getPlayer() {
+		return this.player;
+	}
+	
 	public void update() {
+		world.update();
 		pcs.firePropertyChange("", 1, 0);
 	}
 }
