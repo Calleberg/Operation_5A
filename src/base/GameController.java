@@ -43,7 +43,13 @@ public class GameController extends Thread {
 	
 	public void update() {
 		if(input.isPressed(KeyEvent.VK_W)) {
-			model.getPlayer().setState(Player.State.MOVING);
+			model.getPlayer().setState(Player.State.FORWARD);
+		}else if(input.isPressed(KeyEvent.VK_A)) {
+			model.getPlayer().setState(Player.State.LEFT);
+		}else if(input.isPressed(KeyEvent.VK_S)) {
+			model.getPlayer().setState(Player.State.BACKWARDS);
+		}else if(input.isPressed(KeyEvent.VK_D)) {
+			model.getPlayer().setState(Player.State.RIGHT);
 		}else{
 			model.getPlayer().setState(Player.State.STANDING);
 		}
