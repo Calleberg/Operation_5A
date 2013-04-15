@@ -3,7 +3,7 @@ package base;
 import view.GamePanel;
 import view.Window;
 import model.GameModel;
-
+//linus
 public class Main {
 
 	public static void main(String[] args) {
