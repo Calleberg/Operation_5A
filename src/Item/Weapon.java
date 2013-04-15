@@ -1,14 +1,14 @@
 package Item;
 
 public class Weapon {
-	private double speed;
+	private float speed;
 	private int damage;
-	private int range;
+	private float range;
 	private int ammunitionAmount;
 	private int ammunitionInWeapon;
 	private double reloadTime;
 	
-	public Weapon(double speed, int damage, int range, int ammunitionAmount, 
+	public Weapon(float speed, int damage, float range, int ammunitionAmount, 
 			int ammunitionInWeapon, double reloadTime){
 		this.speed = speed;
 		this.damage = damage;
@@ -21,7 +21,10 @@ public class Weapon {
 	//public Projectile createProjectile(){
 		//TODO
 	//}
-	
+	/**
+	 * reloads the weapon
+	 * @param ammunition the ammunition amount needed for full ammo.
+	 */
 	public void reload(int ammunition){
 		if(ammunition < this.missingBullets()){
 			ammunitionInWeapon = ammunitionInWeapon + ammunition;
@@ -33,7 +36,7 @@ public class Weapon {
 		return reloadTime;
 	}
 	
-	public double getSpeed(){
+	public float getSpeed(){
 		return speed;
 	}
 	
@@ -51,5 +54,13 @@ public class Weapon {
 	
 	public int getAmmunitionInWeapon(){
 		return ammunitionInWeapon;
+	}
+	/**
+	 * Returns the range the weapon can travel, the range will be the same for 
+	 * all ranged weapons but differ for melee weapons
+	 * @return the range of the weapon
+	 */
+	public float getRange(){
+		return range;
 	}
 }
