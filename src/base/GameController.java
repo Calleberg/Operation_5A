@@ -12,13 +12,20 @@ public class GameController extends Thread {
 	private GameModel model;
 	private Input input;
 	
+	/**
+	 * Creates a new gameController.
+	 * @param model The model which the gameController controls.
+	 * @param input The input which the gameController collects input from.
+	 */
 	public GameController(GameModel model, Input input) {
 		this.model = model;
 		this.input = input;
 		this.sleep = 1000 / 60;
 		this.start();
 	}
-	
+	/**
+	 * Update's the game a specific amount of times per second.
+	 */
 	@Override
 	public void run() {
 		while(true) {
@@ -30,7 +37,11 @@ public class GameController extends Thread {
 			}
 		}
 	}
-	
+	/**
+	 * Sets the direction of the player towards the mouse' position.
+	 * @param x The x-coordinate of the mouse' position.
+	 * @param y The y-coordinate of the mouse' position.
+	 */
 	public void handleMouseAt(float x, float y) {
 		float dx = model.getPlayer().getX() - x;
 		float dy = model.getPlayer().getY() - y;
@@ -40,7 +51,9 @@ public class GameController extends Thread {
 		}
 		model.getPlayer().setDirection(-dir + (float)Math.PI);
 	}
-	
+	/**
+	 * Updates the model.
+	 */
 	public void update() {
 		if(input.isPressed(KeyEvent.VK_W)) {
 			model.getPlayer().setState(Player.State.FORWARD);
