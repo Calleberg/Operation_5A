@@ -4,7 +4,7 @@ import geometrical.Position;
 
 public class Player implements Sprite {
 	
-	public static enum State{MOVING, STANDING};
+	public static enum State{FORWARD, BACKWARDS, RIGHT, LEFT, STANDING};
 	private State state;
 	private Position position;
 	private float direction;
@@ -17,11 +17,22 @@ public class Player implements Sprite {
 	}
 	
 	public void move(){
-		if(state == State.MOVING) {
-			position.setX(position.getX() + (float)(Math.cos(direction)*speed));
-			position.setY(position.getY() - (float)(Math.sin(direction)*speed));
+		if(state == State.FORWARD) {
+			changePosition(direction);
+		}else if(state == State.LEFT) {
+			changePosition(direction+Math.PI/2);
+		}else if(state == State.BACKWARDS) {
+			changePosition(direction+Math.PI);
+		}else if(state == State.RIGHT) {
+			changePosition(direction-Math.PI/2);
 		}
 	}
+	
+	private void changePosition(double d){
+		position.setX(position.getX() + (float)(Math.cos(d)*speed));
+		position.setY(position.getY() - (float)(Math.sin(d)*speed));
+	}
+	
 	public void setState(State state) {
 		this.state = state;
 	}
