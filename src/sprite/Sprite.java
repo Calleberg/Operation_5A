@@ -1,6 +1,8 @@
 package sprite;
 
-public interface Sprite {
+import world.WorldObject;
+
+public interface Sprite extends WorldObject {
 	
 	public void move();
 	public float getDirection();
