@@ -3,12 +3,15 @@ package world;
 import java.util.List;
 import java.util.ArrayList;
 
+import projectile.Projectile;
+
 import sprite.Sprite;
 
 public class World {
 
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
+	private List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	/**
 	 * Creates a new empty world.
@@ -72,9 +75,33 @@ public class World {
 		for(int i = 0; i < sprites.size(); i++) {
 			sprites.get(i).move();
 		}
+		for(int i = 0; i < projectiles.size(); i++) {
+			//TODO implement move()
+			//projectiles.get(i).move();
+		}
 	}
 	
-//	public void addProjectile(Projectile projectile) {
-//		
-//	}
+	/**
+	 * Adds the specified projectile to the world.
+	 * @param projectile the projectile to add.
+	 */
+	public void addProjectile(Projectile projectile) {
+		this.projectiles.add(projectile);
+	}
+	
+	/**
+	 * Removes the specified projectile from the world.
+	 * @param projectile the projectile to remove.
+	 */
+	public void removeProjectile(Projectile projectile) {
+		this.projectiles.remove(projectile);
+	}
+	
+	/**
+	 * Gives all the projectiles in the world.
+	 * @return all the projectiles in the world.
+	 */
+	public List<Projectile> getProjectiles() {
+		return this.projectiles;
+	}
 }
