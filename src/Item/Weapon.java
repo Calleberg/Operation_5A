@@ -6,10 +6,10 @@ public class Weapon {
 	private float range;
 	private int ammunitionAmount;
 	private int ammunitionInWeapon;
-	private double reloadTime;
+	private float reloadTime;
 	
 	public Weapon(float speed, int damage, float range, int ammunitionAmount, 
-			int ammunitionInWeapon, double reloadTime){
+			int ammunitionInWeapon, float reloadTime){
 		this.speed = speed;
 		this.damage = damage;
 		this.range = range;
@@ -32,26 +32,45 @@ public class Weapon {
 			ammunitionInWeapon = ammunitionAmount;
 		}
 	}
-	public double getReloadTime(){
+	/**
+	 * Returns the time it takes to reload
+	 * @return the time it takes to reload
+	 */
+	public float getReloadTime(){
 		return reloadTime;
 	}
-	
+	/**
+	 * Returns the speed of which the projectile fired by the weapon travels
+	 * @return the speed of the projectile
+	 */
 	public float getSpeed(){
 		return speed;
 	}
-	
+	/**
+	 * Returns the damage the projectile fired by the weapon causes
+	 * @return the damage of the projectile
+	 */
 	public int getDamage(){
 		return damage;
 	}
-	
+	/**
+	 * Returns the ammunition capability of the weapon
+	 * @return the ammunition capability
+	 */
 	public int getAmmunitionAmount(){
 		return ammunitionAmount;
 	}
-	
+	/**
+	 * Returns the amount of bullets needed for full capability
+	 * @return the amount of bullets missing for full capability
+	 */
 	public int missingBullets(){
 		return ammunitionAmount-ammunitionInWeapon;
 	}
-	
+	/**
+	 * Returns the amount of ammunition there is in the weapon
+	 * @return the amount of ammunition in the weapon
+	 */
 	public int getAmmunitionInWeapon(){
 		return ammunitionInWeapon;
 	}

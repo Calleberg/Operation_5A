@@ -57,5 +57,13 @@ public class Projectile {
 	public Position getPosition(){
 		return position;
 	}
+	/**
+	 * Sets the parameter as the new position of the projectile
+	 * @param pos is the new position
+	 */
+	public void setPosition(Position pos){
+		position = pos;
+	}
+
 
 }
