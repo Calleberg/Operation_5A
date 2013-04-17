@@ -73,4 +73,8 @@ public class World {
 			sprites.get(i).move();
 		}
 	}
+	
+//	public void addProjectile(Projectile projectile) {
+//		
+//	}
 }
