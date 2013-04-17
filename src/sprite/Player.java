@@ -1,5 +1,6 @@
 package sprite;
 
+import Item.Weapon;
 import geometrical.Position;
 
 public class Player implements Sprite {
@@ -11,6 +12,7 @@ public class Player implements Sprite {
 	private Position position;
 	private float direction;
 	private float speed;
+	private Weapon weapon;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -87,5 +89,20 @@ public class Player implements Sprite {
 		position.setY(y);
 	}
 	
+	/**
+	 * Returns the player's weapon
+	 * @return the player's weapon
+	 */
+	public Weapon getActiveWeapon(){
+		return this.weapon;
+	}
+	
+	/**
+	 * Set the player's weapon
+	 * @param w The player's weapon
+	 */
+	public void setWeapon(Weapon w){
+		this.weapon = w;
+	}
 	
 }
