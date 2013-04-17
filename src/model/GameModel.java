@@ -66,6 +66,6 @@ public class GameModel {
 	 * The Player fire his weapon.
 	 */
 	public void playerShoot(){
-		this.world.createProjectile(player);
+		//this.world.createProjectile(player);
 	}
 }
