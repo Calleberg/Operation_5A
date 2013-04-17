@@ -49,12 +49,16 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		
 		//TODO to bort
 		g.fillRect((int)(model.getPlayer().getX()*40), (int)(model.getPlayer().getY()*40), 40, 40);
-		g.drawString(tick + "", 10, 10);
+		
 		//
 		
 		for(Projectile p : model.getWorld().getProjectiles()) {
 			g.fillRect((int)(p.getPosition().getX() * 40), (int)(p.getPosition().getY() * 40), 4, 4);
 		}
+		
+		g.drawString("Number of updates since start: " + tick, 10, 10);
+		g.drawString("Number of projectiles: " + model.getWorld().getProjectiles().size(), 10, 20);
+		g.drawString("Number of characters/sprite: " + model.getWorld().getSprites().size(), 10, 30);
 	}
 	
 	@Override
