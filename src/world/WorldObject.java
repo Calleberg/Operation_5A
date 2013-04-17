@@ -1,5 +1,7 @@
 package world;
 
+import java.awt.image.BufferedImage;
+
 import geometrical.Position;
 
 /**
@@ -42,8 +44,21 @@ public interface WorldObject {
 	
 	/**
 	 * Sets the position of this object.
+	 * @param p the position of this object.
 	 */
-	public void setPosition();
+	public void setPosition(Position p);
+	
+	/**
+	 * Set the image of this object
+	 * @param i The image of this object
+	 */
+	public void setImage(BufferedImage i);
+	
+	/**
+	 * Returns the image of this object
+	 * @return the image of this object
+	 */
+	public void getImage();
 	
 //	/**
 //	 * Sets the collision box of this object.
