@@ -55,6 +55,14 @@ public class GameModel {
 	}
 	
 	/**
+	 * Gives the world this model holds.
+	 * @return the world this model holds.
+	 */
+	public World getWorld() {
+		return this.world;
+	}
+	
+	/**
 	 * Updates the model.
 	 */
 	public void update() {

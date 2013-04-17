@@ -9,6 +9,8 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import projectile.Projectile;
+
 import base.GameController;
 
 import model.GameModel;
@@ -51,6 +53,10 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		g.fillRect((int)(model.getPlayer().getX()*40), (int)(model.getPlayer().getY()*40), 40, 40);
 		g.drawString(tick + "", 10, 10);
 		//
+		
+		for(Projectile p : model.getWorld().getProjectiles()) {
+			g.fillRect((int)(p.getPosition().getX() * 40), (int)(p.getPosition().getY() * 40), 4, 4);
+		}
 	}
 	
 	@Override
