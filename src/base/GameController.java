@@ -1,6 +1,7 @@
 package base;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import sprite.Player;
 
@@ -55,6 +56,7 @@ public class GameController extends Thread {
 	 * Updates the model.
 	 */
 	public void update() {
+		//playerMove
 		if(input.isPressed(KeyEvent.VK_W)) {
 			model.getPlayer().setState(Player.State.FORWARD);
 		}else if(input.isPressed(KeyEvent.VK_A)) {
@@ -67,6 +69,13 @@ public class GameController extends Thread {
 			model.getPlayer().setState(Player.State.STANDING);
 		}
 		
+		//playerShoot
+		if(input.mousePressed(MouseEvent.BUTTON1)){
+			model.playerShoot();
+		}
+		
 		model.update();
 	}
+	
+	
 }

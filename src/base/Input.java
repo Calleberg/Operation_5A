@@ -55,8 +55,8 @@ public class Input implements KeyListener, MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// Not used
+	public void mouseClicked(MouseEvent e) {
+		
 	}
 
 	@Override
