@@ -61,4 +61,11 @@ public class GameModel {
 		world.update();
 		pcs.firePropertyChange("", 1, 0);
 	}
+	
+	/**
+	 * The Player fire his weapon.
+	 */
+	public void playerShoot(){
+		//this.world.createProjectile(player);
+	}
 }
