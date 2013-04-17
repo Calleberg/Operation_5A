@@ -58,7 +58,7 @@ public interface WorldObject {
 	 * Returns the image of this object
 	 * @return the image of this object
 	 */
-	public void getImage();
+	public BufferedImage getImage();
 	
 //	/**
 //	 * Sets the collision box of this object.

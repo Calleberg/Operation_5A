@@ -1,5 +1,7 @@
 package sprite;
 
+import java.awt.image.BufferedImage;
+
 import Item.Weapon;
 import geometrical.Position;
 
@@ -13,6 +15,7 @@ public class Player implements Sprite {
 	private float direction;
 	private float speed;
 	private Weapon weapon;
+	private BufferedImage image;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -39,7 +42,7 @@ public class Player implements Sprite {
 			changePosition(direction-Math.PI/2);
 		}
 	}
-	/*
+	/**
 	 * Changes the position with a specific direction.
 	 */
 	private void changePosition(double d){
@@ -103,6 +106,23 @@ public class Player implements Sprite {
 	 */
 	public void setWeapon(Weapon w){
 		this.weapon = w;
+	}
+	@Override
+	public Position getPosition() {
+		return position;
+	}
+	@Override
+	public void setPosition(Position p) {
+		this.position = p;
+	}
+	@Override
+	public void setImage(BufferedImage i) {
+		this.image = i;
+		
+	}
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 }
