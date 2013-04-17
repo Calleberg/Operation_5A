@@ -1,5 +1,7 @@
 package world;
 
+import geometrical.Position;
+
 /**
  * An interface used when creating objects that will populate a world.
  * 
@@ -31,6 +33,17 @@ public interface WorldObject {
 	 * @return the y-coordinate of this object.
 	 */
 	public float getY();
+	
+	/**
+	 * Gives the position of this object.
+	 * @return the position of this object.
+	 */
+	public Position getPosition();
+	
+	/**
+	 * Sets the position of this object.
+	 */
+	public void setPosition();
 	
 //	/**
 //	 * Sets the collision box of this object.
