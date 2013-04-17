@@ -76,8 +76,7 @@ public class World {
 			sprites.get(i).move();
 		}
 		for(int i = 0; i < projectiles.size(); i++) {
-			//TODO implement move()
-			//projectiles.get(i).move();
+			projectiles.get(i).move();
 		}
 	}
 	
