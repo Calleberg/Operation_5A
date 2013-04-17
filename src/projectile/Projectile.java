@@ -19,6 +19,23 @@ public class Projectile {
 		this.direction = player.getDirection();
 		this.position = new Position(player.getX(), player.getY());
 	}
+	
+	public Projectile(int damage, float speed, float range, float direction, Position position) {
+		this.damage = damage;
+		this.speed = speed;
+		this.range = range;
+		this.direction = direction;
+		this.position = position;
+	}
+	
+	/**
+	 * Updates the projectile's position.
+	 */
+	public void move() {
+		position.setX(position.getX() + (float)(Math.cos(direction)*speed));
+		position.setY(position.getY() - (float)(Math.sin(direction)*speed));
+	}
+	
 	/**
 	 * Returns the amount of damage the projectile causes
 	 * @return the damage of the projectile

@@ -1,5 +1,8 @@
 package Item;
 
+import geometrical.Position;
+import projectile.Projectile;
+
 public class Weapon {
 	private float speed;
 	private int damage;
@@ -18,9 +21,10 @@ public class Weapon {
 		this.reloadTime = reloadTime;
 	}
 	
-	//public Projectile createProjectile(){
-		//TODO
-	//}
+	public Projectile createProjectile(float direction , Position pos){
+		return new Projectile(damage, speed, range, direction, pos);
+	}
+	
 	/**
 	 * reloads the weapon
 	 * @param ammunition the ammunition amount needed for full ammo.

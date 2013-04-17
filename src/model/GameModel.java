@@ -1,7 +1,11 @@
 package model;
 
+import geometrical.Position;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import Item.Weapon;
 
 import sprite.Player;
 import world.World;
@@ -27,6 +31,7 @@ public class GameModel {
 		WorldBuilder wb = new WorldBuilder();
 		world.setTiles(wb.getNewWorld(40, 40));
 		player = new Player(1,1);
+		player.setWeapon(new Weapon(0.5f, 1, 3f, 10, 10, 1f));
 		world.addSprite(player);
 	}
 	
@@ -74,6 +79,7 @@ public class GameModel {
 	 * The Player fire his weapon.
 	 */
 	public void playerShoot(){
-		//this.world.createProjectile(player);
+		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
+				new Position(player.getX(), player.getY())));
 	}
 }

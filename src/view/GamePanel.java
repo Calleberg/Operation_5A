@@ -5,8 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Random;
-
 import javax.swing.JPanel;
 
 import projectile.Projectile;
