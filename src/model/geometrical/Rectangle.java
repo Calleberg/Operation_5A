@@ -5,6 +5,7 @@ import java.awt.Dimension;
 public class Rectangle implements CollisionBox {
 
 	private Line[] lines;
+	private float w, h;
 	
 	/**
 	 * Creates a new rectangle at the specified position and with the specified size.
@@ -23,11 +24,9 @@ public class Rectangle implements CollisionBox {
 	 * @param h the height of the rectangle.
 	 */
 	public Rectangle(float x, float y, float w, float h) {
-		this.lines = new Line[4];
-		this.lines[0] = new Line(x, y, x, y + h);
-		this.lines[1] = new Line(x, y + h, x + w, y + h);
-		this.lines[2] = new Line(x + w, y + h, x + w, y);
-		this.lines[3] = new Line(x + w, y, x, y);
+		this.w = w;
+		this.h = h;
+		this.setPosition(new Position(x, y));
 	}
 	
 	@Override
@@ -56,14 +55,16 @@ public class Rectangle implements CollisionBox {
 
 	@Override
 	public Position getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return lines[0].getPosition();
 	}
 
 	@Override
 	public void setPosition(Position pos) {
-		// TODO Auto-generated method stub
-		
+		this.lines = new Line[4];
+		this.lines[0] = new Line(pos.getX(), pos.getY(), pos.getX(), pos.getY() + h);
+		this.lines[1] = new Line(pos.getX(), pos.getY() + h, pos.getX() + w, pos.getY() + h);
+		this.lines[2] = new Line(pos.getX() + w, pos.getY() + h, pos.getX() + w, pos.getY());
+		this.lines[3] = new Line(pos.getX() + w, pos.getY(), pos.getX(), pos.getY());
 	}
 
 	@Override

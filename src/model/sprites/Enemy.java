@@ -2,7 +2,9 @@ package model.sprites;
 
 import java.awt.image.BufferedImage;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
+import model.geometrical.Rectangle;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.sprites.Sprite.State;
@@ -10,32 +12,32 @@ import model.sprites.Sprite.State;
 public class Enemy implements Sprite{
 
 	private State state;
-	private Position position;
 	private float direction;
 	private float speed;
 	private Weapon weapon;
 	private int health;
 	private BufferedImage image;
+	private CollisionBox collisionBox;
 	
 	public Enemy(Position position, float speed, Weapon weapon, int health/*, 
 			BufferedImage image*/){
 		state = State.STANDING;
-		this.position = position;
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
 		this.image = image;
+		collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
 	}
 	
 	
 	@Override
 	public Position getPosition() {
-		return position;
+		return collisionBox.getPosition();
 	}
 
 	@Override
 	public void setPosition(Position p) {
-		this.position = p;
+		this.collisionBox.setPosition(p);
 	}
 
 	@Override
@@ -51,8 +53,8 @@ public class Enemy implements Sprite{
 	@Override
 	public void move() {
 		if(state == State.FORWARD) {
-			position.setX(position.getX() + (float)(Math.cos(direction)*speed));
-			position.setY(position.getY() - (float)(Math.sin(direction)*speed));
+			collisionBox.getPosition().setX(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed));
+			collisionBox.getPosition().setY(collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed));
 		}
 	}
 	
@@ -69,22 +71,22 @@ public class Enemy implements Sprite{
 
 	@Override
 	public float getX() {
-		return this.position.getX();
+		return this.collisionBox.getPosition().getX();
 	}
 
 	@Override
 	public float getY() {
-		return this.position.getY();
+		return this.collisionBox.getPosition().getY();
 	}
 
 	@Override
 	public void setX(float x) {
-		this.position.setX(x);
+		this.collisionBox.getPosition().setX(x);
 	}
 
 	@Override
 	public void setY(float y) {
-		this.position.setY(y);
+		this.collisionBox.getPosition().setY(y);
 	}
 
 	@Override
@@ -95,6 +97,12 @@ public class Enemy implements Sprite{
 	@Override
 	public void SpriteHitbyProjectile(Projectile p) {
 		health = health - p.getDamage();
+	}
+
+
+	@Override
+	public CollisionBox getCollisionBox() {
+		return collisionBox;
 	}
 
 }
