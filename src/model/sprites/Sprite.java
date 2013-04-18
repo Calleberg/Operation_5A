@@ -1,5 +1,6 @@
 package model.sprites;
 
+import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.world.WorldObject;
 
@@ -34,4 +35,10 @@ public interface Sprite extends WorldObject {
 	 * @return the active weapon of the Sprite.
 	 */
 	public Weapon getActiveWeapon();
+	
+	/**
+	 * The Sprite get hit by a projectile.
+	 * @param p The projectile the sprite get hit by.
+	 */
+	public void SpriteHitbyProjectile(Projectile p);
 }

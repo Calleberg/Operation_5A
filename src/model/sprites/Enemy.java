@@ -3,6 +3,7 @@ package model.sprites;
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
+import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.sprites.Sprite.State;
 
@@ -13,7 +14,18 @@ public class Enemy implements Sprite{
 	private float direction;
 	private float speed;
 	private Weapon weapon;
+	private int health;
 	private BufferedImage image;
+	
+	public Enemy(Position position, float speed, Weapon weapon, int health/*, 
+			BufferedImage image*/){
+		state = State.STANDING;
+		this.position = position;
+		this.speed = speed;
+		this.weapon = weapon;
+		this.health = health;
+		this.image = image;
+	}
 	
 	
 	@Override
@@ -78,6 +90,11 @@ public class Enemy implements Sprite{
 	@Override
 	public Weapon getActiveWeapon() {
 		return weapon;
+	}
+	
+	@Override
+	public void SpriteHitbyProjectile(Projectile p) {
+		health = health - p.getDamage();
 	}
 
 }
