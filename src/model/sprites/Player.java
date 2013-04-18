@@ -3,21 +3,20 @@ package model.sprites;
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
+import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 
 
 
 
 public class Player implements Sprite {
-	/**
-	 * The player's current state. E.g. forward or backward.
-	 */
-	public static enum State{FORWARD, BACKWARDS, RIGHT, LEFT, STANDING};
+	
 	private State state;
 	private Position position;
 	private float direction;
 	private float speed;
 	private Weapon weapon;
+	private int health;
 	private BufferedImage image;
 	
 	/**
@@ -29,6 +28,7 @@ public class Player implements Sprite {
 		state = State.STANDING;
 		position = new Position(x,y);
 		this.speed = 0.2f;
+		this.health = 100;
 	}
 	/**
 	 * The player moves in specific direction and length depending on which key is pressed
@@ -126,6 +126,18 @@ public class Player implements Sprite {
 	@Override
 	public BufferedImage getImage() {
 		return image;
+	}
+	@Override
+	public void SpriteHitbyProjectile(Projectile p) {
+		health = health - p.getDamage();
+	}
+	
+	/**
+	 * Increase the player's health.
+	 * @param i The amount of health of which the player's health increases with.
+	 */
+	public void increaseHealth(int i){
+		this.health = this.health + i;
 	}
 	
 }
