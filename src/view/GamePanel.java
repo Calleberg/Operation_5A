@@ -7,11 +7,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 
-import projectile.Projectile;
+import controller.GameController;
 
-import base.GameController;
+
 
 import model.GameModel;
+import model.items.weapons.Projectile;
 
 /**
  * 

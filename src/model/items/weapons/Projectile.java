@@ -1,8 +1,8 @@
-package projectile;
+package model.items.weapons;
 
-import Item.Weapon;
-import sprite.Player;
-import geometrical.Position;
+import model.geometrical.Position;
+import model.sprites.Player;
+
 
 public class Projectile {
 	

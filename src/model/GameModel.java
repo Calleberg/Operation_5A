@@ -1,15 +1,16 @@
 package model;
 
-import geometrical.Position;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import Item.Weapon;
+import model.geometrical.Position;
+import model.items.weapons.Weapon;
+import model.sprites.Player;
+import model.world.World;
+import model.world.WorldBuilder;
 
-import sprite.Player;
-import world.World;
-import world.WorldBuilder;
+
 
 /**
  * 

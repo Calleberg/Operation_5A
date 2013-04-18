@@ -1,11 +1,13 @@
-package base;
+package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import sprite.Player;
+import base.Input;
+
 
 import model.GameModel;
+import model.sprites.Player;
 
 public class GameController extends Thread {
 

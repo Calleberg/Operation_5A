@@ -1,8 +1,10 @@
-package world;
+package model.world;
 
 import java.awt.image.BufferedImage;
 
-import geometrical.Position;
+import model.geometrical.Position;
+
+
 
 /**
  * An interface used when creating objects that will populate a world.

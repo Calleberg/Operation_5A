@@ -1,11 +1,13 @@
-package world;
+package model.world;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import projectile.Projectile;
+import model.items.weapons.Projectile;
+import model.sprites.Sprite;
 
-import sprite.Sprite;
+
+
 
 public class World {
 

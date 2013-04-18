@@ -1,4 +1,5 @@
-package world;
+package model.world;
+
 
 public class WorldBuilder {
 

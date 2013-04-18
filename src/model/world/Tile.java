@@ -1,4 +1,4 @@
-package world;
+package model.world;
 
 public class Tile {
 

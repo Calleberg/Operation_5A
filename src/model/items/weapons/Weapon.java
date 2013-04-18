@@ -1,7 +1,7 @@
-package Item;
+package model.items.weapons;
 
-import geometrical.Position;
-import projectile.Projectile;
+import model.geometrical.Position;
+
 
 public class Weapon {
 	private float speed;

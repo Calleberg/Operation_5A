@@ -2,6 +2,8 @@ package sprite;
 
 import static org.junit.Assert.*;
 
+import model.sprites.Player;
+
 import org.junit.Test;
 
 public class TestPlayer {

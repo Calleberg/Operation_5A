@@ -1,6 +1,7 @@
-package sprite;
+package model.sprites;
 
-import world.WorldObject;
+import model.world.WorldObject;
+
 
 public interface Sprite extends WorldObject {
 	

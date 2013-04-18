@@ -1,4 +1,4 @@
-package Item;
+package model.items;
 //TODO javadoc
 import javax.swing.Icon;
 

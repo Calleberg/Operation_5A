@@ -1,4 +1,4 @@
-package geometrical;
+package model.geometrical;
 
 public class Position {
 	private float x;

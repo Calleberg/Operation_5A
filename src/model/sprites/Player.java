@@ -1,9 +1,12 @@
-package sprite;
+package model.sprites;
 
 import java.awt.image.BufferedImage;
 
-import Item.Weapon;
-import geometrical.Position;
+import model.geometrical.Position;
+import model.items.weapons.Weapon;
+
+
+
 
 public class Player implements Sprite {
 	/**
