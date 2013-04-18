@@ -80,6 +80,15 @@ public class World {
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).move();
 		}
+		
+		//TODO fixa...
+		for(int i = 0; i < sprites.size(); i++){
+			for(int j = 0; j < sprites.size(); j++) {
+				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
+					System.out.println("Collision");
+				}
+			}
+		}
 	}
 	
 	/**
