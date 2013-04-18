@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -13,6 +14,7 @@ import controller.GameController;
 
 import model.GameModel;
 import model.items.weapons.Projectile;
+import model.sprites.Sprite;
 
 /**
  * 
@@ -49,10 +51,18 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		tick++;
 		
 		//TODO to bort
-		g.fillRect((int)(model.getPlayer().getX()*40), (int)(model.getPlayer().getY()*40), 40, 40);
+		for(Sprite s : model.getWorld().getSprites()) {
+			g.setColor(Color.BLACK);
+			g.fillRect((int)(s.getX()*40), (int)(s.getY()*40), 40, 40);
+			g.setColor(Color.RED);
+			g.drawRect((int)(s.getCollisionBox().getPosition().getX() * 40),
+					(int)(s.getCollisionBox().getPosition().getY() * 40), 
+					(int)(s.getCollisionBox().getWidth() * 40), 
+					(int)(s.getCollisionBox().getHeight() * 40));
+		}
 		
 		//
-		
+		g.setColor(Color.BLACK);
 		for(Projectile p : model.getWorld().getProjectiles()) {
 			g.fillRect((int)(p.getPosition().getX() * 40), (int)(p.getPosition().getY() * 40), 4, 4);
 		}

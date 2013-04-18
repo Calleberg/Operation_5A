@@ -43,14 +43,12 @@ public class Rectangle implements CollisionBox {
 
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.w;
 	}
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.h;
 	}
 
 	@Override
