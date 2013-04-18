@@ -1,60 +1,103 @@
 package model.items;
-//TODO javadoc
-import javax.swing.Icon;
 
+import model.geometrical.Position;
+import java.awt.image.BufferedImage;
+
+//TODO mer på enum hämtar saker från bildrepo och beroende på antal...
 /**
  * 
  * @author Vidar
  *
  */
-public class Supply {
+public class Supply implements Item {
 	
-	private int food;
-	private int ammo;
-	private int health;
-	private Icon icon;
+	public enum Type {
+		FOOD (null),
+		AMMO (null),//TODO få dessa att hämta riktiga bilder
+		HEALTH (null);
+		
+		private final BufferedImage i;
+		Type (BufferedImage i){
+			this.i=i;
+		}
+		
+		public BufferedImage getImage(){
+			return this.i;
+		}
+	}
+	
+	private int amount;
+	private BufferedImage image;
+	private Type type;
+	private Position pos;
 
 	/**
 	 * 
-	 * @param food
-	 * @param ammo
-	 * @param health
-	 * @param icon
+	 * @param amount
+	 * @param type
+	 * @param position
+	 * @param image
 	 */
-	public Supply(int food, int ammo, int health, Icon icon){
-		this.food=food;
-		this.ammo=ammo;
-		this.health=health;
-		this.icon=icon;
+	public Supply(int amount, Type type, Position position){
+		this.amount=amount;
+		this.pos=position;
+		this.type=type;
+		generateImage();
+	}
+	
+	private void generateImage(){
+		//TODO
+		
 	}
 	/**
 	 * 
-	 * @return
+	 * @return the amount of food gained from the Supply
 	 */
-	public int getFood(){
-		return food;
+	public int getAmount(){
+		return amount;
 	}
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	public int getAmmo(){
-		return ammo;
+	
+	public Type getType(){
+		return type;
+		
 	}
-	/**
-	 * 
-	 * @return
-	 */
-	public int getHealth(){
-		return health;
+
+	public void setX(float x) {
+		this.pos.setX(x);
+		
 	}
-	/**
-	 * 
-	 * @return
-	 */
-	public Icon getIcon(){
-		return icon;
+	@Override
+	public float getX() {
+		return this.pos.getX();
+	}
+	@Override
+	public void setY(float y) {
+		this.pos.setY(y);
+		
+	}	
+	@Override
+	public float getY() {
+		return this.pos.getY();
+	}
+	
+	@Override
+	public Position getPosition() {
+		return pos;
+	}
+	
+	@Override
+	public void setPosition(Position p) {
+		this.pos =p;
+	}
+	
+	@Override
+	public void setImage(BufferedImage i) {
+		this.image=i;
+		
+	}
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 }
