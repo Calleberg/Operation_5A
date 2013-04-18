@@ -51,8 +51,8 @@ public class Player implements Sprite {
 	 * Changes the position with a specific direction.
 	 */
 	private void changePosition(double d){
-		collisionBox.getPosition().setX(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed));
-		collisionBox.getPosition().setY(collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed));
+		collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed), 
+				collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed)));
 	}
 	/**
 	 * Set the state for the player.
