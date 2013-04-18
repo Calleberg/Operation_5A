@@ -53,8 +53,7 @@ public class Line extends Line2D.Float implements CollisionBox {
 
 	@Override
 	public Position getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Position((float)this.getX1(), (float)this.getY1());
 	}
 
 	@Override

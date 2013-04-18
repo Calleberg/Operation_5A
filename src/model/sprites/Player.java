@@ -2,7 +2,9 @@ package model.sprites;
 
 import java.awt.image.BufferedImage;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
+import model.geometrical.Rectangle;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 
@@ -12,12 +14,12 @@ import model.items.weapons.Weapon;
 public class Player implements Sprite {
 	
 	private State state;
-	private Position position;
 	private float direction;
 	private float speed;
 	private Weapon weapon;
 	private int health;
 	private BufferedImage image;
+	private CollisionBox collisionBox;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -26,9 +28,9 @@ public class Player implements Sprite {
 	 */
 	public Player(float x, float y){
 		state = State.STANDING;
-		position = new Position(x,y);
 		this.speed = 0.2f;
 		this.health = 100;
+		collisionBox = new Rectangle(x, y, 1, 1);
 	}
 	/**
 	 * The player moves in specific direction and length depending on which key is pressed
@@ -49,8 +51,8 @@ public class Player implements Sprite {
 	 * Changes the position with a specific direction.
 	 */
 	private void changePosition(double d){
-		position.setX(position.getX() + (float)(Math.cos(d)*speed));
-		position.setY(position.getY() - (float)(Math.sin(d)*speed));
+		collisionBox.getPosition().setX(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed));
+		collisionBox.getPosition().setY(collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed));
 	}
 	/**
 	 * Set the state for the player.
@@ -74,25 +76,25 @@ public class Player implements Sprite {
 	 * Returns the x-coordinate of the player's position.
 	 */
 	public float getX(){
-		return position.getX();
+		return collisionBox.getPosition().getX();
 	}
 	/**
 	 * Returns the y-coordinate of the player's position.
 	 */
 	public float getY(){
-		return position.getY();
+		return collisionBox.getPosition().getY();
 	}
 	/**
 	 * Set the x-coordinate of the player's position.
 	 */
 	public void setX(float x){
-		position.setX(x);
+		collisionBox.getPosition().setX(x);
 	}
 	/**
 	 * Set the y-coordinate of the player's position.
 	 */
 	public void setY(float y){
-		position.setY(y);
+		collisionBox.getPosition().setY(y);
 	}
 	
 	/**
@@ -112,11 +114,11 @@ public class Player implements Sprite {
 	}
 	@Override
 	public Position getPosition() {
-		return position;
+		return collisionBox.getPosition();
 	}
 	@Override
 	public void setPosition(Position p) {
-		this.position = p;
+		this.collisionBox.setPosition(p);
 	}
 	@Override
 	public void setImage(BufferedImage i) {
@@ -138,6 +140,10 @@ public class Player implements Sprite {
 	 */
 	public void increaseHealth(int i){
 		this.health = this.health + i;
+	}
+	@Override
+	public CollisionBox getCollisionBox() {
+		return collisionBox;
 	}
 	
 }
