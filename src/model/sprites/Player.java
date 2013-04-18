@@ -9,10 +9,7 @@ import model.items.weapons.Weapon;
 
 
 public class Player implements Sprite {
-	/**
-	 * The player's current state. E.g. forward or backward.
-	 */
-	public static enum State{FORWARD, BACKWARDS, RIGHT, LEFT, STANDING};
+	
 	private State state;
 	private Position position;
 	private float direction;
