@@ -85,8 +85,7 @@ public class Rectangle implements CollisionBox {
 
 	@Override
 	public Line[] getPolygon() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.lines;
 	}
 
 }

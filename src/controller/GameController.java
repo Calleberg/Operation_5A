@@ -2,11 +2,14 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import base.Input;
 
 
 import model.GameModel;
+import model.geometrical.Position;
+import model.sprites.EnemyFactory;
 import model.sprites.Player;
 
 public class GameController extends Thread {
