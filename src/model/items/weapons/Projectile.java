@@ -27,7 +27,7 @@ public class Projectile {
 		this.speed = speed;
 		this.range = range;
 		this.direction = direction;
-		this.collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
+		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
 	}
 	
 	/**
