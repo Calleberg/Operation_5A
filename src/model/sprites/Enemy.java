@@ -64,6 +64,11 @@ public class Enemy implements Sprite{
 	public float getDirection() {
 		return direction;
 	}
+	
+	@Override
+	public int getHealth() {
+		return health;
+	}
 
 	@Override
 	public void setDirection(float direction) {

@@ -130,6 +130,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		//TODO: use camera scale in the future
-		this.controller.handleMouseAt(e.getX()/40, e.getY()/40);
+		this.controller.handleMouseAt((float)e.getX()/40, (float)e.getY()/40);
 	}
 }

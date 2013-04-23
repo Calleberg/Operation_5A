@@ -17,6 +17,7 @@ public class World {
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	
 
 	/**
 	 * Creates a new empty world.
@@ -84,6 +85,7 @@ public class World {
 			projectiles.get(i).move();
 		}
 		
+		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
 		//TODO: fixa till, inte särskilt bra just nu...
 		for(int i = 0; i < sprites.size(); i++){
 			for(int j = 0; j < sprites.size(); j++) {
@@ -97,9 +99,13 @@ public class World {
 				if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
 					System.out.println("projectile collision");
 					sprites.get(i).SpriteHitbyProjectile(projectiles.get(j));
+					if(sprites.get(i).getHealth() <= 0){
+						spritesToBeRemoved.add(sprites.get(i));
+					}
 				}
 			}
 		}
+		sprites.removeAll(spritesToBeRemoved);
 	}
 	
 	/**

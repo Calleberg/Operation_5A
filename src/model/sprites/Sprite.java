@@ -26,6 +26,13 @@ public interface Sprite extends WorldObject {
 	public float getDirection();
 	
 	/**
+	 * Returns the current health of the sprite.
+	 * @return the current health of the sprite.
+	 */
+	public int getHealth();
+	
+	
+	/**
 	 * Set the direction of the Sprite.
 	 * @param direction the direction of the Sprite.
 	 */

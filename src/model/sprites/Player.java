@@ -32,6 +32,7 @@ public class Player implements Sprite {
 		this.health = 100;
 		collisionBox = new Rectangle(x, y, 1, 1);
 	}
+	
 	/**
 	 * The player moves in specific direction and length depending on which key is pressed
 	 * and the player's speed.
@@ -47,6 +48,7 @@ public class Player implements Sprite {
 			changePosition(direction-Math.PI/2);
 		}
 	}
+	
 	/**
 	 * Changes the position with a specific direction.
 	 */
@@ -54,42 +56,49 @@ public class Player implements Sprite {
 		collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed), 
 				collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed)));
 	}
+	
 	/**
 	 * Set the state for the player.
 	 */
 	public void setState(State state) {
 		this.state = state;
 	}
+	
 	/**
 	 * Returns the direction of the player.
 	 */
 	public float getDirection(){
 		return direction;
 	}
+	
 	/**
 	 * Set the direction of the player.
 	 */
 	public void setDirection(float direction){
 		this.direction = direction;
 	}
+	
 	/**
 	 * Returns the x-coordinate of the player's position.
 	 */
 	public float getX(){
 		return collisionBox.getPosition().getX();
 	}
+	
 	/**
 	 * Returns the y-coordinate of the player's position.
 	 */
 	public float getY(){
 		return collisionBox.getPosition().getY();
 	}
+	
 	/**
 	 * Set the x-coordinate of the player's position.
 	 */
 	public void setX(float x){
 		collisionBox.getPosition().setX(x);
 	}
+	
 	/**
 	 * Set the y-coordinate of the player's position.
 	 */
@@ -112,10 +121,17 @@ public class Player implements Sprite {
 	public void setWeapon(Weapon w){
 		this.weapon = w;
 	}
+	
+	@Override
+	public int getHealth() {
+		return health;
+	}
+	
 	@Override
 	public Position getPosition() {
 		return collisionBox.getPosition();
 	}
+	
 	@Override
 	public void setPosition(Position p) {
 		this.collisionBox.setPosition(p);
