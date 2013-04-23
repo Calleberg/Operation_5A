@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
 
-
-
-
+/**
+ * Hold all the objects that populates the world.
+ * 
+ * @author Calleberg
+ *
+ */
 public class World {
 
 	private Tile[][] tiles;
@@ -81,11 +84,13 @@ public class World {
 			projectiles.get(i).move();
 		}
 		
-		//TODO fixa...
+		//TODO: fixa till, inte särskilt bra just nu...
 		for(int i = 0; i < sprites.size(); i++){
 			for(int j = 0; j < sprites.size(); j++) {
 				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
 					System.out.println("Collision");
+					System.out.println("1=" + sprites.get(i).getCollisionBox());
+					System.out.println("2=" + sprites.get(j).getCollisionBox());
 				}
 			}
 		}
