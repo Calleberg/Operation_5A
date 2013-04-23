@@ -26,6 +26,7 @@ public class Enemy implements Sprite{
 		this.weapon = weapon;
 		this.health = health;
 		this.image = image;
+		this.state = State.FORWARD;
 		collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
 	}
 	
@@ -53,8 +54,9 @@ public class Enemy implements Sprite{
 	@Override
 	public void move() {
 		if(state == State.FORWARD) {
-			collisionBox.getPosition().setX(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed));
-			collisionBox.getPosition().setY(collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed));
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
+					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
+					(float)(Math.sin(direction)*speed)));
 		}
 	}
 	

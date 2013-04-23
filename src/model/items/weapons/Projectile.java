@@ -19,7 +19,7 @@ public class Projectile {
 		this.speed = weapon.getSpeed();
 		this.range = weapon.getRange();
 		this.direction = player.getDirection();
-		this.collisionBox = new Rectangle(player.getX(), player.getY(), 1, 1);
+		this.collisionBox = new Rectangle(player.getX(), player.getY(), 0.1f, 0.1f);
 	}
 	
 	public Projectile(int damage, float speed, float range, float direction, Position position) {
