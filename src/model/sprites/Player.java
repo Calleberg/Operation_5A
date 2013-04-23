@@ -132,6 +132,7 @@ public class Player implements Sprite {
 	@Override
 	public void SpriteHitbyProjectile(Projectile p) {
 		health = health - p.getDamage();
+		System.out.println("Enemy health: " + health);
 	}
 	
 	/**

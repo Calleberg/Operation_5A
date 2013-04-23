@@ -21,12 +21,11 @@ public class Enemy implements Sprite{
 	
 	public Enemy(Position position, float speed, Weapon weapon, int health/*, 
 			BufferedImage image*/){
-		state = State.STANDING;
+		state = State.STANDING;//TODO setState
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
 		this.image = image;
-		this.state = State.FORWARD;
 		collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
 	}
 	
@@ -99,6 +98,7 @@ public class Enemy implements Sprite{
 	@Override
 	public void SpriteHitbyProjectile(Projectile p) {
 		health = health - p.getDamage();
+		System.out.println("Enemy health: " + health);
 	}
 
 

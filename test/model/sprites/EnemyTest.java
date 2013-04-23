@@ -12,6 +12,7 @@ public class EnemyTest {
 	@Test
 	public void move(){
 		Enemy e = new Enemy(new Position(1f,1f), 0.2f, null, 1);
+		//TODO e.setState(State.FORWARD);
 		
 		e.setDirection(0f);
 		e.move();

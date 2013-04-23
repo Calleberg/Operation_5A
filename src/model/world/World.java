@@ -93,6 +93,12 @@ public class World {
 					System.out.println("2=" + sprites.get(j).getCollisionBox());
 				}
 			}
+			for(int j = 0; j < projectiles.size(); j++) {
+				if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
+					System.out.println("projectile collision");
+					sprites.get(i).SpriteHitbyProjectile(projectiles.get(j));
+				}
+			}
 		}
 	}
 	
