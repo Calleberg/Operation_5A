@@ -2,11 +2,12 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
 import base.Input;
 
 
 import model.GameModel;
+import model.geometrical.Position;
+import model.sprites.EnemyFactory;
 import model.sprites.Player;
 
 public class GameController extends Thread {
@@ -25,6 +26,9 @@ public class GameController extends Thread {
 		this.input = input;
 		this.sleep = 1000 / 60;
 		this.start();
+		
+		EnemyFactory ef = new EnemyFactory();
+		model.getWorld().addSprite(ef.createEasyEnemy(new Position (3, 3)));
 	}
 	/**
 	 * Update's the game a specific amount of times per second.

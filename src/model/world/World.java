@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
 
-
-
-
+/**
+ * Hold all the objects that populates the world.
+ * 
+ * @author Calleberg
+ *
+ */
 public class World {
 
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	
 
 	/**
 	 * Creates a new empty world.
@@ -80,6 +84,31 @@ public class World {
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).move();
 		}
+		
+		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		//TODO: fixa till, inte särskilt bra just nu...
+		for(int i = 0; i < sprites.size(); i++){
+			for(int j = 0; j < sprites.size(); j++) {
+				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
+					System.out.println("Collision");
+					System.out.println("1=" + sprites.get(i).getCollisionBox());
+					System.out.println("2=" + sprites.get(j).getCollisionBox());
+				}
+			}
+			for(int j = 0; j < projectiles.size(); j++) {
+				if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
+					System.out.println("projectile collision");
+					sprites.get(i).SpriteHitbyProjectile(projectiles.get(j));
+					projectilesToBeRemoved.add(projectiles.get(j));
+					if(sprites.get(i).getHealth() <= 0){
+						spritesToBeRemoved.add(sprites.get(i));
+					}
+				}
+			}
+		}
+		sprites.removeAll(spritesToBeRemoved);
+		projectiles.removeAll(projectilesToBeRemoved);
 	}
 	
 	/**

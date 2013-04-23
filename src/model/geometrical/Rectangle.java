@@ -2,9 +2,17 @@ package model.geometrical;
 
 import java.awt.Dimension;
 
+/**
+ * A rectangle that can be used as a collision box and which supports collision detection.
+ * 
+ * @author Calleberg
+ *
+ */
 public class Rectangle implements CollisionBox {
 
 	private Line[] lines;
+	private float w, h;
+	private Position position;
 	
 	/**
 	 * Creates a new rectangle at the specified position and with the specified size.
@@ -23,11 +31,15 @@ public class Rectangle implements CollisionBox {
 	 * @param h the height of the rectangle.
 	 */
 	public Rectangle(float x, float y, float w, float h) {
+		this.w = w;
+		this.h = h;
+		this.position = new Position(x, y);
+
 		this.lines = new Line[4];
-		this.lines[0] = new Line(x, y, x, y + h);
-		this.lines[1] = new Line(x, y + h, x + w, y + h);
-		this.lines[2] = new Line(x + w, y + h, x + w, y);
-		this.lines[3] = new Line(x + w, y, x, y);
+		this.lines[0] = new Line(0, 0, w, 0, this.position);
+		this.lines[1] = new Line(w, 0, w, h, this.position);
+		this.lines[2] = new Line(w, h, 0, h, this.position);
+		this.lines[3] = new Line(0, h, 0, 0, this.position);
 	}
 	
 	@Override
@@ -44,35 +56,36 @@ public class Rectangle implements CollisionBox {
 
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.w;
 	}
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.h;
 	}
 
 	@Override
 	public Position getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.position;
 	}
 
 	@Override
 	public void setPosition(Position pos) {
-		// TODO Auto-generated method stub
-		
+		this.position.setX(pos.getX());
+		this.position.setY(pos.getY());
 	}
 
+	/**
+	 * Gives <code>true</code> if the two collision boxes intersects.
+	 * Note: if one smaller collision box is inside another then this
+	 * method will return <code>false</code>, but if should detect intersection
+	 * before that.
+	 */
 	@Override
 	public boolean intersects(CollisionBox box) {
-		for(Line l1 : box.getPolygon()) {
-			for(Line l2 : box.getPolygon()) {
-				if(l1.intersectsLine(l2)) {
-					return true;
-				}
+		for(Line line : box.getPolygonSegments()) {
+			if(line.intersects(this)) {
+				return true;
 			}
 		}
 		return false;
@@ -85,9 +98,13 @@ public class Rectangle implements CollisionBox {
 	}
 
 	@Override
-	public Line[] getPolygon() {
-		// TODO Auto-generated method stub
-		return null;
+	public Line[] getPolygonSegments() {
+		return this.lines;
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[x=" + position.getX() + ",y=" + position.getY() + "]";
 	}
 
 }

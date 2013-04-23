@@ -1,7 +1,9 @@
 package model.geometrical;
 
 /**
- * 
+ * An interface for collision boxes.
+ * Every collision box can check if another collision box is
+ * intersecting with it.
  * 
  * @author Calleberg
  *
@@ -61,5 +63,5 @@ public interface CollisionBox {
 	 * Gives all the lines this shape consists of.
 	 * @return all the lines this shape consists of.
 	 */
-	public Line[] getPolygon();
+	public Line[] getPolygonSegments();
 }

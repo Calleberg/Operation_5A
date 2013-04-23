@@ -4,6 +4,7 @@ import controller.GameController;
 import view.GamePanel;
 import view.Window;
 import model.GameModel;
+import model.world.WorldBuilder;
 //linus
 public class Main {
 
@@ -20,5 +21,10 @@ public class Main {
 		window.add(panel);
 		//Test
 		panel.requestFocus();
+		window.validate();
+		
+		WorldBuilder wb = new WorldBuilder();
+		model.world.Tile[][] tiles = WorldBuilder.getEmptyWorld(10, 10);
+		wb.addTiles(tiles, 0, 0, "lots/10x10_roadNorth.txt");
 	}
 }

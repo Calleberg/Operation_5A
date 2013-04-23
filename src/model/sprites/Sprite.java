@@ -1,5 +1,6 @@
 package model.sprites;
 
+import model.geometrical.CollisionBox;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.world.WorldObject;
@@ -25,6 +26,13 @@ public interface Sprite extends WorldObject {
 	public float getDirection();
 	
 	/**
+	 * Returns the current health of the sprite.
+	 * @return the current health of the sprite.
+	 */
+	public int getHealth();
+	
+	
+	/**
 	 * Set the direction of the Sprite.
 	 * @param direction the direction of the Sprite.
 	 */
@@ -41,4 +49,10 @@ public interface Sprite extends WorldObject {
 	 * @param p The projectile the sprite get hit by.
 	 */
 	public void SpriteHitbyProjectile(Projectile p);
+	
+	/**
+	 * Return the collisionBox of the player.
+	 * @return the CollisionBox of the player.
+	 */
+	public CollisionBox getCollisionBox();
 }
