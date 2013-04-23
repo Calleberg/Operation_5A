@@ -86,6 +86,7 @@ public class World {
 		}
 		
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		//TODO: fixa till, inte särskilt bra just nu...
 		for(int i = 0; i < sprites.size(); i++){
 			for(int j = 0; j < sprites.size(); j++) {
@@ -99,6 +100,7 @@ public class World {
 				if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
 					System.out.println("projectile collision");
 					sprites.get(i).SpriteHitbyProjectile(projectiles.get(j));
+					projectilesToBeRemoved.add(projectiles.get(j));
 					if(sprites.get(i).getHealth() <= 0){
 						spritesToBeRemoved.add(sprites.get(i));
 					}
@@ -106,6 +108,7 @@ public class World {
 			}
 		}
 		sprites.removeAll(spritesToBeRemoved);
+		projectiles.removeAll(projectilesToBeRemoved);
 	}
 	
 	/**
