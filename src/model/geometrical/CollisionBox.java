@@ -9,19 +9,7 @@ package model.geometrical;
  *
  */
 public interface CollisionBox {
-
-	/**
-	 * Rotates the collision box the specified amount.
-	 * @param direction the amount to rotate in radians.
-	 */
-	public void rotate(float direction);
-	
-	/**
-	 * Gives the rotation of this collision box.
-	 * @return the rotation of this collision box.
-	 */
-	public float getRotation();
-	
+		
 	/**
 	 * Gives the width of the collision box.
 	 * @return the  width of the collision box.
@@ -54,14 +42,14 @@ public interface CollisionBox {
 	public boolean intersects(CollisionBox box);
 	
 	/**
+	 * Gives an array of all the rectangles that builds this shape.
+	 * @return an array of all the rectangles that builds this shape.
+	 */
+	public java.awt.geom.Rectangle2D[] getRectangles();
+	
+	/**
 	 * Moves the collision box back to its previous position.
 	 * @return <code>true</code> if the collision box could move back.
 	 */
 	public boolean moveBack();
-	
-	/**
-	 * Gives all the lines this shape consists of.
-	 * @return all the lines this shape consists of.
-	 */
-	public Line[] getPolygonSegments();
 }

@@ -13,7 +13,6 @@ import controller.GameController;
 
 import model.GameModel;
 import model.geometrical.CollisionBox;
-import model.geometrical.Line;
 import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
@@ -105,15 +104,10 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 */
 	public void renderCollisionBox(Graphics g, int scale, CollisionBox box, Color colour, 
 			boolean renderPosition, Color colourPosition) {
-		for(Line l : box.getPolygonSegments()) {
-			g.setColor(colour);
-			g.drawLine((int)(l.getX1() * scale), (int)(l.getY1() * scale), 
-					(int)(l.getX2() * scale), (int)(l.getY2() * scale));
-			if(renderPosition) {
-				g.setColor(colourPosition);
-				g.fillRect((int)(l.getPosition().getX() * scale),
-						(int)(l.getPosition().getY() * scale), 3, 3);
-			}
+		g.setColor(colour);
+		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
+			g.fillRect((int)(r.getX() * scale), (int)(r.getY() * scale), 
+					(int)(r.getWidth() * scale), (int)(r.getHeight() * scale));
 		}
 	}
 	

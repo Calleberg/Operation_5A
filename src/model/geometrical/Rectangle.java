@@ -1,6 +1,7 @@
 package model.geometrical;
 
 import java.awt.Dimension;
+import java.awt.geom.Rectangle2D;
 
 /**
  * A rectangle that can be used as a collision box and which supports collision detection.
@@ -10,9 +11,8 @@ import java.awt.Dimension;
  */
 public class Rectangle implements CollisionBox {
 
-	private Line[] lines;
-	private float w, h;
-	private Position position;
+	private Rectangle2D.Float rect;
+	private Position oldPos;
 	
 	/**
 	 * Creates a new rectangle at the specified position and with the specified size.
@@ -31,80 +31,67 @@ public class Rectangle implements CollisionBox {
 	 * @param h the height of the rectangle.
 	 */
 	public Rectangle(float x, float y, float w, float h) {
-		this.w = w;
-		this.h = h;
-		this.position = new Position(x, y);
-
-		this.lines = new Line[4];
-		this.lines[0] = new Line(0, 0, w, 0, this.position);
-		this.lines[1] = new Line(w, 0, w, h, this.position);
-		this.lines[2] = new Line(w, h, 0, h, this.position);
-		this.lines[3] = new Line(0, h, 0, 0, this.position);
-	}
-	
-	@Override
-	public void rotate(float direction) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getRotation() {
-		// TODO Auto-generated method stub
-		return 0;
+		this.rect = new Rectangle2D.Float(x, y, w, h);
 	}
 
 	@Override
 	public float getWidth() {
-		return this.w;
+		return (float)this.rect.getWidth();
 	}
 
 	@Override
 	public float getHeight() {
-		return this.h;
+		return (float)this.rect.getHeight();
 	}
 
 	@Override
 	public Position getPosition() {
-		return this.position;
+		return new Position((float)rect.getX(), (float)rect.getY());
 	}
 
 	@Override
 	public void setPosition(Position pos) {
-		this.position.setX(pos.getX());
-		this.position.setY(pos.getY());
+		this.oldPos = this.getPosition();
+		rect.x = pos.getX();
+		rect.y = pos.getY();
 	}
 
 	/**
 	 * Gives <code>true</code> if the two collision boxes intersects.
-	 * Note: if one smaller collision box is inside another then this
-	 * method will return <code>false</code>, but if should detect intersection
 	 * before that.
 	 */
 	@Override
 	public boolean intersects(CollisionBox box) {
-		for(Line line : box.getPolygonSegments()) {
-			if(line.intersects(this)) {
+		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
+			if(this.rect.intersects(r)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Can only be moved back once after each move.
+	 * @return <code>true</code> if there was an earlier position to move to.
+	 */
 	@Override
 	public boolean moveBack() {
-		// TODO Auto-generated method stub
-		return false;
+		if(oldPos == null || (oldPos.getX() == this.getPosition().getX() && oldPos.getY() == this.getPosition().getY())) {
+			return false;
+		}else{
+			this.setPosition(oldPos);
+			return true;
+		}
 	}
-
+	
 	@Override
-	public Line[] getPolygonSegments() {
-		return this.lines;
+	public java.awt.geom.Rectangle2D[] getRectangles() {
+		return new java.awt.geom.Rectangle2D[]{this.rect};
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[x=" + position.getX() + ",y=" + position.getY() + "]";
+		return getClass().getName() + "[x=" + this.getPosition().getX() + ",y=" + this.getPosition().getY()
+				+ ",width=" + this.getWidth() + ",height=" + this.getHeight() + "]";
 	}
-
 }
