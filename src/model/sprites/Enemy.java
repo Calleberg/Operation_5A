@@ -19,7 +19,7 @@ public class Enemy implements Sprite{
 	private BufferedImage image;
 	private CollisionBox collisionBox;
 	
-	public Enemy(Position position, float speed, Weapon weapon, int health/*, 
+	protected Enemy(Position position, float speed, Weapon weapon, int health/*, 
 			BufferedImage image*/){
 		state = State.STANDING;//TODO setState
 		this.speed = speed;
