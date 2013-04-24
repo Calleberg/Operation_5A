@@ -20,6 +20,7 @@ public class Player implements Sprite {
 	private int health;
 	private BufferedImage image;
 	private CollisionBox collisionBox;
+	private int ammo;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -155,4 +156,25 @@ public class Player implements Sprite {
 		return collisionBox;
 	}
 	
+	/**
+	 * returns the amount of ammo the player is carrying
+	 * @return ammo amount player has
+	 */
+	public int getAmmoAmount(){
+		return ammo;
+	}
+	/**
+	 * the player picks up ammo
+	 * @param pickedUpAmmo the amount of ammo picked up
+	 */
+	public void addAmmo(int pickedUpAmmo){
+		this.ammo += pickedUpAmmo;
+	}
+	/**
+	 * Removes to ammo from the player to be reloaded into weapon
+	 * @param ammoToReload the amount of ammo to be reloaded
+	 */
+	public void reduceAmmo(int ammoToReload){
+		this.ammo -= ammoToReload;
+	}
 }
