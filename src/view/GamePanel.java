@@ -76,7 +76,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			g.fillRect((int)(s.getX()*camera.getScale() + camera.getX()), (int)(s.getY()*camera.getScale() + camera.getY()), 
 					camera.getScale(), camera.getScale());
 			g.setColor(Color.RED);
-			this.renderCollisionBox(g, camera, s.getCollisionBox(), Color.RED, false, null);
+			//this.renderCollisionBox(g, camera, s.getCollisionBox(), Color.RED, false, null);
 //			DEV_CollisionBoxRenderer.render(g, 40, s.getCollisionBox(), Color.RED, true, Color.BLUE);
 		}
 		

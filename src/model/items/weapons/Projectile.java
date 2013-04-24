@@ -100,12 +100,9 @@ public class Projectile {
 	 * @return true if max range is reached, false otherwise.
 	 */
 	public boolean isMaxRangeReached(){
-		System.out.println("ismax");
 		float dx = startingPosition.getX() - collisionBox.getPosition().getX();
-		System.out.println("ismax");
 		float dy = startingPosition.getY() - collisionBox.getPosition().getY();
 		float distanceTravelled = (float)Math.sqrt(dx*dx+dy*dy);
-		System.out.println("ismax");
 		if(distanceTravelled >= range){
 			return true;
 		}else{
