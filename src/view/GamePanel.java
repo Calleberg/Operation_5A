@@ -122,8 +122,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		//Not used.
+	public void mouseDragged(MouseEvent e) {
+		this.controller.handleMouseAt((float)(e.getX()-camera.getX())/camera.getScale(), 
+				(float)(e.getY()-camera.getY())/camera.getScale());
 	}
 
 	@Override
