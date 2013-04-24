@@ -101,8 +101,8 @@ public class Enemy implements Sprite{
 	}
 	
 	@Override
-	public void SpriteHitbyProjectile(Projectile p) {
-		health = health - p.getDamage();
+	public void reduceHealth(int damage) {
+		health = health - damage;
 		System.out.println("Enemy health: " + health);
 	}
 

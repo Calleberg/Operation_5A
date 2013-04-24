@@ -48,7 +48,7 @@ public interface Sprite extends WorldObject {
 	 * The Sprite get hit by a projectile.
 	 * @param p The projectile the sprite get hit by.
 	 */
-	public void SpriteHitbyProjectile(Projectile p);
+	public void reduceHealth(int i);
 	
 	/**
 	 * Return the collisionBox of the player.

@@ -12,14 +12,13 @@ public class Projectile {
 	private float speed;
 	private float range;
 	private float direction;
+	private Position startingPosition;
 	private CollisionBox collisionBox;
 	
 	public Projectile(Player player, Weapon weapon){
-		this.damage = weapon.getDamage();
-		this.speed = weapon.getSpeed();
-		this.range = weapon.getRange();
-		this.direction = player.getDirection();
-		this.collisionBox = new Rectangle(player.getX(), player.getY(), 0.1f, 0.1f);
+		this(weapon.getDamage(), weapon.getSpeed(), weapon.getRange(), player.getDirection(),
+				player.getPosition());
+		
 	}
 	
 	public Projectile(int damage, float speed, float range, float direction, Position position) {
@@ -28,6 +27,7 @@ public class Projectile {
 		this.range = range;
 		this.direction = direction;
 		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
+		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
 	}
 	
 	/**
@@ -93,5 +93,22 @@ public class Projectile {
 	public CollisionBox getCollisionBox() {
 		return collisionBox;
 	}
-
+	
+	/**
+	 * Returns true if max range is reached, false otherwise.
+	 * @return true if max range is reached, false otherwise.
+	 */
+	public boolean isMaxRangeReached(){
+		System.out.println("ismax");
+		float dx = startingPosition.getX() - collisionBox.getPosition().getX();
+		System.out.println("ismax");
+		float dy = startingPosition.getY() - collisionBox.getPosition().getY();
+		float distanceTravelled = (float)Math.sqrt(dx*dx+dy*dy);
+		System.out.println("ismax");
+		if(distanceTravelled >= range){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

@@ -99,7 +99,7 @@ public class World {
 			for(int j = 0; j < projectiles.size(); j++) {
 				if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
 					System.out.println("projectile collision");
-					sprites.get(i).SpriteHitbyProjectile(projectiles.get(j));
+					sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
 					projectilesToBeRemoved.add(projectiles.get(j));
 					if(sprites.get(i).getHealth() <= 0){
 						spritesToBeRemoved.add(sprites.get(i));
@@ -107,6 +107,13 @@ public class World {
 				}
 			}
 		}
+		for(int i = 0; i < projectiles.size(); i++){
+			if(projectiles.get(i).isMaxRangeReached()){
+				projectilesToBeRemoved.add(projectiles.get(i));
+			}
+		}
+		
+		
 		sprites.removeAll(spritesToBeRemoved);
 		projectiles.removeAll(projectilesToBeRemoved);
 	}
