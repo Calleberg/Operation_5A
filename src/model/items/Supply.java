@@ -90,14 +90,4 @@ public class Supply implements Item {
 		this.pos =p;
 	}
 	
-	@Override
-	public void setImage(BufferedImage i) {
-		this.image=i;
-		
-	}
-	@Override
-	public BufferedImage getImage() {
-		return image;
-	}
-	
 }

@@ -128,16 +128,4 @@ public class Tile implements WorldObject {
 	public void setPosition(Position p) {
 		this.position = p;
 	}
-
-	@Override
-	public void setImage(BufferedImage i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public BufferedImage getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -13,7 +13,6 @@ import controller.GameController;
 
 import model.GameModel;
 import model.geometrical.CollisionBox;
-import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
 
@@ -30,6 +29,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private GameController controller;
 	private long tick = 0;
 	private TileView[][] tiles;
+	private Camera camera;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		this.model = model;
 		this.controller = controller;
 		this.addMouseMotionListener(this);
+		this.camera = new Camera(40);
 	}
 	
 	/**
@@ -50,6 +51,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	public void paintComponent(Graphics g) {	
 		super.paintComponent(g);
 		tick++;
+		
+		camera.setToCenter(model.getPlayer().getPosition(), getSize());
 		
 		if(tiles == null && model.getWorld() != null) {
 			tiles = new TileView[model.getWorld().getTiles().length][model.getWorld().getTiles()[0].length];
@@ -63,23 +66,25 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		//TODO: gör till individuella vy-rutor
 		for(int i = 0; i < model.getWorld().getTiles().length; i++) {
 			for(int j = 0; j < model.getWorld().getTiles()[i].length; j++) {
-				tiles[i][j].render(g, new Position(0, 0), 40);
+				tiles[i][j].render(g, camera.getOffset(), camera.getScale());
 			}
 		}
 		
 		//TODO to bort det mesta nedan..............
 		for(Sprite s : model.getWorld().getSprites()) {
 			g.setColor(Color.BLACK);
-			g.fillRect((int)(s.getX()*40), (int)(s.getY()*40), 40, 40);
+			g.fillRect((int)(s.getX()*camera.getScale() + camera.getX()), (int)(s.getY()*camera.getScale() + camera.getY()), 
+					camera.getScale(), camera.getScale());
 			g.setColor(Color.RED);
-			this.renderCollisionBox(g, 40, s.getCollisionBox(), Color.RED, false, null);
+			this.renderCollisionBox(g, camera, s.getCollisionBox(), Color.RED, false, null);
 //			DEV_CollisionBoxRenderer.render(g, 40, s.getCollisionBox(), Color.RED, true, Color.BLUE);
 		}
 		
 		for(Projectile p : model.getWorld().getProjectiles()) {
 			g.setColor(Color.BLACK);
-			g.fillRect((int)(p.getPosition().getX() * 40), (int)(p.getPosition().getY() * 40), 4, 4);
-			this.renderCollisionBox(g, 40, p.getCollisionBox(), Color.RED, false, null);
+			g.fillRect((int)(p.getPosition().getX() * camera.getScale() + camera.getX()), 
+					(int)(p.getPosition().getY() * camera.getScale() + camera.getY()), camera.getScale()/10, camera.getScale()/10);
+			this.renderCollisionBox(g, camera, p.getCollisionBox(), Color.RED, false, null);
 		}
 		//data:
 		g.setColor(new Color(255, 255, 255, 150));
@@ -102,12 +107,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 * @param renderPosition specify if the position of each line should be marked.
 	 * @param colourPosition the colour of the position mark.
 	 */
-	public void renderCollisionBox(Graphics g, int scale, CollisionBox box, Color colour, 
+	public void renderCollisionBox(Graphics g, Camera camera, CollisionBox box, Color colour, 
 			boolean renderPosition, Color colourPosition) {
 		g.setColor(colour);
 		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-			g.fillRect((int)(r.getX() * scale), (int)(r.getY() * scale), 
-					(int)(r.getWidth() * scale), (int)(r.getHeight() * scale));
+			g.fillRect((int)(r.getX() * camera.getScale() + camera.getX()), (int)(r.getY() * camera.getScale()  + camera.getY()), 
+					(int)(r.getWidth() * camera.getScale()), (int)(r.getHeight() * camera.getScale()));
 		}
 	}
 	
@@ -123,7 +128,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		//TODO: use camera scale in the future
-		this.controller.handleMouseAt((float)e.getX()/40, (float)e.getY()/40);
+		this.controller.handleMouseAt((float)(e.getX()-camera.getX())/camera.getScale(), 
+				(float)(e.getY()-camera.getY())/camera.getScale());
 	}
 }

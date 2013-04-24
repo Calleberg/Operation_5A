@@ -41,16 +41,6 @@ public class Enemy implements Sprite{
 	}
 
 	@Override
-	public void setImage(BufferedImage i) {
-		this.image = i;
-	}
-
-	@Override
-	public BufferedImage getImage() {
-		return image;
-	}
-
-	@Override
 	public void move() {
 		if(state == State.FORWARD) {
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 

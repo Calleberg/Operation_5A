@@ -136,15 +136,7 @@ public class Player implements Sprite {
 	public void setPosition(Position p) {
 		this.collisionBox.setPosition(p);
 	}
-	@Override
-	public void setImage(BufferedImage i) {
-		this.image = i;
-		
-	}
-	@Override
-	public BufferedImage getImage() {
-		return image;
-	}
+
 	@Override
 	public void reduceHealth(int damage) {
 		health = health - damage;

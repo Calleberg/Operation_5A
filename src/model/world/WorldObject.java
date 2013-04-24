@@ -49,28 +49,4 @@ public interface WorldObject {
 	 * @param p the position of this object.
 	 */
 	public void setPosition(Position p);
-	
-	/**
-	 * Set the image of this object
-	 * @param i The image of this object
-	 */
-	public void setImage(BufferedImage i);
-	
-	/**
-	 * Returns the image of this object
-	 * @return the image of this object
-	 */
-	public BufferedImage getImage();
-	
-//	/**
-//	 * Sets the collision box of this object.
-//	 * @param box the collision box to use.
-//	 */
-//	public void setCollisionBox(CollisionBox box);
-//	
-//	/**
-//	 * Gives the collision box of this object.
-//	 * @return the collision box of this object.
-//	 */
-//	public CollisionBox getCollisionBox();
 }
