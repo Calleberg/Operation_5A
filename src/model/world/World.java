@@ -127,7 +127,9 @@ public class World {
 	 * @param projectile the projectile to add.
 	 */
 	public void addProjectile(Projectile projectile) {
-		this.projectiles.add(projectile);
+		if (projectile!=null){
+			this.projectiles.add(projectile);
+		}
 	}
 	
 	/**
