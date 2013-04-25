@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+
 import base.Input;
 
 
@@ -18,9 +20,11 @@ import model.sprites.Player;
  */
 public class GameController extends Thread {
 
-	private int sleep;
+	private final int SLEEP = 1000 / 60;
 	private GameModel model;
 	private Input input;
+	private long startTime = Calendar.getInstance().getTimeInMillis();
+	private int ticks;
 	
 	/**
 	 * Creates a new gameController.
@@ -30,12 +34,12 @@ public class GameController extends Thread {
 	public GameController(GameModel model, Input input) {
 		this.model = model;
 		this.input = input;
-		this.sleep = 1000 / 60;
 		this.start();
-	
+		
 		model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (3, 3)));
 		model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (6, 10)));
 	}
+	
 	/**
 	 * Update's the game a specific amount of times per second.
 	 */
@@ -43,13 +47,32 @@ public class GameController extends Thread {
 	public void run() {
 		while(true) {
 			this.update();
+			ticks++;
 			try{
-				Thread.sleep(sleep);
+				Thread.sleep(SLEEP);
 			}catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	/**
+	 * Gives the number of updates since start.
+	 * @return the number of updates since start.
+	 */
+	public int getNbrOfUpdates() {
+		return this.ticks;
+	}
+	
+	/**
+	 * Gives the time in ms the controller has existed.
+	 * @return the time in ms the controller has existed.
+	 */
+	public long getMsSinceStart() {
+		long time = Calendar.getInstance().getTimeInMillis();
+		return time - this.startTime;
+	}
+	
 	/**
 	 * Sets the direction of the player towards the mouse' position.
 	 * @param x The x-coordinate of the mouse' position.
@@ -64,13 +87,14 @@ public class GameController extends Thread {
 		}
 		model.getPlayer().setDirection(-dir + (float)Math.PI);
 	}
+		
 	/**
 	 * Updates the model.
 	 */
 	public void update() {
 		//playerMove
 		this.updatePlayerPosition();
-		
+				
 		//playerShoot
 		if(input.mousePressed(MouseEvent.BUTTON1)){
 			model.playerShoot();

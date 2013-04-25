@@ -1,7 +1,5 @@
 package model.world;
 
-import java.awt.image.BufferedImage;
-
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.other.WorldObject;

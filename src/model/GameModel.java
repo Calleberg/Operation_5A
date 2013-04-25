@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import model.geometrical.Position;
-import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
 import model.sprites.Player;
 import model.world.World;
@@ -26,6 +25,23 @@ public class GameModel {
 	private final Player player;
 	
 	/**
+	 * The message sent when a new sprite is added.
+	 */
+	public final static String ADDED_SPRITE = "addedsprite";
+	/**
+	 * The message sent when a sprite is removed.
+	 */
+	public final static String REMOVED_SPRITE = "removedsprit";
+	/**
+	 * The message sent when a projectile is added.
+	 */
+	public final static String ADDED_PROJECTILE = "addedprojectile";
+	/**
+	 * The message sent when a projectile is removed.
+	 */
+	public final static String REMOVED_PROJECTILE = "removedprojectile";
+
+	/**
 	 * Creates a new default game model.
 	 */
 	public GameModel(){
@@ -43,6 +59,7 @@ public class GameModel {
 	 */
 	public void addListener(PropertyChangeListener pcl) {
 		this.pcs.addPropertyChangeListener(pcl);
+		this.world.addListener(pcl);
 	}
 	
 	/**
@@ -51,6 +68,7 @@ public class GameModel {
 	 */
 	public void removeListener(PropertyChangeListener pcl) {
 		this.pcs.removePropertyChangeListener(pcl);
+		this.world.removeListener(pcl);
 	}
 	
 	/**
@@ -74,7 +92,6 @@ public class GameModel {
 	 */
 	public void update() {
 		world.update();
-		pcs.firePropertyChange("", 1, 0);
 	}
 	
 	/**
