@@ -5,7 +5,12 @@ import java.util.Date;
 import model.geometrical.Position;
 import model.items.Item;
 
-
+/**
+ * Represents a weapon in the game.
+ * 
+ * @author Vidar Eriksson
+ *
+ */
 public class Weapon extends Item {
 	private final float projectileSpeed;
 	private final int damage;
@@ -13,6 +18,7 @@ public class Weapon extends Item {
 	private final int magazineCapacity;
 	private final int reloadTime;
 	private final int rateOfFire;
+	private final String name;
 	
 	private int ammunitionInMagazine;
 	
@@ -20,27 +26,37 @@ public class Weapon extends Item {
 	private long lastTimeReloaded=0;
 	
 	/**
-	 * 
+	 * Creates a weapon with the specified parameters.
 	 * @param projectileSpeed the speed of the projectile
 	 * @param damage the damage done by the projectile
-	 * @param range the range of the projectile
+	 * @param range the numbers of tiles the projectile travels
 	 * @param magazineCapacity the capacity of of the magazine for the weapon
 	 * @param reloadTime the time it takes to reload the weapon in milliseconds
 	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
+	 * @param iconNumber the icon number corresponding to this icon
+	 * @param name the name of the weapon.
 	 */
-	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, int reloadTime, int rateOfFire){
-		super(null);
+	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name){
+		super(null, iconNumber);
 		this.projectileSpeed = projectileSpeed;
 		this.damage = damage;
 		this.range = range;
 		this.magazineCapacity = magazineCapacity;
 		this.reloadTime = reloadTime;
 		this.rateOfFire=rateOfFire;
+		this.name=name;
 		
 		ammunitionInMagazine=magazineCapacity;
 
 	}
-	
+	/**
+	 * The weapon creates a projectile corresponding to the weapons specifications.
+	 * If the weapon does not fire ie no ammo left in magazine or overheated it will
+	 * return a null projectile.
+	 * @param direction the direction the projectile will have.
+	 * @param pos the position the projectile will have.
+	 * @return the projectile fired.
+	 */
 	public Projectile createProjectile(float direction, Position pos){
 		if (timeNow()-lastTimeFired>3600/rateOfFire
 				&& !isReloading()){
@@ -72,12 +88,12 @@ public class Weapon extends Item {
 		return timeNow()-lastTimeReloaded < reloadTime;
 	}
 	/**
-	 * Reloads the weapon
-	 * @param ammunition the ammunition used to reload the weapon.
-	 * @return the surplus ammunition not used to fill magazine.
+	 * Reloads the weapon. The ammunition not used to relod is returned
+	 * @param ammunition the ammunition provided to reload the weapon.
+	 * @return the surplus ammunition not used to fill the weapon's magazine.
 	 */
 	public int reload(int ammunition){
-		if (!isReloading() && ammunition>0){
+		if (!isReloading() && ammunition>0 && magazineCapacity-ammunitionInMagazine!=0){
 			lastTimeReloaded=timeNow();
 			
 			int missingBullets=magazineCapacity-ammunitionInMagazine;
@@ -106,6 +122,9 @@ public class Weapon extends Item {
 	 */
 	public int getAmmunitionInMagazine(){
 		return ammunitionInMagazine;
+	}
+	public String toString() {
+		return name;
 	}
 
 

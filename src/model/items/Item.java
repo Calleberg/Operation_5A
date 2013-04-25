@@ -6,9 +6,11 @@ import model.other.WorldObject;
 //Empty interface created to group Items
 public class Item implements WorldObject{
 	private Position pos;
+	private final int iconNumber;
 	
-	public Item(Position position) {
+	public Item(Position position, int iconNumber) {
 		this.pos=position;
+		this.iconNumber=iconNumber;
 	}
 	
 	
@@ -40,6 +42,14 @@ public class Item implements WorldObject{
 	@Override
 	public void setPosition(Position p) {
 		this.pos =p;
+	}
+
+	/**
+	 * 
+	 * @return the icon number of the item.
+	 */
+	public int getIconNumber() {
+		return iconNumber;
 	}
 	
 }

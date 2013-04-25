@@ -1,9 +1,6 @@
 package model.items;
 
 import model.geometrical.Position;
-import java.awt.image.BufferedImage;
-
-//TODO mer på enum hämtar saker från bildrepo och beroende på antal...
 /**
  * 
  * @author Vidar
@@ -12,17 +9,23 @@ import java.awt.image.BufferedImage;
 public class Supply extends Item {
 	
 	public enum Type {
-		FOOD (null),
-		AMMO (null),//TODO få dessa att hämta riktiga bilder
-		HEALTH (null);
+		FOOD (1, "Food"),
+		AMMO (2, "Ammo"),
+		HEALTH (3, "Health");
 		
-		private final BufferedImage i;
-		Type (BufferedImage i){
-			this.i=i;
+		private final int iconNumber;
+		private final String name;
+		Type (int i, String s){
+			this.iconNumber=i;
+			this.name=s;
+		}
+
+		private int getIconNumber() {
+			return this.iconNumber;
 		}
 		
-		public BufferedImage getImage(){
-			return this.i;
+		public String toString(){
+			return name;
 		}
 	}
 	
@@ -37,16 +40,11 @@ public class Supply extends Item {
 	 * @param image
 	 */
 	public Supply(int amount, Type type, Position position){
-		super(position);
+		super(position, type.getIconNumber());
 		this.amount=amount;
 		this.type=type;
-		generateImage();
 	}
 	
-	private void generateImage(){
-		//TODO
-		
-	}
 	/**
 	 * 
 	 * @return the amount of food gained from the Supply
@@ -58,6 +56,9 @@ public class Supply extends Item {
 	public Type getType(){
 		return type;
 		
+	}
+	public String toString(){
+		return amount + " " + type.toString();
 	}
 	
 }

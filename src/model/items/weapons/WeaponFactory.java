@@ -1,95 +1,145 @@
 package model.items.weapons;
 
-
+/**
+ * Creates different types of weapons.
+ * @author Vidar Eriksson
+ *
+ */
 public class WeaponFactory {
-	public enum Type{
+	public static enum Type{
 		//Range
-		PISTOL,
-		SHOTGUN,
-		REVOLVER,
-		HUNTING_RIFLE,
-		MACHINEGUN,
-		MINIGUN,
-		ROCKET_LAUNCHER,
+		PISTOL (1,2,3,4,5,6,7, "Pistol"),
+//		SHOTGUN,
+//		REVOLVER,
+//		HUNTING_RIFLE,
+//		MACHINEGUN,
+//		MINIGUN,
+//		ROCKET_LAUNCHER,
+		
 		//Melee
-		FISTS,
-		POCKET_KNIFE,
-		MACHETTE,
-		BAT,
-		PIPE;
+		FISTS (1000,1,1,4,5,6,7, "Fists"),
+//		POCKET_KNIFE,
+//		MACHETTE,
+//		BAT,
+//		PIPE,
+		
+		TEST_WEAPON (0.1f,2,100f,100000000,5,1000,1337, "Test weapon");
+		
+		private final float projectileSpeed;
+		private final int damage;
+		private final float range;
+		private final int magazineCapacity;
+		private final int reloadTime;
+		private final int rateOfFire;
+		private final int iconNumber;
+		private final String name;
+		Type(float projectileSpeed,
+				int damage,
+				float range,
+				int magazineCapacity,
+				int reloadTime,
+				int rateOfFire,
+				int iconNumber,
+				String name){
+			this.projectileSpeed = projectileSpeed;
+			this.damage = damage;
+			this.range = range;
+			this.magazineCapacity = magazineCapacity;
+			this.reloadTime = reloadTime;
+			this.rateOfFire=rateOfFire;
+			this.iconNumber=iconNumber;
+			this.name=name;
+		}
 
 		public float getProjectileSpeed() {
-			// TODO Auto-generated method stub
-			return 0.1f;
+			return projectileSpeed;
 		}
 
 		public int getDamage() {
-			// TODO Auto-generated method stub
-			return 1;
+			return damage;
 		}
 
 		public float getRange() {
-			// TODO Auto-generated method stub
-			return 100f;
+			return range;
 		}
 
 		public int getMagazineCapacity() {
-			// TODO Auto-generated method stub
-//			return 1;
-//			return 2147483647;
-			return 100000000;
+			return magazineCapacity;
 		}
 
 		public int getReloadTime() {
-			// TODO Auto-generated method stub
-			return 10;
+			return reloadTime;
 		}
 
 		public int getRateOfFire() {
-			// TODO Auto-generated method stub
-			return 1000;
+			return rateOfFire;
 		}
-		
+
+		public int getIconNumber() {
+			return iconNumber;
+		}
+		@Override
+		public String toString() {
+			return name;
+		}
 		
 		
 		
 		
 	}
-	public enum Level{
-		RUSTY (1),
-		NORMAL (3),
-		LARGE (5),
-		BADASS (7),
-		EPIC (10);
+	public static enum Level{
+		RUSTY (1, 50, "Rusty"),
+		NORMAL (3, 25, "Normal"),
+		LARGE (5, 15, "Large"),
+		BADASS (7, 8, "Badass"),
+		EPIC (10, 2, "Epic");
 		
 		private final int multiplier;
-		Level (int i){
+		private final int percentage;
+		private final String name;
+		Level (int i, int j, String n){
 			this.multiplier=i;
+			this.percentage=j;
+			this.name=n;
 		}
 		
-		public int percentage() {
-			return 1;
+		public int percentage(){
+			return percentage;
 		}
 		
 		public int multiplier() {
 			return multiplier;
+		}
+		@Override
+		public String toString() {
+			return name;
 		}
 	}
 	public static Weapon CreateWeapon(Type type, Level level) {
 		return new Weapon(
 				type.getProjectileSpeed(),
 				type.getDamage()*level.multiplier(),
-				type.getRange()*level.multiplier(),
-				type.getMagazineCapacity()*level.multiplier(),
-				type.getReloadTime()*2/level.multiplier(),
-				type.getRateOfFire()*level.multiplier()
+				type.getRange(),
+				type.getMagazineCapacity(),
+				type.getReloadTime()/level.multiplier(),
+				type.getRateOfFire(),
+				type.getIconNumber(),
+				level.toString() + " " + type.toString()
 				);
 	}
+	/**
+	 * Creates a test weapon for debugging.
+	 * @return a test weapon for debugging.
+	 */
 	public static Weapon CreateTestWeapon() {
-		return CreateWeapon(Type.MINIGUN, Level.RUSTY);
+		return CreateWeapon(Type.TEST_WEAPON, Level.EPIC);
 	}
-	public static Weapon CreateTestWeapon2(){
-		return CreateTestWeapon();
-//		return new Weapon(0.5f, 1, 3f, 10, 10, 1000);
+
+	/**
+	 * Creates the weapon enemies uses
+	 * @return the weapon enemies uses.
+	 */
+	public static Weapon createEnemyMeleeWeapon(){
+		return CreateWeapon(Type.FISTS, Level.RUSTY);
 	}
 }
