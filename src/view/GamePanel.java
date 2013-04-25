@@ -17,6 +17,7 @@ import controller.GameController;
 import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.items.weapons.Projectile;
+import model.sprites.Player;
 import model.sprites.Sprite;
 
 /**
@@ -73,7 +74,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private void initObjectList() {
 		objects = new ArrayList<ObjectRenderer<?>>();
 		for(Sprite s : this.model.getWorld().getSprites()) {
-			objects.add(new SpriteView(s));
+			if(s instanceof Player) {
+				objects.add(new PlayerView((Player)s));
+			}else{
+				objects.add(new SpriteView(s));
+			}
 		}
 		for(Projectile p : this.model.getWorld().getProjectiles()) {
 			objects.add(new ProjectileView(p));
@@ -138,20 +143,26 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 * @param renderPosition specify if the position of each line should be marked.
 	 * @param colourPosition the colour of the position mark.
 	 */
-	public static void renderCollisionBox(Graphics g, Camera camera, CollisionBox box, Color colour, 
+	public static void renderCollisionBox(Graphics g, model.geometrical.Position pos, int scale, CollisionBox box, Color colour, 
 			boolean renderPosition, Color colourPosition) {
 		g.setColor(colour);
-		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-			g.fillRect((int)(r.getX() * camera.getScale() + camera.getX()), (int)(r.getY() * camera.getScale()  + camera.getY()), 
-					(int)(r.getWidth() * camera.getScale()), (int)(r.getHeight() * camera.getScale()));
+		if(box != null) {
+			for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
+				g.fillRect((int)(r.getX() * scale + pos.getX()), (int)(r.getY() * scale  + pos.getY()), 
+						(int)(r.getWidth() * scale), (int)(r.getHeight() * scale));
+			}
 		}
 	}
-	
+
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		if(e.getPropertyName().equals(GameModel.ADDED_SPRITE)) {
 			System.out.println("Added sprite caught by GamePanel");
-			this.objects.add(new SpriteView((Sprite)e.getNewValue()));
+			if(e.getNewValue() instanceof Player) {
+				this.objects.add(new PlayerView((Player)e.getNewValue()));
+			}else{
+				this.objects.add(new SpriteView((Sprite)e.getNewValue()));
+			}
 		}else if(e.getPropertyName().equals(GameModel.REMOVED_SPRITE) ||
 				e.getPropertyName().equals(GameModel.REMOVED_PROJECTILE)) {
 			System.out.println("Removed sprite caught by GamePanel");

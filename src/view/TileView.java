@@ -47,14 +47,15 @@ public class TileView {
 			int x = (int)(t.getX() * scale + offset.getX()); 
 			int y = (int)(t.getY() * scale + offset.getY());
 			g.drawImage(floors[t.getFloor()], x, y, scale, scale, null);
-			if(t.hasNorthWall()) {
-				g.setColor(Color.BLACK);
-				g.fillRect(x, y, scale, scale/10);
-			}
-			if(t.hasWestWall()) {
-				g.setColor(Color.BLACK);
-				g.fillRect(x, y, scale/10, scale);
-			}
+			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), Color.RED, false, null);
+//			if(t.hasNorthWall()) {
+//				g.setColor(Color.BLACK);
+//				g.fillRect(x, y, scale, scale/10);
+//			}
+//			if(t.hasWestWall()) {
+//				g.setColor(Color.BLACK);
+//				g.fillRect(x, y, scale/10, scale);
+//			}
 		}
 	}
 }

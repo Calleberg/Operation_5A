@@ -1,7 +1,9 @@
 package model.world;
 
 import model.geometrical.CollisionBox;
+import model.geometrical.ComplexShape;
 import model.geometrical.Position;
+import model.geometrical.Rectangle;
 import model.other.WorldObject;
 
 /**
@@ -94,8 +96,18 @@ public class Tile implements WorldObject {
 	 * @return
 	 */
 	public CollisionBox getCollisionBox() {
-		//TODO implementera!
-		return null;
+		ComplexShape cs = new ComplexShape();
+		if(hasNorthWall()) {
+			cs.addShape(new Rectangle(getX(), getY(), 1f, 0.1f));
+		}
+		if(hasWestWall()) {
+			cs.addShape(new Rectangle(getX(), getY(), 0.1f, 1f));
+		}
+		if(cs.getRectangles().length == 0) {
+			return null;
+		}else{
+			return cs;
+		}
 	}
 
 	@Override
