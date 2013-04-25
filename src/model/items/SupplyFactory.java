@@ -25,13 +25,13 @@ public final class SupplyFactory {
 	}
 
 	private Supply createRandomAmmo() {
-		return new Supply(randomNumber(), Supply.Type.AMMO, null);
+		return new Supply(randomNumber(), Supply.Type.AMMO);
 	}
 	private Supply createRandomFood() {
-		return new Supply(randomNumber(), Supply.Type.FOOD, null);
+		return new Supply(randomNumber(), Supply.Type.FOOD);
 	}
 	private Supply createRandomHealth() {
-		return new Supply(randomNumber(), Supply.Type.HEALTH, null);
+		return new Supply(randomNumber(), Supply.Type.HEALTH);
 	}
 	private int randomNumber(){
 		return (int) Math.random()*100;

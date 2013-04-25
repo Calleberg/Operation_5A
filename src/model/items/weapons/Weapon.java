@@ -58,7 +58,7 @@ public class Weapon extends Item {
 	 * @return the projectile fired.
 	 */
 	public Projectile createProjectile(float direction, Position pos){
-		if (timeNow()-lastTimeFired>3600/rateOfFire
+		if (timeNow()-lastTimeFired>rateOfFire
 				&& !isReloading()){
 			if (ammunitionInMagazine==0){
 				outOfAmmo();
@@ -93,7 +93,7 @@ public class Weapon extends Item {
 	 * @return the surplus ammunition not used to fill the weapon's magazine.
 	 */
 	public int reload(int ammunition){
-		if (!isReloading() && ammunition>0 && magazineCapacity-ammunitionInMagazine!=0){
+		if (!isReloading() && ammunition>0 && magazineCapacity-ammunitionInMagazine!=0 && reloadTime!=0){
 			lastTimeReloaded=timeNow();
 			
 			int missingBullets=magazineCapacity-ammunitionInMagazine;
