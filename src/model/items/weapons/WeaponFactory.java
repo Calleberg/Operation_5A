@@ -8,16 +8,16 @@ package model.items.weapons;
 public class WeaponFactory {
 	public static enum Type{
 		//Range
-		PISTOL (1,2,3,4,5,6,7, "Pistol"),
+		PISTOL (0.1f,5,50f,6,6000,1000,10, "Pistol"),
 //		SHOTGUN,
 //		REVOLVER,
 //		HUNTING_RIFLE,
 //		MACHINEGUN,
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
-		
+//TODO more weapons
 		//Melee
-		FISTS (1000,1,1,4,5,6,7, "Fists"),
+		FISTS (1000f,1,1f,100000000,0,1000, 20, "Fists"),
 //		POCKET_KNIFE,
 //		MACHETTE,
 //		BAT,
@@ -115,7 +115,7 @@ public class WeaponFactory {
 			return name;
 		}
 	}
-	public static Weapon CreateWeapon(Type type, Level level) {
+	public static Weapon createWeapon(Type type, Level level) {
 		return new Weapon(
 				type.getProjectileSpeed(),
 				type.getDamage()*level.multiplier(),
@@ -131,8 +131,8 @@ public class WeaponFactory {
 	 * Creates a test weapon for debugging.
 	 * @return a test weapon for debugging.
 	 */
-	public static Weapon CreateTestWeapon() {
-		return CreateWeapon(Type.TEST_WEAPON, Level.EPIC);
+	public static Weapon createTestWeapon() {
+		return createWeapon(Type.PISTOL, Level.EPIC);
 	}
 
 	/**
@@ -140,6 +140,6 @@ public class WeaponFactory {
 	 * @return the weapon enemies uses.
 	 */
 	public static Weapon createEnemyMeleeWeapon(){
-		return CreateWeapon(Type.FISTS, Level.RUSTY);
+		return createWeapon(Type.FISTS, Level.RUSTY);
 	}
 }

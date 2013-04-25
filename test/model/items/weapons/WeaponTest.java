@@ -6,7 +6,7 @@ import model.geometrical.Position;
 
 import org.junit.Test;
 
-public class TestWeapon {
+public class WeaponTest {
 
 //	@Test
 //	public void Weapon(){
@@ -51,6 +51,7 @@ public class TestWeapon {
 		Weapon w = new Weapon(1, 1, 1, 1, 1, 1, 1,"");
 		w.createProjectile(1, new Position(1,3));
 		assertTrue("Did not decrease ammunition ammount of weapon", w.getAmmunitionInMagazine()==0);
+		assertTrue("Should not fire with empty magazine", w.createProjectile(1, new Position(1,3))==null);
 	}
 	
 	@Test
