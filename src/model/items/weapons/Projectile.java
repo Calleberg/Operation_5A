@@ -3,7 +3,6 @@ package model.items.weapons;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
-import model.sprites.Player;
 
 
 public class Projectile {

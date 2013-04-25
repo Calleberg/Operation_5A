@@ -27,7 +27,6 @@ public class Supply extends Item {
 	}
 	
 	private int amount;
-	private BufferedImage image;
 	private Type type;
 
 	/**
