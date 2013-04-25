@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * @author Vidar
  *
  */
-public class Supply implements Item {
+public class Supply extends Item {
 	
 	public enum Type {
 		FOOD (null),
@@ -29,7 +29,6 @@ public class Supply implements Item {
 	private int amount;
 	private BufferedImage image;
 	private Type type;
-	private Position pos;
 
 	/**
 	 * 
@@ -39,8 +38,8 @@ public class Supply implements Item {
 	 * @param image
 	 */
 	public Supply(int amount, Type type, Position position){
+		super(position);
 		this.amount=amount;
-		this.pos=position;
 		this.type=type;
 		generateImage();
 	}
@@ -60,34 +59,6 @@ public class Supply implements Item {
 	public Type getType(){
 		return type;
 		
-	}
-
-	public void setX(float x) {
-		this.pos.setX(x);
-		
-	}
-	@Override
-	public float getX() {
-		return this.pos.getX();
-	}
-	@Override
-	public void setY(float y) {
-		this.pos.setY(y);
-		
-	}	
-	@Override
-	public float getY() {
-		return this.pos.getY();
-	}
-	
-	@Override
-	public Position getPosition() {
-		return pos;
-	}
-	
-	@Override
-	public void setPosition(Position p) {
-		this.pos =p;
 	}
 	
 }

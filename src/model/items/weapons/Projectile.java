@@ -15,13 +15,7 @@ public class Projectile {
 	private Position startingPosition;
 	private CollisionBox collisionBox;
 	
-	public Projectile(Player player, Weapon weapon){
-		this(weapon.getDamage(), weapon.getProjectileSpeed(), weapon.getRange(), player.getDirection(),
-				player.getPosition());
-		
 
-	}
-	
 	public Projectile(int damage, float speed, float range, float direction, Position position) {
 		this.damage = damage;
 		this.speed = speed;

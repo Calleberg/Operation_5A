@@ -10,6 +10,7 @@ public class WeaponFactory {
 		HUNTING_RIFLE,
 		MACHINEGUN,
 		MINIGUN,
+		ROCKET_LAUNCHER,
 		//Melee
 		FISTS,
 		POCKET_KNIFE,
@@ -19,7 +20,7 @@ public class WeaponFactory {
 
 		public float getProjectileSpeed() {
 			// TODO Auto-generated method stub
-			return 0.5f;
+			return 0.1f;
 		}
 
 		public int getDamage() {
@@ -29,12 +30,14 @@ public class WeaponFactory {
 
 		public float getRange() {
 			// TODO Auto-generated method stub
-			return 3f;
+			return 100f;
 		}
 
 		public int getMagazineCapacity() {
 			// TODO Auto-generated method stub
-			return 10;
+//			return 1;
+//			return 2147483647;
+			return 100000000;
 		}
 
 		public int getReloadTime() {
@@ -44,7 +47,7 @@ public class WeaponFactory {
 
 		public int getRateOfFire() {
 			// TODO Auto-generated method stub
-			return 10;
+			return 1000;
 		}
 		
 		
@@ -83,9 +86,10 @@ public class WeaponFactory {
 				);
 	}
 	public static Weapon CreateTestWeapon() {
-		return CreateWeapon(Type.MINIGUN, Level.EPIC);
+		return CreateWeapon(Type.MINIGUN, Level.RUSTY);
 	}
 	public static Weapon CreateTestWeapon2(){
-		return new Weapon(0.5f, 1, 3f, 10, 10, 1000);
+		return CreateTestWeapon();
+//		return new Weapon(0.5f, 1, 3f, 10, 10, 1000);
 	}
 }
