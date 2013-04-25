@@ -21,8 +21,15 @@ public class ComplexShape implements CollisionBox {
 	 * @param base the base shape of this new complex shape.
 	 */
 	public ComplexShape(Rectangle base) {
-		rects = new ArrayList<java.awt.geom.Rectangle2D>();
+		this();
 		this.addShape(base);
+	}
+	
+	/**
+	 * Creates a new default complex shape.
+	 */
+	public ComplexShape() {
+		rects = new ArrayList<java.awt.geom.Rectangle2D>();
 	}
 	
 	/**

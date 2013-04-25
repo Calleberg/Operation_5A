@@ -18,7 +18,7 @@ public class Window extends JFrame {
 	public Window() {
 		super();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(800, 600);
+		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
 		
 //		setUndecorated(false);
