@@ -149,6 +149,17 @@ public class Player implements Sprite {
 		return collisionBox.getPosition();
 	}
 	
+	@Override
+	public Position getProjectileSpawn() {
+		return new Position(getX() + getCollisionBox().getWidth()/2 + (float)(Math.cos(faceDir)*1f), 
+				getY() + getCollisionBox().getHeight()/2 - (float)(Math.sin(faceDir)*1f));
+	}
+	
+	@Override
+	public Position getCenter() {
+		return new Position(getX() + getCollisionBox().getWidth()/2, getY() + getCollisionBox().getHeight()/2);
+	}
+	
 	/**
 	 * Sets the position of the player.
 	 * @param p the position of the player.

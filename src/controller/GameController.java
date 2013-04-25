@@ -79,8 +79,8 @@ public class GameController extends Thread {
 	 * @param y The y-coordinate of the mouse' position.
 	 */
 	public void handleMouseAt(float x, float y) {
-		float dx = model.getPlayer().getX() - x;
-		float dy = model.getPlayer().getY() - y;
+		float dx = model.getPlayer().getCenter().getX() - x;
+		float dy = model.getPlayer().getCenter().getY() - y;
 		float dir = (float)Math.atan(dy/dx);
 		if(dx < 0) {
 			dir -= (float)(Math.PI);

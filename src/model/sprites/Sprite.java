@@ -1,6 +1,7 @@
 package model.sprites;
 
 import model.geometrical.CollisionBox;
+import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.other.WorldObject;
@@ -55,4 +56,16 @@ public interface Sprite extends WorldObject {
 	 * @return the CollisionBox of the player.
 	 */
 	public CollisionBox getCollisionBox();
+	
+	/**
+	 * Gives the position of where to spawn projectiles from.
+	 * @return the position of where to spawn projectiles from.
+	 */
+	public Position getProjectileSpawn();
+	
+	/**
+	 * Gives the position of the center of the sprite.
+	 * @return the position of the center of the sprite.
+	 */
+	public Position getCenter();
 }
