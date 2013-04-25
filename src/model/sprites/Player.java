@@ -109,7 +109,7 @@ public class Player implements Sprite {
 	 * @param x the new x-coordinate.
 	 */
 	public void setX(float x){
-		collisionBox.getPosition().setX(x);
+		this.collisionBox.setPosition(new Position(x, this.getY()));
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Player implements Sprite {
 	 * @param y the new y-coordinate.
 	 */
 	public void setY(float y){
-		collisionBox.getPosition().setY(y);
+		this.collisionBox.setPosition(new Position(this.getX(),y));
 	}
 	
 	/**
@@ -206,5 +206,12 @@ public class Player implements Sprite {
 		}else{
 			return true;
 		}
+	}
+	/**
+	 * Return the direction the player is currently moving
+	 * @return the direction of movement
+	 */
+	public float getMoveDir(){
+		return moveDir;
 	}
 }

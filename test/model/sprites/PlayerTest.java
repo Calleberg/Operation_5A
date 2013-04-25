@@ -3,6 +3,7 @@ package model.sprites;
 import static org.junit.Assert.*;
 
 import model.geometrical.Position;
+import model.items.weapons.WeaponFactory;
 import model.sprites.Player;
 import model.sprites.Sprite.State;
 
@@ -13,25 +14,25 @@ public class PlayerTest {
 	@Test
 	public void move(){
 		Player p = new Player(1,1);
-//		p.setState(State.FORWARD);
+		p.setState(State.MOVING);
 		
-		p.setDirection(0f);
+		p.setMoveDir(0f);
 		p.move();
 		assertTrue(p.getX() == 1.2f && p.getY() == 1f);
 		
-		p.setDirection((float)Math.PI);
+		p.setMoveDir((float)Math.PI);
 		p.move();
 		assertTrue(p.getX() == 1f && p.getY() == 1f);
 		
-		p.setDirection((float)Math.PI/2);
+		p.setMoveDir((float)Math.PI/2);
 		p.move();
 		assertTrue(p.getX() == 1f && p.getY() == 0.8f);
 		
-		p.setDirection((float)Math.PI*3/2);
+		p.setMoveDir((float)Math.PI*3/2);
 		p.move();
 		assertTrue(p.getX() == 1f && p.getY() == 1f);
 		
-		p.setDirection((float)Math.PI*-1/4);
+		p.setMoveDir((float)Math.PI*-1/4);
 		p.move();
 		assertTrue(p.getX() == p.getY());
 	}
@@ -46,8 +47,10 @@ public class PlayerTest {
 	
 	@Test
 	public void getActiveWeapon(){
-		//TODO
-		//need set weapon or similar
+		Player p = new Player(1,1);
+		p.setWeapon(WeaponFactory.CreateWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		assertTrue(p.getActiveWeapon() != null);
+		
 	}
 	
 	@Test
@@ -76,66 +79,92 @@ public class PlayerTest {
 	
 	@Test
 	public void setState(){
-	
+		Player p = new Player(1,1);
+		p.setState(State.MOVING);
+		p.move();
+		assertTrue(p.getX() != 1 || p.getY() != 1);
 	}
 	
 	@Test
 	public void setDirection(){
-		
+		Player p = new Player(1,1);
+		p.setDirection(1);
+		assertTrue(p.getDirection() == 1);
 	}
 
 	@Test
 	public void setX(){
-		
+		Player p = new Player(1,1);
+		p.setX(4);
+		System.out.println("" + p.getX());
+		assertTrue(p.getX() == 4);
 	}
 	
 	@Test
 	public void setY(){
-		
+		Player p = new Player(1,1);
+		p.setY(6);
+		assertTrue(p.getY() == 6);
 	}
 	
 	@Test
 	public void getX(){
-		
+		Player p = new Player(1,1);
+		assertTrue(p.getX() == 1);
 	}
 	
 	@Test
 	public void getY(){
-		
+		Player p = new Player(1,1);
+		assertTrue(p.getY() == 1);
 	}
 	
 	@Test
 	public void setWeapon(){
-		
+		Player p = new Player(1,1);
+		p.setWeapon(WeaponFactory.CreateWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		assertTrue(p.getActiveWeapon() != null);
 	}
 	
 	@Test
 	public void getHealth(){
-		
+		Player p = new Player(1,1);
+		assertTrue(p.getHealth() == 100);
 	}
 	
 	@Test
 	public void setPosition(){
-		
+		Player p = new Player(1,1);
+		p.setPosition(new Position(2,5));
+		assertTrue(p.getX() == 2 && p.getY() == 5);
 	}
 	
 	@Test
 	public void reduceHealth(){
-		
+		Player p = new Player(1,1);
+		p.reduceHealth(40);
+		assertTrue(p.getHealth() == 60);
 	}
 	
 	@Test
 	public void getAmmoAmount(){
-		
+		Player p = new Player(1,1);
+		p.increaseAmmo(12);
+		assertTrue(p.getAmmoAmount() == 12);
 	}
 	
 	@Test
 	public void reduceAmmo(){
-		
+		Player p = new Player(1,1);
+		p.increaseAmmo(18);
+		p.reduceAmmo(7);
+		assertTrue(p.getAmmoAmount() == 11);
 	}
 	
 	@Test
 	public void increaseAmmo(){
-		
+		Player p = new Player(1,1);
+		p.increaseAmmo(14);
+		assertTrue(p.getAmmoAmount() == 14);
 	}
 }
