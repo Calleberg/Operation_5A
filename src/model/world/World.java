@@ -131,18 +131,20 @@ public class World {
 		}
 		for(int k = 0; k < 5; k++) {
 			for(int j = 0; j < projectiles.size(); j++) {
-				projectiles.get(j).move();
-				for(int i = 0; i < sprites.size(); i++){
-					if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
-						System.out.println("projectile collision");
-						sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
-						projectilesToBeRemoved.add(projectiles.get(j));
-						if(sprites.get(i).getHealth() <= 0){
-							//sprites.get(i) = player
-							if(i == 0){
-								System.out.println("Game Over");
+				if(!projectilesToBeRemoved.contains(projectiles.get(j))) {
+					projectiles.get(j).move();
+					for(int i = 0; i < sprites.size(); i++){
+						if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
+							System.out.println("projectile collision");
+							sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
+							projectilesToBeRemoved.add(projectiles.get(j));
+							if(sprites.get(i).getHealth() <= 0){
+								//sprites.get(i) = player
+								if(i == 0){
+									System.out.println("Game Over");
+								}
+								spritesToBeRemoved.add(sprites.get(i));
 							}
-							spritesToBeRemoved.add(sprites.get(i));
 						}
 					}
 				}

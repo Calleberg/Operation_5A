@@ -127,7 +127,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 				+ ", average: " + controller.getNbrOfUpdates()/(int)(controller.getMsSinceStart()/1000) + "/s", 10, 40);
 		g.drawString("Number of updates since start (view): " + tick 
 				+ ", average: " + tick/(int)(controller.getMsSinceStart()/1000) + "/s", 10, 60);
-		g.drawString("Number of projectiles: " + model.getWorld().getProjectiles().size(), 10, 80);
+		g.drawString("Number of projectiles in model: " + model.getWorld().getProjectiles().size(), 10, 80);
 		g.drawString("Number of characters/sprites: " + model.getWorld().getSprites().size(), 10, 100);
 		g.drawString("Time: " + (int)(controller.getMsSinceStart()/1000) + " s", 10, 120);
 		g.drawString("Number of ObjectRenderers: " + this.objects.size(), 10, 140);
