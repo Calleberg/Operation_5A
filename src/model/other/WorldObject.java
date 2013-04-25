@@ -1,8 +1,9 @@
-package model.world;
+package model.other;
 
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
+
 
 
 

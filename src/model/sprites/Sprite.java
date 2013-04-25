@@ -3,7 +3,7 @@ package model.sprites;
 import model.geometrical.CollisionBox;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
-import model.world.WorldObject;
+import model.other.WorldObject;
 
 
 public interface Sprite extends WorldObject {

@@ -1,7 +1,7 @@
 package model.items;
 
 import model.geometrical.Position;
-import model.world.WorldObject;
+import model.other.WorldObject;
 
 //Empty interface created to group Items
 public class Item implements WorldObject{
