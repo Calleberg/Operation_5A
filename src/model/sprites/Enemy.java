@@ -19,13 +19,11 @@ public class Enemy implements Sprite{
 	private BufferedImage image;
 	private CollisionBox collisionBox;
 	
-	protected Enemy(Position position, float speed, Weapon weapon, int health/*, 
-			BufferedImage image*/){
+	protected Enemy(Position position, float speed, Weapon weapon, int health){
 		state = State.STANDING;//TODO setState
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
-		this.image = image;
 		collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
 	}
 	
@@ -46,8 +44,9 @@ public class Enemy implements Sprite{
 	}
 
 	@Override
-	public void move() {
-		if(state == State.MOVING) {
+	public void move(){ 
+		if(state == Sprite.State.MOVING) {
+
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
 					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
 					(float)(Math.sin(direction)*speed)));
@@ -91,7 +90,7 @@ public class Enemy implements Sprite{
 	 * @param x the x-coordinate.
 	 */
 	public void setX(float x) {
-		this.collisionBox.getPosition().setX(x);
+		this.collisionBox.setPosition(new Position(x, this.getY()));
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class Enemy implements Sprite{
 	 * @param y the y-coordinate.
 	 */
 	public void setY(float y) {
-		this.collisionBox.getPosition().setY(y);
+		this.collisionBox.setPosition(new Position(this.getX(),y));
 	}
 
 	@Override

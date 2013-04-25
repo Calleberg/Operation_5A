@@ -188,8 +188,8 @@ public class Player implements Sprite {
 	 * Adds the specified amount of ammo to the player.
 	 * @param ammo the ammo to add.
 	 */
-	public void addAmmo(int ammo){
-		this.ammo += ammo;
+	public void increaseAmmo(int pickedUpAmmo){
+		this.ammo += pickedUpAmmo;
 	}
 	
 	/**

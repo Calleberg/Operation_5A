@@ -38,20 +38,16 @@ public class PlayerTest {
 	
 	@Test
 	public void increaseHealth(){
-		//TODO
-		//need get health or something similar
+		Player p = new Player(1,1);
+		p.increaseHealth(40);
+		assertTrue(p.getHealth() == 140);
+		
 	}
 	
 	@Test
 	public void getActiveWeapon(){
 		//TODO
 		//need set weapon or similar
-	}
-	
-	@Test
-	public void spriteHitbyProjectile(){
-		//TODO
-		//need get health or similar
 	}
 	
 	@Test
@@ -72,15 +68,74 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void getImage(){
-		//TODO
-	}
-	
-	@Test
 	public void getPosition(){
 		Player p = new Player(1,1);
 		p.setPosition(new Position(1.5f, 2f));
 		assertTrue(p.getPosition().getX() == 1.5f && p.getPosition().getY() == 2f);
 	}
+	
+	@Test
+	public void setState(){
+	
+	}
+	
+	@Test
+	public void setDirection(){
+		
+	}
 
+	@Test
+	public void setX(){
+		
+	}
+	
+	@Test
+	public void setY(){
+		
+	}
+	
+	@Test
+	public void getX(){
+		
+	}
+	
+	@Test
+	public void getY(){
+		
+	}
+	
+	@Test
+	public void setWeapon(){
+		
+	}
+	
+	@Test
+	public void getHealth(){
+		
+	}
+	
+	@Test
+	public void setPosition(){
+		
+	}
+	
+	@Test
+	public void reduceHealth(){
+		
+	}
+	
+	@Test
+	public void getAmmoAmount(){
+		
+	}
+	
+	@Test
+	public void reduceAmmo(){
+		
+	}
+	
+	@Test
+	public void increaseAmmo(){
+		
+	}
 }

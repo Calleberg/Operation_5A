@@ -1,20 +1,21 @@
-package model.sprites;
+package model;
 
 import static org.junit.Assert.*;
 
 import model.GameModel;
 import model.world.World;
+import model.sprites.Player;
 
 import org.junit.Test;
 
 public class GameModelTest {
+	
+	GameModel model = new GameModel();
+	World w = model.getWorld();
+	Player p = model.getPlayer();
 
 	@Test
 	public void playerShoot() {
-		GameModel model = new GameModel();
-		World w = model.getWorld();
-		Player p = model.getPlayer();
-
 		int size = w.getProjectiles().size();
 		model.playerShoot();
 		
@@ -27,14 +28,16 @@ public class GameModelTest {
 		
 		//projectile is created with the correct direction
 		assertTrue(p.getDirection() == w.getProjectiles().get(size).getDirection());
-		p.setDirection((float) Math.PI);
-		model.playerShoot();
-		assertTrue(p.getDirection() == w.getProjectiles().get(size+1).getDirection());
 	}
 	
 	@Test
-	public void update(){
-		//TODO ska den testas?
+	public void getPlayer(){
+		assertTrue(model.getPlayer() != null);
+	}
+	
+	@Test
+	public void getWorld(){
+		assertTrue(model.getWorld() != null);
 	}
 
 }

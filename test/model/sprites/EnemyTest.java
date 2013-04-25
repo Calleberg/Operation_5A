@@ -3,6 +3,8 @@ package model.sprites;
 import static org.junit.Assert.*;
 
 import model.geometrical.Position;
+import model.items.weapons.Weapon;
+import model.items.weapons.WeaponFactory;
 import model.sprites.Sprite.State;
 
 import org.junit.Test;
@@ -12,12 +14,11 @@ public class EnemyTest {
 	@Test
 	public void move(){
 		Enemy e = new Enemy(new Position(1f,1f), 0.2f, null, 1);
-		//TODO e.setState(State.FORWARD);
+		
+		//TODO: setState when implemented in Enemy
 		
 		e.setDirection(0f);
 		e.move();
-		System.out.println(e.getX() + " " + e.getY());
-		System.out.println(e.getDirection());
 		assertTrue(e.getX() == 1.2f && e.getY() == 1f);
 		
 		e.setDirection((float)Math.PI);
@@ -38,23 +39,13 @@ public class EnemyTest {
 		assertTrue(e.getX() == e.getY());
 	}
 
-
-	@Test
-	public void increaseHealth(){
-		//TODO
-		//need get health or similar
-	}
-	
 	@Test
 	public void getActiveWeapon(){
-		//TODO
-		//need set weapon or similar
-	}
-	
-	@Test
-	public void spriteHitbyProjectile(){
-		//TODO
-		//need get health or similar
+		Enemy e = new Enemy(new Position(1,1), 0.2f, WeaponFactory.CreateWeapon
+			(WeaponFactory.Type.FISTS, WeaponFactory.Level.RUSTY), 50);
+		Weapon w = e.getActiveWeapon();
+		
+		//TODO assertTrue(w.getName() == Rusty Fists);
 	}
 	
 	@Test
@@ -75,15 +66,61 @@ public class EnemyTest {
 	}
 	
 	@Test
-	public void getImage(){
-		//TODO
-	}
-	
-	@Test
 	public void getPosition(){
 		Enemy e = new Enemy(new Position(1f,1f), 1f, null, 1);
 		e.setPosition(new Position(1.5f, 2f));
 		assertTrue(e.getPosition().getX() == 1.5f && e.getPosition().getY() == 2f);
 	}
-
+	
+	@Test
+	public void setPosition(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setPosition(new Position(2,3));
+		assertTrue(e.getPosition().getX() == 2 && e.getPosition().getY() == 3);
+	}
+	
+	@Test
+	public void getHealth(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getHealth() == 50);
+	}
+	
+	@Test
+	public void setDirection(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setDirection(1);
+		assertTrue(e.getDirection() == 1);
+	}
+	
+	@Test
+	public void setX(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setX(4);
+		assertTrue(e.getX() == 4);
+	}
+	
+	@Test
+	public void setY(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setY(5);
+		assertTrue(e.getY() == 5);
+	}
+	@Test
+	public void getX(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getX() == 1);
+	}
+	
+	@Test
+	public void getY(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getY() == 1);
+	}
+	
+	@Test 
+	public void ReduceHealth(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.reduceHealth(10);
+		assertTrue(e.getHealth() == 40);
+	}
 }
