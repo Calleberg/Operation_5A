@@ -48,7 +48,7 @@ public class PlayerTest {
 	@Test
 	public void getActiveWeapon(){
 		Player p = new Player(1,1);
-		p.setWeapon(WeaponFactory.CreateWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		p.setWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		assertTrue(p.getActiveWeapon() != null);
 		
 	}
@@ -122,7 +122,7 @@ public class PlayerTest {
 	@Test
 	public void setWeapon(){
 		Player p = new Player(1,1);
-		p.setWeapon(WeaponFactory.CreateWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		p.setWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		assertTrue(p.getActiveWeapon() != null);
 	}
 	
