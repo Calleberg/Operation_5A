@@ -10,6 +10,12 @@ import model.geometrical.Position;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 
+/**
+ * Controls a specified model.
+ * 
+ * @author
+ *
+ */
 public class GameController extends Thread {
 
 	private int sleep;
@@ -26,9 +32,9 @@ public class GameController extends Thread {
 		this.input = input;
 		this.sleep = 1000 / 60;
 		this.start();
-		
-		EnemyFactory ef = new EnemyFactory();
-		model.getWorld().addSprite(ef.createEasyEnemy(new Position (3, 3)));
+	
+		model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (3, 3)));
+		model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (6, 10)));
 	}
 	/**
 	 * Update's the game a specific amount of times per second.
@@ -63,17 +69,7 @@ public class GameController extends Thread {
 	 */
 	public void update() {
 		//playerMove
-		if(input.isPressed(KeyEvent.VK_W)) {
-			model.getPlayer().setState(Player.State.FORWARD);
-		}else if(input.isPressed(KeyEvent.VK_A)) {
-			model.getPlayer().setState(Player.State.LEFT);
-		}else if(input.isPressed(KeyEvent.VK_S)) {
-			model.getPlayer().setState(Player.State.BACKWARDS);
-		}else if(input.isPressed(KeyEvent.VK_D)) {
-			model.getPlayer().setState(Player.State.RIGHT);
-		}else{
-			model.getPlayer().setState(Player.State.STANDING);
-		}
+		this.updatePlayerPosition();
 		
 		//playerShoot
 		if(input.mousePressed(MouseEvent.BUTTON1)){
@@ -83,5 +79,28 @@ public class GameController extends Thread {
 		model.update();
 	}
 	
-	
+	/*
+	 * Updates the player's position.
+	 */
+	private void updatePlayerPosition() {
+		if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_D)) {
+			model.getPlayer().setMoveDir((float)(Math.PI/4));
+		}else if(input.isPressed(KeyEvent.VK_D) && input.isPressed(KeyEvent.VK_S)) {
+			model.getPlayer().setMoveDir((float)(-Math.PI/4));
+		}else if(input.isPressed(KeyEvent.VK_A) && input.isPressed(KeyEvent.VK_S)) {
+			model.getPlayer().setMoveDir((float)(-Math.PI*3/4));
+		}else if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_A)) {
+			model.getPlayer().setMoveDir((float)(Math.PI*3/4));
+		}else if(input.isPressed(KeyEvent.VK_W)) {
+			model.getPlayer().setMoveDir((float)(Math.PI/2));
+		}else if(input.isPressed(KeyEvent.VK_A)) {
+			model.getPlayer().setMoveDir((float)(Math.PI));
+		}else if(input.isPressed(KeyEvent.VK_S)) {
+			model.getPlayer().setMoveDir((float)(-Math.PI/2));
+		}else if(input.isPressed(KeyEvent.VK_D)) {
+			model.getPlayer().setMoveDir(0f);
+		}else{
+			model.getPlayer().setState(Player.State.STANDING);
+		}
+	}	
 }

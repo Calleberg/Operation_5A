@@ -13,7 +13,7 @@ public class PlayerTest {
 	@Test
 	public void move(){
 		Player p = new Player(1,1);
-		p.setState(State.FORWARD);
+//		p.setState(State.FORWARD);
 		
 		p.setDirection(0f);
 		p.move();

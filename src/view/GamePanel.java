@@ -75,7 +75,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			g.setColor(Color.BLACK);
 			g.fillRect((int)(s.getX()*camera.getScale() + camera.getX()), (int)(s.getY()*camera.getScale() + camera.getY()), 
 					camera.getScale(), camera.getScale());
-			g.setColor(Color.RED);
+			g.setColor(Color.BLACK);
+			g.drawString(s.getHealth() + " hp", (int)(s.getX()*camera.getScale()+camera.getX()), 
+					(int)(s.getY()*camera.getScale()+camera.getY()));
 			//this.renderCollisionBox(g, camera, s.getCollisionBox(), Color.RED, false, null);
 //			DEV_CollisionBoxRenderer.render(g, 40, s.getCollisionBox(), Color.RED, true, Color.BLUE);
 		}
@@ -84,7 +86,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			g.setColor(Color.BLACK);
 			g.fillRect((int)(p.getPosition().getX() * camera.getScale() + camera.getX()), 
 					(int)(p.getPosition().getY() * camera.getScale() + camera.getY()), camera.getScale()/10, camera.getScale()/10);
-			this.renderCollisionBox(g, camera, p.getCollisionBox(), Color.RED, false, null);
+			renderCollisionBox(g, camera, p.getCollisionBox(), Color.RED, false, null);
 		}
 		//data:
 		g.setColor(new Color(255, 255, 255, 150));
@@ -107,7 +109,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 * @param renderPosition specify if the position of each line should be marked.
 	 * @param colourPosition the colour of the position mark.
 	 */
-	public void renderCollisionBox(Graphics g, Camera camera, CollisionBox box, Color colour, 
+	public static void renderCollisionBox(Graphics g, Camera camera, CollisionBox box, Color colour, 
 			boolean renderPosition, Color colourPosition) {
 		g.setColor(colour);
 		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {

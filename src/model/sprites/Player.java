@@ -5,20 +5,22 @@ import java.awt.image.BufferedImage;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
-import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 
-
-
-
+/**
+ * Models a player which can populate a world.
+ * 
+ * @author
+ *
+ */
 public class Player implements Sprite {
 	
 	private State state;
-	private float direction;
+	private float faceDir;
+	private float moveDir; //TODO mer!
 	private float speed;
 	private Weapon weapon;
 	private int health;
-	private BufferedImage image;
 	private CollisionBox collisionBox;
 	private int ammo;
 	
@@ -39,19 +41,23 @@ public class Player implements Sprite {
 	 * and the player's speed.
 	 */
 	public void move(){
-		if(state == State.FORWARD) {
-			changePosition(direction);
-		}else if(state == State.LEFT) {
-			changePosition(direction+Math.PI/2);
-		}else if(state == State.BACKWARDS) {
-			changePosition(direction+Math.PI);
-		}else if(state == State.RIGHT) {
-			changePosition(direction-Math.PI/2);
+		if(this.state == Sprite.State.MOVING) {
+			this.changePosition(moveDir);
 		}
 	}
 	
 	/**
+	 * Sets the angle of which to move at. 
+	 * @param d the new angle in radians.
+	 */
+	public void setMoveDir(float d) {
+		this.setState(Sprite.State.MOVING);
+		this.moveDir = d;
+	}
+	
+	/*
 	 * Changes the position with a specific direction.
+	 * @param d the position to walk at.
 	 */
 	private void changePosition(double d){
 		collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed), 
@@ -60,6 +66,7 @@ public class Player implements Sprite {
 	
 	/**
 	 * Set the state for the player.
+	 * @param state the state of the player.
 	 */
 	public void setState(State state) {
 		this.state = state;
@@ -67,20 +74,23 @@ public class Player implements Sprite {
 	
 	/**
 	 * Returns the direction of the player.
+	 * @return the direction of the player. 
 	 */
 	public float getDirection(){
-		return direction;
+		return faceDir;
 	}
 	
 	/**
-	 * Set the direction of the player.
+	 * Sets the direction the player is facing.
+	 * @param faceDir the new direction, in radians.
 	 */
-	public void setDirection(float direction){
-		this.direction = direction;
+	public void setDirection(float faceDir){
+		this.faceDir = faceDir;
 	}
 	
 	/**
 	 * Returns the x-coordinate of the player's position.
+	 * @return the x-coordinate of the player's position.
 	 */
 	public float getX(){
 		return collisionBox.getPosition().getX();
@@ -88,6 +98,7 @@ public class Player implements Sprite {
 	
 	/**
 	 * Returns the y-coordinate of the player's position.
+	 * @return the y-coordinate of the player's position.
 	 */
 	public float getY(){
 		return collisionBox.getPosition().getY();
@@ -95,6 +106,7 @@ public class Player implements Sprite {
 	
 	/**
 	 * Set the x-coordinate of the player's position.
+	 * @param x the new x-coordinate.
 	 */
 	public void setX(float x){
 		collisionBox.getPosition().setX(x);
@@ -102,6 +114,7 @@ public class Player implements Sprite {
 	
 	/**
 	 * Set the y-coordinate of the player's position.
+	 * @param y the new y-coordinate.
 	 */
 	public void setY(float y){
 		collisionBox.getPosition().setY(y);
@@ -128,12 +141,18 @@ public class Player implements Sprite {
 		return health;
 	}
 	
-	@Override
+	/**
+	 * Gives the position of the player.
+	 * @return the position of the player.
+	 */
 	public Position getPosition() {
 		return collisionBox.getPosition();
 	}
 	
-	@Override
+	/**
+	 * Sets the position of the player.
+	 * @param p the position of the player.
+	 */
 	public void setPosition(Position p) {
 		this.collisionBox.setPosition(p);
 	}
@@ -146,35 +165,46 @@ public class Player implements Sprite {
 	
 	/**
 	 * Increase the player's health.
-	 * @param i The amount of health of which the player's health increases with.
+	 * @param i the amount of health of which the player's health increases with.
 	 */
 	public void increaseHealth(int i){
 		this.health = this.health + i;
 	}
+	
 	@Override
 	public CollisionBox getCollisionBox() {
 		return collisionBox;
 	}
 	
 	/**
-	 * returns the amount of ammo the player is carrying
-	 * @return ammo amount player has
+	 * Returns the amount of ammo the player is carrying.
+	 * @return the amount of ammo the player is carrying.
 	 */
 	public int getAmmoAmount(){
 		return ammo;
 	}
+	
 	/**
-	 * the player picks up ammo
-	 * @param pickedUpAmmo the amount of ammo picked up
+	 * Adds the specified amount of ammo to the player.
+	 * @param ammo the ammo to add.
 	 */
-	public void addAmmo(int pickedUpAmmo){
-		this.ammo += pickedUpAmmo;
+	public void addAmmo(int ammo){
+		this.ammo += ammo;
 	}
+	
 	/**
-	 * Removes to ammo from the player to be reloaded into weapon
-	 * @param ammoToReload the amount of ammo to be reloaded
+	 * Removes the specified amount of ammo from the player.
+	 * @param ammo the amount of ammo to be reloaded
+	 * @return <code>false</code> if the ammo was reduced past 0. However,
+	 * the players ammo will be set to 0.
 	 */
-	public void reduceAmmo(int ammoToReload){
-		this.ammo -= ammoToReload;
+	public boolean reduceAmmo(int ammo){
+		this.ammo -= ammo;
+		if(ammo < 0) {
+			ammo = 0;
+			return false;
+		}else{
+			return true;
+		}
 	}
 }

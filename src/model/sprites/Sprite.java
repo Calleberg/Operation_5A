@@ -12,7 +12,7 @@ public interface Sprite extends WorldObject {
 	/**
 	 * The Sprite's current moving direction.
 	 */
-	public static enum State{FORWARD, BACKWARDS, RIGHT, LEFT, STANDING};
+	public static enum State{MOVING, STANDING};
 	
 	/**
 	 * Move the sprite in it's current direction.

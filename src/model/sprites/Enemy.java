@@ -29,20 +29,25 @@ public class Enemy implements Sprite{
 		collisionBox = new Rectangle(position.getX(), position.getY(), 1, 1);
 	}
 	
-	
-	@Override
+	/**
+	 * Gives the position of the enemy.
+	 * @return the position of the enemy.
+	 */
 	public Position getPosition() {
 		return collisionBox.getPosition();
 	}
 
-	@Override
+	/**
+	 * Sets the position of the enemy.
+	 * @param p the position of the enemy.
+	 */
 	public void setPosition(Position p) {
 		this.collisionBox.setPosition(p);
 	}
 
 	@Override
 	public void move() {
-		if(state == State.FORWARD) {
+		if(state == State.MOVING) {
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
 					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
 					(float)(Math.sin(direction)*speed)));
@@ -65,22 +70,34 @@ public class Enemy implements Sprite{
 		this.direction = direction;
 	}
 
-	@Override
+	/**
+	 * Gives the x-coordinate.
+	 * @return the x-coordinate.
+	 */
 	public float getX() {
 		return this.collisionBox.getPosition().getX();
 	}
 
-	@Override
+	/**
+	 * Gives the y-coordinate.
+	 * @return the y-coordinate.
+	 */
 	public float getY() {
 		return this.collisionBox.getPosition().getY();
 	}
 
-	@Override
+	/**
+	 * Sets the x-coordinate.
+	 * @param x the x-coordinate.
+	 */
 	public void setX(float x) {
 		this.collisionBox.getPosition().setX(x);
 	}
 
-	@Override
+	/**
+	 * Sets the y-coordinate.
+	 * @param y the y-coordinate.
+	 */
 	public void setY(float y) {
 		this.collisionBox.getPosition().setY(y);
 	}
