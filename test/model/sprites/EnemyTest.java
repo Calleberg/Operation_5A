@@ -41,7 +41,7 @@ public class EnemyTest {
 
 	@Test
 	public void getActiveWeapon(){
-		Enemy e = new Enemy(new Position(1,1), 0.2f, WeaponFactory.CreateWeapon
+		Enemy e = new Enemy(new Position(1,1), 0.2f, WeaponFactory.createWeapon
 			(WeaponFactory.Type.FISTS, WeaponFactory.Level.RUSTY), 50);
 		Weapon w = e.getActiveWeapon();
 		
