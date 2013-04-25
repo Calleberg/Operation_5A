@@ -98,16 +98,17 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	@Override
 	public void paintComponent(Graphics g) {	
 		//super.paintComponent(g);
-		
-		camera.setToCenter(model.getPlayer().getPosition(), getSize());
-				
+						
+		//Draws all the static world objects.
 		for(int i = 0; i < model.getWorld().getTiles().length; i++) {
 			for(int j = 0; j < model.getWorld().getTiles()[i].length; j++) {
 				tiles[i][j].render(g, camera.getOffset(), camera.getScale());
 			}
 		}
 		
-		//TODO to bort det mesta nedan..............
+		//Sets the player to the center of the screen.
+		camera.setToCenter(model.getPlayer().getCenter(), getSize());
+		//Draws all the dynamic items.
 		for(ObjectRenderer<?> or : objects) {
 			or.render(g, camera.getOffset(), camera.getScale());
 		}

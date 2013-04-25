@@ -34,6 +34,11 @@ public class Enemy implements Sprite{
 	public Position getPosition() {
 		return collisionBox.getPosition();
 	}
+	
+	@Override
+	public Position getProjectileSpawn() {
+		return this.collisionBox.getPosition();
+	}
 
 	/**
 	 * Sets the position of the enemy.
@@ -116,6 +121,11 @@ public class Enemy implements Sprite{
 	@Override
 	public CollisionBox getCollisionBox() {
 		return collisionBox;
+	}
+
+	@Override
+	public Position getCenter() {
+		return new Position(getX() + getCollisionBox().getWidth()/2, getY() + getCollisionBox().getHeight()/2);
 	}
 
 }

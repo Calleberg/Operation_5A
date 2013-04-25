@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -40,20 +41,32 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			//Saves some values for quick access.
 			int x = (int)(sprite.getX() * scale + offset.getX());
 			int y = (int)(sprite.getY() * scale + offset.getY());
-			int rX = (int)(x + sprite.getCollisionBox().getWidth() * scale/2);
-			int rY = (int)(y + sprite.getCollisionBox().getHeight() * scale/2);
+			int rX = (int)(sprite.getCenter().getX() * scale + offset.getX());
+			int rY = (int)(sprite.getCenter().getY() * scale + offset.getY());
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
 			g2d.rotate(-sprite.getDirection(), rX, rY);
 			
 			//Draws what it has to draw...
+			g2d.setColor(new Color(0, 0, 0, 100));
 			g2d.fillRect(x, y, (int)(sprite.getCollisionBox().getWidth() * scale), 
 					(int)(sprite.getCollisionBox().getHeight() * scale));
 			g2d.drawString(sprite.getHealth() + "hp", x, y);
 			
 			//Rotates the graphics to its original position.
 			g2d.rotate(sprite.getDirection(), rX, rY);
+			
+//			g2d.rotate(-sprite.getMoveDir(), rX, rY);
+//			g2d.fillRect(x, y, (int)(sprite.getCollisionBox().getWidth() * scale), 
+//					(int)(sprite.getCollisionBox().getHeight() * scale));
+//			g2d.rotate(sprite.getMoveDir(), rX, rY);
+			
+			g2d.setColor(Color.RED);
+			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
+					(int)(sprite.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
+			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
+					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
 		}
 	}
 }

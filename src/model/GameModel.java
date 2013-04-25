@@ -4,7 +4,6 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import model.geometrical.Position;
 import model.items.weapons.WeaponFactory;
 import model.sprites.Player;
 import model.world.World;
@@ -13,7 +12,7 @@ import model.world.WorldBuilder;
 
 
 /**
- * 
+ * This is the main model class. This will hold all data.
  * 
  * @author
  *
@@ -47,7 +46,7 @@ public class GameModel {
 	public GameModel(){
 		world = new World();
 		WorldBuilder wb = new WorldBuilder();
-		world.setTiles(wb.getNewWorld(40, 40));
+		world.setTiles(wb.getNewWorld(100, 100));
 		player = new Player(1,1);
 		player.setWeapon(WeaponFactory.CreateTestWeapon());
 		world.addSprite(player);
@@ -99,6 +98,6 @@ public class GameModel {
 	 */
 	public void playerShoot(){
 		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
-				new Position(player.getX(), player.getY())));
+				player.getProjectileSpawn()));
 	}
 }
