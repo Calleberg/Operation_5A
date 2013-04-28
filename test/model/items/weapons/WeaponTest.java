@@ -63,5 +63,13 @@ public class WeaponTest {
 		assertTrue(w.reload(testValue)==testValue-1);
 		
 	}
+	
+	@Test
+	public void toStringTest(){
+		Weapon w = new Weapon(1,1,1,1,1,1,1,"testName");
+		
+		assertTrue(w.toString().equals("testName"));
+	}
+	
 
 }
