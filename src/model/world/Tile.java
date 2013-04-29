@@ -5,6 +5,7 @@ import model.geometrical.ComplexShape;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.other.WorldObject;
+import model.world.props.Prop;
 
 /**
  * Holds the data of one tile in a world.
@@ -17,6 +18,8 @@ public class Tile implements WorldObject {
 	private int floor;
 	private boolean northWall, westWall;
 	private Position position;
+	private Prop prop;
+	private ComplexShape box;
 	
 	/**
 	 * Creates a new tile with the specified floor.
@@ -59,6 +62,23 @@ public class Tile implements WorldObject {
 	}
 	
 	/**
+	 * Sets the prop on this tile.
+	 * @param prop the prop.
+	 */
+	public void setProp(Prop prop) {
+		this.prop = prop;
+	}
+	
+	/**
+	 * Gives the prop on this tile.
+	 * @return the prop on this tile, if there isn't a prop on this tile <code>null</code>
+	 * will be returned.
+	 */
+	public Prop getProp() {
+		return this.prop;
+	}
+	
+	/**
 	 * Gives <code>true</code> if this tile has a north wall.
 	 * @return <code>true</code> if this tile has a north wall.
 	 */
@@ -96,17 +116,23 @@ public class Tile implements WorldObject {
 	 * @return
 	 */
 	public CollisionBox getCollisionBox() {
-		ComplexShape cs = new ComplexShape();
-		if(hasNorthWall()) {
-			cs.addShape(new Rectangle(getX(), getY(), 1f, 0.1f));
+		if(box == null) {
+			box = new ComplexShape();
+			if(hasNorthWall()) {
+				box.addShape(new Rectangle(getX(), getY(), 1f, 0.1f));
+			}
+			if(hasWestWall()) {
+				box.addShape(new Rectangle(getX(), getY(), 0.1f, 1f));
+			}
+			if(prop != null) {
+				box.addShape(prop.getCollisionBox());
+			}
 		}
-		if(hasWestWall()) {
-			cs.addShape(new Rectangle(getX(), getY(), 0.1f, 1f));
-		}
-		if(cs.getRectangles().length == 0) {
+		
+		if(box.getRectangles().length == 0) {
 			return null;
 		}else{
-			return cs;
+			return box;
 		}
 	}
 

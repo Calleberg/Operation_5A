@@ -52,4 +52,9 @@ public class Position {
 	public void setY(float y){
 		this.y = y;
 	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+	}
 }

@@ -46,8 +46,8 @@ public class GameModel {
 	public GameModel(){
 		world = new World();
 		WorldBuilder wb = new WorldBuilder();
-		world.setTiles(wb.getNewWorld(100, 100));
-		player = new Player(1,1);
+		world.setTiles(wb.getNewWorld(500, 500));
+		player = new Player(50,50);
 		player.setWeapon(WeaponFactory.createTestWeapon());
 		world.addSprite(player);
 	}
