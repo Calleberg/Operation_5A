@@ -1,6 +1,7 @@
 package model.sprites;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
@@ -8,6 +9,7 @@ import model.geometrical.Rectangle;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.sprites.Sprite.State;
+import model.world.Tile;
 
 public class Enemy implements Sprite{
 
@@ -18,7 +20,10 @@ public class Enemy implements Sprite{
 	private int health;
 	private BufferedImage image;
 	private CollisionBox collisionBox;
+	private List<PathfindingNode> list;
+	private int pathfindingListIndex;
 	
+
 	protected Enemy(Position position, float speed, Weapon weapon, int health){
 		state = State.STANDING;//TODO setState
 		this.speed = speed;
@@ -51,7 +56,6 @@ public class Enemy implements Sprite{
 	@Override
 	public void move(){ 
 		if(state == Sprite.State.MOVING) {
-
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
 					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
 					(float)(Math.sin(direction)*speed)));
@@ -121,6 +125,46 @@ public class Enemy implements Sprite{
 	@Override
 	public CollisionBox getCollisionBox() {
 		return collisionBox;
+	}
+	public void testPathfinding(List<PathfindingNode> list){
+		this.list = list;
+	}
+	private void setDirectionTowardsList(){
+		if(Math.abs(this.collisionBox.getPosition().getX() - 
+				list.get(pathfindingListIndex).getTile().getX()) > 0.01
+				|| Math.abs(this.collisionBox.getPosition().getY() - 
+				list.get(pathfindingListIndex).getTile().getY()) > 0.01){
+			float dx = this.collisionBox.getPosition().getX() - list.get(pathfindingListIndex).getTile().getX();
+			float dy = this.collisionBox.getPosition().getY() - list.get(pathfindingListIndex).getTile().getY();
+			float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
+			this.setDirection(sin);
+		}else{
+			System.out.println("test");
+			System.out.println(this.collisionBox.getPosition().getX() + " "
+					+ list.get(pathfindingListIndex).getTile().getX() +
+					" " +  this.collisionBox.getPosition().getY() + " " + 
+					list.get(pathfindingListIndex).getTile().getY());
+			System.out.println("index " + pathfindingListIndex);
+			pathfindingListIndex++;
+			pathfindingListIndex++;
+			if(!(list.size()<=pathfindingListIndex)){
+//				System.out.println(list.size() + " " + pathfindingListIndex);
+				float dx = this.collisionBox.getPosition().getX() - 
+						list.get(pathfindingListIndex).getTile().getX();
+				float dy = this.collisionBox.getPosition().getY() - 
+						list.get(pathfindingListIndex).getTile().getY();
+				float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
+//				System.out.println(list.get(pathfindingListIndex).getTile().getX() + " " + list.get(pathfindingListIndex).getTile().getY());
+//				System.out.println(dy);
+//				System.out.println(dx);
+//				System.out.println("sin " + sin);
+				this.setDirection(sin);
+			}else{
+				state = State.STANDING;
+				pathfindingListIndex = 0;
+			}
+			
+		}
 	}
 
 	@Override
