@@ -4,27 +4,29 @@ import controller.GameController;
 import view.GamePanel;
 import view.Window;
 import model.GameModel;
-import model.world.WorldBuilder;
-//linus
+import model.items.weapons.WeaponFactory;
+import model.sprites.Player;
+
 public class Main {
 
 	public static void main(String[] args) {
+		//TODO: lägg allt detta i en annan klass
 		Input input = new Input();
 		GameModel model = new GameModel();
-		//Test
+		Player player = new Player(50,50);
+		player.setWeapon(WeaponFactory.createTestWeapon());
+		model.setPlayer(player);
 		GameController controller = new GameController(model, input);
 		Window window = new Window();
-		//Test
 		GamePanel panel = new GamePanel(model, controller);
 		input.setContainer(panel);
 		model.addListener(panel);
 		window.add(panel);
-		//Test
 		panel.requestFocus();
 		window.validate();
-		
-		WorldBuilder wb = new WorldBuilder();
-		model.world.Tile[][] tiles = WorldBuilder.getEmptyWorld(10, 10);
-		wb.addTiles(tiles, 0, 0, "lots/10x10_roadNorth.txt");
+				
+		//Starts all the loops
+		controller.start();
+		panel.start();
 	}
 }

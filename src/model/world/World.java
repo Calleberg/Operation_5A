@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import model.GameModel;
+import model.geometrical.CollisionBox;
+import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Enemy;
 import model.sprites.EnemyPathfinder;
@@ -115,37 +117,45 @@ public class World {
 	 * Updates the world.
 	 */
 	public void update() {
-		List<PathfindingNode> list = pathfinder.findWay(tiles[3][3], tiles[7][2], tiles);
-		for(Sprite s : sprites){
-			if(s instanceof Enemy){
-				Enemy e = (Enemy) s;
-				e.testPathfinding(list);
-			}
-		}
-		
-		for(int i = 0; i < sprites.size(); i++) {
-			sprites.get(i).move();
-		}
-//		for(int i = 0; i < projectiles.size(); i++) {
-//			projectiles.get(i).move();
+//		List<PathfindingNode> list = pathfinder.findWay(tiles[3][3], tiles[7][2], tiles);
+//		for(Sprite s : sprites){
+//			if(s instanceof Enemy){
+//				Enemy e = (Enemy) s;
+//				e.testPathfinding(list);
+//			}
 //		}
 		
-		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
-		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
-		//TODO: fixa till, inte särskilt bra just nu...
-		for(int i = 0; i < sprites.size(); i++){
+		//Updates all the sprites
+		for(int i = 0; i < sprites.size(); i++) {
+			sprites.get(i).move();
+			//Check if the sprite hit an object
+			CollisionBox box = sprites.get(i).getCollisionBox();
+			Tile[] tilesToCheck = getTileAround(box.getPosition());
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && box.intersects(tilesToCheck[j].getCollisionBox())) {
+					box.moveBack();
+				}
+			}
+			//Check if the sprite hit another sprite
 			for(int j = 0; j < sprites.size(); j++) {
 				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
 					System.out.println("Collision");
 					System.out.println("1=" + sprites.get(i).getCollisionBox());
 					System.out.println("2=" + sprites.get(j).getCollisionBox());
+					box.moveBack();
 				}
 			}
 		}
+		
+		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		//Updates the projectiles 5 times each update
 		for(int k = 0; k < 5; k++) {
+			//Moves the projectiles
 			for(int j = 0; j < projectiles.size(); j++) {
 				if(!projectilesToBeRemoved.contains(projectiles.get(j))) {
 					projectiles.get(j).move();
+					//Checks if the projectile hit a sprite
 					for(int i = 0; i < sprites.size(); i++){
 						if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
 							System.out.println("projectile collision");
@@ -160,17 +170,45 @@ public class World {
 							}
 						}
 					}
+					//Check if the projectile hit an object
+					CollisionBox box = projectiles.get(j).getCollisionBox();
+					Tile[] tilesToCheck = getTileAround(box.getPosition());
+					for(int l = 0;l < tilesToCheck.length; l++) {
+						if(tilesToCheck[l] != null && box.intersects(tilesToCheck[l].getCollisionBox())) {
+							projectilesToBeRemoved.add(projectiles.get(j));
+						}
+					}
 				}
 			}
 		}
+		//Check if the projectile has travelled further then it can
 		for(int i = 0; i < projectiles.size(); i++){
 			if(projectiles.get(i).isMaxRangeReached()){
 				projectilesToBeRemoved.add(projectiles.get(i));
 			}
 		}
-		
+		//Remove all the objects which needs to be removed
 		this.removeSprites(spritesToBeRemoved);
 		this.removeProjectiles(projectilesToBeRemoved);
+	}
+	
+	/*
+	 * Gives an array of the tiles around the specified position.
+	 */
+	private Tile[] getTileAround(Position pos) {
+		Tile[] tilesToCheck = new Tile[9];
+		int x = (int)pos.getX();
+		int y = (int)pos.getY();
+		tilesToCheck[0] = ((validPosition(new Position(x, y))) ? tiles[x][y] : null);
+		tilesToCheck[1] = ((validPosition(new Position(x, y - 1))) ? tiles[x][y - 1] : null);
+		tilesToCheck[2] = ((validPosition(new Position(x, y + 1))) ? tiles[x][y + 1] : null);
+		tilesToCheck[3] = ((validPosition(new Position(x - 1, y))) ? tiles[x - 1][y] : null);
+		tilesToCheck[4] = ((validPosition(new Position(x - 1, y - 1))) ? tiles[x - 1][y - 1] : null);
+		tilesToCheck[5] = ((validPosition(new Position(x - 1, y + 1))) ? tiles[x - 1][y + 1] : null);
+		tilesToCheck[6] = ((validPosition(new Position(x + 1, y))) ? tiles[x + 1][y] : null);
+		tilesToCheck[7] = ((validPosition(new Position(x + 1, y - 1))) ? tiles[x + 1][y - 1] : null);
+		tilesToCheck[8] = ((validPosition(new Position(x + 1, y + 1))) ? tiles[x + 1][y + 1] : null);
+		return tilesToCheck;
 	}
 	
 	/**
@@ -211,5 +249,107 @@ public class World {
 	 */
 	public List<Projectile> getProjectiles() {
 		return this.projectiles;
+	}
+	
+	/**
+	 * Checks if there is possible to move between two adjacent tiles.
+	 * NOTE:
+	 * <br>-This method do support diagonal tile checks.
+	 * <br>-This will not check if the two positions are actually adjacent.
+	 * Therefore, <code>canMove(new Position(0, 0), new Position(0, 1))</code>
+	 * will, for example, return the same as <code>canMove(new Position(0, 0), new Position(0, 10))</code>.
+	 * @param pos1 the position of the first tile.
+	 * @param pos2 the position of the second tile.
+	 * @return <code>true</code> if it's possible to move between the two tiles.
+	 */
+	public boolean canMove(Position pos1, Position pos2) {
+		if(pos1.getX() == pos2.getX()) { 
+			if(pos1.getY() < pos2.getY()) { //move south
+				return canMoveDown(pos1);	
+			}else{ //move north
+				return canMoveUp(pos1);		
+			}
+		}else if(pos1.getY() == pos2.getY()){
+			if(pos1.getX() < pos2.getX()) { //move east
+				return canMoveRight(pos1);
+			}else{ //move west
+				return canMoveLeft(pos1);
+			}
+		}else if(pos1.getX() > pos2.getX()) { 
+			if(pos1.getY() > pos2.getY()) { //move NW
+				return (canMoveUp(pos1) && canMoveLeft(pos1) && canMoveDown(pos2) && canMoveRight(pos2));
+			}else{ //move SW
+				return (canMoveLeft(pos1) && canMoveDown(pos1) && canMoveUp(pos2) && canMoveRight(pos2));
+			}
+		}else{
+			if(pos1.getY() > pos2.getY()) { //move NE
+				return (canMoveUp(pos1) && canMoveRight(pos1) && canMoveDown(pos2) && canMoveLeft(pos2));
+			}else{ //move SE
+				return (canMoveDown(pos1) && canMoveRight(pos1) && canMoveUp(pos2) && canMoveLeft(pos2));
+			}
+		}
+	}
+
+	/*
+	 * Checks if it's possible to move to the tile directly north of the specified one.
+	 */
+	private boolean canMoveUp(Position start) {
+		if(validPosition(start) && validPosition(new Position(start.getX(), start.getY() - 1))) {
+			return !(tiles[(int)start.getX()][(int)start.getY()].hasNorthWall() 
+					|| tiles[(int)start.getX()][(int)start.getY() - 1].getProp() != null);
+		}else{
+			return true;
+		}
+	}
+	
+	/*
+	 * Checks if it's possible to move to the tile directly south of the specified one.
+	 */
+	private boolean canMoveDown(Position start) {
+		return canMoveUp(new Position(start.getX(), start.getY() + 1));
+	}
+	
+	/*
+	 * Checks if it's possible to move to the tile directly west of the specified one.
+	 */
+	private boolean canMoveLeft(Position start) {
+		if(validPosition(start) && validPosition(new Position(start.getX() - 1, start.getY()))) {
+			return !(tiles[(int)start.getX()][(int)start.getY()].hasWestWall() 
+					|| tiles[(int)start.getX() - 1][(int)start.getY()].getProp() != null);
+		}else{
+			return true;
+		}
+	}
+	
+	/*
+	 * Checks if it's possible to move to the tile directly east of the specified one.
+	 */
+	private boolean canMoveRight(Position start) {
+		return canMoveLeft(new Position(start.getX() + 1, start.getY()));
+	}
+	
+	/**
+	 * Checks if the specified position is a valid position on the map.
+	 * @param pos the position to check.
+	 * @return <code>true</code> if the specified position is one the map.
+	 */
+	public boolean validPosition(Position pos) {
+		return !(pos.getX() < 0 || pos.getX() >= this.getWidth() || pos.getY() < 0 || pos.getY() >= this.getHeight());
+	}
+	
+	/**
+	 * Gives the width of the map.
+	 * @return the width of the map.
+	 */
+	public int getWidth() {
+		return this.tiles.length;
+	}
+	
+	/**
+	 * Gives the height of the map.
+	 * @return the height of the map.
+	 */
+	public int getHeight() {
+		return this.tiles[0].length;
 	}
 }

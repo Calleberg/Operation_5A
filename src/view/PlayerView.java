@@ -46,18 +46,9 @@ public class PlayerView implements ObjectRenderer<Player> {
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
-			g2d.rotate(-p.getDirection(), rX, rY);
 			
-			//Draws what it has to draw...
-			g2d.setColor(new Color(0, 0, 0, 100));
-			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
-					(int)(p.getCollisionBox().getHeight() * scale));
-			g2d.drawString(p.getHealth() + "hp", x, y);
-			
-			//Rotates the graphics to its original position.
-			g2d.rotate(p.getDirection(), rX, rY);
-			
-			//Rotates the graphics to the move dir
+			//Draws the legs
+			g2d.setColor(Color.BLACK);
 			g2d.rotate(-p.getMoveDir(), rX, rY);
 			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
 					(int)(p.getCollisionBox().getHeight() * scale));
@@ -66,8 +57,17 @@ public class PlayerView implements ObjectRenderer<Player> {
 					(int)(p.getCollisionBox().getHeight() * scale));
 			g2d.rotate(p.getMoveDir(), rX, rY);
 			
+			//Draws the upper body
+			g2d.setColor(Color.BLACK);
+			g2d.rotate(-p.getDirection(), rX, rY);
+			g2d.setColor(new Color(0, 0, 0, 100));
+			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
+					(int)(p.getCollisionBox().getHeight() * scale));
+			g2d.rotate(p.getDirection(), rX, rY);
+			
 			//Draws angle independent data!
 			g2d.setColor(Color.RED);
+			g2d.drawString(p.getHealth() + "hp", x, y);
 			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),
 					(int)(p.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
 			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),

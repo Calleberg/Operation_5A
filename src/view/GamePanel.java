@@ -1,8 +1,11 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
@@ -10,7 +13,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import view.panels.Minimap;
+import view.panels.PlayerPanel;
 
 import controller.GameController;
 
@@ -37,6 +43,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private List<ObjectRenderer<?>> objects;
 	private Camera camera;
 	private final int SLEEP = 1000 / 60;
+	private Thread t;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -49,9 +56,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		this.controller = controller;
 		this.addMouseMotionListener(this);
 		this.camera = new Camera(40);
+		this.buildLayout();
+		
 		this.initObjectList();
 		this.initTileList();
-		Thread t = new Thread() {
+		t = new Thread() {
 			@Override
 			public void run() {
 				while(true) {
@@ -65,7 +74,36 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 				}
 			}
 		};
+	}
+	
+	/**
+	 * The panel will start rendering.
+	 */
+	public void start() {
 		t.start();
+	}
+	
+	/*
+	 * Builds the layout of the game panel. (Adds all the GUI bits)
+	 */
+	private void buildLayout() {
+		setLayout(new GridBagLayout());
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.1;
+        add(new PlayerPanel(model.getPlayer()), gridBagConstraints);
+        
+//        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_END;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        Minimap minimap = new Minimap(model);
+        minimap.setPreferredSize(new Dimension(200, 200));
+        minimap.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
+        add(minimap, gridBagConstraints);
 	}
 	
 	/*

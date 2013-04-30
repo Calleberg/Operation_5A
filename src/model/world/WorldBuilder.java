@@ -117,52 +117,9 @@ public class WorldBuilder {
 				}
 			}
 		}
-//		
-//		for(int x = 0; x < tiles.length; x += 10) {
-//			for(int y = 0; y < tiles[0].length; y += 10) {
-//				if(x <= 20 || y <= 20 || x >= tiles.length - 20 || y >= tiles[0].length - 20)
-//				this.addTiles(tiles, x, y, "lots/water.lot");
-//			}
-//		}
-//		this.addTiles(tiles, 50, 40, "road/10x10_verticalRoad.lot");
-//		this.addTiles(tiles, 50, 50, "road/10x10_crossing_NEW.lot");
-//		this.addTiles(tiles, 40, 50, "road/10x10_crossing_ES.lot");
-//		this.addTiles(tiles, 40, 60, "road/10x10_verticalRoad.lot");
-//		this.addTiles(tiles, 40, 70, "road/10x10_verticalRoad.lot");
-//		this.addTiles(tiles, 40, 80, "road/10x10_crossing_NSEW.lot");
-//		this.addTiles(tiles, 50, 80, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 60, 80, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 70, 80, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 80, 80, "road/10x10_crossing_NEW.lot");
-//		this.addTiles(tiles, 60, 50, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 70, 50, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 80, 50, "road/10x10_crossing_WS.lot");
-//		this.addTiles(tiles, 80, 60, "road/10x10_verticalRoad.lot");
-//		this.addTiles(tiles, 80, 70, "road/10x10_verticalRoad.lot");
-//		this.addTiles(tiles, 90, 80, "road/10x10_horisontalRoad.lot");
-//		this.addTiles(tiles, 100, 80, "road/10x10_horisontalRoad.lot");
-//		
-//		this.addTiles(tiles, 50, 60, "lots/misc/20x20_W_parking.lot");
 		
-//		int max = random.nextInt(500);
-//		for(int i = 0; i < max; i++) {
-//			Tile t = tiles[random.nextInt(width)][random.nextInt(height)];
-//			t.setFloor(10);
-//			if(random.nextInt(10) == 5) {
-//				t.setNorthWall(true);
-//			}
-//			if(random.nextInt(10) == 5) {
-//				t.setWestWall(true);
-//			}
-//			if(random.nextInt(10) == 3) {
-//				t.setProp(PropFactory.getProp(t.getPosition(), random.nextInt(3)));
-//			}
-//		}
-//		System.out.println("Map generated with: seed=" + seed + ",tiles changed=" + max);
-//		
-//		for(int i = 0; i < 4; i++) {
-//			tiles[i][0].setProp(PropFactory.getProp(new Position(i, 0), i));
-//		}
+		//TODO: ta bort.
+		this.addTiles(tiles, 50, 30, "lots/misc/10x10_testplace.lot");
 		
 		return tiles;
 	}

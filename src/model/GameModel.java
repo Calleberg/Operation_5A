@@ -21,7 +21,7 @@ public class GameModel {
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private final World world;
-	private final Player player;
+	private Player player;
 	
 	/**
 	 * The message sent when a new sprite is added.
@@ -47,8 +47,15 @@ public class GameModel {
 		world = new World();
 		WorldBuilder wb = new WorldBuilder();
 		world.setTiles(wb.getNewWorld(500, 500));
-		player = new Player(50,50);
-		player.setWeapon(WeaponFactory.createTestWeapon());
+	}
+	
+	/**
+	 * Sets the player of the game.
+	 * @param player the player of the game.
+	 */
+	public void setPlayer(Player player) {
+		world.removeSprite(player);
+		this.player = player;
 		world.addSprite(player);
 	}
 	

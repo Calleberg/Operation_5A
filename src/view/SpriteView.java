@@ -52,6 +52,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(x, y, (int)(sprite.getCollisionBox().getWidth() * scale), 
 					(int)(sprite.getCollisionBox().getHeight() * scale));
+			g2d.setColor(Color.RED);
 			g2d.drawString(sprite.getHealth() + "hp", x, y);
 			
 			//Rotates the graphics to its original position.

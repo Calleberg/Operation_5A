@@ -14,6 +14,9 @@ import model.sprites.Player;
 
 /**
  * Controls a specified model.
+ * The controller will not start in a running state, so <code>start()</code> must be
+ * called for the controller to start updating its model. However, other
+ * methods will still work.
  * 
  * @author
  *
@@ -34,7 +37,6 @@ public class GameController extends Thread {
 	public GameController(GameModel model, Input input) {
 		this.model = model;
 		this.input = input;
-		this.start();
 		
 		model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (60, 60)));
 		model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (45, 45)));

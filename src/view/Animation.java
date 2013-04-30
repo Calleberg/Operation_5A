@@ -25,7 +25,9 @@ public class Animation {
 	public Animation(int[] frames, int delay, boolean startRunning) {
 		this.frames = frames;
 		this.delay = delay;
-		this.running = startRunning;
+		if(startRunning) {
+			this.start();
+		}
 	}
 	
 	/**

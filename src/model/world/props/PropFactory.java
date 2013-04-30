@@ -15,7 +15,7 @@ public class PropFactory {
 	/*
 	 * Global animation of water, should be synchronised with all the water in the world.
 	 */
-	private static final Animation WATER = new Animation(new int[]{30,31,32,33,34}, 100, true);
+	private static final Animation WATER = new Animation(new int[]{30,31,32,33,34,35,36,37,38,39}, 200, true);
 	
 	private static final Animation TRAFFIC_LIGHT_S = new Animation(new int[]{40,40,40,41,42,42,42,41}, 2500, true);
 	

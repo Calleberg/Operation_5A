@@ -62,9 +62,11 @@ public class Rectangle implements CollisionBox {
 	 */
 	@Override
 	public boolean intersects(CollisionBox box) {
-		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-			if(this.rect.intersects(r)) {
-				return true;
+		if(box != null) {
+			for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
+				if(this.rect.intersects(r)) {
+					return true;
+				}
 			}
 		}
 		return false;
