@@ -72,7 +72,7 @@ public class WorldTest {
 	@Test
 	public void removeSprites(){
 		World w = new World(null);
-		List<Sprite> sprites = new ArrayList<>(); 
+		List<Sprite> sprites = new ArrayList<Sprite>(); 
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,1))); 
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,2)));
 		

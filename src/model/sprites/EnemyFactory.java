@@ -12,7 +12,7 @@ public class EnemyFactory {
 	 * @return an easy enemy
 	 */
 	public static Enemy createEasyEnemy(Position pos){
-		return new Enemy(pos, 0.1f, 
+		return new Enemy(pos, 0.03f, 
 			WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
 				WeaponFactory.Level.RUSTY), 50);
 	}
@@ -21,7 +21,7 @@ public class EnemyFactory {
 	 * @return a medium enemy
 	 */
 	public static Enemy createMediumEnemy(Position pos){
-		return new Enemy(pos, 0.2f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
+		return new Enemy(pos, 0.02f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
 				WeaponFactory.Level.LARGE), 100);
 	}
 	/**

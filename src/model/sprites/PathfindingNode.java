@@ -10,13 +10,11 @@ public class PathfindingNode {
 	private int x;
 	private int y;
 	
-	public PathfindingNode(Tile t, float distanceToGoal, float distanceFromParent){
+	public PathfindingNode(Tile t, /*float distanceToGoal,*/ float distanceFromParent){
 		this.tile = t;
-		this.distanceToGoal = distanceToGoal;
+//		this.distanceToGoal = distanceToGoal;
 //		this.distanceFromStart = calculateG(this);
 		setDistanceFromParent(distanceFromParent);
-		this.x = x;
-		this.y = y;
 	}
 	public void setParentNode(PathfindingNode n){
 		this.parentNode = n;
@@ -27,6 +25,9 @@ public class PathfindingNode {
 	}
 	public Tile getTile(){
 		return tile;
+	}
+	public void setDistanceToGoal(float i){
+		this.distanceToGoal = i;
 	}
 	
 	public float getPathfindingDistance(){

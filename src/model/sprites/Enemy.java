@@ -25,7 +25,7 @@ public class Enemy implements Sprite{
 	
 
 	protected Enemy(Position position, float speed, Weapon weapon, int health){
-		state = State.STANDING;//TODO setState
+		state = State.MOVING;//TODO setState
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
@@ -56,6 +56,8 @@ public class Enemy implements Sprite{
 	@Override
 	public void move(){ 
 		if(state == Sprite.State.MOVING) {
+			this.setDirectionTowardsList();
+			
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
 					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
 					(float)(Math.sin(direction)*speed)));
@@ -127,26 +129,59 @@ public class Enemy implements Sprite{
 		return collisionBox;
 	}
 	public void testPathfinding(List<PathfindingNode> list){
+//		this.state = State.MOVING;
 		this.list = list;
 	}
 	private void setDirectionTowardsList(){
+//		System.out.println("d " + direction);
+//		System.out.println(list.size());
+		
+		if(list.size() <= pathfindingListIndex){
+			return;//TODO varför behövs detta?
+		}
+		
+//		System.out.println("x " + this.collisionBox.getPosition().getX() + "y " + this.collisionBox.getPosition().getY());
+//		System.out.println("Lx " + list.get(pathfindingListIndex).getTile().getX() + "Ly " + list.get(pathfindingListIndex).getTile().getY());
+//		System.out.println("Lx1 " + list.get(1).getTile().getX() + "Ly " + list.get(1).getTile().getY());
+//		System.out.println("Lx2 " + list.get(2).getTile().getX() + "Ly " + list.get(2).getTile().getY());
+		
+//		for(PathfindingNode n : list){
+//			System.out.println("x: " + n.getTile().getX() + "y: " + n.getTile().getY());
+//		}
 		if(Math.abs(this.collisionBox.getPosition().getX() - 
-				list.get(pathfindingListIndex).getTile().getX()) > 0.01
+				list.get(pathfindingListIndex).getTile().getX()) > 0.02
 				|| Math.abs(this.collisionBox.getPosition().getY() - 
-				list.get(pathfindingListIndex).getTile().getY()) > 0.01){
-			float dx = this.collisionBox.getPosition().getX() - list.get(pathfindingListIndex).getTile().getX();
-			float dy = this.collisionBox.getPosition().getY() - list.get(pathfindingListIndex).getTile().getY();
-			float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
-			this.setDirection(sin);
-		}else{
-			System.out.println("test");
+				list.get(pathfindingListIndex).getTile().getY()) > 0.02){
+			System.out.println("setdirectiontowardslist");
 			System.out.println(this.collisionBox.getPosition().getX() + " "
 					+ list.get(pathfindingListIndex).getTile().getX() +
 					" " +  this.collisionBox.getPosition().getY() + " " + 
 					list.get(pathfindingListIndex).getTile().getY());
-			System.out.println("index " + pathfindingListIndex);
-			pathfindingListIndex++;
-			pathfindingListIndex++;
+//			System.out.println("index " + pathfindingListIndex);
+			float dx = this.collisionBox.getPosition().getX() - list.get(pathfindingListIndex).getTile().getX();
+			float dy = this.collisionBox.getPosition().getY() - list.get(pathfindingListIndex).getTile().getY();
+			float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
+//			System.out.println("x: " + this.collisionBox.getPosition().getX() + " " + list.get(pathfindingListIndex).getTile().getX());
+			if(dx>0){
+				System.out.println("n " + (Math.PI - sin));
+				this.setDirection((float)Math.PI - sin);
+			}else{
+				this.setDirection(sin);
+			}
+//			System.out.println(pathfindingListIndex);
+		}else{
+//			System.out.println("else");
+//			System.out.println("test");
+//			System.out.println(this.collisionBox.getPosition().getX() + " "
+//					+ list.get(pathfindingListIndex).getTile().getX() +
+//					" " +  this.collisionBox.getPosition().getY() + " " + 
+//					list.get(pathfindingListIndex).getTile().getY());
+//			System.out.println("index " + pathfindingListIndex);
+//			pathfindingListIndex++;
+//			pathfindingListIndex++;
+//			System.out.println("size: " + list.size());
+//			System.out.println("p: " + pathfindingListIndex);
+			
 			if(!(list.size()<=pathfindingListIndex)){
 //				System.out.println(list.size() + " " + pathfindingListIndex);
 				float dx = this.collisionBox.getPosition().getX() - 
@@ -155,11 +190,15 @@ public class Enemy implements Sprite{
 						list.get(pathfindingListIndex).getTile().getY();
 				float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
 //				System.out.println(list.get(pathfindingListIndex).getTile().getX() + " " + list.get(pathfindingListIndex).getTile().getY());
-//				System.out.println(dy);
-//				System.out.println(dx);
+//				System.out.println(this.collisionBox.getPosition().getX() + " test");
+//				System.out.println(list.get(pathfindingListIndex).getTile().getX() + " test");
+//				System.out.println("dy: " + dy);
+//				System.out.println("dx: " + dx);
 //				System.out.println("sin " + sin);
 				this.setDirection(sin);
 			}else{
+				
+				System.out.println("standing");
 				state = State.STANDING;
 				pathfindingListIndex = 0;
 			}
