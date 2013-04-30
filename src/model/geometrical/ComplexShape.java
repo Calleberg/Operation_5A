@@ -39,9 +39,11 @@ public class ComplexShape implements CollisionBox {
 	 * after being added.
 	 * @param box the shape to add.
 	 */
-	public void addShape(Rectangle box) {
-		for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-			this.rects.add(r);
+	public void addShape(CollisionBox box) {
+		if(box != null) {
+			for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
+				this.rects.add(r);
+			}
 		}
 	}
 	

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 import model.GameModel;
 import model.items.weapons.Projectile;
+import model.sprites.Enemy;
+import model.sprites.EnemyPathfinder;
+import model.sprites.PathfindingNode;
 import model.sprites.Sprite;
 
 /**
@@ -21,6 +24,7 @@ public class World {
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	private EnemyPathfinder pathfinder;
 	
 
 	/**
@@ -52,6 +56,7 @@ public class World {
 	 */
 	public World(Tile[][] tiles) {
 		this.tiles = tiles;
+		pathfinder = new EnemyPathfinder();
 	}
 	
 	/**
@@ -110,6 +115,14 @@ public class World {
 	 * Updates the world.
 	 */
 	public void update() {
+		List<PathfindingNode> list = pathfinder.findWay(tiles[3][3], tiles[7][2], tiles);
+		for(Sprite s : sprites){
+			if(s instanceof Enemy){
+				Enemy e = (Enemy) s;
+				e.testPathfinding(list);
+			}
+		}
+		
 		for(int i = 0; i < sprites.size(); i++) {
 			sprites.get(i).move();
 		}

@@ -16,6 +16,7 @@ import controller.GameController;
 
 import model.GameModel;
 import model.geometrical.CollisionBox;
+import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Player;
 import model.sprites.Sprite;
@@ -96,6 +97,26 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			}
 		}
 	}
+	
+	private Position translatePos(Position pos) {
+		return new Position((pos.getX() - camera.getX())/camera.getScale(), 
+				(pos.getY() - camera.getY())/camera.getScale());
+	}
+	
+	
+	private int lastTime;
+	private int lastFPS;
+	private int tickFPS;
+	private int getFPS() {
+		int newTime = (int)(controller.getMsSinceStart()/1000);
+		tickFPS++;
+		if(lastTime != newTime) {
+			lastFPS = tickFPS;
+			tickFPS = 0;
+			lastTime = newTime;
+		}
+		return lastFPS;
+	}
 
 	/**
 	 * Draws everything.
@@ -105,9 +126,20 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		//super.paintComponent(g);
 						
 		//Draws all the static world objects.
-		for(int i = 0; i < model.getWorld().getTiles().length; i++) {
-			for(int j = 0; j < model.getWorld().getTiles()[i].length; j++) {
-				tiles[i][j].render(g, camera.getOffset(), camera.getScale());
+		Position drawMin = translatePos(new Position(0, 0));
+		if(drawMin.getX() < 0) {
+			drawMin.setX(0);
+		}
+		if(drawMin.getY() < 0) {
+			drawMin.setY(0);
+		}
+		Position drawMax = translatePos(new Position(getWidth(), getHeight()));
+		int tilesDrawn = 0;
+		camera.setToCenter(model.getPlayer().getCenter(), getSize());
+		for(int x = (int)drawMin.getX(); x < model.getWorld().getTiles().length && x < drawMax.getX(); x++) {
+			for(int y = (int)drawMin.getY(); y < model.getWorld().getTiles()[x].length && y < drawMax.getY(); y++) {
+				tiles[x][y].render(g, camera.getOffset(), camera.getScale());
+				tilesDrawn++;
 			}
 		}
 		
@@ -119,7 +151,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}
 		//data:
 		g.setColor(new Color(255, 255, 255, 150));
-		g.fillRect(0, 0, 600, 200);
+		g.fillRect(0, 0, 600, 220);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
 		g.drawString("World size: " + model.getWorld().getTiles().length + "x" + model.getWorld().getTiles()[0].length, 10, 20);
@@ -131,6 +163,10 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		g.drawString("Number of characters/sprites: " + model.getWorld().getSprites().size(), 10, 100);
 		g.drawString("Time: " + (int)(controller.getMsSinceStart()/1000) + " s", 10, 120);
 		g.drawString("Number of ObjectRenderers: " + this.objects.size(), 10, 140);
+		g.drawString("Number of tiles drawn: " + tilesDrawn + "/" + (tiles.length*tiles[0].length), 10, 160);
+		Position camPos = translatePos(new Position(getWidth()/2, getHeight()/2));
+		g.drawString("Camera position: (" + (int)camPos.getX() + "," + (int)camPos.getY() + ")", 10, 180);
+		g.drawString("FPS: " + this.getFPS() + " (max: ~" + 1000/SLEEP + ")" , 10, 200);
 		//TODO ta bort det mest över....................
 	}
 	

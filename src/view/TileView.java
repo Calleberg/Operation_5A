@@ -18,6 +18,7 @@ import model.world.Tile;
 public class TileView {
 
 	private static BufferedImage[] floors = Resources.splitImages("floor.png", 10, 10);
+	private static BufferedImage[] props = Resources.splitImages("props.png", 10, 10);
 	private Tile t;
 	
 	/**
@@ -37,6 +38,14 @@ public class TileView {
 	}
 	
 	/**
+	 * Gives all the textures used when drawing the props.
+	 * @return an array of all the textures used when drawing the props.
+	 */
+	public static BufferedImage[] getPropImages() {
+		return props;
+	}
+	
+	/**
 	 * Renders the tile.
 	 * @param g the graphics instance to draw to.
 	 * @param offset the offset to render at.
@@ -47,15 +56,20 @@ public class TileView {
 			int x = (int)(t.getX() * scale + offset.getX()); 
 			int y = (int)(t.getY() * scale + offset.getY());
 			g.drawImage(floors[t.getFloor()], x, y, scale, scale, null);
-			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), Color.RED, false, null);
-//			if(t.hasNorthWall()) {
-//				g.setColor(Color.BLACK);
-//				g.fillRect(x, y, scale, scale/10);
-//			}
-//			if(t.hasWestWall()) {
-//				g.setColor(Color.BLACK);
-//				g.fillRect(x, y, scale/10, scale);
-//			}
+			if(t.getProp() != null) {
+				g.drawImage(props[t.getProp().getImageNbr()], x, y, scale, scale, null);
+			}
+			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), new Color(255, 0, 0, 100), false, null);
+			
+			//TODO: fixa lite 
+			if(t.hasNorthWall()) {
+				g.setColor(Color.BLACK);
+				g.fillRect(x, y, scale, scale/10);
+			}
+			if(t.hasWestWall()) {
+				g.setColor(Color.BLACK);
+				g.fillRect(x, y, scale/10, scale);
+			}
 		}
 	}
 }

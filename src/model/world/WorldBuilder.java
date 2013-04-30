@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 import model.geometrical.Position;
+import model.world.props.PropFactory;
 
 /**
  * This will build new worlds by using specific seeds which always will produce the
@@ -24,6 +25,18 @@ public class WorldBuilder {
 
 	private Random random;
 	private long seed;
+	private int[][] mapTest = new int[][]{
+			{0,0,0,0,0,0,0,0,0,0},
+			{0,1,1,1,1,1,1,1,1,0},
+			{0,1,2,2,2,2,2,2,2,0},
+			{0,1,2,1,1,1,2,1,2,0},
+			{0,1,2,2,2,2,2,2,2,0},
+			{0,1,2,1,2,1,1,1,2,0},
+			{0,1,2,2,2,1,1,1,2,0},
+			{0,1,1,1,2,1,1,1,2,0},
+			{0,1,1,1,2,2,2,2,2,0},
+			{0,0,0,0,0,0,0,0,0,0},
+	};
 	
 	/**
 	 * Creates a new default world builder.
@@ -81,18 +94,75 @@ public class WorldBuilder {
 			}
 		}
 		
-		int max = random.nextInt(200);
-		for(int i = 0; i < max; i++) {
-			Tile t = tiles[random.nextInt(width)][random.nextInt(height)];
-			t.setFloor(10);
-			if(random.nextInt(10) == 5) {
-				t.setNorthWall(true);
-			}
-			if(random.nextInt(10) == 5) {
-				t.setWestWall(true);
+		for(int x = 0; x < mapTest.length; x++) {
+			for(int y = 0; y < mapTest[0].length; y++) {
+				if(mapTest[x][y] == 0) {
+					this.addTiles(tiles, x*10, y*10, "lots/water.lot");
+				}else if(mapTest[x][y] == 2) {
+					StringBuilder sb = new StringBuilder("road/10x10_road_");
+					if(mapTest[x][y-1] == 2) {
+						sb.append('N');
+					}
+					if(mapTest[x+1][y] == 2) {
+						sb.append('E');
+					}
+					if(mapTest[x][y+1] == 2) {
+						sb.append('S');
+					}
+					if(mapTest[x-1][y] == 2) {
+						sb.append('W');
+					}
+					sb.append(".lot");
+					this.addTiles(tiles, x*10, y*10, sb.toString());
+				}
 			}
 		}
-		System.out.println("Map generated with: seed=" + seed + ",tiles changed=" + max);
+//		
+//		for(int x = 0; x < tiles.length; x += 10) {
+//			for(int y = 0; y < tiles[0].length; y += 10) {
+//				if(x <= 20 || y <= 20 || x >= tiles.length - 20 || y >= tiles[0].length - 20)
+//				this.addTiles(tiles, x, y, "lots/water.lot");
+//			}
+//		}
+//		this.addTiles(tiles, 50, 40, "road/10x10_verticalRoad.lot");
+//		this.addTiles(tiles, 50, 50, "road/10x10_crossing_NEW.lot");
+//		this.addTiles(tiles, 40, 50, "road/10x10_crossing_ES.lot");
+//		this.addTiles(tiles, 40, 60, "road/10x10_verticalRoad.lot");
+//		this.addTiles(tiles, 40, 70, "road/10x10_verticalRoad.lot");
+//		this.addTiles(tiles, 40, 80, "road/10x10_crossing_NSEW.lot");
+//		this.addTiles(tiles, 50, 80, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 60, 80, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 70, 80, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 80, 80, "road/10x10_crossing_NEW.lot");
+//		this.addTiles(tiles, 60, 50, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 70, 50, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 80, 50, "road/10x10_crossing_WS.lot");
+//		this.addTiles(tiles, 80, 60, "road/10x10_verticalRoad.lot");
+//		this.addTiles(tiles, 80, 70, "road/10x10_verticalRoad.lot");
+//		this.addTiles(tiles, 90, 80, "road/10x10_horisontalRoad.lot");
+//		this.addTiles(tiles, 100, 80, "road/10x10_horisontalRoad.lot");
+//		
+//		this.addTiles(tiles, 50, 60, "lots/misc/20x20_W_parking.lot");
+		
+//		int max = random.nextInt(500);
+//		for(int i = 0; i < max; i++) {
+//			Tile t = tiles[random.nextInt(width)][random.nextInt(height)];
+//			t.setFloor(10);
+//			if(random.nextInt(10) == 5) {
+//				t.setNorthWall(true);
+//			}
+//			if(random.nextInt(10) == 5) {
+//				t.setWestWall(true);
+//			}
+//			if(random.nextInt(10) == 3) {
+//				t.setProp(PropFactory.getProp(t.getPosition(), random.nextInt(3)));
+//			}
+//		}
+//		System.out.println("Map generated with: seed=" + seed + ",tiles changed=" + max);
+//		
+//		for(int i = 0; i < 4; i++) {
+//			tiles[i][0].setProp(PropFactory.getProp(new Position(i, 0), i));
+//		}
 		
 		return tiles;
 	}
@@ -151,18 +221,19 @@ public class WorldBuilder {
 		String[] data = tileData.split(",");
 		Tile tile = new Tile(new Position(x, y), Integer.parseInt(data[0]));
 
-		if(data.length > 1) {
-			int walls = Integer.parseInt(data[1]);
-			if(walls > 0 && walls % 2 == 1) {
-				tile.setWestWall(true);
-				walls--;
+		for(int i = 1; i < data.length; i++) {
+			if(data[i].substring(0,1).equals("p")) {
+				tile.setProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
+			}else{
+				int walls = Integer.parseInt(data[i]);
+				if(walls > 0 && walls % 2 == 1) {
+					tile.setWestWall(true);
+					walls--;
+				}
+				if(walls > 0 && walls % 2 == 0) {
+					tile.setNorthWall(true);
+				}
 			}
-			if(walls > 0 && walls % 2 == 0) {
-				tile.setNorthWall(true);
-			}
-		}
-		if(data.length > 2) {
-			//tile.setProp(PropFactory.parseProp(Integer.parseInt(data[2])));
 		}
 
 		return tile;
@@ -217,7 +288,10 @@ public class WorldBuilder {
 							temp += "1";
 						}
 					}
-					//TODO: props...
+					//Add prop number to file.
+					if(t.getProp() != null) {
+						temp += ",p" + t.getProp().getImageNbr();
+					}
 					
 					//End of tile
 					if(x != tiles.length - 1) {
