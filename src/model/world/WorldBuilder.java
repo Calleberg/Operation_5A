@@ -180,7 +180,7 @@ public class WorldBuilder {
 
 		for(int i = 1; i < data.length; i++) {
 			if(data[i].substring(0,1).equals("p")) {
-				tile.setProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
+				tile.addProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
 			}else{
 				int walls = Integer.parseInt(data[i]);
 				if(walls > 0 && walls % 2 == 1) {
@@ -246,8 +246,8 @@ public class WorldBuilder {
 						}
 					}
 					//Add prop number to file.
-					if(t.getProp() != null) {
-						temp += ",p" + t.getProp().getImageNbr();
+					for(int i = 0; 0 < t.getProps().size(); i++) {
+						temp += ",p" + t.getProps().get(i).getImageNbr();
 					}
 					
 					//End of tile

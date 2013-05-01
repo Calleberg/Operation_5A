@@ -18,7 +18,7 @@ import model.world.Tile;
 public class TileView {
 
 	private static BufferedImage[] floors = Resources.splitImages("floor.png", 10, 10);
-	private static BufferedImage[] props = Resources.splitImages("props.png", 10, 10);
+	private static BufferedImage[] props = Resources.splitImages("props.png", 10, 20);
 	private Tile t;
 	
 	/**
@@ -56,8 +56,8 @@ public class TileView {
 			int x = (int)(t.getX() * scale + offset.getX()); 
 			int y = (int)(t.getY() * scale + offset.getY());
 			g.drawImage(floors[t.getFloor()], x, y, scale, scale, null);
-			if(t.getProp() != null) {
-				g.drawImage(props[t.getProp().getImageNbr()], x, y, scale, scale, null);
+			for(int i = 0; i < t.getProps().size(); i++) {
+				g.drawImage(props[t.getProps().get(i).getImageNbr()], x, y, scale, scale, null);
 			}
 			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), new Color(255, 0, 0, 100), false, null);
 			

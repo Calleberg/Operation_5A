@@ -27,13 +27,17 @@ public class PropFactory {
 	 */
 	public static Prop getProp(Position pos, int propNbr) {
 		switch(propNbr) {
-		case 0:		return new Prop(new Rectangle(pos.getX(), pos.getY(), 1f, 1f), propNbr);
-		case 1:		return new Prop(new Rectangle(pos.getX(), pos.getY(), 0.5f, 0.5f), propNbr);
-		case 2:		return new Prop(new Rectangle(pos.getX() + 0.5f, pos.getY(), 0.5f, 1f), propNbr);
-		case 30: case 31: case 32: case 33: case 34: 
-			return new AnimatedProp(null, WATER);
+		case 0:		return new Prop(new Rectangle(pos.getX(), pos.getY(), 1f, 1f), propNbr); //test1
+		case 1:		return new Prop(new Rectangle(pos.getX(), pos.getY(), 0.5f, 0.5f), propNbr); //test2
+		case 2:		return new Prop(new Rectangle(pos.getX() + 0.5f, pos.getY(), 0.5f, 1f), propNbr); //test3
+		case 10: case 11: case 12: case 13: 
+		case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27:
+			return new Prop(null, propNbr); //water edges
+		case 30: case 31: case 32: case 33: case 34: 	
+			return new AnimatedProp(null, WATER); //animated water
 		case 40: case 41: case 42:
-			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_S);
+			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), 
+					TRAFFIC_LIGHT_S); //animated traffic light
 		default:	return null;
 		}
 	}

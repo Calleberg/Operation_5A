@@ -1,5 +1,8 @@
 package model.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.geometrical.CollisionBox;
 import model.geometrical.ComplexShape;
 import model.geometrical.Position;
@@ -18,7 +21,7 @@ public class Tile implements WorldObject {
 	private int floor;
 	private boolean northWall, westWall;
 	private Position position;
-	private Prop prop;
+	private List<Prop> props;
 	private ComplexShape box;
 	
 	/**
@@ -43,6 +46,7 @@ public class Tile implements WorldObject {
 		this.floor = floor;
 		this.northWall = northWall;
 		this.westWall = westWall;
+		this.props = new ArrayList<Prop>();
 	}
 	
 	/**
@@ -62,20 +66,27 @@ public class Tile implements WorldObject {
 	}
 	
 	/**
-	 * Sets the prop on this tile.
+	 * Adds a props to this tile.
 	 * @param prop the prop.
 	 */
-	public void setProp(Prop prop) {
-		this.prop = prop;
+	public void addProp(Prop prop) {
+		this.props.add(prop);	
 	}
 	
 	/**
-	 * Gives the prop on this tile.
-	 * @return the prop on this tile, if there isn't a prop on this tile <code>null</code>
-	 * will be returned.
+	 * Removes the specified prop from this tile.
+	 * @param prop the prop to remove.
 	 */
-	public Prop getProp() {
-		return this.prop;
+	public void removeProp(Prop prop) {
+		this.props.remove(prop);
+	}
+	
+	/**
+	 * Gives a list of all the props on this tile.
+	 * @return a list of all the props on this tile.
+	 */
+	public List<Prop> getProps() {
+		return this.props;
 	}
 	
 	/**
@@ -103,6 +114,14 @@ public class Tile implements WorldObject {
 	}
 	
 	/**
+	 * Gives <code>true</code> if the tile has at least one prop.
+	 * @return <code>true</code> if the tile has at least one prop.
+	 */
+	public boolean hasProps() {
+		return !(this.props.size() == 0);
+	}
+	
+	/**
 	 * Sets if this tile has an west wall.
 	 * @param westWall specify if this tile has an west wall.
 	 */
@@ -124,8 +143,8 @@ public class Tile implements WorldObject {
 			if(hasWestWall()) {
 				box.addShape(new Rectangle(getX(), getY(), 0.1f, 1f));
 			}
-			if(prop != null) {
-				box.addShape(prop.getCollisionBox());
+			for(int i = 0; i < this.props.size(); i++) {
+				box.addShape(props.get(i).getCollisionBox());
 			}
 		}
 		

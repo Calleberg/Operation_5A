@@ -26,7 +26,7 @@ public class Main {
 		window.validate();
 				
 		//Starts all the loops
-		controller.start();
 		panel.start();
+		controller.start();
 	}
 }

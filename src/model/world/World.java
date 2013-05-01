@@ -309,7 +309,7 @@ public class World {
 	private boolean canMoveUp(Position start) {
 		if(validPosition(start) && validPosition(new Position(start.getX(), start.getY() - 1))) {
 			return !(tiles[(int)start.getX()][(int)start.getY()].hasNorthWall() 
-					|| tiles[(int)start.getX()][(int)start.getY() - 1].getProp() != null);
+					|| tiles[(int)start.getX()][(int)start.getY() - 1].hasProps());
 		}else{
 			return true;
 		}
@@ -328,7 +328,7 @@ public class World {
 	private boolean canMoveLeft(Position start) {
 		if(validPosition(start) && validPosition(new Position(start.getX() - 1, start.getY()))) {
 			return !(tiles[(int)start.getX()][(int)start.getY()].hasWestWall() 
-					|| tiles[(int)start.getX() - 1][(int)start.getY()].getProp() != null);
+					|| tiles[(int)start.getX() - 1][(int)start.getY()].hasProps());
 		}else{
 			return true;
 		}
