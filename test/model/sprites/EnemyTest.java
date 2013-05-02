@@ -12,9 +12,9 @@ import org.junit.Test;
 public class EnemyTest {
 
 	@Test
-	public void move(){
+	public void move(){//TODO Error
 		Enemy e = new Enemy(new Position(1f,1f), 0.2f, null, 1);
-		
+		//TODO Doesn't work because of setDirectionTowardsList()
 		//TODO: setState when implemented in Enemy
 		
 		e.setDirection(0f);
@@ -45,7 +45,7 @@ public class EnemyTest {
 			(WeaponFactory.Type.FISTS, WeaponFactory.Level.RUSTY), 50);
 		Weapon w = e.getActiveWeapon();
 		
-		//TODO assertTrue(w.getName() == Rusty Fists);
+		assertTrue(w.toString().equals("Rusty Fists"));
 	}
 	
 	@Test
@@ -122,5 +122,29 @@ public class EnemyTest {
 		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
 		e.reduceHealth(10);
 		assertTrue(e.getHealth() == 40);
+	}
+	
+	@Test
+	public void getProjectileSpawn(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		
+		assertTrue(e.getProjectileSpawn().getX() == e.getCollisionBox().getPosition().getX());
+		assertTrue(e.getProjectileSpawn().getY() == e.getCollisionBox().getPosition().getY());
+	}
+	
+	@Test
+	public void getCenter(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		
+		float targetX = e.getX() + e.getCollisionBox().getWidth()/2;
+		float targetY = e.getY() + e.getCollisionBox().getHeight()/2; 
+		
+		assertTrue(e.getCenter().getX() == targetX && e.getCenter().getY() == targetY);
+		
+	}
+	
+	@Test
+	public void setDirectionTowardsList(){
+		//TODO, wait until complete in Enemy
 	}
 }
