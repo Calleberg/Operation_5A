@@ -118,6 +118,7 @@ public class World {
 	public void update() {
 		if(pathfinder == null && tiles != null){
 			pathfinder = new EnemyPathfinder(tiles);
+			System.out.println("testtt");
 		}
 //		System.out.println("playerpos x " + (int)sprites.get(0).getX() + "y " + (int)sprites.get(0).getY());
 //		System.out.println("enemypos x " + sprites.get(1).getX() + "y " + sprites.get(1).getY());
