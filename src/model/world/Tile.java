@@ -13,7 +13,7 @@ import model.world.props.Prop;
 /**
  * Holds the data of one tile in a world.
  * 
- * @author Calleberg
+ * @author Calleberg, Jonatan Magnusson
  *
  */
 public class Tile implements WorldObject {
@@ -23,6 +23,11 @@ public class Tile implements WorldObject {
 	private Position position;
 	private List<Prop> props;
 	private ComplexShape box;
+	private Property property;
+	
+	public static enum Property{
+		HEALTH_SPAWN, FOOD_SPAWN, AMMO_SPAWN, WEAPON_SPAWN, UNWALKABLE, NONE;
+	}
 	
 	/**
 	 * Creates a new tile with the specified floor.
@@ -30,7 +35,7 @@ public class Tile implements WorldObject {
 	 * @param floor the floor to use.
 	 */
 	public Tile(Position pos, int floor) {
-		this(pos, floor, false, false);
+		this(pos, floor, false, false, Property.NONE);
 	}
 	
 	/**
@@ -41,12 +46,13 @@ public class Tile implements WorldObject {
 	 * @param northWall specify if this tile has a north wall.
 	 * @param westWall specify if this tile has an west wall.
 	 */
-	public Tile(Position pos, int floor, boolean northWall, boolean westWall) {
+	public Tile(Position pos, int floor, boolean northWall, boolean westWall, Property property) {
 		this.position = pos;
 		this.floor = floor;
 		this.northWall = northWall;
 		this.westWall = westWall;
 		this.props = new ArrayList<Prop>();
+		this.property = property;
 	}
 	
 	/**
@@ -155,6 +161,22 @@ public class Tile implements WorldObject {
 		}
 	}
 
+	/**
+	 * Sets the property of the Tile to the property given
+	 * @param property the property given
+	 */
+	public void setProperty(Tile.Property property){
+		this.property = property;
+	}
+	
+	/**
+	 * returns the property of the Tile
+	 * @return the property of the Tile
+	 */
+	public Property getProperty(){
+		return this.property;
+	}
+	
 	@Override
 	public void setX(float x) {
 		this.position.setX(x);
