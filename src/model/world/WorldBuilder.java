@@ -200,6 +200,8 @@ public class WorldBuilder {
 		for(int i = 1; i < data.length; i++) {
 			if(data[i].substring(0,1).equals("p")) {
 				tile.addProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
+			}else if(data[i].substring(0,1).equals("s")) {
+//				tile.setProperty()
 			}else{
 				int walls = Integer.parseInt(data[i]);
 				if(walls > 0 && walls % 2 == 1) {

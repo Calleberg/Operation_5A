@@ -23,11 +23,32 @@ public class Tile implements WorldObject {
 	private Position position;
 	private List<Prop> props;
 	private ComplexShape box;
-	private Property property;
+	private int property;
 	
-	public static enum Property{
-		HEALTH_SPAWN, FOOD_SPAWN, AMMO_SPAWN, WEAPON_SPAWN, UNWALKABLE, NONE;
-	}
+	/**
+	 * Specifies that the tile does not have any special property.
+	 */
+	public static final int NONE = 0;
+	/**
+	 * Specifies that the tile is a health spawn point.
+	 */
+	public static final int HEALTH_SPAWN = 1;
+	/**
+	 * Specifies that the tile is a food spawn point.
+	 */
+	public static final int FOOD_SPAWN = 2;
+	/**
+	 * Specifies that the tile is a ammo spawn point.
+	 */
+	public static final int AMMO_SPAWN = 3;
+	/**
+	 * Specifies that the tile is a weapon spawn point.
+	 */
+	public static final int WEAPON_SPAWN = 4;
+	/**
+	 * Specifies that the tile can not be walked on.
+	 */
+	public static final int UNWALKABLE = 5;
 	
 	/**
 	 * Creates a new tile with the specified floor.
@@ -35,7 +56,7 @@ public class Tile implements WorldObject {
 	 * @param floor the floor to use.
 	 */
 	public Tile(Position pos, int floor) {
-		this(pos, floor, false, false, Property.NONE);
+		this(pos, floor, false, false, NONE);
 	}
 	
 	/**
@@ -45,8 +66,9 @@ public class Tile implements WorldObject {
 	 * @param floor the floor to use.
 	 * @param northWall specify if this tile has a north wall.
 	 * @param westWall specify if this tile has an west wall.
+	 * @param property the special property of this tile.
 	 */
-	public Tile(Position pos, int floor, boolean northWall, boolean westWall, Property property) {
+	public Tile(Position pos, int floor, boolean northWall, boolean westWall, int property) {
 		this.position = pos;
 		this.floor = floor;
 		this.northWall = northWall;
@@ -165,7 +187,7 @@ public class Tile implements WorldObject {
 	 * Sets the property of the Tile to the property given
 	 * @param property the property given
 	 */
-	public void setProperty(Tile.Property property){
+	public void setProperty(int property){
 		this.property = property;
 	}
 	
@@ -173,7 +195,7 @@ public class Tile implements WorldObject {
 	 * returns the property of the Tile
 	 * @return the property of the Tile
 	 */
-	public Property getProperty(){
+	public int getProperty(){
 		return this.property;
 	}
 	
