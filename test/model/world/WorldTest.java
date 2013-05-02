@@ -76,6 +76,12 @@ public class WorldTest {
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,1))); 
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,2)));
 		
+		for(int i = 0; i < sprites.size(); i++){
+			w.addSprite(sprites.get(i));
+		}
+		
+		assertTrue(w.getSprites().size() == 2);
+
 		w.removeSprites(sprites);
 		
 		assertTrue(w.getSprites().size() == 0);
@@ -121,6 +127,12 @@ public class WorldTest {
 		List<Projectile> projectiles = new ArrayList<Projectile>();
 		projectiles.add(new Projectile(1,1,1,1, new Position(1,1)));
 		projectiles.add(new Projectile(1,1,1,1, new Position(1,2)));
+		
+		for(int i = 0; i < projectiles.size(); i++){
+			w.addProjectile(projectiles.get(i));
+		}
+		
+		assertTrue(w.getProjectiles().size() == 2);
 		
 		w.removeProjectiles(projectiles);
 		

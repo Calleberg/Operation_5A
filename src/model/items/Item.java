@@ -8,7 +8,7 @@ public class Item implements WorldObject{
 	private Position pos;
 	private final int iconNumber;
 	
-	protected Item(Position position, int iconNumber) {
+	public Item(Position position, int iconNumber) {
 		this.pos=position;
 		this.iconNumber=iconNumber;
 	}
