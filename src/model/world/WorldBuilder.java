@@ -37,6 +37,9 @@ public class WorldBuilder {
 			{0,1,1,1,2,2,2,2,2,0},
 			{0,0,0,0,0,0,0,0,0,0},
 	};
+	private static final int WATER = 0;
+	private static final int LAND = 1;
+	private static final int ROAD = 2;
 	
 	/**
 	 * Creates a new default world builder.
@@ -94,22 +97,41 @@ public class WorldBuilder {
 			}
 		}
 		
+		this.addTiles(tiles, 50, 50, "shoreline/10x10_shore_EW.lot");
+		
+		//Adds the right road part to the world.
 		for(int x = 0; x < mapTest.length; x++) {
 			for(int y = 0; y < mapTest[0].length; y++) {
-				if(mapTest[x][y] == 0) {
+				if(mapTest[x][y] == WATER) {
 					this.addTiles(tiles, x*10, y*10, "lots/water.lot");
-				}else if(mapTest[x][y] == 2) {
-					StringBuilder sb = new StringBuilder("road/10x10_road_");
-					if(mapTest[x][y-1] == 2) {
+				}else if(mapTest[x][y] == LAND) {
+					StringBuilder sb = new StringBuilder("shoreline/10x10_shore_");
+					if(mapTest[x][y-1] == WATER) {
 						sb.append('N');
 					}
-					if(mapTest[x+1][y] == 2) {
+					if(mapTest[x+1][y] == WATER) {
 						sb.append('E');
 					}
-					if(mapTest[x][y+1] == 2) {
+					if(mapTest[x][y+1] == WATER) {
 						sb.append('S');
 					}
-					if(mapTest[x-1][y] == 2) {
+					if(mapTest[x-1][y] == WATER) {
+						sb.append('W');
+					}
+					sb.append(".lot");
+					this.addTiles(tiles, x*10, y*10, sb.toString());
+				}else if(mapTest[x][y] == ROAD) {
+					StringBuilder sb = new StringBuilder("road/10x10_road_");
+					if(mapTest[x][y-1] == ROAD) {
+						sb.append('N');
+					}
+					if(mapTest[x+1][y] == ROAD) {
+						sb.append('E');
+					}
+					if(mapTest[x][y+1] == ROAD) {
+						sb.append('S');
+					}
+					if(mapTest[x-1][y] == ROAD) {
 						sb.append('W');
 					}
 					sb.append(".lot");
@@ -117,10 +139,7 @@ public class WorldBuilder {
 				}
 			}
 		}
-		
-		//TODO: ta bort.
-		this.addTiles(tiles, 50, 30, "lots/misc/10x10_testplace.lot");
-		
+				
 		return tiles;
 	}
 	
@@ -246,7 +265,7 @@ public class WorldBuilder {
 						}
 					}
 					//Add prop number to file.
-					for(int i = 0; 0 < t.getProps().size(); i++) {
+					for(int i = 0; i < t.getProps().size(); i++) {
 						temp += ",p" + t.getProps().get(i).getImageNbr();
 					}
 					
