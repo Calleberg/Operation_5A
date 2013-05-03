@@ -116,28 +116,18 @@ public class World {
 	 * Updates the world.
 	 */
 	public void update() {
-		if(pathfinder == null && tiles != null){
-			pathfinder = new EnemyPathfinder(tiles);
-			System.out.println("testtt");
-		}
-//		System.out.println("playerpos x " + (int)sprites.get(0).getX() + "y " + (int)sprites.get(0).getY());
-//		System.out.println("enemypos x " + sprites.get(1).getX() + "y " + sprites.get(1).getY());
-//		List<PathfindingNode> list = pathfinder.findWay(tiles[(int)sprites.get(1).getX()][(int)sprites.get(1).getY()], 
-//				tiles[(int)sprites.get(0).getX()][(int)sprites.get(0).getY()], tiles);
-//		List<PathfindingNode> list = pathfinder.findWay(tiles[55][55], 
-//				tiles[(int)sprites.get(0).getX()][(int)sprites.get(0).getY()], tiles);
-//		System.out.println((int)sprites.get(1).getX() + " " + (int)sprites.get(1).getY());
-//		List<PathfindingNode> list = pathfinder.findWay(tiles[(int)sprites.get(1).getX()][(int)sprites.get(1).getY()], 
-//				tiles[52][52], tiles);
-//		List<PathfindingNode> list = pathfinder.findWay(tiles[55][55], tiles[50][58], tiles);
-		for(Sprite s : sprites){
-			if(s instanceof Enemy){
-				List<PathfindingNode> list = pathfinder.findWay(tiles[(int)s.getX()][(int)s.getY()], 
-						tiles[(int)sprites.get(0).getX()][(int)sprites.get(0).getY()], tiles);
-				Enemy e = (Enemy) s;
-				e.testPathfinding(list);
-			}
-		}
+//		if(pathfinder == null && tiles != null){
+//			pathfinder = new EnemyPathfinder(tiles);
+//			System.out.println("testtt");
+//		}
+//		for(Sprite s : sprites){
+//			if(s instanceof Enemy){
+//				List<PathfindingNode> list = pathfinder.findWay(tiles[(int)s.getX()][(int)s.getY()], 
+//						tiles[(int)sprites.get(0).getX()][(int)sprites.get(0).getY()], tiles);
+//				Enemy e = (Enemy) s;
+//				e.testPathfinding(list);
+//			}
+//		}
 		
 		//Updates all the sprites
 		for(int i = 0; i < sprites.size(); i++) {
