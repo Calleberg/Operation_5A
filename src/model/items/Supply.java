@@ -42,7 +42,7 @@ public class Supply extends Item {
 	 * @param type the type the Supply is
 	 * @param position
 	 */
-	public Supply(int amount, Type type){
+	protected Supply(int amount, Type type){
 		super(null, type.getIconNumber());
 		this.amount=amount;
 		this.type=type;

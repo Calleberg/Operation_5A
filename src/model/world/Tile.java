@@ -13,7 +13,7 @@ import model.world.props.Prop;
 /**
  * Holds the data of one tile in a world.
  * 
- * @author Calleberg
+ * @author Calleberg, Jonatan Magnusson
  *
  */
 public class Tile implements WorldObject {
@@ -23,6 +23,32 @@ public class Tile implements WorldObject {
 	private Position position;
 	private List<Prop> props;
 	private ComplexShape box;
+	private int property;
+	
+	/**
+	 * Specifies that the tile does not have any special property.
+	 */
+	public static final int NONE = 0;
+	/**
+	 * Specifies that the tile is a health spawn point.
+	 */
+	public static final int HEALTH_SPAWN = 1;
+	/**
+	 * Specifies that the tile is a food spawn point.
+	 */
+	public static final int FOOD_SPAWN = 2;
+	/**
+	 * Specifies that the tile is a ammo spawn point.
+	 */
+	public static final int AMMO_SPAWN = 3;
+	/**
+	 * Specifies that the tile is a weapon spawn point.
+	 */
+	public static final int WEAPON_SPAWN = 4;
+	/**
+	 * Specifies that the tile can not be walked on.
+	 */
+	public static final int UNWALKABLE = 5;
 	
 	/**
 	 * Creates a new tile with the specified floor.
@@ -30,7 +56,7 @@ public class Tile implements WorldObject {
 	 * @param floor the floor to use.
 	 */
 	public Tile(Position pos, int floor) {
-		this(pos, floor, false, false);
+		this(pos, floor, false, false, NONE);
 	}
 	
 	/**
@@ -40,13 +66,15 @@ public class Tile implements WorldObject {
 	 * @param floor the floor to use.
 	 * @param northWall specify if this tile has a north wall.
 	 * @param westWall specify if this tile has an west wall.
+	 * @param property the special property of this tile.
 	 */
-	public Tile(Position pos, int floor, boolean northWall, boolean westWall) {
+	public Tile(Position pos, int floor, boolean northWall, boolean westWall, int property) {
 		this.position = pos;
 		this.floor = floor;
 		this.northWall = northWall;
 		this.westWall = westWall;
 		this.props = new ArrayList<Prop>();
+		this.property = property;
 	}
 	
 	/**
@@ -155,6 +183,22 @@ public class Tile implements WorldObject {
 		}
 	}
 
+	/**
+	 * Sets the property of the Tile to the property given
+	 * @param property the property given
+	 */
+	public void setProperty(int property){
+		this.property = property;
+	}
+	
+	/**
+	 * returns the property of the Tile
+	 * @return the property of the Tile
+	 */
+	public int getProperty(){
+		return this.property;
+	}
+	
 	@Override
 	public void setX(float x) {
 		this.position.setX(x);

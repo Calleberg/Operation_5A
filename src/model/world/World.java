@@ -201,6 +201,7 @@ public class World {
 	 */
 	private Tile[] getTileAround(Position pos) {
 		Tile[] tilesToCheck = new Tile[9];
+		//TODO: använda loopar istället
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
 		tilesToCheck[0] = ((validPosition(new Position(x, y))) ? tiles[x][y] : null);

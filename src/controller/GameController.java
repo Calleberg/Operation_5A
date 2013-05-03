@@ -40,7 +40,6 @@ public class GameController extends Thread {
 		
 		model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (55, 55)));
 		model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (45, 45)));
-		this.start();
 		
 	}
 	

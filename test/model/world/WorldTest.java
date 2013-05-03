@@ -76,6 +76,12 @@ public class WorldTest {
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,1))); 
 		sprites.add(EnemyFactory.createEasyEnemy(new Position(1,2)));
 		
+		for(int i = 0; i < sprites.size(); i++){
+			w.addSprite(sprites.get(i));
+		}
+		
+		assertTrue(w.getSprites().size() == 2);
+
 		w.removeSprites(sprites);
 		
 		assertTrue(w.getSprites().size() == 0);
@@ -122,6 +128,12 @@ public class WorldTest {
 		projectiles.add(new Projectile(1,1,1,1, new Position(1,1)));
 		projectiles.add(new Projectile(1,1,1,1, new Position(1,2)));
 		
+		for(int i = 0; i < projectiles.size(); i++){
+			w.addProjectile(projectiles.get(i));
+		}
+		
+		assertTrue(w.getProjectiles().size() == 2);
+		
 		w.removeProjectiles(projectiles);
 		
 		assertTrue(w.getProjectiles().size() == 0);
@@ -139,6 +151,44 @@ public class WorldTest {
 		
 		assertTrue(w.getProjectiles().size() == 2 && w.getProjectiles().contains(p1)
 			&& w.getProjectiles().contains(p2));
+	}
+	
+	@Test
+	public void canMove() {
+		Tile[][] tiles = WorldBuilder.getEmptyWorld(10, 10);
+		tiles[1][1].setNorthWall(true);
+		tiles[2][1].setNorthWall(true);
+		
+		tiles[1][1].setWestWall(true);
+		tiles[1][2].setWestWall(true);
+		
+		tiles[1][3].setNorthWall(true);
+		tiles[2][3].setNorthWall(true);
+		
+		tiles[3][1].setWestWall(true);
+		tiles[3][2].setWestWall(true);
+		
+		World w = new World(tiles);
+		
+		assertFalse(w.canMove(new Position(0,1), new Position(1,0))); //walk NE
+		assertFalse(w.canMove(new Position(1,0), new Position(0,1))); //walk SW
+		
+		assertFalse(w.canMove(new Position(2,3), new Position(3,2))); //walk NE
+		assertFalse(w.canMove(new Position(3,2), new Position(2,3))); //walk SW
+		
+		assertFalse(w.canMove(new Position(2,3), new Position(2,2))); //walk through north wall
+		assertFalse(w.canMove(new Position(2,2), new Position(2,3))); //walk through south wall
+		
+		assertFalse(w.canMove(new Position(3,2), new Position(2,2))); //walk through west wall
+		assertFalse(w.canMove(new Position(2,2), new Position(3,2))); //walk through east wall
+		
+		assertTrue(w.canMove(new Position(0,1), new Position(0,2)));
+		assertTrue(w.canMove(new Position(0,2), new Position(0,1)));
+		
+		assertTrue(w.canMove(new Position(1,0), new Position(2,0)));
+		assertTrue(w.canMove(new Position(2,0), new Position(1,0)));
+		
+		assertTrue(w.canMove(new Position(5,5), new Position(5,6)));
 	}
 	
 	@Test

@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 import model.geometrical.Position;
@@ -37,6 +39,17 @@ public class WorldBuilder {
 			{0,1,1,1,2,2,2,2,2,0},
 			{0,0,0,0,0,0,0,0,0,0},
 	};
+	private static final int WATER = 0;
+	private static final int LAND = 1;
+	private static final int ROAD = 2;
+	
+	private static final String PROP_PREFIX = "p";
+	private static final String PROPERTY_PREFIX = "s";
+	
+	/*Path to all the shoreline files*/
+	private final String shoreBase = "shoreline/10x10_shore_";
+	
+	private List<Tile> spawnPoints;
 	
 	/**
 	 * Creates a new default world builder.
@@ -51,7 +64,7 @@ public class WorldBuilder {
 	 */
 	public WorldBuilder(long seed) {
 		this.seed = seed;
-		random = new Random(seed);
+		this.random = new Random(seed);
 	}
 	
 	/**
@@ -87,6 +100,10 @@ public class WorldBuilder {
 	public Tile[][] getNewWorld(int width, int height) {
 		//TODO: fixa så att det skapas en riktig värld.
 		
+		//Resets the spawn points.
+		this.spawnPoints = new ArrayList<Tile>();
+		
+		//Create grass everywhere.
 		Tile[][] tiles = new Tile[width][height];
 		for(int x = 0; x < tiles.length; x++) {
 			for(int y = 0; y < tiles[0].length; y++) {
@@ -94,22 +111,48 @@ public class WorldBuilder {
 			}
 		}
 		
+		this.addTiles(tiles, 50, 50, "shoreline/10x10_shore_EW.lot");
+		
+		//Loops through every tileset and adds the right tiles.
 		for(int x = 0; x < mapTest.length; x++) {
 			for(int y = 0; y < mapTest[0].length; y++) {
-				if(mapTest[x][y] == 0) {
+				//Adds water.
+				if(mapTest[x][y] == WATER) {
 					this.addTiles(tiles, x*10, y*10, "lots/water.lot");
-				}else if(mapTest[x][y] == 2) {
-					StringBuilder sb = new StringBuilder("road/10x10_road_");
-					if(mapTest[x][y-1] == 2) {
+				}
+				//Adds shorelines.
+				else if(mapTest[x][y] == LAND) {
+					StringBuilder sb = new StringBuilder();
+					if(mapTest[x][y-1] == WATER) {
 						sb.append('N');
 					}
-					if(mapTest[x+1][y] == 2) {
+					if(mapTest[x+1][y] == WATER) {
 						sb.append('E');
 					}
-					if(mapTest[x][y+1] == 2) {
+					if(mapTest[x][y+1] == WATER) {
 						sb.append('S');
 					}
-					if(mapTest[x-1][y] == 2) {
+					if(mapTest[x-1][y] == WATER) {
+						sb.append('W');
+					}
+					if(sb.toString().length() != 0) {
+						sb.append(".lot");
+						this.addTiles(tiles, x*10, y*10, shoreBase + sb.toString());
+					}
+				}
+				//Adds the right road part to the world.
+				else if(mapTest[x][y] == ROAD) {
+					StringBuilder sb = new StringBuilder("road/10x10_road_");
+					if(mapTest[x][y-1] == ROAD) {
+						sb.append('N');
+					}
+					if(mapTest[x+1][y] == ROAD) {
+						sb.append('E');
+					}
+					if(mapTest[x][y+1] == ROAD) {
+						sb.append('S');
+					}
+					if(mapTest[x-1][y] == ROAD) {
 						sb.append('W');
 					}
 					sb.append(".lot");
@@ -117,11 +160,17 @@ public class WorldBuilder {
 				}
 			}
 		}
-		
-		//TODO: ta bort.
 		this.addTiles(tiles, 50, 30, "lots/misc/10x10_testplace.lot");
-		
+				
 		return tiles;
+	}
+	
+	/**
+	 * Gives a list of all the spawn points in the last built world.
+	 * @return a list of all the spawn points in the last built world.
+	 */
+	public List<Tile> getSpawnPoints() {
+		return this.spawnPoints;
 	}
 	
 	/**
@@ -179,8 +228,14 @@ public class WorldBuilder {
 		Tile tile = new Tile(new Position(x, y), Integer.parseInt(data[0]));
 
 		for(int i = 1; i < data.length; i++) {
-			if(data[i].substring(0,1).equals("p")) {
+			if(data[i].substring(0,1).equals(PROP_PREFIX)) {
 				tile.addProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
+			}else if(data[i].substring(0,1).equals(PROPERTY_PREFIX)) {
+				int property = Integer.parseInt(data[i].substring(1));
+				if(property != Tile.NONE && property != Tile.UNWALKABLE) {
+					tile.setProperty(property);
+					this.spawnPoints.add(tile);
+				}
 			}else{
 				int walls = Integer.parseInt(data[i]);
 				if(walls > 0 && walls % 2 == 1) {
@@ -246,8 +301,13 @@ public class WorldBuilder {
 						}
 					}
 					//Add prop number to file.
-					for(int i = 0; 0 < t.getProps().size(); i++) {
-						temp += ",p" + t.getProps().get(i).getImageNbr();
+					for(int i = 0; i < t.getProps().size(); i++) {
+						temp += "," + PROP_PREFIX + t.getProps().get(i).getImageNbr();
+					}
+					
+					//Add the property number.
+					if(t.getProperty() != Tile.NONE) {
+						temp += "," + PROPERTY_PREFIX + t.getProperty();
 					}
 					
 					//End of tile
