@@ -29,8 +29,9 @@ public class World {
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private EnemyPathfinder pathfinder;
-	private List<Tile> spawnPoints = wb.getSpawnPoints();
+	private List<Tile> spawnPoints;
 	private List<Supply> supplies = new ArrayList<Supply>();
+	private int tick = 0;
 	
 
 	/**
@@ -200,7 +201,14 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 		
 		//Spawn supplies
-		//TODO
+		spawnPoints = wb.getSpawnPoints();
+		tick++;
+		if(tick == 600){
+			int rnd = (int)Math.random()*spawnPoints.size();
+			Tile t = spawnPoints.get(rnd);
+			this.spawnSupplies(t);
+			tick = 0;
+		}
 	}
 	
 	/*
@@ -365,16 +373,32 @@ public class World {
 	public int getHeight() {
 		return this.tiles[0].length;
 	}
-	
+	/**
+	 * adds a supply to a given tile
+	 * @param t the tile given
+	 */
 	public void spawnSupplies(Tile t){
-		int supply = t.getProperty();
-		if(supply == 1){//Create a food
+		int supplyProperty = t.getProperty();
+		if(supplyProperty == 1){//Create a food
 			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
-		}else if(supply == 2){//create an ammo
+			System.out.println("food spawned");
+		}else if(supplyProperty == 2){//create an ammo
 			this.supplies.add(SupplyFactory.createRandomAmmo(t.getPosition()));
-		}else if(supply == 3){//create a Health
+			System.out.println("ammo spawned");
+		}else if(supplyProperty == 3){//create a Health
 			this.supplies.add(SupplyFactory.createRandomHealth(t.getPosition()));
+			System.out.println("health spawned");
+		}else if(supplyProperty == 4){//create a weapon
+			//TODO implement weapon as a supply
+			System.out.println("Weapon supposed to spawn");
 		}
-		
+	}
+	
+	/**
+	 * returns all supplies currently in the world
+	 * @return all the supplies in the world
+	 */
+	public List<Supply> getSupplies(){
+		return this.supplies;
 	}
 }
