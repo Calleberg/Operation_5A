@@ -125,7 +125,7 @@ public class GameModel {
 		for(Sprite s : world.getSprites()){
 			if(s instanceof Enemy){
 				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
-						world.getTiles()[(int)player.getX()][(int)player.getY()], world.getTiles());
+						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
 				Enemy e = (Enemy) s;
 				e.setWay(list);
 			}
