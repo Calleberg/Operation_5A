@@ -38,15 +38,15 @@ public class EnemyPathfinder {
 		
 		
 		while(((currentNode.getTile().getX() != this.goal.getTile().getX() ||
-				currentNode.getTile().getY() != this.goal.getTile().getY())) && !noWayFound && 
+				currentNode.getTile().getY() != this.goal.getTile().getY())) && !noWayFound /*&& 
 				!(world.canMove(currentNode.getTile().getPosition(), 
-						this.goal.getTile().getPosition()))){
+						this.goal.getTile().getPosition()))*/){
 			findWay(t);
 		}
 		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
-		correctList.add(currentNode);
-		this.goal.setParentNode(currentNode);
-		currentNode = this.goal;
+//		correctList.add(currentNode);
+//		this.goal.setParentNode(currentNode);
+//		currentNode = this.goal;
 		System.out.println(noWayFound);
 		correctList.add(currentNode);
 		while(currentNode.getParentNode() != null){
