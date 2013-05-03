@@ -28,8 +28,8 @@ public class GameModel {
 	private final World world;
 	private Player player;
 	private EnemyPathfinder pathfinder;
-	int tick = 300;
-	int max = 300;
+	int tick = 30;
+	int max = 30;
 	
 	/**
 	 * The message sent when a new sprite is added.

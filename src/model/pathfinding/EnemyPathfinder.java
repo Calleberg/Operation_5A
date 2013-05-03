@@ -35,11 +35,6 @@ public class EnemyPathfinder {
 		currentNode = openTileList.get(0);
 		currentNode.setParentNode(null);
 		
-		System.out.print("current x " + currentNode.getTile().getX());
-		System.out.print("current y " + currentNode.getTile().getY());
-		System.out.print("goal x " + this.goal.getTile().getX());
-		System.out.print("goal y " + this.goal.getTile().getY());
-		
 		while(currentNode.getTile().getX() != this.goal.getTile().getX() ||
 				currentNode.getTile().getY() != this.goal.getTile().getY()){
 			findWay(t);
@@ -57,24 +52,16 @@ public class EnemyPathfinder {
 			currentNode = currentNode.getParentNode();
 		}
 		
-		List<PathfindingNode> correctList2 = new ArrayList<PathfindingNode>();
+		List<PathfindingNode> correctListInverted = new ArrayList<PathfindingNode>();
 		for(int i = correctList.size()-1; i>-1; i--){
-			correctList2.add(correctList.get(i));
+			correctListInverted.add(correctList.get(i));
 		}
-		System.out.println(correctList.size());
-		for(PathfindingNode n : correctList2){
-			System.out.println("x " + n.getTile().getX() + " y " + n.getTile().getY() + " goal " + n.getDistanceToGoal());
-		}
-		System.out.println("antal varv " + test);
-		return correctList2;
-//		return closedTileList;
+		return correctListInverted;
 	}
 	private void findWay(Tile t){
-		test++;
 		PathfindingNode lowF = openTileList.get(0);
 		for(PathfindingNode node : openTileList){
 			if(currentNode != null){
-//				node.setDistanceFromParent(getDistance(node.getTile(), currentNode.getTile()));
 				node.setDistanceToGoal(getDistance(node.getTile(), goal.getTile()));
 			}
 			if(node.getPathfindingDistance() < lowF.getPathfindingDistance() && 
@@ -82,31 +69,18 @@ public class EnemyPathfinder {
 				lowF = node;
 			}
 		}
-		System.out.println("pathfindingdistance " + lowF.getPathfindingDistance());
-		System.out.println("pathfinding goal " + lowF.getDistanceToGoal());
-		System.out.println("pathfinding start " + lowF.getDistanceFromStart());
-//		lowF.setParentNode(currentNode);
-//		if(lowF.getParentNode() != currentNode){
-//			int index = closedTileList.indexOf(lowF.getParentNode());
-//			index = index + 1;
-//		}
+		
 		currentNode = lowF;
-		System.out.println("currentnode " + currentNode.getTile().getX() + " y " + currentNode.getTile().getY());
-//		System.out.println("openlist size " + openTileList.size());
 		closedTileList.add(currentNode);
 		openTileList.remove(lowF);
-		//ändra väg om inlurad i hörn
 		openTileList.addAll(surroundingTiles(currentNode));
 	}
 	private List<PathfindingNode> surroundingTiles(PathfindingNode t){
 		List<PathfindingNode> surroundingTiles = new ArrayList<PathfindingNode>();
 		for(float x = currentNode.getTile().getX() - 1; x < currentNode.getTile().getX() + 2; x++){
 			for(float y = currentNode.getTile().getY() - 1; y < currentNode.getTile().getY() + 2; y++){
-//				System.out.println("openlist possible" + x + " y " + y);
-				//TODO if blocked aswell
 				if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 
-						world.canMove(currentNode.getTile().getPosition(), nodes[(int)x][(int)y].getTile().getPosition())){//&& walkable?
-//					System.out.println("openlist possible2" + x + " y " + y);
+						world.canMove(currentNode.getTile().getPosition(), nodes[(int)x][(int)y].getTile().getPosition())){
 					if((openTileList.contains(nodes[(int)x][(int)y]))){
 						if(world.canMove(currentNode.getTile().getPosition(), nodes[(int)x][(int)y].getTile().getPosition())
 								&& currentNode.getDistanceFromStart()+
@@ -115,7 +89,6 @@ public class EnemyPathfinder {
 							nodes[(int)x][(int)y].setDistanceFromParent(getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()));
 						}
 					}else{
-//						System.out.println("openlist add" + x + " y " + y);
 						nodes[(int)x][(int)y].setParentNode(currentNode);
 						openTileList.add(nodes[(int)x][(int)y]);
 					}
