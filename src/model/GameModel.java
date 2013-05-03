@@ -3,9 +3,14 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import model.items.weapons.WeaponFactory;
+import model.sprites.Enemy;
+import model.sprites.EnemyPathfinder;
+import model.sprites.PathfindingNode;
 import model.sprites.Player;
+import model.sprites.Sprite;
 import model.world.World;
 import model.world.WorldBuilder;
 
@@ -22,6 +27,9 @@ public class GameModel {
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private final World world;
 	private Player player;
+	private EnemyPathfinder pathfinder;
+	int tick = 300;
+	int max = 300;
 	
 	/**
 	 * The message sent when a new sprite is added.
@@ -47,6 +55,7 @@ public class GameModel {
 		world = new World();
 		WorldBuilder wb = new WorldBuilder();
 		world.setTiles(wb.getNewWorld(500, 500));
+		pathfinder = new EnemyPathfinder(world);
 	}
 	
 	/**
@@ -97,6 +106,11 @@ public class GameModel {
 	 * Updates the model.
 	 */
 	public void update() {
+		if(tick >= max){
+			this.pathfindingUpdate();
+			tick = 0;
+		}
+		tick++;
 		world.update();
 	}
 	
@@ -106,5 +120,15 @@ public class GameModel {
 	public void playerShoot(){
 		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn()));
+	}
+	private void pathfindingUpdate(){
+		for(Sprite s : world.getSprites()){
+			if(s instanceof Enemy){
+				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
+						world.getTiles()[(int)player.getX()][(int)player.getY()], world.getTiles());
+				Enemy e = (Enemy) s;
+				e.setWay(list);
+			}
+		}
 	}
 }

@@ -7,8 +7,6 @@ public class PathfindingNode {
 	private PathfindingNode parentNode;
 	private float distanceFromStart;
 	private float distanceToGoal;
-	private int x;
-	private int y;
 	
 	public PathfindingNode(Tile t, /*float distanceToGoal,*/ float distanceFromParent){
 		this.tile = t;
@@ -18,6 +16,11 @@ public class PathfindingNode {
 	}
 	public void setParentNode(PathfindingNode n){
 		this.parentNode = n;
+		if(parentNode != null){
+			this.distanceFromStart = getDistance(n.getTile(), tile) + n.getDistanceFromStart();
+		}else{
+			distanceFromStart = 0;
+		}
 	}
 	
 	public PathfindingNode getParentNode(){
@@ -33,29 +36,34 @@ public class PathfindingNode {
 	public float getPathfindingDistance(){
 		return distanceFromStart+distanceToGoal;
 	}
-	public void calculateG(){
-		distanceFromStart = calculateG(this);
-	}
-	private float calculateG(PathfindingNode node){
-		float g = 0f;
-		PathfindingNode tmpParent = node.getParentNode();
-		while(tmpParent != null){
-//			System.out.println("calculateG " + node.getParentNode().getTile().getX());
-			g = g + calculateG(node.getParentNode());
-		}
-//		return g;
-		return 0f;
-	}
+//	public void calculateG(){
+//		distanceFromStart = calculateG(this);
+//	}
+//	private float calculateG(PathfindingNode node){
+//		float g = 0f;
+//		PathfindingNode tmpParent = node.getParentNode();
+//		while(tmpParent != null){
+////			System.out.println("calculateG " + node.getParentNode().getTile().getX());
+//			g = g + calculateG(node.getParentNode());
+//		}
+////		return g;
+//		return 0f;
+//	}
 	
 	public float getDistanceToGoal(){
 		return distanceToGoal;
 	}
 	public void setDistanceFromParent(float d){
-		if(this.getParentNode() != null){
-			distanceFromStart = d + this.getParentNode().getDistanceFromStart();
-		}
+//		if(this.getParentNode() != null){
+//			distanceFromStart = d + this.getParentNode().getDistanceFromStart();
+//		}
 	}
 	public float getDistanceFromStart(){
 		return distanceFromStart;
+	}
+	private float getDistance(Tile t1, Tile t2){
+		float dx = Math.abs(t1.getX() - t2.getX());
+		float dy = Math.abs(t1.getY() - t2.getY());
+		return (float)Math.sqrt(dx*dx+dy*dy);
 	}
 }
