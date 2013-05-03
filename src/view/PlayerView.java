@@ -3,9 +3,18 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+
+import controller.IO.Resources;
 
 import model.geometrical.Position;
 import model.sprites.Player;
+import model.sprites.Sprite;
+import model.sprites.Sprite.State;
 
 /**
  * A class which renders a player.
@@ -16,6 +25,10 @@ import model.sprites.Player;
 public class PlayerView implements ObjectRenderer<Player> {
 
 	private Player p;
+	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 2);
+	
+	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4}, 100, true);
+	private int standImage = 5;
 	
 	/**
 	 * Creates a new player view with the specified player to render.
@@ -47,25 +60,42 @@ public class PlayerView implements ObjectRenderer<Player> {
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
 			
-			//Draws the legs
-			g2d.setColor(Color.BLACK);
-			g2d.rotate(-p.getMoveDir(), rX, rY);
-			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
-					(int)(p.getCollisionBox().getHeight() * scale));
-			g2d.setColor(new Color(255, 0, 0, 100));
-			g2d.fillRect(x + (int)(p.getCollisionBox().getWidth()*9/10 * scale), y, (int)(p.getCollisionBox().getWidth()/10 * scale), 
-					(int)(p.getCollisionBox().getHeight() * scale));
-			g2d.rotate(p.getMoveDir(), rX, rY);
+//			Draws the legs
+//			g2d.setColor(Color.BLACK);
+//			g2d.rotate(-p.getMoveDir(), rX, rY);
+//			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
+//					(int)(p.getCollisionBox().getHeight() * scale));
+//			g2d.setColor(new Color(255, 0, 0, 100));
+//			g2d.fillRect(x + (int)(p.getCollisionBox().getWidth()*9/10 * scale), y, (int)(p.getCollisionBox().getWidth()/10 * scale), 
+//					(int)(p.getCollisionBox().getHeight() * scale));
+//			g2d.rotate(p.getMoveDir(), rX, rY);
+//			
+//			//Draws the upper body
+//			g2d.setColor(Color.BLACK);
+//			g2d.rotate(-p.getDirection(), rX, rY);
+//			g2d.setColor(new Color(0, 0, 0, 100));
+//			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
+//					(int)(p.getCollisionBox().getHeight() * scale));
+//			g2d.rotate(p.getDirection(), rX, rY);
+//			
+			//Draws the body
+			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
+			transformer.concatenate(AffineTransform.getRotateInstance(-p.getDirection(), rX, rY));
+			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance((p.getCollisionBox().getWidth() * scale)/scale, 
+					(p.getCollisionBox().getHeight() * scale)/scale));
+			switch(p.getState()) {
+			case MOVING:
+				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
+				break;
+			case STANDING:
+				g2d.drawImage(texture[standImage], transformer, null);
+				break;
+			default:
+				break;
+			}
 			
-			//Draws the upper body
-			g2d.setColor(Color.BLACK);
-			g2d.rotate(-p.getDirection(), rX, rY);
-			g2d.setColor(new Color(0, 0, 0, 100));
-			g2d.fillRect(x, y, (int)(p.getCollisionBox().getWidth() * scale), 
-					(int)(p.getCollisionBox().getHeight() * scale));
-			g2d.rotate(p.getDirection(), rX, rY);
-			
-			//Draws angle independent data!
+//			//Draws angle independent data
 			g2d.setColor(Color.RED);
 			g2d.drawString(p.getHealth() + "hp", x, y);
 			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),

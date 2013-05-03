@@ -6,6 +6,7 @@ import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.items.weapons.Weapon;
+import model.sprites.Sprite.State;
 
 /**
  * Models a player which can populate a world.
@@ -64,10 +65,7 @@ public class Player implements Sprite {
 				collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed)));
 	}
 	
-	/**
-	 * Set the state for the player.
-	 * @param state the state of the player.
-	 */
+	@Override
 	public void setState(State state) {
 		this.state = state;
 	}
@@ -224,5 +222,10 @@ public class Player implements Sprite {
 	 */
 	public float getMoveDir(){
 		return moveDir;
+	}
+
+	@Override
+	public State getState() {
+		return this.state;
 	}
 }

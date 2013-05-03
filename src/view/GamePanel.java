@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
@@ -162,21 +164,20 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	@Override
 	public void paintComponent(Graphics g) {	
 		//super.paintComponent(g);
-						
+		Graphics2D g2d = (Graphics2D)g;
+		//Turn on anti alignment
+		//Note: setting the hints to KEY_ANTIALIASING won't render the rotated images as such!
+		g2d.setRenderingHint(
+				RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		//Draws all the static world objects.
 		Position drawMin = translatePos(new Position(0, 0));
-		if(drawMin.getX() < 0) {
-			drawMin.setX(0);
-		}
-		if(drawMin.getY() < 0) {
-			drawMin.setY(0);
-		}
 		Position drawMax = translatePos(new Position(getWidth(), getHeight()));
 		int tilesDrawn = 0;
 		camera.setToCenter(model.getPlayer().getCenter(), getSize());
-		for(int x = (int)drawMin.getX(); x < model.getWorld().getTiles().length && x < drawMax.getX(); x++) {
-			for(int y = (int)drawMin.getY(); y < model.getWorld().getTiles()[x].length && y < drawMax.getY(); y++) {
-				tiles[x][y].render(g, camera.getOffset(), camera.getScale());
+		for(int x = Math.max((int)drawMin.getX(), 0); x < Math.min(model.getWorld().getWidth(), drawMax.getX()); x++) {
+			for(int y = Math.max((int)drawMin.getY(), 0); y < Math.min(model.getWorld().getHeight(), drawMax.getY()); y++) {
+				tiles[x][y].render(g2d, camera.getOffset(), camera.getScale());
 				tilesDrawn++;
 			}
 		}
@@ -185,7 +186,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		camera.setToCenter(model.getPlayer().getCenter(), getSize());
 		//Draws all the dynamic items.
 		for(ObjectRenderer<?> or : objects) {
-			or.render(g, camera.getOffset(), camera.getScale());
+			or.render(g2d, camera.getOffset(), camera.getScale());
 		}
 		//data:
 		g.setColor(new Color(255, 255, 255, 150));

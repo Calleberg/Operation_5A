@@ -1,4 +1,4 @@
-package view;
+package controller.IO;
 
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;

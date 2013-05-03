@@ -32,6 +32,17 @@ public interface Sprite extends WorldObject {
 	 */
 	public int getHealth();
 	
+	/**
+	 * Sets the state of the sprite.
+	 * @param state the new state.
+	 */
+	public void setState(State state);
+	
+	/**
+	 * Gives the state of the sprite.
+	 * @return the state of the sprite.
+	 */
+	public State getState();
 	
 	/**
 	 * Set the direction of the Sprite.

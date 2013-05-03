@@ -3,6 +3,10 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import controller.IO.Resources;
 
 import model.geometrical.Position;
 import model.sprites.Sprite;
@@ -16,6 +20,8 @@ import model.sprites.Sprite;
 public class SpriteView implements ObjectRenderer<Sprite> {
 
 	private Sprite sprite;
+	//TODO: add enemy texture
+	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 2);
 	
 	/**
 	 * Creates a new sprite view which will render the specified sprite.
@@ -46,19 +52,18 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
-			g2d.rotate(-sprite.getDirection(), rX, rY);
 			
-			//Draws what it has to draw...
-			g2d.setColor(Color.BLACK);
-			g2d.fillRect(x, y, (int)(sprite.getCollisionBox().getWidth() * scale), 
-					(int)(sprite.getCollisionBox().getHeight() * scale));
+			//Draws the body
+			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
+			transformer.concatenate(AffineTransform.getRotateInstance(-sprite.getDirection(), rX, rY));
+			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance((sprite.getCollisionBox().getWidth() * scale)/scale, 
+					(sprite.getCollisionBox().getHeight() * scale)/scale));
+			g2d.drawImage(texture[0], transformer, null);
+			
+			//Draws dev data
 			g2d.setColor(Color.RED);
 			g2d.drawString(sprite.getHealth() + "hp", x, y);
-			
-			//Rotates the graphics to its original position.
-			g2d.rotate(sprite.getDirection(), rX, rY);
-			
-			g2d.setColor(Color.RED);
 			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
 					(int)(sprite.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
 			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
