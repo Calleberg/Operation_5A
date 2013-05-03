@@ -1,4 +1,4 @@
-package base;
+package controller;
 
 import java.awt.Container;
 import java.awt.event.KeyEvent;

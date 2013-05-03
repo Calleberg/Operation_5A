@@ -1,4 +1,4 @@
-package model.sprites;
+package model.pathfinding;
 
 import model.world.Tile;
 

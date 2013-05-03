@@ -6,9 +6,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import model.items.weapons.WeaponFactory;
+import model.pathfinding.EnemyPathfinder;
+import model.pathfinding.PathfindingNode;
 import model.sprites.Enemy;
-import model.sprites.EnemyPathfinder;
-import model.sprites.PathfindingNode;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import model.world.World;

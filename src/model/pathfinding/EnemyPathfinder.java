@@ -1,4 +1,4 @@
-package model.sprites;
+package model.pathfinding;
 
 import java.util.ArrayList;
 import java.util.List;
