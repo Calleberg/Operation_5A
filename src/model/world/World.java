@@ -23,7 +23,6 @@ import model.sprites.Sprite;
  *
  */
 public class World {
-	private WorldBuilder wb = new WorldBuilder();
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
@@ -201,13 +200,14 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 		
 		//Spawn supplies
-		spawnPoints = wb.getSpawnPoints();
-		tick++;
-		if(tick == 600){
-			int rnd = (int)Math.random()*spawnPoints.size();
-			Tile t = spawnPoints.get(rnd);
-			this.spawnSupplies(t);
-			tick = 0;
+		if(spawnPoints != null){
+			tick++;
+			if(tick == 600){
+				int rnd = (int)Math.random()*spawnPoints.size();
+				Tile t = spawnPoints.get(rnd);
+				this.spawnSupplies(t);
+				tick = 0;
+			}
 		}
 	}
 	
@@ -400,5 +400,13 @@ public class World {
 	 */
 	public List<Supply> getSupplies(){
 		return this.supplies;
+	}
+	
+	/**
+	 * set the spawn points
+	 * @param spawnPoints the spawn points
+	 */
+	public void setSpawnPoints(List<Tile> spawnPoints){
+		this.spawnPoints = spawnPoints;
 	}
 }

@@ -56,6 +56,7 @@ public class GameModel {
 		WorldBuilder wb = new WorldBuilder();
 		world.setTiles(wb.getNewWorld(500, 500));
 		pathfinder = new EnemyPathfinder(world);
+		world.setSpawnPoints(wb.getSpawnPoints());
 	}
 	
 	/**
