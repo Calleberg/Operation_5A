@@ -1,5 +1,7 @@
 package model.items;
 
+import model.geometrical.Position;
+
 /**
  * 
  * @author Vidar
@@ -35,6 +37,7 @@ public class Supply extends Item {
 	
 	private int amount;
 	private Type type;
+	private Position pos;
 
 	/**
 	 * 
@@ -42,10 +45,11 @@ public class Supply extends Item {
 	 * @param type the type the Supply is
 	 * @param position
 	 */
-	protected Supply(int amount, Type type){
+	protected Supply(int amount, Type type, Position pos){
 		super(null, type.getIconNumber());
 		this.amount=amount;
 		this.type=type;
+		this.pos = pos;
 	}
 	
 	/**
@@ -71,4 +75,11 @@ public class Supply extends Item {
 		return amount + " " + type.toString();
 	}
 	
+	/**
+	 * returns the position of the supply
+	 * @return the position of the supply
+	 */
+	public Position getPosition(){
+		return this.pos;
+	}
 }

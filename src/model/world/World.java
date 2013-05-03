@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
+import model.items.Supply;
+import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.pathfinding.EnemyPathfinder;
 import model.pathfinding.PathfindingNode;
@@ -21,12 +23,14 @@ import model.sprites.Sprite;
  *
  */
 public class World {
-
+	private WorldBuilder wb = new WorldBuilder();
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private EnemyPathfinder pathfinder;
+	private List<Tile> spawnPoints = wb.getSpawnPoints();
+	private List<Supply> supplies = new ArrayList<Supply>();
 	
 
 	/**
@@ -194,6 +198,9 @@ public class World {
 		//Remove all the objects which needs to be removed
 		this.removeSprites(spritesToBeRemoved);
 		this.removeProjectiles(projectilesToBeRemoved);
+		
+		//Spawn supplies
+		//TODO
 	}
 	
 	/*
@@ -357,5 +364,17 @@ public class World {
 	 */
 	public int getHeight() {
 		return this.tiles[0].length;
+	}
+	
+	public void spawnSupplies(Tile t){
+		int supply = t.getProperty();
+		if(supply == 1){//Create a food
+			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
+		}else if(supply == 2){//create an ammo
+			this.supplies.add(SupplyFactory.createRandomAmmo(t.getPosition()));
+		}else if(supply == 3){//create a Health
+			this.supplies.add(SupplyFactory.createRandomHealth(t.getPosition()));
+		}
+		
 	}
 }
