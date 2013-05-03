@@ -1,6 +1,7 @@
 package base;
 
 import controller.GameController;
+import controller.Input;
 import view.GamePanel;
 import view.Window;
 import model.GameModel;

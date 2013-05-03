@@ -8,6 +8,7 @@ import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
+import model.pathfinding.PathfindingNode;
 import model.sprites.Sprite.State;
 import model.world.Tile;
 

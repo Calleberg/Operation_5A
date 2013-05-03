@@ -9,9 +9,9 @@ import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.weapons.Projectile;
+import model.pathfinding.EnemyPathfinder;
+import model.pathfinding.PathfindingNode;
 import model.sprites.Enemy;
-import model.sprites.EnemyPathfinder;
-import model.sprites.PathfindingNode;
 import model.sprites.Sprite;
 
 /**
