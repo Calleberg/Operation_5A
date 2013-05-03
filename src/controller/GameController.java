@@ -8,8 +8,10 @@ import java.util.Calendar;
 
 import model.GameModel;
 import model.geometrical.Position;
+import model.sprites.Enemy;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
+import model.sprites.Sprite;
 
 /**
  * Controls a specified model.
