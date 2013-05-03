@@ -14,7 +14,7 @@ public class EnemyPathfinder {
 	private PathfindingNode currentNode;
 	private PathfindingNode[][] nodes;
 	private World world;
-	int test = 0;
+	private boolean noWayFound = false;
 	
 	public EnemyPathfinder(World world){
 		this.world = world;
@@ -27,6 +27,7 @@ public class EnemyPathfinder {
 		}
 	}
 	public List<PathfindingNode> findWay(Tile t, Tile goal, Tile[][] tiles){
+		noWayFound = false;
 		closedTileList = new ArrayList<PathfindingNode>();
 		openTileList = new ArrayList<PathfindingNode>();
 //		this.goal = new PathfindingNode(goal, 0);//TODO kolla över andra "0"
@@ -35,17 +36,18 @@ public class EnemyPathfinder {
 		currentNode = openTileList.get(0);
 		currentNode.setParentNode(null);
 		
-		while(currentNode.getTile().getX() != this.goal.getTile().getX() ||
-				currentNode.getTile().getY() != this.goal.getTile().getY()){
+		
+		while(((currentNode.getTile().getX() != this.goal.getTile().getX() ||
+				currentNode.getTile().getY() != this.goal.getTile().getY())) && !noWayFound && 
+				!(world.canMove(currentNode.getTile().getPosition(), 
+						this.goal.getTile().getPosition()))){
 			findWay(t);
 		}
-		
-//		if(closedTileList.size() > 2){
-//			closedTileList.remove(0);//removes the tile the enemy currently stands on.
-//			closedTileList.remove(0);//removes the tile the enemy currently stands on.
-//			closedTileList.remove(0);//removes the tile the enemy currently stands on.
-//		}
 		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
+		correctList.add(currentNode);
+		this.goal.setParentNode(currentNode);
+		currentNode = this.goal;
+		System.out.println(noWayFound);
 		correctList.add(currentNode);
 		while(currentNode.getParentNode() != null){
 			correctList.add(currentNode.getParentNode());
@@ -59,6 +61,10 @@ public class EnemyPathfinder {
 		return correctListInverted;
 	}
 	private void findWay(Tile t){
+		if(openTileList.size() == 0){
+			noWayFound = true;
+			return;
+		}
 		PathfindingNode lowF = openTileList.get(0);
 		for(PathfindingNode node : openTileList){
 			if(currentNode != null){

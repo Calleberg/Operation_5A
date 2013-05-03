@@ -111,6 +111,13 @@ public class GameModel {
 			tick = 0;
 		}
 		tick++;
+		//at the moment every enemy attack with a melee weapon as often as possible
+		for (Sprite s : world.getSprites()){
+			if(s instanceof Enemy){
+				Enemy e = (Enemy) s;
+				enemyShoot(e);
+			}
+		}
 		world.update();
 	}
 	
@@ -121,6 +128,15 @@ public class GameModel {
 		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn()));
 	}
+	
+	/**
+	 * An enemy uses his weapon
+	 */
+	private void enemyShoot(Enemy e){
+		world.addProjectile(e.getActiveWeapon().createProjectile(e.getDirection(), 
+				e.getProjectileSpawn()));
+	}
+	
 	private void pathfindingUpdate(){
 		for(Sprite s : world.getSprites()){
 			if(s instanceof Enemy){

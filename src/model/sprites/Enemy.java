@@ -43,7 +43,8 @@ public class Enemy implements Sprite{
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return this.collisionBox.getPosition();
+		return new Position(getX() + getCollisionBox().getWidth()/2 + (float)(Math.cos(direction)*1f), 
+				getY() + getCollisionBox().getHeight()/2 - (float)(Math.sin(direction)*1f));
 	}
 
 	/**
@@ -134,12 +135,12 @@ public class Enemy implements Sprite{
 		pathfindingListIndex = 0;
 		this.list = list;
 		list.remove(0);//removes the tile the enemy currently stands on
-		System.out.println("testPathfiding");
 		
 		}
 	private void setDirectionTowardsList(){
 		
 		if(list.size() <= pathfindingListIndex){
+			this.state = State.STANDING;
 			return;//TODO varför behövs detta?
 		}
 		
