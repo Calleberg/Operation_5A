@@ -208,4 +208,14 @@ public class Enemy implements Sprite{
 		return new Position(getX() + getCollisionBox().getWidth()/2, getY() + getCollisionBox().getHeight()/2);
 	}
 
+	@Override
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	@Override
+	public State getState() {
+		return this.state;
+	}
+
 }

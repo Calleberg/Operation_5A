@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import controller.IO.Resources;
+
 
 import model.geometrical.Position;
 import model.world.Tile;
