@@ -10,8 +10,6 @@ public class PathfindingNode {
 	
 	public PathfindingNode(Tile t, /*float distanceToGoal,*/ float distanceFromParent){
 		this.tile = t;
-//		this.distanceToGoal = distanceToGoal;
-//		this.distanceFromStart = calculateG(this);
 		setDistanceFromParent(distanceFromParent);
 	}
 	public void setParentNode(PathfindingNode n){
@@ -36,27 +34,12 @@ public class PathfindingNode {
 	public float getPathfindingDistance(){
 		return distanceFromStart+distanceToGoal;
 	}
-//	public void calculateG(){
-//		distanceFromStart = calculateG(this);
-//	}
-//	private float calculateG(PathfindingNode node){
-//		float g = 0f;
-//		PathfindingNode tmpParent = node.getParentNode();
-//		while(tmpParent != null){
-////			System.out.println("calculateG " + node.getParentNode().getTile().getX());
-//			g = g + calculateG(node.getParentNode());
-//		}
-////		return g;
-//		return 0f;
-//	}
 	
 	public float getDistanceToGoal(){
 		return distanceToGoal;
 	}
 	public void setDistanceFromParent(float d){
-//		if(this.getParentNode() != null){
-//			distanceFromStart = d + this.getParentNode().getDistanceFromStart();
-//		}
+		
 	}
 	public float getDistanceFromStart(){
 		return distanceFromStart;
