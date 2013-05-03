@@ -293,6 +293,7 @@ public class World {
 				return (canMoveDown(pos1) && canMoveRight(pos1) && canMoveUp(pos2) && canMoveLeft(pos2));
 			}
 		}
+		
 	}
 
 	/*

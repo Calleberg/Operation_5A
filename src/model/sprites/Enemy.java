@@ -43,7 +43,8 @@ public class Enemy implements Sprite{
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return this.collisionBox.getPosition();
+		return new Position(getX() + getCollisionBox().getWidth()/2 + (float)(Math.cos(direction)*1f), 
+				getY() + getCollisionBox().getHeight()/2 - (float)(Math.sin(direction)*1f));
 	}
 
 	/**
@@ -133,33 +134,20 @@ public class Enemy implements Sprite{
 		this.state = State.MOVING;
 		pathfindingListIndex = 0;
 		this.list = list;
-		System.out.println("testPathfiding");
+		list.remove(0);//removes the tile the enemy currently stands on
+		
 		}
 	private void setDirectionTowardsList(){
 		
 		if(list.size() <= pathfindingListIndex){
-			System.out.println("list.size() <= pathfindingListIndex");
+			this.state = State.STANDING;
 			return;//TODO varför behövs detta?
 		}
 		
-//		if(Math.abs(this.collisionBox.getPosition().getX() - 
-//				list.get(pathfindingListIndex).getTile().getX()) > 0.02
-//				|| Math.abs(this.collisionBox.getPosition().getY() - 
-//				list.get(pathfindingListIndex).getTile().getY()) > 0.02){
 		if(Math.abs(this.getCenter().getX() - 
 				(list.get(pathfindingListIndex).getTile().getX()+0.5)) > 0.05
 				|| Math.abs(this.getCenter().getY() - 
 				(list.get(pathfindingListIndex).getTile().getY()+0.5)) > 0.05){
-//			System.out.println("x " + this.getCenter().getX() + " list x " + 
-//					(list.get(pathfindingListIndex).getTile().getX()+0.5));
-//			System.out.println("y " + this.getCenter().getY() + " list y " + 
-//					(list.get(pathfindingListIndex).getTile().getY()+0.5));
-//			System.out.println(Math.abs(this.getCenter().getX() - 
-//					(list.get(pathfindingListIndex).getTile().getX()+0.5)));
-//			System.out.println(Math.abs(this.getCenter().getY() - 
-//					(list.get(pathfindingListIndex).getTile().getY())+0.5));
-//			float dx = this.collisionBox.getPosition().getX() - list.get(pathfindingListIndex).getTile().getX();
-//			float dy = this.collisionBox.getPosition().getY() - list.get(pathfindingListIndex).getTile().getY();
 			float dx = (float) (this.getCenter().getX() - (list.get(pathfindingListIndex).getTile().getX()+0.5));
 			float dy = (float) (this.getCenter().getY() - (list.get(pathfindingListIndex).getTile().getY()+0.5));
 			float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
@@ -168,18 +156,7 @@ public class Enemy implements Sprite{
 			}else{
 				this.setDirection(sin);
 			}
-//			System.out.println("test x " + list.get(pathfindingListIndex).getTile().getX() + 
-//					" y "+ list.get(pathfindingListIndex).getTile().getY());
-//			System.out.println(pathfindingListIndex);
-//			for(PathfindingNode n : list){
-//				System.out.println("x " + n.getTile().getX() + "y " + n.getTile().getY());
-//				System.out.println("x " + this.getCenter().getX() + "y " + this.getCenter().getY());
-//			}
 		}else{
-//			System.out.println("test x " + list.get(pathfindingListIndex).getTile().getX() + 
-//					" y "+ list.get(pathfindingListIndex).getTile().getY());
-			
-//			pathfindingListIndex++;
 			pathfindingListIndex++;
 			
 			if(!(list.size()<=pathfindingListIndex)){
@@ -197,7 +174,6 @@ public class Enemy implements Sprite{
 				
 				System.out.println("standing");
 				state = State.STANDING;
-//				pathfindingListIndex = 0;
 			}
 			
 		}

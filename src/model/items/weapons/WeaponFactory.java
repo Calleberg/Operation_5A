@@ -17,7 +17,7 @@ public class WeaponFactory {
 //		ROCKET_LAUNCHER,
 //TODO more weapons
 		//Melee
-		FISTS (1000f,1,1f,100000000,0,1000, 20, "Fists"),
+		FISTS (0.25f,1,0.3f,100000000,0,1000, 20, "Fists"),
 //		POCKET_KNIFE,
 //		MACHETTE,
 //		BAT,

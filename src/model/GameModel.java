@@ -28,8 +28,8 @@ public class GameModel {
 	private final World world;
 	private Player player;
 	private EnemyPathfinder pathfinder;
-	int tick = 300;
-	int max = 300;
+	int tick = 30;
+	int max = 30;
 	
 	/**
 	 * The message sent when a new sprite is added.
@@ -111,6 +111,13 @@ public class GameModel {
 			tick = 0;
 		}
 		tick++;
+		//at the moment every enemy attack with a melee weapon as often as possible
+		for (Sprite s : world.getSprites()){
+			if(s instanceof Enemy){
+				Enemy e = (Enemy) s;
+				enemyShoot(e);
+			}
+		}
 		world.update();
 	}
 	
@@ -121,11 +128,20 @@ public class GameModel {
 		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn()));
 	}
+	
+	/**
+	 * An enemy uses his weapon
+	 */
+	private void enemyShoot(Enemy e){
+		world.addProjectile(e.getActiveWeapon().createProjectile(e.getDirection(), 
+				e.getProjectileSpawn()));
+	}
+	
 	private void pathfindingUpdate(){
 		for(Sprite s : world.getSprites()){
 			if(s instanceof Enemy){
 				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
-						world.getTiles()[(int)player.getX()][(int)player.getY()], world.getTiles());
+						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
 				Enemy e = (Enemy) s;
 				e.setWay(list);
 			}
