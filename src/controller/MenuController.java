@@ -139,7 +139,9 @@ public class MenuController {
 		for(int a=0; a < 90; a++){
 			l.increase();
 		}
-		createGameController();
+		if (gameController == null){
+			createGameController();
+		}
 		changeWindowWiewTo(gamePanel);
 	}
 	private static void exitGame(){
