@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import model.items.weapons.WeaponFactory;
 import model.pathfinding.EnemyPathfinder;
 import model.pathfinding.PathfindingNode;
 import model.sprites.Enemy;

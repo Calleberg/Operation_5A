@@ -2,8 +2,8 @@ package model.world;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.GameModel;
 import model.geometrical.CollisionBox;
@@ -11,9 +11,6 @@ import model.geometrical.Position;
 import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
-import model.pathfinding.EnemyPathfinder;
-import model.pathfinding.PathfindingNode;
-import model.sprites.Enemy;
 import model.sprites.Sprite;
 
 /**
@@ -27,7 +24,6 @@ public class World {
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
-	private EnemyPathfinder pathfinder;
 	private List<Tile> spawnPoints;
 	private List<Supply> supplies = new ArrayList<Supply>();
 	private int tick = 0;

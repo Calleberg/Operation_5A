@@ -23,7 +23,6 @@ public class WeaponTest {
 	
 	@Test
 	public void createProjectileTest(){
-		int testValue = 42;
 		Weapon w = new Weapon(1, 1, 1, 1, 1, 1, 1,"");
 		w.createProjectile(1, new Position(1,3));
 		assertTrue("Did not decrease ammunition ammount of weapon", w.getAmmunitionInMagazine()==0);

@@ -1,19 +1,16 @@
 package model.world;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import model.geometrical.Position;
-import model.sprites.Enemy;
+import model.items.weapons.Projectile;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.sprites.Sprite;
-import model.sprites.Sprite.State;
-import model.items.weapons.*;
-import model.items.weapons.WeaponFactory.Level;
-import model.items.weapons.WeaponFactory.Type;
 
 import org.junit.Test;
 

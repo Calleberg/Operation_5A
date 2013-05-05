@@ -1,16 +1,12 @@
 package model.sprites;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
-import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.pathfinding.PathfindingNode;
-import model.sprites.Sprite.State;
-import model.world.Tile;
 
 public class Enemy implements Sprite{
 
@@ -19,7 +15,6 @@ public class Enemy implements Sprite{
 	private float speed;
 	private Weapon weapon;
 	private int health;
-	private BufferedImage image;
 	private CollisionBox collisionBox;
 	private List<PathfindingNode> list;
 	private int pathfindingListIndex;

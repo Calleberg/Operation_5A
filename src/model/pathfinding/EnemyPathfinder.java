@@ -3,7 +3,6 @@ package model.pathfinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.geometrical.Position;
 import model.world.Tile;
 import model.world.World;
 

@@ -23,7 +23,7 @@ import view.menu.PauseMenu;
 public class MenuController {
 	private static MenuController instance = null;
 	private static final MainMenu mainMenuPanel = new MainMenu("Main Menu", createMainMenuButtons());
-	private final PauseMenu pauseMenuPanel = new PauseMenu("PAUSE", createPauseMenuButtons());
+	private static final PauseMenu pauseMenuPanel = new PauseMenu("PAUSE", createPauseMenuButtons());
 	private static final Window window = Window.getInstance();
 	private static JPanel activePanel = null;
 	private static GameController gameController = null;
@@ -79,7 +79,7 @@ public class MenuController {
 		return buttons;
 	}
 	
-	private MenuButton[] createPauseMenuButtons() {
+	private static MenuButton[] createPauseMenuButtons() {
 		MenuButton buttons[] = new MenuButton[5];
 		
 		buttons[0]= new MenuButton("Settings");
@@ -141,7 +141,6 @@ public class MenuController {
 		}
 		createGameController();
 		changeWindowWiewTo(gamePanel);
-//		TestBordeLiggaIEnController.startGame();
 	}
 	private static void exitGame(){
 		System.out.println("Game Terminated sucsessfully");
@@ -159,7 +158,7 @@ public class MenuController {
 	private static void load(){
 		//TODO
 	}
-	public void mainMenu(){
+	public static void mainMenu(){
 		//TODO
 		changeWindowWiewTo(mainMenuPanel);
 	}

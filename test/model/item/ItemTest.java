@@ -50,7 +50,7 @@ public class ItemTest {
 		Position p = new Position(1,2);
 		Item i = new Item(p, 1);
 		
-		assertTrue(p.getY() == 2);
+		assertTrue(i.getY() == 2);
 	}
 	
 	@Test

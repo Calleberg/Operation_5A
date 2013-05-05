@@ -25,7 +25,6 @@ import model.world.props.PropFactory;
  */
 public class WorldBuilder {
 
-	private Random random;
 	private long seed;
 	private int[][] mapTest = new int[][]{
 			{0,0,0,0,0,0,0,0,0,0},
@@ -64,7 +63,7 @@ public class WorldBuilder {
 	 */
 	public WorldBuilder(long seed) {
 		this.seed = seed;
-		this.random = new Random(seed);
+		new Random(seed);
 	}
 	
 	/**

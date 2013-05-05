@@ -1,12 +1,9 @@
 package model.sprites;
 
-import java.awt.image.BufferedImage;
-
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.items.weapons.Weapon;
-import model.sprites.Sprite.State;
 
 /**
  * Models a player which can populate a world.

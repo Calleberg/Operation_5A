@@ -1,10 +1,7 @@
 package model.sprites;
 
 import model.geometrical.Position;
-import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
-import model.items.weapons.WeaponFactory.Level;
-import model.items.weapons.WeaponFactory.Type;
 
 public class EnemyFactory {
 	/**

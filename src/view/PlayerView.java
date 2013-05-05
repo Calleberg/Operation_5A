@@ -3,18 +3,12 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-
-import controller.IO.Resources;
 
 import model.geometrical.Position;
 import model.sprites.Player;
-import model.sprites.Sprite;
-import model.sprites.Sprite.State;
+import controller.IO.Resources;
 
 /**
  * A class which renders a player.
