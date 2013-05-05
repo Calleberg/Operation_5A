@@ -8,14 +8,11 @@ import javax.swing.JFrame;
  * @author 
  *
  */
+@SuppressWarnings("serial")
 public class Window extends JFrame {
-
-	private static final long serialVersionUID = 1L;
+	private static Window instance = null;
 	
-	/**
-	 * Creates a new default window.
-	 */
-	public Window() {
+	private Window() {
 		super();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1000, 800);
@@ -26,4 +23,16 @@ public class Window extends JFrame {
 		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 	}
+
+	/**
+	 * returns the singelton instance of Window
+	 * @return the singelton instance of Window
+	 */
+	public static Window getInstance(){
+		if (instance==null){
+			instance = new Window();
+		}
+		return instance;
+	}
+
 }
