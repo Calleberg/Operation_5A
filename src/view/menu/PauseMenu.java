@@ -3,9 +3,6 @@ package view.menu;
 import java.awt.Color;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import model.MenuModel.MenuActions;
 
 @SuppressWarnings("serial")
 public class PauseMenu extends JPanel{
@@ -15,7 +12,7 @@ public class PauseMenu extends JPanel{
 		setBackground(Color.BLUE);
 	}
 
-	public PauseMenu(String string, MenuActions[] menuActions) {
+	public PauseMenu(String string) {
 		// TODO Auto-generated constructor stub
 	}
 
