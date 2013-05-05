@@ -142,4 +142,7 @@ public class WeaponFactory {
 	public static Weapon createEnemyMeleeWeapon(){
 		return createWeapon(Type.FISTS, Level.RUSTY);
 	}
+	public static Weapon startingWeapon() {
+		return createTestWeapon();
+	}
 }

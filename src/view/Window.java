@@ -34,5 +34,6 @@ public class Window extends JFrame {
 		}
 		return instance;
 	}
+	
 
 }

@@ -12,7 +12,7 @@ public class PauseMenu extends JPanel{
 		setBackground(Color.BLUE);
 	}
 
-	public PauseMenu(String string) {
+	public PauseMenu(String string, MenuButton b[]) {
 		// TODO Auto-generated constructor stub
 	}
 

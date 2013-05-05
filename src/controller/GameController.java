@@ -4,14 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 
-
-
 import model.GameModel;
 import model.geometrical.Position;
-import model.sprites.Enemy;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
-import model.sprites.Sprite;
 
 /**
  * Controls a specified model.
@@ -26,7 +22,7 @@ public class GameController extends Thread {
 
 	private final int SLEEP = 1000 / 60;
 	private GameModel model;
-	private Input input;
+	private final Input input;
 	private long startTime = Calendar.getInstance().getTimeInMillis();
 	private int ticks;
 	
