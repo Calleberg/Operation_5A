@@ -3,7 +3,10 @@ package view.menu;
 import java.awt.Color;
 
 import javax.swing.JPanel;
-
+/**
+ * @author Vidar Eriksson
+ *
+ */
 @SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 
@@ -18,7 +21,7 @@ public class MainMenu extends JPanel {
 
 	public MainMenu(String string, MenuButton[] buttons) {
 		this();
-		add(new MenuButtonColumn(new MenuLabel(string), buttons));
+		add(new ButtonColumn(new MenuLabel(string), buttons));
 	}
 
 }

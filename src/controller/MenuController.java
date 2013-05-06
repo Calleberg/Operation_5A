@@ -20,7 +20,7 @@ import view.menu.PauseMenu;
  * @author Vidar Eriksson
  *
  */
-public class MenuController {
+public class MenuController extends Thread {
 	private static MenuController instance = null;
 	private static final MainMenu mainMenuPanel = new MainMenu("Main Menu", createMainMenuButtons());
 	private static final PauseMenu pauseMenuPanel = new PauseMenu("PAUSE", createPauseMenuButtons());
@@ -29,6 +29,10 @@ public class MenuController {
 	private static GameController gameController = null;
 	private static GamePanel gamePanel = null;
 
+	@Override
+	public void run(){
+		mainMenu();
+	}
 
 	private MenuController() {
 	}
@@ -48,7 +52,7 @@ public class MenuController {
 		buttons[1].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				load();
+				loadSavedGame();
 			}
 		});
 		
@@ -94,7 +98,7 @@ public class MenuController {
 		buttons[1].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveLoad();
+				saveLoadGame();
 			}
 		});
 		
@@ -154,10 +158,10 @@ public class MenuController {
 	private static void settings(){
 		//TODO
 	}
-	private static void saveLoad(){
+	private static void saveLoadGame(){
 		//TODO
 	}
-	private static void load(){
+	private static void loadSavedGame(){
 		//TODO
 	}
 	public static void mainMenu(){
@@ -166,12 +170,7 @@ public class MenuController {
 	}
 	public void pauseMenu(){
 		//TODO
-		try {
-			gameController.wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		gameController.pauseThread();
 		changeWindowWiewTo(pauseMenuPanel);
 	}
 	private static void changeWindowWiewTo(JPanel p){
@@ -180,11 +179,14 @@ public class MenuController {
 		}
 		window.add(p);
 		activePanel=p;
+		p.repaint();
 		p.requestFocus();
 		window.revalidate();
 	}
 	private static void resumeGame() {
-		gameController.notify();
+		gameController.resumeThread();
+		gameController.run();
+
 		changeWindowWiewTo(gamePanel);
 		// TODO Auto-generated method stub
 		
@@ -195,12 +197,10 @@ public class MenuController {
 		GameModel gameModel = createGameModel();
 		gameController = new GameController(gameModel, input);
 		gamePanel = new GamePanel(gameModel, gameController);
-		
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
 
-				
 		//Starts all the loops
 		gamePanel.start();
 		gameController.start();
@@ -210,9 +210,7 @@ public class MenuController {
 		Player player = new Player(50,50);
 		player.setWeapon(WeaponFactory.startingWeapon());
 		model.setPlayer(player);
-		
-		
-		// TODO Auto-generated method stub
+
 		return model;
 	}
 

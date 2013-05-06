@@ -14,19 +14,20 @@ public class Window extends JFrame {
 	
 	private Window() {
 		super();
+		this.setTitle("Name of Game");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
 		
 //		setUndecorated(false);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		this.setAlwaysOnTop(true);
+//		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 	}
 
 	/**
-	 * returns the singelton instance of Window
-	 * @return the singelton instance of Window
+	 * returns the singleton instance of Window
+	 * @return the singleton instance of Window
 	 */
 	public static Window getInstance(){
 		if (instance==null){
