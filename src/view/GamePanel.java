@@ -222,9 +222,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			boolean renderPosition, Color colourPosition) {
 		g.setColor(colour);
 		if(box != null) {
-			for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-				g.fillRect((int)(r.getX() * scale + pos.getX()), (int)(r.getY() * scale  + pos.getY()), 
-						(int)(r.getWidth() * scale), (int)(r.getHeight() * scale));
+			for(java.awt.geom.Line2D r : box.getLines()) {
+				g.drawLine((int)(r.getX1() * scale + pos.getX()), (int)(r.getY1() * scale + pos.getY()), 
+						(int)(r.getX2() * scale + pos.getX()), (int)(r.getY2() * scale + pos.getY()));
 			}
 		}
 	}

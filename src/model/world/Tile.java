@@ -176,11 +176,20 @@ public class Tile implements WorldObject {
 			}
 		}
 		
-		if(box.getRectangles().length == 0) {
+		if(box.getLines().size() == 0) {
 			return null;
 		}else{
 			return box;
 		}
+	}
+	
+	/**
+	 * Checks if the specified collisionbox intersects the tile.
+	 * @param box the box to check.
+	 * @return <code>true</code> if collision box provided intersects this tile.
+	 */
+	public boolean intersects(CollisionBox box) {
+		return box.intersects(new Rectangle(this.getX(), this.getY(), 1f, 1f));
 	}
 
 	/**

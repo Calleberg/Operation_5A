@@ -65,6 +65,7 @@ public class WorldBuilder {
 	public WorldBuilder(long seed) {
 		this.seed = seed;
 		this.random = new Random(seed);
+		this.resetSpawnPoints();
 	}
 	
 	/**
@@ -91,6 +92,10 @@ public class WorldBuilder {
 		return tiles;
 	}
 	
+	public void resetSpawnPoints() {
+		this.spawnPoints = new ArrayList<Tile>();
+	}
+	
 	/**
 	 * Creates a new world with the specified size.
 	 * @param width the width of the world to create.
@@ -101,7 +106,7 @@ public class WorldBuilder {
 		//TODO: fixa så att det skapas en riktig värld.
 		
 		//Resets the spawn points.
-		this.spawnPoints = new ArrayList<Tile>();
+		this.resetSpawnPoints();
 		
 		//Create grass everywhere.
 		Tile[][] tiles = new Tile[width][height];
