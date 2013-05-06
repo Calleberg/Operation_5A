@@ -25,7 +25,7 @@ public class Enemy implements Sprite{
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
-		collisionBox = new Rectangle(position.getX(), position.getY(), 0.3f, 0.3f);
+		collisionBox = new Rectangle(position.getX(), position.getY(), 0.6f, 0.6f);
 	}
 	
 	/**

@@ -1,27 +1,25 @@
 package model.geometrical;
 
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 /**
- * A complex shape is a composite shape made up of other implementations
- * of <code>CollisionBox</code>.
+ * A <code>CollisionBox</code> made up out of other combined <code>CollisionBox</code>:es.
  * 
- * @author Calleberg
+ * @author 
  *
  */
-public class ComplexShape implements CollisionBox {
+public class ComplexShape implements CollisionBox  {
 
-	private List<java.awt.geom.Rectangle2D> rects;
-	private Position oldPosition;
+	private Polygon p;
+	private int shapesAdded;
 	
 	/**
-	 * Creates a new complex shape with the specified base to build from.
-	 * @param base the base shape of this new complex shape.
+	 * Creates a new default complex shape with the specified shape as base.
+	 * @param base the base of the complex shape.
 	 */
-	public ComplexShape(Rectangle base) {
-		this();
+	public ComplexShape(CollisionBox base) {
+		this.p = new Polygon();
 		this.addShape(base);
 	}
 	
@@ -29,98 +27,66 @@ public class ComplexShape implements CollisionBox {
 	 * Creates a new default complex shape.
 	 */
 	public ComplexShape() {
-		rects = new ArrayList<java.awt.geom.Rectangle2D>();
+		this(null);
 	}
 	
 	/**
-	 * Adds the specified shape to this.
-	 * NOTE: Take care when adding new shapes as they are locked in place
-	 * once they are added, e.g. they cannot be moved relative to the base
-	 * after being added.
-	 * @param box the shape to add.
+	 * Adds the specified collision box to this one.
+	 * @param box the one to add.
 	 */
 	public void addShape(CollisionBox box) {
 		if(box != null) {
-			for(java.awt.geom.Rectangle2D r : box.getRectangles()) {
-				this.rects.add(r);
+			shapesAdded++;
+			for(Line2D l : box.getLines()) {
+				this.p.addLine(l);
 			}
 		}
 	}
 	
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.p.getWidth();
 	}
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.p.getHeight();
 	}
 
 	@Override
 	public Position getPosition() {
-		double minX = rects.get(0).getX();
-		double minY = rects.get(0).getY();
-		for(Rectangle2D r : this.rects) {
-			if(r.getX() < minX) {
-				minX = r.getX();
-			}
-			if(r.getY() < minY) {
-				minY = r.getY();
-			}
-		}
-		return new Position((float)minX, (float)minY);
+		return this.p.getPosition();
 	}
 
 	@Override
 	public void setPosition(Position pos) {
-		oldPosition = this.getPosition();
-		float dx = pos.getX() - oldPosition.getX();
-		float dy = pos.getY() - oldPosition.getY();
-		for(Rectangle2D r : this.rects) {
-			r.setRect(r.getX() + dx, r.getY() + dy, r.getWidth(), r.getHeight());
-		}
+		this.p.setPosition(pos);
+	}
+
+	@Override
+	public void move(float dx, float dy) {
+		this.p.move(dx, dy);
 	}
 
 	@Override
 	public boolean intersects(CollisionBox box) {
-		for(Rectangle2D r : this.rects) {
-			for(Rectangle2D r2 : box.getRectangles()) {
-				if(r.intersects(r2)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return this.p.intersects(box);
 	}
 
-	/**
-	 * Can only move back once after each move.
-	 */
+	@Override
+	public List<Line2D> getLines() {
+		return this.p.getLines();
+	}
+
 	@Override
 	public boolean moveBack() {
-		Position p = this.getPosition();
-		if(oldPosition.getX() == p.getX() && oldPosition.getY() == p.getY()) {
-			return false;
-		}else{
-			this.setPosition(oldPosition);
-			return true;
-		}
-	}
-	
-	@Override
-	public Rectangle2D[] getRectangles() {
-		return this.rects.toArray(new Rectangle2D[0]);
+		return this.p.moveBack();
 	}
 
 	@Override
 	public String toString() {
-		Position p = this.getPosition();
-		return getClass().getName() + "[x=" + p.getX() + ",y=" + p.getY() + ",shapes=" + this.rects.size() + "]";
+		return this.getClass().getName() + "[x=" + this.getPosition().getX() + ",y=" + this.getPosition().getY() +
+				",width=" + this.getWidth() + ",height=" + this.getHeight() + ",shapes=" + this.shapesAdded + "]";
 	}
 
-	
-	
 }

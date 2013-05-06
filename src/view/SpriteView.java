@@ -23,6 +23,9 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 	//TODO: add enemy texture
 	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 2);
 	
+	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4}, 100, true);
+	private int standImage = 5;
+	
 	/**
 	 * Creates a new sprite view which will render the specified sprite.
 	 * @param sprite the sprite to render.
@@ -59,7 +62,16 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
 			transformer.concatenate(AffineTransform.getScaleInstance((sprite.getCollisionBox().getWidth() * scale)/scale, 
 					(sprite.getCollisionBox().getHeight() * scale)/scale));
-			g2d.drawImage(texture[0], transformer, null);
+			switch(sprite.getState()) {
+			case MOVING:
+				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
+				break;
+			case STANDING:
+				g2d.drawImage(texture[standImage], transformer, null);
+				break;
+			default:
+				break;
+			}
 			
 			//Draws dev data
 			g2d.setColor(Color.RED);

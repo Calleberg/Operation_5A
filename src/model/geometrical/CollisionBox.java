@@ -1,9 +1,11 @@
 package model.geometrical;
 
+import java.awt.geom.Line2D;
+import java.util.List;
+
 /**
  * An interface for collision boxes.
- * Every collision box can check if another collision box is
- * intersecting with it.
+ * Every collision box should support <code>intersects(CollisionBox b)</code>.
  * 
  * @author Calleberg
  *
@@ -29,10 +31,17 @@ public interface CollisionBox {
 	public Position getPosition();
 	
 	/**
-	 * Sets the position of the collision box.
+	 * Moves the collision box to the specified position.
 	 * @param pos the new position of the collision box.
 	 */
 	public void setPosition(Position pos);
+	
+	/**
+	 * Moves the collision box the specified amount.
+	 * @param dx the amount to move along the X axis.
+	 * @param dy the amount to move along the Y axis.
+	 */
+	public void move(float dx, float dy);
 	
 	/**
 	 * Checks if this collision box intersects the specified one.
@@ -42,11 +51,11 @@ public interface CollisionBox {
 	public boolean intersects(CollisionBox box);
 	
 	/**
-	 * Gives an array of all the rectangles that builds this shape.
-	 * @return an array of all the rectangles that builds this shape.
+	 * Gives a list of all the segments of the collision box.
+	 * @return  a list of all the segments of the collision box.
 	 */
-	public java.awt.geom.Rectangle2D[] getRectangles();
-	
+	public List<Line2D> getLines();
+			
 	/**
 	 * Moves the collision box back to its previous position.
 	 * @return <code>true</code> if the collision box could move back.
