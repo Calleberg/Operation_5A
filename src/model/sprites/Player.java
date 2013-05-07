@@ -21,6 +21,7 @@ public class Player implements Sprite {
 	private int health;
 	private CollisionBox collisionBox;
 	private int ammo;
+	private int food;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -32,6 +33,7 @@ public class Player implements Sprite {
 		this.speed = 0.2f;
 		this.health = 100;
 		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
+		this.food = 100;
 	}
 	
 	@Override
@@ -221,5 +223,26 @@ public class Player implements Sprite {
 	@Override
 	public State getState() {
 		return this.state;
+	}
+	/**
+	 * Adds the amount of food specified to the food level of the player
+	 * @param foodToAdd the amount of food to add
+	 */
+	public void addFood(int foodToAdd){
+		this.food += foodToAdd;
+	}
+	/**
+	 * returns the food level of the player
+	 * @return the food level of the player
+	 */
+	public int getFood(){
+		return this.food;
+	}
+	/**
+	 * Removes the amount of food specified from the food level of the player
+	 * @param foodToRemove the amount of food to remove
+	 */
+	public void removeFood(int foodToRemove){
+		this.food -= foodToRemove;
 	}
 }
