@@ -28,6 +28,7 @@ public class World {
 	private List<Tile> spawnPoints;
 	private List<Supply> supplies = new ArrayList<Supply>();
 	private int tick = 0;
+	private boolean tileOcuppied;
 	
 
 	/**
@@ -209,9 +210,18 @@ public class World {
 			if(tick == 600){
 				int rnd = (int)Math.random()*spawnPoints.size();
 				Tile t = spawnPoints.get(rnd);
-				//TODO check so that the tile is not occupied
-				this.spawnSupplies(t);
-				tick = 0;
+				tileOcuppied = false;
+				for(Supply s : supplies){
+					if(s.getPosition().equals(t.getPosition())){
+						tileOcuppied = true;
+						break;
+					}
+				}
+				if(!tileOcuppied){
+					this.spawnSupplies(t);
+					tick = 0;	
+				}
+
 			}
 		}
 	}
