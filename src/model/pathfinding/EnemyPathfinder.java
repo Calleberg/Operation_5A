@@ -43,6 +43,13 @@ public class EnemyPathfinder {
 						this.goal.getCenter()))){
 			findWay(t);
 		}
+		//if noWayFound set the direction straight towards the goal
+		if(noWayFound){
+			List<PathfindingNode> l = new ArrayList<PathfindingNode>();
+			l.add(closedTileList.get(0));//The tile the enemy currently stands on.
+			l.add(this.goal);
+			return l;
+		}
 		if(currentNode.getTile().getX() != this.goal.getTile().getX() || 
 				currentNode.getTile().getY() != this.goal.getTile().getY()){
 			this.goal.setParentNode(currentNode);
@@ -80,24 +87,28 @@ public class EnemyPathfinder {
 		currentNode = lowF;
 		closedTileList.add(currentNode);
 		openTileList.remove(lowF);
+		
 		openTileList.addAll(surroundingTiles(currentNode));
 	}
 	private List<PathfindingNode> surroundingTiles(PathfindingNode t){
 		List<PathfindingNode> surroundingTiles = new ArrayList<PathfindingNode>();
 		for(float x = currentNode.getTile().getX() - 1; x < currentNode.getTile().getX() + 2; x++){
 			for(float y = currentNode.getTile().getY() - 1; y < currentNode.getTile().getY() + 2; y++){
-				if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 
-						world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())){
-					if((openTileList.contains(nodes[(int)x][(int)y]))){
-						if(world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())
-								&& currentNode.getDistanceFromStart()+
-								getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()) < nodes[(int)x][(int)y].getDistanceFromStart()){
+				if(x >= 0 && y >= 0 && getDistance(nodes[(int)x][(int)y].getTile(), 
+						closedTileList.get(0).getTile()) < 25){
+					if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 
+							world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())){
+						if((openTileList.contains(nodes[(int)x][(int)y]))){
+							if(world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())
+									&& currentNode.getDistanceFromStart()+
+									getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()) < nodes[(int)x][(int)y].getDistanceFromStart()){
+								nodes[(int)x][(int)y].setParentNode(currentNode);
+								nodes[(int)x][(int)y].setDistanceFromParent(getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()));
+							}
+						}else{
 							nodes[(int)x][(int)y].setParentNode(currentNode);
-							nodes[(int)x][(int)y].setDistanceFromParent(getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()));
+							openTileList.add(nodes[(int)x][(int)y]);
 						}
-					}else{
-						nodes[(int)x][(int)y].setParentNode(currentNode);
-						openTileList.add(nodes[(int)x][(int)y]);
 					}
 				}
 			}
