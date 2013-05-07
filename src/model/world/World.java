@@ -163,10 +163,6 @@ public class World {
 							sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
 							projectilesToBeRemoved.add(projectiles.get(j));
 							if(sprites.get(i).getHealth() <= 0){
-								//sprites.get(i) = player
-								if(i == 0){
-									System.out.println("Game Over");
-								}
 								spritesToBeRemoved.add(sprites.get(i));
 							}
 						}
