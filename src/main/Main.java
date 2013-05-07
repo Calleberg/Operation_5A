@@ -5,7 +5,6 @@ import controller.MenuController;
 public class Main {
 
 	public static void main(String[] args) {
-		MenuController.getInstance();
-		MenuController.mainMenu();
+		MenuController.getInstance().start();
 	}
 }

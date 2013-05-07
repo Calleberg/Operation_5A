@@ -1,6 +1,9 @@
 package model.items;
 
+import java.awt.image.BufferedImage;
+
 import model.geometrical.Position;
+import model.geometrical.*;
 
 /**
  * 
@@ -26,7 +29,7 @@ public class Supply extends Item {
 			this.name=s;
 		}
 
-		private int getIconNumber() {
+		public int getIconNumber() {
 			return this.iconNumber;
 		}
 		
@@ -38,6 +41,7 @@ public class Supply extends Item {
 	private int amount;
 	private Type type;
 	private Position pos;
+	private CollisionBox cBox;
 
 	/**
 	 * 
@@ -50,6 +54,7 @@ public class Supply extends Item {
 		this.amount=amount;
 		this.type=type;
 		this.pos = pos;
+		cBox = new Rectangle(pos.getX(),pos.getY(),1,1);
 	}
 	
 	/**
@@ -81,5 +86,9 @@ public class Supply extends Item {
 	 */
 	public Position getPosition(){
 		return this.pos;
+	}
+
+	public CollisionBox getCollisionBox() {
+		return this.cBox;
 	}
 }

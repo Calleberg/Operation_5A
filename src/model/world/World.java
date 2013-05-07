@@ -322,13 +322,14 @@ public class World {
 		int supplyProperty = t.getProperty();
 		if(supplyProperty == 1){//Create a food
 			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
-			System.out.println("food spawned");
+			System.out.println("Food spawned");
+			pcs.firePropertyChange(GameModel.ADDED_FOOD, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 2){//create an ammo
 			this.supplies.add(SupplyFactory.createRandomAmmo(t.getPosition()));
-			System.out.println("ammo spawned");
+			pcs.firePropertyChange(GameModel.ADDED_AMMO, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 3){//create a Health
 			this.supplies.add(SupplyFactory.createRandomHealth(t.getPosition()));
-			System.out.println("health spawned");
+			pcs.firePropertyChange(GameModel.ADDED_HEALTH, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 4){//create a weapon
 			//TODO implement weapon as a supply
 			System.out.println("Weapon supposed to spawn");

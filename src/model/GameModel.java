@@ -46,6 +46,18 @@ public class GameModel {
 	 * The message sent when a projectile is removed.
 	 */
 	public final static String REMOVED_PROJECTILE = "removedprojectile";
+	/**
+	 * The message sent when a food supply is added
+	 */
+	public final static String ADDED_FOOD = "addedfood";
+	/**
+	 * The message sent when a ammo supply is added
+	 */
+	public final static String ADDED_AMMO = "addedammo";
+	/**
+	 * The message sent when a health supply is added
+	 */
+	public final static String ADDED_HEALTH = "addedhealth";
 
 	/**
 	 * Creates a new default game model.

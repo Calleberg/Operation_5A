@@ -3,17 +3,22 @@ package view.menu;
 import java.awt.Color;
 
 import javax.swing.JPanel;
-
+/**
+ * @author Vidar Eriksson
+ *
+ */
 @SuppressWarnings("serial")
 public class PauseMenu extends JPanel{
 	
-	public PauseMenu() {
-//		add(new MenuButtonColumn(MenuButtonColumn.MenuType.PAUSE_MENU));
+	private PauseMenu() {
 		setBackground(Color.BLUE);
+
+		
 	}
 
-	public PauseMenu(String string, MenuButton b[]) {
-		// TODO Auto-generated constructor stub
+	public PauseMenu(String string, MenuButton[] buttons) {
+		this();
+		add(new ButtonColumn(new MenuLabel(string), buttons));
 	}
 
 }

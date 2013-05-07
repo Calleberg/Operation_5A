@@ -28,6 +28,7 @@ import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Player;
 import model.sprites.Sprite;
+import model.items.Supply;
 
 /**
  * 
@@ -123,6 +124,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}
 		for(Projectile p : this.model.getWorld().getProjectiles()) {
 			objects.add(new ProjectileView(p));
+		}
+		for(Supply s : this.model.getWorld().getSupplies()){
+			objects.add(new SupplyView(s));
 		}
 	}
 	
@@ -250,6 +254,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}else if(e.getPropertyName().equals(GameModel.ADDED_PROJECTILE)) {
 			System.out.println("Added projectile caught by GamePanel");
 			this.objects.add(new ProjectileView((Projectile)e.getNewValue()));
+		}else if(e.getPropertyName().equals(GameModel.ADDED_FOOD)){
+			this.objects.add(new SupplyView((Supply)e.getNewValue()));
+		}else if(e.getPropertyName().equals(GameModel.ADDED_AMMO)){
+			this.objects.add(new SupplyView((Supply)e.getNewValue()));
+		}else if(e.getPropertyName().equals(GameModel.ADDED_HEALTH)){
+			this.objects.add(new SupplyView((Supply)e.getNewValue()));
 		}
 	}
 
