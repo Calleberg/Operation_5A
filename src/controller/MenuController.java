@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JPanel;
 
@@ -11,12 +12,15 @@ import model.sprites.Player;
 
 import view.GamePanel;
 import view.Window;
+import view.menu.HighscorePanel;
 import view.menu.LoadingScreen;
 import view.menu.MainMenu;
 import view.menu.MenuButton;
 import view.menu.PauseMenu;
 
 /**
+ * The controller wich is responsible for managing the program window and its menus.
+ * 
  * @author Vidar Eriksson
  *
  */
@@ -128,7 +132,10 @@ public class MenuController extends Thread {
 		
 		return buttons;
 	}
-
+/**
+ * Returns the singleton instance of this class.
+ * @return the singleton instance of this class.
+ */
 	public static MenuController getInstance() {
 		if (instance==null){
 			instance = new MenuController();
@@ -139,21 +146,22 @@ public class MenuController extends Thread {
 	private static void startGame(){
 		//TODO
 		LoadingScreen l = new LoadingScreen(100);
-		changeWindowWiewTo(l);
+		changeWindowTo(l);
 		for(int a=0; a < 90; a++){
 			l.increase();
+			l.repaint();
 		}
 		if (gameController == null){
 			createGameController();
 		}
-		changeWindowWiewTo(gamePanel);
+		changeWindowTo(gamePanel);
 	}
 	private static void exitGame(){
-		System.out.println("Game Terminated sucsessfully");
 		System.exit(0);
 	}
 	private static void highscore(){
 		//TODO
+		changeWindowTo(new HighscorePanel());
 	}
 	private static void settings(){
 		//TODO
@@ -164,35 +172,44 @@ public class MenuController extends Thread {
 	private static void loadSavedGame(){
 		//TODO
 	}
+	/**
+	 * Changes the program window to the main menu.
+	 */
 	public static void mainMenu(){
 		//TODO
-		changeWindowWiewTo(mainMenuPanel);
+		changeWindowTo(mainMenuPanel);
 	}
+	/**
+	 * Changes the program window to the paused game menu.
+	 */
 	public void pauseMenu(){
 		//TODO
-		gameController.pauseThread();
-		changeWindowWiewTo(pauseMenuPanel);
+		gameController.pause(true);
+		
+		changeWindowTo(pauseMenuPanel);
 	}
-	private static void changeWindowWiewTo(JPanel p){
+	private static void changeWindowTo(JPanel p){
 		if (activePanel != null){
 			window.remove(activePanel);
 		}
 		window.add(p);
 		activePanel=p;
+
+		window.revalidate();
 		p.repaint();
 		p.requestFocus();
-		window.revalidate();
 	}
 	private static void resumeGame() {
-		gameController.resumeThread();
-		gameController.run();
+		gameController.pause(false);
 
-		changeWindowWiewTo(gamePanel);
+		changeWindowTo(gamePanel);
 		// TODO Auto-generated method stub
 		
 	}
 	
 	private static void createGameController(){
+		System.out.println("0");
+		long time = Calendar.getInstance().getTimeInMillis();
 		Input input = new Input();
 		GameModel gameModel = createGameModel();
 		gameController = new GameController(gameModel, input);
@@ -200,10 +217,13 @@ public class MenuController extends Thread {
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
-
+		
 		//Starts all the loops
 		gamePanel.start();
 		gameController.start();
+		
+		time=Calendar.getInstance().getTimeInMillis()-time;
+		System.out.println(""+time);
 	}
 	private static GameModel createGameModel() {
 		GameModel model = new GameModel();
