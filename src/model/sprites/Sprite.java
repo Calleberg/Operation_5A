@@ -15,9 +15,14 @@ public interface Sprite extends WorldObject {
 	public static enum State{MOVING, STANDING};
 	
 	/**
-	 * Move the sprite in it's current direction.
+	 * Moves the sprite along the X axis.
 	 */
-	public void move();
+	public void moveXAxis();
+	
+	/**
+	 * Moves the sprite along the Y axis.
+	 */
+	public void moveYAxis();
 	
 	/**
 	 * Returns the direction of the Sprite.
