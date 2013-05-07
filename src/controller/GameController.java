@@ -46,6 +46,11 @@ public class GameController extends Thread {
 	 */
 	@Override
 	public void run() {
+		while (true){
+			runControler();
+		}
+	}
+	private void runControler(){
 		while(isRunning) {
 			this.update();
 			ticks++;
@@ -56,7 +61,6 @@ public class GameController extends Thread {
 			}
 		}
 	}
-	
 	/**
 	 * Gives the number of updates since start.
 	 * @return the number of updates since start.
@@ -127,6 +131,7 @@ public class GameController extends Thread {
 		}
 		//TODO Fulkod
 		else if(input.isPressed(KeyEvent.VK_ESCAPE)){
+			System.out.println("ESCAPE pressed entering pause menu");
 			MenuController.getInstance().pauseMenu();
 			
 		}else{
@@ -134,11 +139,12 @@ public class GameController extends Thread {
 		}
 
 	}
-	
-	public void pauseThread(){
-		isRunning=false;
-	}
-	public void resumeThread(){
-		isRunning=true;
+	/**
+	 * Pauses the thread from running depending on the input parameter.
+	 * @param b the parameter. if true the trhead will not execute.
+	 */
+	public void pause(boolean b){
+		isRunning=!b;
+		run();
 	}
 }

@@ -3,9 +3,9 @@ package view;
 import javax.swing.JFrame;
 
 /**
+ * The main widows of the game. All graphics in the game is presented in this frame.
  * 
- * 
- * @author 
+ * @author Vidar Eriksson
  *
  */
 @SuppressWarnings("serial")
@@ -14,7 +14,7 @@ public class Window extends JFrame {
 	
 	private Window() {
 		super();
-		this.setTitle("Name of Game");
+		this.setTitle(resources.Name.getGameName());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
