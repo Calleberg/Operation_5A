@@ -11,6 +11,7 @@ import model.items.weapons.Projectile;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.sprites.Sprite;
+import model.world.props.PropFactory;
 
 import org.junit.Test;
 
@@ -165,27 +166,36 @@ public class WorldTest {
 		tiles[3][1].setWestWall(true);
 		tiles[3][2].setWestWall(true);
 		
+		tiles[5][7].setProperty(Tile.UNWALKABLE);
+		tiles[9][8].addProp(PropFactory.getProp(new Position(9,8), 0));
+		
 		World w = new World(tiles);
 		
-		assertFalse(w.canMove(new Position(0,1), new Position(1,0))); //walk NE
-		assertFalse(w.canMove(new Position(1,0), new Position(0,1))); //walk SW
+		assertFalse(w.canMove(new Position(0 +0.5f,1 +0.5f), new Position(1 +0.5f,0 +0.5f))); //walk NE
+		assertFalse(w.canMove(new Position(1 +0.5f,0 +0.5f), new Position(0 +0.5f,1 +0.5f))); //walk SW
 		
-		assertFalse(w.canMove(new Position(2,3), new Position(3,2))); //walk NE
-		assertFalse(w.canMove(new Position(3,2), new Position(2,3))); //walk SW
+		assertFalse(w.canMove(new Position(2 +0.5f,3 +0.5f), new Position(3 +0.5f,2 +0.5f))); //walk NE
+		assertFalse(w.canMove(new Position(3 +0.5f,2 +0.5f), new Position(2 +0.5f,3 +0.5f))); //walk SW
 		
-		assertFalse(w.canMove(new Position(2,3), new Position(2,2))); //walk through north wall
-		assertFalse(w.canMove(new Position(2,2), new Position(2,3))); //walk through south wall
+		assertFalse(w.canMove(new Position(2 +0.5f,3 +0.5f), new Position(2 +0.5f,2 +0.5f))); //walk through north wall
+		assertFalse(w.canMove(new Position(2 +0.5f,2 +0.5f), new Position(2 +0.5f,3 +0.5f))); //walk through south wall
 		
-		assertFalse(w.canMove(new Position(3,2), new Position(2,2))); //walk through west wall
-		assertFalse(w.canMove(new Position(2,2), new Position(3,2))); //walk through east wall
+		assertFalse(w.canMove(new Position(3 +0.5f,2 +0.5f), new Position(2 +0.5f,2 +0.5f))); //walk through west wall
+		assertFalse(w.canMove(new Position(2 +0.5f,2 +0.5f), new Position(3 +0.5f,2 +0.5f))); //walk through east wall
 		
-		assertTrue(w.canMove(new Position(0,1), new Position(0,2)));
-		assertTrue(w.canMove(new Position(0,2), new Position(0,1)));
+		//Tests some paths the player can actually travel
+		assertTrue(w.canMove(new Position(0 +0.5f,1 +0.5f), new Position(0 +0.5f,2 +0.5f)));
+		assertTrue(w.canMove(new Position(0 +0.5f,2 +0.5f), new Position(0 +0.5f,1 +0.5f)));
 		
-		assertTrue(w.canMove(new Position(1,0), new Position(2,0)));
-		assertTrue(w.canMove(new Position(2,0), new Position(1,0)));
+		assertTrue(w.canMove(new Position(1 +0.5f,0 +0.5f), new Position(2 +0.5f,0 +0.5f)));
+		assertTrue(w.canMove(new Position(2 +0.5f,0 +0.5f), new Position(1 +0.5f,0 +0.5f)));
 		
-		assertTrue(w.canMove(new Position(5,5), new Position(5,6)));
+		assertTrue(w.canMove(new Position(5 +0.5f,5 +0.5f), new Position(5 +0.5f,6 +0.5f)));
+		
+		assertFalse(w.canMove(new Position(4 +0.5f, 7 +0.5f), new Position(5 +0.5f, 7 +0.5f))); //walk through unwalkable tile
+	
+		assertFalse(w.canMove(new Position(8 +0.5f,8 +0.5f), new Position(9 +0.5f,8 +0.5f)));
+
 	}
 	
 //	@Test

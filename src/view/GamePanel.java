@@ -147,7 +147,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 				(pos.getY() - camera.getY())/camera.getScale());
 	}
 	
-	
+	//TODO: snyggare att stoppa allt i en egen klass
 	private int lastTime;
 	private int lastFPS;
 	private int tickFPS;
