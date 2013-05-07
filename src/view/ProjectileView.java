@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import model.geometrical.Position;
@@ -14,6 +15,7 @@ import model.items.weapons.Projectile;
 public class ProjectileView implements ObjectRenderer<Projectile> {
 
 	private Projectile p;
+	private Position lastPos;
 	
 	/**
 	 * Creates a new projectile view which will render the specified projectile.
@@ -35,11 +37,16 @@ public class ProjectileView implements ObjectRenderer<Projectile> {
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {
-		if(p != null) {
-			int x = (int)(p.getPosition().getX() * scale + offset.getX()); 
-			int y = (int)(p.getPosition().getY() * scale + offset.getY());
-			g.drawRect(x, y, (int)(p.getCollisionBox().getWidth()*scale), 
-					(int)(p.getCollisionBox().getHeight()*scale));
+		if(p != null) {			
+			if(lastPos != null) {
+				g.setColor(Color.ORANGE);
+				g.drawLine((int)(p.getPosition().getX() * scale + offset.getX()),
+						(int)(p.getPosition().getY() * scale + offset.getY()),
+						(int)(lastPos.getX() * scale + offset.getX()),
+						(int)(lastPos.getY() * scale + offset.getY()));
+			}
+			
+			lastPos = p.getPosition();
 		}
 	}
 }

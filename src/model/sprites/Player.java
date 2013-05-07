@@ -1,5 +1,6 @@
 package model.sprites;
 
+import model.geometrical.Circle;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
@@ -31,7 +32,8 @@ public class Player implements Sprite {
 		state = State.STANDING;
 		this.speed = 0.2f;
 		this.health = 100;
-		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
+		collisionBox = new Rectangle(x, y, 0.7f, 0.7f);
+//		collisionBox = new Circle(x, y, 0.6f, 8);
 	}
 	
 	@Override
@@ -143,13 +145,13 @@ public class Player implements Sprite {
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getCollisionBox().getWidth()/2 + (float)(Math.cos(faceDir)*1f), 
-				getY() + getCollisionBox().getHeight()/2 - (float)(Math.sin(faceDir)*1f));
+		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*1f), 
+				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*1f));
 	}
 	
 	@Override
 	public Position getCenter() {
-		return new Position(getX() + getCollisionBox().getWidth()/2, getY() + getCollisionBox().getHeight()/2);
+		return new Position(getX() + getHitBox().getWidth()/2, getY() + getHitBox().getHeight()/2);
 	}
 	
 	/**
@@ -175,7 +177,7 @@ public class Player implements Sprite {
 	}
 	
 	@Override
-	public CollisionBox getCollisionBox() {
+	public CollisionBox getHitBox() {
 		return collisionBox;
 	}
 	

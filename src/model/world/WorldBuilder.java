@@ -237,9 +237,11 @@ public class WorldBuilder {
 				tile.addProp(PropFactory.getProp(new Position(x, y), Integer.parseInt(data[i].substring(1))));
 			}else if(data[i].substring(0,1).equals(PROPERTY_PREFIX)) {
 				int property = Integer.parseInt(data[i].substring(1));
-				if(property != Tile.NONE && property != Tile.UNWALKABLE) {
+				if(property != Tile.NONE) {
 					tile.setProperty(property);
-					this.spawnPoints.add(tile);
+					if(property != Tile.UNWALKABLE) {
+						this.spawnPoints.add(tile);
+					}
 				}
 			}else{
 				int walls = Integer.parseInt(data[i]);

@@ -66,8 +66,8 @@ public class PlayerTest {
 	public void getCollisionBox(){
 		//TODO more tests?
 		Player p = new Player(1,1);
-		assertTrue(p.getCollisionBox().getPosition().getX() == (p.getPosition()).getX());
-		assertTrue(p.getCollisionBox().getPosition().getY() == (p.getPosition()).getY());
+		assertTrue(p.getHitBox().getPosition().getX() == (p.getPosition()).getX());
+		assertTrue(p.getHitBox().getPosition().getY() == (p.getPosition()).getY());
 	}
 	
 	@Test

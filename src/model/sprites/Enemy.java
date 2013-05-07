@@ -2,6 +2,7 @@ package model.sprites;
 
 import java.util.List;
 
+import model.geometrical.Circle;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
@@ -25,7 +26,8 @@ public class Enemy implements Sprite{
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
-		collisionBox = new Rectangle(position.getX(), position.getY(), 0.6f, 0.6f);
+		collisionBox = new Rectangle(position.getX(), position.getY(), 0.7f, 0.7f);
+//		collisionBox = new Circle(position.getX(), position.getY(), 0.6f, 8);
 	}
 	
 	/**
@@ -38,8 +40,8 @@ public class Enemy implements Sprite{
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getCollisionBox().getWidth()/2 + (float)(Math.cos(direction)*1f), 
-				getY() + getCollisionBox().getHeight()/2 - (float)(Math.sin(direction)*1f));
+		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(direction)*1f), 
+				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(direction)*1f));
 	}
 
 	/**
@@ -53,23 +55,18 @@ public class Enemy implements Sprite{
 	@Override
 	public void moveXAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			this.setDirectionTowardsList();
-			
-//			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
-//					collisionBox.getPosition().getY()));
+			this.setDirectionTowardsList();			
 			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
-					collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
+					collisionBox.getPosition().getY()));
 		}
 	}
 	
 	@Override
 	public void moveYAxis(){
-//		if(this.state == Sprite.State.MOVING) {
-////			this.setDirectionTowardsList();
-//			
-//			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
-//					collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
-//		}
+		if(this.state == Sprite.State.MOVING) {			
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
+					collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
+		}
 	}
 	
 
@@ -133,8 +130,8 @@ public class Enemy implements Sprite{
 
 
 	@Override
-	public CollisionBox getCollisionBox() {
-		return collisionBox;
+	public CollisionBox getHitBox() {
+		return this.collisionBox;
 	}
 	public void setWay(List<PathfindingNode> list){
 		this.state = State.MOVING;
@@ -187,7 +184,7 @@ public class Enemy implements Sprite{
 
 	@Override
 	public Position getCenter() {
-		return new Position(getX() + getCollisionBox().getWidth()/2, getY() + getCollisionBox().getHeight()/2);
+		return new Position(getX() + getHitBox().getWidth()/2, getY() + getHitBox().getHeight()/2);
 	}
 
 	@Override
