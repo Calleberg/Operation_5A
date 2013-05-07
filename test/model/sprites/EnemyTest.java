@@ -16,23 +16,28 @@ public class EnemyTest {
 		//TODO: setState when implemented in Enemy
 		
 		e.setDirection(0f);
-		e.move();
+		e.moveXAxis();
+		e.moveYAxis();
 		assertTrue(e.getX() == 1.2f && e.getY() == 1f);
 		
 		e.setDirection((float)Math.PI);
-		e.move();
+		e.moveXAxis();
+		e.moveYAxis();
 		assertTrue(e.getX() == 1f && e.getY() == 1f);
 		
 		e.setDirection((float)Math.PI/2);
-		e.move();
+		e.moveXAxis();
+		e.moveYAxis();
 		assertTrue(e.getX() == 1f && e.getY() == 0.8f);
 		
 		e.setDirection((float)Math.PI*3/2);
-		e.move();
+		e.moveXAxis();
+		e.moveYAxis();
 		assertTrue(e.getX() == 1f && e.getY() == 1f);
 		
 		e.setDirection((float)Math.PI*-1/4);
-		e.move();
+		e.moveXAxis();
+		e.moveYAxis();
 		System.out.println(e.getX() + " " + e.getY());
 		assertTrue(e.getX() == e.getY());
 	}

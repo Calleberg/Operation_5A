@@ -189,8 +189,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		//Sets the player to the center of the screen.
 		camera.setToCenter(model.getPlayer().getCenter(), getSize());
 		//Draws all the dynamic items.
-		for(ObjectRenderer<?> or : objects) {
-			or.render(g2d, camera.getOffset(), camera.getScale());
+		for(int i = objects.size() - 1; i >= 0; i--) {
+			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
 		}
 		//data:
 		g.setColor(new Color(255, 255, 255, 150));
@@ -236,15 +236,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		if(e.getPropertyName().equals(GameModel.ADDED_SPRITE)) {
-			System.out.println("Added sprite caught by GamePanel");
 			if(e.getNewValue() instanceof Player) {
 				this.objects.add(new PlayerView((Player)e.getNewValue()));
 			}else{
 				this.objects.add(new SpriteView((Sprite)e.getNewValue()));
 			}
-		}else if(e.getPropertyName().equals(GameModel.REMOVED_SPRITE) ||
-				e.getPropertyName().equals(GameModel.REMOVED_PROJECTILE)) {
-			System.out.println("Removed sprite caught by GamePanel");
+		}else if(e.getPropertyName().equals(GameModel.REMOVED_OBJECT)) {
 			for(ObjectRenderer<?> or : this.objects) {
 				if(or.getObject() == e.getOldValue()) {
 					objects.remove(or);
@@ -252,7 +249,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 				}
 			}
 		}else if(e.getPropertyName().equals(GameModel.ADDED_PROJECTILE)) {
-			System.out.println("Added projectile caught by GamePanel");
 			this.objects.add(new ProjectileView((Projectile)e.getNewValue()));
 		}else if(e.getPropertyName().equals(GameModel.ADDED_SUPPLY)){
 			this.objects.add(new SupplyView((Supply)e.getNewValue()));

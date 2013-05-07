@@ -36,13 +36,19 @@ public class Player implements Sprite {
 		this.food = 100;
 	}
 	
-	/**
-	 * The player moves in specific direction and length depending on which key is pressed
-	 * and the player's speed.
-	 */
-	public void move(){
+	@Override
+	public void moveXAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			this.changePosition(moveDir);
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(moveDir)*speed), 
+					collisionBox.getPosition().getY()));
+		}
+	}
+	
+	@Override
+	public void moveYAxis(){
+		if(this.state == Sprite.State.MOVING) {
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
+					collisionBox.getPosition().getY() - (float)(Math.sin(moveDir)*speed)));
 		}
 	}
 	
@@ -53,15 +59,6 @@ public class Player implements Sprite {
 	public void setMoveDir(float d) {
 		this.setState(Sprite.State.MOVING);
 		this.moveDir = d;
-	}
-	
-	/*
-	 * Changes the position with a specific direction.
-	 * @param d the position to walk at.
-	 */
-	private void changePosition(double d){
-		collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed), 
-				collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed)));
 	}
 	
 	@Override
