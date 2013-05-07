@@ -43,7 +43,7 @@ public class Player implements Sprite {
 					collisionBox.getPosition().getY()));
 		}
 	}
-	
+
 	@Override
 	public void moveYAxis(){
 		if(this.state == Sprite.State.MOVING) {
