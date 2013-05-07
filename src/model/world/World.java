@@ -121,29 +121,33 @@ public class World {
 		//Updates all the sprites
 		for(int i = 0; i < sprites.size(); i++) {
 			sprites.get(i).moveXAxis();
-			CollisionBox box = sprites.get(i).getCollisionBox();
+			CollisionBox box = sprites.get(i).getHitBox();
 			Tile[] tilesToCheck = getTileAround(box.getPosition());
 			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && box.intersects(tilesToCheck[j].getCollisionBox())) {
+				if(tilesToCheck[j] != null && (box.intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprites.get(i).getHitBox())))) {
 					box.moveBack();
 				}
 			}
 			//Check if the sprite hit another sprite
 			for(int j = 0; j < sprites.size(); j++) {
-				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
+				if(i != j && sprites.get(i).getHitBox().intersects(sprites.get(j).getHitBox())) {
 					box.moveBack();
 				}
 			}
 			
 			sprites.get(i).moveYAxis();
 			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && box.intersects(tilesToCheck[j].getCollisionBox())) {
+				if(tilesToCheck[j] != null && (box.intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprites.get(i).getHitBox())))) {
 					box.moveBack();
 				}
 			}
 			//Check if the sprite hit another sprite
 			for(int j = 0; j < sprites.size(); j++) {
-				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
+				if(i != j && sprites.get(i).getHitBox().intersects(sprites.get(j).getHitBox())) {
 					box.moveBack();
 				}
 			}
@@ -167,7 +171,7 @@ public class World {
 					projectiles.get(j).move();
 					//Checks if the projectile hit a sprite
 					for(int i = 0; i < sprites.size(); i++){
-						if(sprites.get(i).getCollisionBox().intersects(projectiles.get(j).getCollisionBox())) {
+						if(sprites.get(i).getHitBox().intersects(projectiles.get(j).getCollisionBox())) {
 							System.out.println("projectile collision");
 							sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
 							projectilesToBeRemoved.add(projectiles.get(j));

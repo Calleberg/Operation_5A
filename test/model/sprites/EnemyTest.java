@@ -64,8 +64,8 @@ public class EnemyTest {
 	public void getCollisionBox(){
 		//TODO more tests?
 		Player p = new Player(1,1);
-		assertTrue(p.getCollisionBox().getPosition().getX() == (p.getPosition()).getX());
-		assertTrue(p.getCollisionBox().getPosition().getY() == (p.getPosition()).getY());
+		assertTrue(p.getHitBox().getPosition().getX() == (p.getPosition()).getX());
+		assertTrue(p.getHitBox().getPosition().getY() == (p.getPosition()).getY());
 	}
 	
 	@Test
@@ -131,16 +131,16 @@ public class EnemyTest {
 	public void getProjectileSpawn(){
 		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
 		
-		assertTrue(e.getProjectileSpawn().getX() == e.getCollisionBox().getPosition().getX());
-		assertTrue(e.getProjectileSpawn().getY() == e.getCollisionBox().getPosition().getY());
+		assertTrue(e.getProjectileSpawn().getX() == e.getHitBox().getPosition().getX());
+		assertTrue(e.getProjectileSpawn().getY() == e.getHitBox().getPosition().getY());
 	}
 	
 	@Test
 	public void getCenter(){
 		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
 		
-		float targetX = e.getX() + e.getCollisionBox().getWidth()/2;
-		float targetY = e.getY() + e.getCollisionBox().getHeight()/2; 
+		float targetX = e.getX() + e.getHitBox().getWidth()/2;
+		float targetY = e.getY() + e.getHitBox().getHeight()/2; 
 		
 		assertTrue(e.getCenter().getX() == targetX && e.getCenter().getY() == targetY);
 		
