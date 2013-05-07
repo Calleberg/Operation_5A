@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.GameModel;
 import model.geometrical.CollisionBox;
+import model.geometrical.Line;
 import model.geometrical.Position;
 import model.items.Supply;
 import model.items.SupplyFactory;
@@ -143,9 +144,6 @@ public class World {
 			//Check if the sprite hit another sprite
 			for(int j = 0; j < sprites.size(); j++) {
 				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
-					System.out.println("Collision");
-					System.out.println("1=" + sprites.get(i).getCollisionBox());
-					System.out.println("2=" + sprites.get(j).getCollisionBox());
 					box.moveBack();
 				}
 			}
@@ -279,70 +277,17 @@ public class World {
 	 * @return <code>true</code> if it's possible to move between the two tiles.
 	 */
 	public boolean canMove(Position pos1, Position pos2) {
-		if(pos1.getX() == pos2.getX()) { 
-			if(pos1.getY() < pos2.getY()) { //move south
-				return canMoveDown(pos1);	
-			}else{ //move north
-				return canMoveUp(pos1);		
-			}
-		}else if(pos1.getY() == pos2.getY()){
-			if(pos1.getX() < pos2.getX()) { //move east
-				return canMoveRight(pos1);
-			}else{ //move west
-				return canMoveLeft(pos1);
-			}
-		}else if(pos1.getX() > pos2.getX()) { 
-			if(pos1.getY() > pos2.getY()) { //move NW
-				return (canMoveUp(pos1) && canMoveLeft(pos1) && canMoveDown(pos2) && canMoveRight(pos2));
-			}else{ //move SW
-				return (canMoveLeft(pos1) && canMoveDown(pos1) && canMoveUp(pos2) && canMoveRight(pos2));
-			}
-		}else{
-			if(pos1.getY() > pos2.getY()) { //move NE
-				return (canMoveUp(pos1) && canMoveRight(pos1) && canMoveDown(pos2) && canMoveLeft(pos2));
-			}else{ //move SE
-				return (canMoveDown(pos1) && canMoveRight(pos1) && canMoveUp(pos2) && canMoveLeft(pos2));
+		Line l = new Line(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
+		for(int x = (int)Math.min(pos1.getX(), pos2.getX()); x < Math.max(pos1.getX(), pos2.getX()); x++) {
+			for(int y = (int)Math.min(pos1.getY(), pos2.getY()); y < Math.max(pos1.getY(), pos2.getY()); y++) {
+				if(l.intersects(tiles[x][y].getCollisionBox()) || 
+						(tiles[x][y].getProperty() == Tile.UNWALKABLE && tiles[x][y].intersects(l))) {
+					return false;
+				}
 			}
 		}
 		
-	}
-
-	/*
-	 * Checks if it's possible to move to the tile directly north of the specified one.
-	 */
-	private boolean canMoveUp(Position start) {
-		if(validPosition(start) && validPosition(new Position(start.getX(), start.getY() - 1))) {
-			return !(tiles[(int)start.getX()][(int)start.getY()].hasNorthWall() 
-					|| tiles[(int)start.getX()][(int)start.getY() - 1].hasProps());
-		}else{
-			return true;
-		}
-	}
-	
-	/*
-	 * Checks if it's possible to move to the tile directly south of the specified one.
-	 */
-	private boolean canMoveDown(Position start) {
-		return canMoveUp(new Position(start.getX(), start.getY() + 1));
-	}
-	
-	/*
-	 * Checks if it's possible to move to the tile directly west of the specified one.
-	 */
-	private boolean canMoveLeft(Position start) {
-		if(validPosition(start) && validPosition(new Position(start.getX() - 1, start.getY()))) {
-			return !(tiles[(int)start.getX()][(int)start.getY()].hasWestWall() 
-					|| tiles[(int)start.getX() - 1][(int)start.getY()].hasProps());
-		}else{
-			return true;
-		}
-	}
-	
-	/*
-	 * Checks if it's possible to move to the tile directly east of the specified one.
-	 */
-	private boolean canMoveRight(Position start) {
-		return canMoveLeft(new Position(start.getX() + 1, start.getY()));
+		return true;
 	}
 	
 	/**

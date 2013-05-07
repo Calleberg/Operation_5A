@@ -145,4 +145,19 @@ public class WeaponFactory {
 	public static Weapon startingWeapon() {
 		return createTestWeapon();
 	}
+	public static Weapon loadSavedWeapon(String s){
+		return new Weapon(
+				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+				Integer.parseInt(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+				Integer.parseInt(extractSavedString(s)), extractSavedString(s),
+				Integer.parseInt(extractSavedString(s)), Long.parseLong(extractSavedString(s)),
+				Long.parseLong(extractSavedString(s)));		
+	}
+	private static String extractSavedString(String s){
+		int i = s.indexOf("#");
+		String r = s.substring(0, i);
+		s=s.substring(i);
+		return r;
+	}
 }

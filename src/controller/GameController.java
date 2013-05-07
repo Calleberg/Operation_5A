@@ -22,9 +22,10 @@ public class GameController extends Thread {
 
 	private final int SLEEP = 1000 / 60;
 	private GameModel model;
-	private final Input input;
+	private Input input;
 	private long startTime = Calendar.getInstance().getTimeInMillis();
 	private int ticks;
+	private boolean isRunning = true;
 	
 	/**
 	 * Creates a new gameController.
@@ -45,7 +46,7 @@ public class GameController extends Thread {
 	 */
 	@Override
 	public void run() {
-		while(true) {
+		while(isRunning) {
 			this.update();
 			ticks++;
 			try{
@@ -123,8 +124,21 @@ public class GameController extends Thread {
 			model.getPlayer().setMoveDir((float)(-Math.PI/2));
 		}else if(input.isPressed(KeyEvent.VK_D)) {
 			model.getPlayer().setMoveDir(0f);
+		}
+		//TODO Fulkod
+		else if(input.isPressed(KeyEvent.VK_ESCAPE)){
+			MenuController.getInstance().pauseMenu();
+			
 		}else{
 			model.getPlayer().setState(Player.State.STANDING);
 		}
-	}	
+
+	}
+	
+	public void pauseThread(){
+		isRunning=false;
+	}
+	public void resumeThread(){
+		isRunning=true;
+	}
 }

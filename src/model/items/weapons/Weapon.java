@@ -18,6 +18,7 @@ public class Weapon extends Item {
 	private final int magazineCapacity;
 	private final int reloadTime;
 	private final int rateOfFire;
+	private final int iconNumber;
 	private final String name;
 	
 	private int ammunitionInMagazine;
@@ -45,8 +46,19 @@ public class Weapon extends Item {
 		this.reloadTime = reloadTime;
 		this.rateOfFire=rateOfFire;
 		this.name=name;
+		this.iconNumber=iconNumber;
 		
 		ammunitionInMagazine=magazineCapacity;
+
+	}
+	public Weapon(float projectileSpeed, int damage, float range,
+			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
+			int ammunitionInMagazine, long lastTimeFired, long lastTimeReloaded){
+		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, iconNumber, name);
+
+		this.ammunitionInMagazine=ammunitionInMagazine;
+		this.lastTimeFired=lastTimeFired;
+		this.lastTimeReloaded=lastTimeReloaded;
 
 	}
 	/**
@@ -125,6 +137,25 @@ public class Weapon extends Item {
 	}
 	public String toString() {
 		return name;
+	}
+	/**
+	 * Returns a string containing the values of the weapon.
+	 * @return a string containing the values of the weapon.
+	 */
+	public String saveWeapon(){
+		String s=
+				projectileSpeed+"#"+
+				damage+"#"+
+				range+"#"+
+				magazineCapacity+"#"+
+				reloadTime+"#"+
+				rateOfFire+"#"+
+				iconNumber+"#"+
+				name+"#"+
+				ammunitionInMagazine+"#"+
+				lastTimeFired+"#"+
+				lastTimeReloaded+"#";
+		return s;
 	}
 
 
