@@ -186,8 +186,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			}
 		}
 		
-		//Sets the player to the center of the screen.
-		camera.setToCenter(model.getPlayer().getCenter(), getSize());
 		//Draws all the dynamic items.
 		for(int i = objects.size() - 1; i >= 0; i--) {
 			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
