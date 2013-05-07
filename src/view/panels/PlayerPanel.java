@@ -27,5 +27,6 @@ public class PlayerPanel extends JPanel {
 		g.drawString("Ammo: " + player.getActiveWeapon().getAmmunitionInMagazine() + "/" + 
 				player.getAmmoAmount(), 10, 20);
 		g.drawString("Weapon: " + player.getActiveWeapon().toString(), 10, 30);
+		g.drawString("Food : " + player.getFood(), 10, 40);
 	}
 }

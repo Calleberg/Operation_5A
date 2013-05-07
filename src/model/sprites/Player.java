@@ -3,6 +3,7 @@ package model.sprites;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.items.Supply;
 import model.items.weapons.Weapon;
 
 /**
@@ -253,5 +254,21 @@ public class Player implements Sprite {
 	 */
 	public void removeFood(int foodToRemove){
 		this.food -= foodToRemove;
+	}
+
+	@Override
+	public boolean pickUpItem(Supply s) {
+		if(s.getType() == Supply.Type.FOOD){
+			this.addFood(s.getAmount());
+			return true;
+		}else if(s.getType() == Supply.Type.AMMO){
+			this.increaseAmmo(s.getAmount());
+			return true;
+		}else if(s.getType() == Supply.Type.HEALTH){
+			this.increaseHealth(s.getAmount());
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

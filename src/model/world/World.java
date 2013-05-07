@@ -116,7 +116,8 @@ public class World {
 	/**
 	 * Updates the world.
 	 */
-	public void update() {		
+	public void update() {
+		List<Supply> suppliesToBeRemoved = new ArrayList<Supply>(); 
 		//Updates all the sprites
 		for(int i = 0; i < sprites.size(); i++) {
 			sprites.get(i).moveXAxis();
@@ -145,7 +146,15 @@ public class World {
 				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
 					box.moveBack();
 				}
-			}			
+			}
+			//Check if player hit supply
+			for(int j = 0; j < supplies.size(); j++){
+				if(sprites.get(i).getCollisionBox().intersects(supplies.get(j).getCollisionBox())){
+					if(sprites.get(i).pickUpItem(supplies.get(j))){
+						suppliesToBeRemoved.add(supplies.get(j));
+					}
+				}
+			}
 		}
 		
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
@@ -187,6 +196,7 @@ public class World {
 		//Remove all the objects which needs to be removed
 		this.removeSprites(spritesToBeRemoved);
 		this.removeProjectiles(projectilesToBeRemoved);
+		this.removeSupplies(suppliesToBeRemoved);
 		
 		//TODO flytta till controller
 		//Spawn supplies
@@ -317,13 +327,20 @@ public class World {
 	 */
 	public void spawnSupplies(Tile t){
 		int supplyProperty = t.getProperty();
-		if(supplyProperty == 1 || supplyProperty == 2 || supplyProperty == 3){//Create a supply
-			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
+		if(supplyProperty == 1){//Create a food
+			this.supplies.add(SupplyFactory.createFood(25, t.getPosition()));
+			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
+		}else if(supplyProperty == 2){//Create an ammo
+			this.supplies.add(SupplyFactory.createAmmo(12, t.getPosition()));
+			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
+		}else if(supplyProperty == 3){//Create a health
+			this.supplies.add(SupplyFactory.createHealth(25, t.getPosition()));
 			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 4){//create a weapon
 			//TODO implement weapon as a supply
 			System.out.println("Weapon supposed to spawn");
 		}
+		
 	}
 	
 	/**
@@ -340,5 +357,23 @@ public class World {
 	 */
 	public void setSpawnPoints(List<Tile> spawnPoints){
 		this.spawnPoints = spawnPoints;
+	}
+	
+	/**
+	 * Removes the specified supplies from the world.
+	 * @param supplies the supplies to remove.
+	 */
+	public void removeSupplies(List<Supply> supplies) {
+		for(Supply s : supplies) {
+			this.removeSupply(s);
+		}
+	}
+	/**
+	 * Removes the specified supply from the world.
+	 * @param supply the supply to remove.
+	 */
+	public void removeSupply(Supply supply) {
+		this.supplies.remove(supply);
+		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, supply, null);
 	}
 }
