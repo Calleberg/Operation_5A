@@ -195,7 +195,9 @@ public class MenuController extends Thread {
 		window.add(p);
 		activePanel=p;
 
-		window.revalidate();
+//		window.revalidate();
+		window.invalidate();
+		window.validate();
 		p.repaint();
 		p.requestFocus();
 	}

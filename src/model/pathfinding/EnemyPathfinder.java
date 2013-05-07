@@ -3,6 +3,7 @@ package model.pathfinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.geometrical.Position;
 import model.world.Tile;
 import model.world.World;
 
@@ -43,10 +44,6 @@ public class EnemyPathfinder {
 			findWay(t);
 		}
 		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
-//		correctList.add(currentNode);
-//		this.goal.setParentNode(currentNode);
-//		currentNode = this.goal;
-		System.out.println(noWayFound);
 		correctList.add(currentNode);
 		while(currentNode.getParentNode() != null){
 			correctList.add(currentNode.getParentNode());
@@ -85,9 +82,9 @@ public class EnemyPathfinder {
 		for(float x = currentNode.getTile().getX() - 1; x < currentNode.getTile().getX() + 2; x++){
 			for(float y = currentNode.getTile().getY() - 1; y < currentNode.getTile().getY() + 2; y++){
 				if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 
-						world.canMove(currentNode.getTile().getPosition(), nodes[(int)x][(int)y].getTile().getPosition())){
+						world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())){
 					if((openTileList.contains(nodes[(int)x][(int)y]))){
-						if(world.canMove(currentNode.getTile().getPosition(), nodes[(int)x][(int)y].getTile().getPosition())
+						if(world.canMove(currentNode.getCenter(), nodes[(int)x][(int)y].getCenter())
 								&& currentNode.getDistanceFromStart()+
 								getDistance(currentNode.getTile(), nodes[(int)x][(int)y].getTile()) < nodes[(int)x][(int)y].getDistanceFromStart()){
 							nodes[(int)x][(int)y].setParentNode(currentNode);
@@ -102,6 +99,7 @@ public class EnemyPathfinder {
 		}
 		return surroundingTiles;
 	}
+	
 	
 	
 	private float getDistance(Tile t1, Tile t2){
