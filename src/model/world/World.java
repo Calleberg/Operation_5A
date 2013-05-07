@@ -153,7 +153,7 @@ public class World {
 			}
 			//Check if player hit supply
 			for(int j = 0; j < supplies.size(); j++){
-				if(sprites.get(i).getCollisionBox().intersects(supplies.get(j).getCollisionBox())){
+				if(sprites.get(i).getHitBox().intersects(supplies.get(j).getCollisionBox())){
 					if(sprites.get(i).pickUpItem(supplies.get(j))){
 						suppliesToBeRemoved.add(supplies.get(j));
 					}
