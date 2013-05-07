@@ -199,6 +199,7 @@ public class World {
 			if(tick == 600){
 				int rnd = (int)Math.random()*spawnPoints.size();
 				Tile t = spawnPoints.get(rnd);
+				//TODO check so that the tile is not occupied
 				this.spawnSupplies(t);
 				tick = 0;
 			}
