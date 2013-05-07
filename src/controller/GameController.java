@@ -110,6 +110,14 @@ public class GameController extends Thread {
 		if(input.isPressed(KeyEvent.VK_R)){
 			model.getPlayer().reloadActiveWeapon();
 		}
+		
+		//gameOver?
+		if(model.getPlayer().getHealth() <= 0){
+			//TODO
+			System.out.println("Game over, Tid: " + getMsSinceStart()/1000 + "s");
+			this.pause(true);
+		}
+		
 		model.update();
 	}
 	
