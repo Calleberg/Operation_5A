@@ -320,14 +320,8 @@ public class World {
 	 */
 	public void spawnSupplies(Tile t){
 		int supplyProperty = t.getProperty();
-		if(supplyProperty == 1){//Create a food
+		if(supplyProperty == 1 || supplyProperty == 2 || supplyProperty == 3){//Create a supply
 			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 2){//create an ammo
-			this.supplies.add(SupplyFactory.createRandomAmmo(t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 3){//create a Health
-			this.supplies.add(SupplyFactory.createRandomHealth(t.getPosition()));
 			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 4){//create a weapon
 			//TODO implement weapon as a supply
