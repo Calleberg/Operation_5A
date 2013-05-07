@@ -133,15 +133,15 @@ public class GameController extends Thread {
 			model.getPlayer().setMoveDir((float)(-Math.PI/2));
 		}else if(input.isPressed(KeyEvent.VK_D)) {
 			model.getPlayer().setMoveDir(0f);
-		}
-		//TODO Fulkod
-		else if(input.isPressed(KeyEvent.VK_ESCAPE)){
-			System.out.println("ESCAPE pressed entering pause menu");
-			MenuController.getInstance().pauseMenu();
-			
 		}else{
 			model.getPlayer().setState(Player.State.STANDING);
 		}
+		
+		if(input.isPressed(KeyEvent.VK_ESCAPE)){
+			System.out.println("ESCAPE pressed entering pause menu");
+			MenuController.pauseMenu();
+		}
+			
 
 	}
 	/**

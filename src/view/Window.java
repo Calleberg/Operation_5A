@@ -10,9 +10,8 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public class Window extends JFrame {
-	private static Window instance = null;
 	
-	private Window() {
+	public Window() {
 		super();
 		this.setTitle(resources.Name.getGameName());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -25,16 +24,6 @@ public class Window extends JFrame {
 		this.setVisible(true);
 	}
 
-	/**
-	 * returns the singleton instance of Window
-	 * @return the singleton instance of Window
-	 */
-	public static Window getInstance(){
-		if (instance==null){
-			instance = new Window();
-		}
-		return instance;
-	}
 	
 
 }
