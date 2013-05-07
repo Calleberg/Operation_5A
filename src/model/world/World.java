@@ -92,7 +92,7 @@ public class World {
 	 */
 	public void removeSprite(Sprite sprite) {
 		this.sprites.remove(sprite);
-		this.pcs.firePropertyChange(GameModel.REMOVED_SPRITE, sprite, null);
+		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, sprite, null);
 	}
 	
 	/**
@@ -116,24 +116,10 @@ public class World {
 	/**
 	 * Updates the world.
 	 */
-	public void update() {
-//		if(pathfinder == null && tiles != null){
-//			pathfinder = new EnemyPathfinder(tiles);
-//			System.out.println("testtt");
-//		}
-//		for(Sprite s : sprites){
-//			if(s instanceof Enemy){
-//				List<PathfindingNode> list = pathfinder.findWay(tiles[(int)s.getX()][(int)s.getY()], 
-//						tiles[(int)sprites.get(0).getX()][(int)sprites.get(0).getY()], tiles);
-//				Enemy e = (Enemy) s;
-//				e.testPathfinding(list);
-//			}
-//		}
-		
+	public void update() {		
 		//Updates all the sprites
 		for(int i = 0; i < sprites.size(); i++) {
-			sprites.get(i).move();
-			//Check if the sprite hit an object
+			sprites.get(i).moveXAxis();
 			CollisionBox box = sprites.get(i).getCollisionBox();
 			Tile[] tilesToCheck = getTileAround(box.getPosition());
 			for(int j = 0; j < tilesToCheck.length; j++) {
@@ -147,6 +133,19 @@ public class World {
 					box.moveBack();
 				}
 			}
+			
+			sprites.get(i).moveYAxis();
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && box.intersects(tilesToCheck[j].getCollisionBox())) {
+					box.moveBack();
+				}
+			}
+			//Check if the sprite hit another sprite
+			for(int j = 0; j < sprites.size(); j++) {
+				if(i != j && sprites.get(i).getCollisionBox().intersects(sprites.get(j).getCollisionBox())) {
+					box.moveBack();
+				}
+			}			
 		}
 		
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
@@ -193,12 +192,14 @@ public class World {
 		this.removeSprites(spritesToBeRemoved);
 		this.removeProjectiles(projectilesToBeRemoved);
 		
+		//TODO flytta till controller
 		//Spawn supplies
 		if(spawnPoints != null){
 			tick++;
 			if(tick == 600){
 				int rnd = (int)Math.random()*spawnPoints.size();
 				Tile t = spawnPoints.get(rnd);
+				//TODO check so that the tile is not occupied
 				this.spawnSupplies(t);
 				tick = 0;
 			}
@@ -242,7 +243,7 @@ public class World {
 	 */
 	public void removeProjectile(Projectile projectile) {
 		this.projectiles.remove(projectile);
-		this.pcs.firePropertyChange(GameModel.REMOVED_PROJECTILE, projectile, null);
+		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, projectile, null);
 	}
 	
 	/**
@@ -320,14 +321,8 @@ public class World {
 	 */
 	public void spawnSupplies(Tile t){
 		int supplyProperty = t.getProperty();
-		if(supplyProperty == 1){//Create a food
+		if(supplyProperty == 1 || supplyProperty == 2 || supplyProperty == 3){//Create a supply
 			this.supplies.add(SupplyFactory.createRandomFood(t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 2){//create an ammo
-			this.supplies.add(SupplyFactory.createRandomAmmo(t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 3){//create a Health
-			this.supplies.add(SupplyFactory.createRandomHealth(t.getPosition()));
 			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
 		}else if(supplyProperty == 4){//create a weapon
 			//TODO implement weapon as a supply

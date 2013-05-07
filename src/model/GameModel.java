@@ -35,17 +35,13 @@ public class GameModel {
 	 */
 	public final static String ADDED_SPRITE = "addedsprite";
 	/**
-	 * The message sent when a sprite is removed.
+	 * The message sent when an object is removed.
 	 */
-	public final static String REMOVED_SPRITE = "removedsprit";
+	public final static String REMOVED_OBJECT = "removeobject";
 	/**
 	 * The message sent when a projectile is added.
 	 */
 	public final static String ADDED_PROJECTILE = "addedprojectile";
-	/**
-	 * The message sent when a projectile is removed.
-	 */
-	public final static String REMOVED_PROJECTILE = "removedprojectile";
 	/**
 	 * The message sent when a food supply is added
 	 */

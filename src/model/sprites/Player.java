@@ -21,6 +21,7 @@ public class Player implements Sprite {
 	private int health;
 	private CollisionBox collisionBox;
 	private int ammo;
+	private int food;
 	
 	/**
 	 * Creates a new player with a specific position.
@@ -29,18 +30,25 @@ public class Player implements Sprite {
 	 */
 	public Player(float x, float y){
 		state = State.STANDING;
-		this.speed = 0.2f;
+		this.speed = 0.15f;
 		this.health = 100;
 		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
+		this.food = 100;
 	}
 	
-	/**
-	 * The player moves in specific direction and length depending on which key is pressed
-	 * and the player's speed.
-	 */
-	public void move(){
+	@Override
+	public void moveXAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			this.changePosition(moveDir);
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(moveDir)*speed), 
+					collisionBox.getPosition().getY()));
+		}
+	}
+	
+	@Override
+	public void moveYAxis(){
+		if(this.state == Sprite.State.MOVING) {
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
+					collisionBox.getPosition().getY() - (float)(Math.sin(moveDir)*speed)));
 		}
 	}
 	
@@ -51,15 +59,6 @@ public class Player implements Sprite {
 	public void setMoveDir(float d) {
 		this.setState(Sprite.State.MOVING);
 		this.moveDir = d;
-	}
-	
-	/*
-	 * Changes the position with a specific direction.
-	 * @param d the position to walk at.
-	 */
-	private void changePosition(double d){
-		collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(d)*speed), 
-				collisionBox.getPosition().getY() - (float)(Math.sin(d)*speed)));
 	}
 	
 	@Override
@@ -224,5 +223,26 @@ public class Player implements Sprite {
 	@Override
 	public State getState() {
 		return this.state;
+	}
+	/**
+	 * Adds the amount of food specified to the food level of the player
+	 * @param foodToAdd the amount of food to add
+	 */
+	public void addFood(int foodToAdd){
+		this.food += foodToAdd;
+	}
+	/**
+	 * returns the food level of the player
+	 * @return the food level of the player
+	 */
+	public int getFood(){
+		return this.food;
+	}
+	/**
+	 * Removes the amount of food specified from the food level of the player
+	 * @param foodToRemove the amount of food to remove
+	 */
+	public void removeFood(int foodToRemove){
+		this.food -= foodToRemove;
 	}
 }
