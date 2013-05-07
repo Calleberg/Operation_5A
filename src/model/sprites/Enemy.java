@@ -51,14 +51,25 @@ public class Enemy implements Sprite{
 	}
 
 	@Override
-	public void move(){ 
-		if(state == Sprite.State.MOVING) {
+	public void moveXAxis(){
+		if(this.state == Sprite.State.MOVING) {
 			this.setDirectionTowardsList();
 			
-			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + 
-					(float)(Math.cos(direction)*speed), collisionBox.getPosition().getY() - 
-					(float)(Math.sin(direction)*speed)));
+//			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
+//					collisionBox.getPosition().getY()));
+			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
+					collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
 		}
+	}
+	
+	@Override
+	public void moveYAxis(){
+//		if(this.state == Sprite.State.MOVING) {
+////			this.setDirectionTowardsList();
+//			
+//			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
+//					collisionBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
+//		}
 	}
 	
 
