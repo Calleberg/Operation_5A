@@ -1,7 +1,5 @@
 package model.items;
 
-import java.awt.image.BufferedImage;
-
 import model.geometrical.Position;
 import model.geometrical.*;
 

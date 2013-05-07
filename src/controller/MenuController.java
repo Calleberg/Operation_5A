@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
 import javax.swing.JPanel;
 
@@ -19,26 +18,19 @@ import view.menu.MenuButton;
 import view.menu.PauseMenu;
 
 /**
- * The controller wich is responsible for managing the program window and its menus.
+ * The controller which is responsible for managing the program window and its menus.
  * 
  * @author Vidar Eriksson
  *
  */
-public class MenuController extends Thread {
-	private static MenuController instance = null;
-	private static final MainMenu mainMenuPanel = new MainMenu("Main Menu", createMainMenuButtons());
-	private static final PauseMenu pauseMenuPanel = new PauseMenu("PAUSE", createPauseMenuButtons());
-	private static final Window window = Window.getInstance();
+public class MenuController{
+	private static final Window window = new Window();
 	private static JPanel activePanel = null;
 	private static GameController gameController = null;
 	private static GamePanel gamePanel = null;
 
-	@Override
-	public void run(){
+	public MenuController() {
 		mainMenu();
-	}
-
-	private MenuController() {
 	}
 
 	private static MenuButton[] createMainMenuButtons() {
@@ -132,25 +124,12 @@ public class MenuController extends Thread {
 		
 		return buttons;
 	}
-/**
- * Returns the singleton instance of this class.
- * @return the singleton instance of this class.
- */
-	public static MenuController getInstance() {
-		if (instance==null){
-			instance = new MenuController();
-		}
-		return instance;
-	}
+
 	
 	private static void startGame(){
 		//TODO
-		LoadingScreen l = new LoadingScreen(100);
+		LoadingScreen l = new LoadingScreen();
 		changeWindowTo(l);
-		for(int a=0; a < 90; a++){
-			l.increase();
-			l.repaint();
-		}
 		if (gameController == null){
 			createGameController();
 		}
@@ -177,17 +156,19 @@ public class MenuController extends Thread {
 	 */
 	public static void mainMenu(){
 		//TODO
-		changeWindowTo(mainMenuPanel);
+		changeWindowTo(new MainMenu("Main Menu", createMainMenuButtons()));
 	}
 	/**
 	 * Changes the program window to the paused game menu.
 	 */
-	public void pauseMenu(){
+	public static void pauseMenu(){
 		//TODO
-
-		gameController.pause(true);
+		System.out.println("Pause menu show");
+//		gameController.pause(true);
 		
-		changeWindowTo(pauseMenuPanel);
+		changeWindowTo(new PauseMenu("PAUSE", createPauseMenuButtons()));
+		
+		System.out.println("Pause menu show 2");
 
 	}
 	private static void changeWindowTo(JPanel p){
@@ -214,8 +195,7 @@ public class MenuController extends Thread {
 	}
 	
 	private static void createGameController(){
-		System.out.println("0");
-		long time = Calendar.getInstance().getTimeInMillis();
+
 		Input input = new Input();
 		GameModel gameModel = createGameModel();
 		gameController = new GameController(gameModel, input);
@@ -227,9 +207,7 @@ public class MenuController extends Thread {
 		//Starts all the loops
 		gamePanel.start();
 		gameController.start();
-		
-		time=Calendar.getInstance().getTimeInMillis()-time;
-		System.out.println(""+time);
+
 	}
 	private static GameModel createGameModel() {
 		GameModel model = new GameModel();
