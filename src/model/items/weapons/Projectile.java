@@ -3,6 +3,7 @@ package model.items.weapons;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.geometrical.ScanLine;
 
 
 public class Projectile {
@@ -20,7 +21,8 @@ public class Projectile {
 		this.speed = speed;
 		this.range = range;
 		this.direction = direction;
-		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
+		this.collisionBox = new ScanLine(position.getX(), position.getY());
+//		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
 		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
 	}
 	

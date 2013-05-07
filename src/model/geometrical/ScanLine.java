@@ -16,6 +16,7 @@ public class ScanLine implements CollisionBox {
 
 	private Line2D line;
 	private List<Line2D> lineList;
+	private Position pos;
 	
 	/**
 	 * Creates a new ScanLine at the specified position.
@@ -23,6 +24,7 @@ public class ScanLine implements CollisionBox {
 	 * @param y the Y coordinate.
 	 */
 	public ScanLine(float x, float y) {
+		this.pos = new Position(x, y);
 		this.line = new Line2D.Float(x, y, x, y);
 		this.lineList = new ArrayList<Line2D>();
 		lineList.add(line);
@@ -40,7 +42,7 @@ public class ScanLine implements CollisionBox {
 
 	@Override
 	public Position getPosition() {
-		return new Position((float)Math.min(line.getX1(), line.getX2()), (float)Math.min(line.getY1(), line.getY2()));
+		return pos;
 	}
 
 	/**
@@ -52,6 +54,7 @@ public class ScanLine implements CollisionBox {
 	@Override
 	public void setPosition(Position pos) {
 		this.line.setLine(line.getX2(), line.getY2(), pos.getX(), pos.getY());
+		this.pos = pos;
 	}
 
 	/**
