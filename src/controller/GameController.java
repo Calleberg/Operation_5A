@@ -110,7 +110,6 @@ public class GameController extends Thread {
 		if(input.isPressed(KeyEvent.VK_R)){
 			model.getPlayer().reloadActiveWeapon();
 		}
-<<<<<<< HEAD
 		
 		//gameOver?
 		if(model.getPlayer().getHealth() <= 0){
@@ -119,8 +118,6 @@ public class GameController extends Thread {
 			this.pause(true);
 		}
 		
-=======
->>>>>>> origin/master
 		model.update();
 	}
 	
