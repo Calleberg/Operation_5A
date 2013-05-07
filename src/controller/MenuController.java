@@ -184,9 +184,11 @@ public class MenuController extends Thread {
 	 */
 	public void pauseMenu(){
 		//TODO
+
 		gameController.pause(true);
 		
 		changeWindowTo(pauseMenuPanel);
+
 	}
 	private static void changeWindowTo(JPanel p){
 		if (activePanel != null){
@@ -202,9 +204,11 @@ public class MenuController extends Thread {
 		p.requestFocus();
 	}
 	private static void resumeGame() {
+
 		gameController.pause(false);
 
 		changeWindowTo(gamePanel);
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -219,7 +223,7 @@ public class MenuController extends Thread {
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
-		
+
 		//Starts all the loops
 		gamePanel.start();
 		gameController.start();
