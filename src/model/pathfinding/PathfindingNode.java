@@ -1,5 +1,6 @@
 package model.pathfinding;
 
+import model.geometrical.Position;
 import model.world.Tile;
 /**
  * Hold all data for a node which is needed to calculate pathfinding.
@@ -100,5 +101,14 @@ public class PathfindingNode {
 		float dx = Math.abs(t1.getX() - t2.getX());
 		float dy = Math.abs(t1.getY() - t2.getY());
 		return (float)Math.sqrt(dx*dx+dy*dy);
+	}
+	
+	/**
+	 * Return the center of the Node.
+	 * @return the center of the Node.
+	 */
+	public Position getCenter(){
+		return new Position(tile.getX() + 0.5f, 
+				tile.getY() + 0.5f);
 	}
 }

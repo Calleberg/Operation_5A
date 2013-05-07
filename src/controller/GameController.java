@@ -51,6 +51,7 @@ public class GameController extends Thread {
 		}
 	}
 	private void runControler(){
+
 		while(isRunning) {
 			this.update();
 			ticks++;
