@@ -106,6 +106,10 @@ public class GameController extends Thread {
 			model.playerShoot();
 		}
 		
+		//playerReload
+		if(input.isPressed(KeyEvent.VK_R)){
+			model.getPlayer().reloadActiveWeapon();
+		}
 		model.update();
 	}
 	

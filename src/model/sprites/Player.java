@@ -34,6 +34,7 @@ public class Player implements Sprite {
 		this.health = 100;
 		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
 		this.food = 100;
+		this.ammo = 500;
 	}
 	
 	@Override
@@ -211,6 +212,14 @@ public class Player implements Sprite {
 		}else{
 			return true;
 		}
+	}
+	
+	/** 
+	 * Reload the active weapon and reduces the player's ammunition by the amount
+	 * needed to reload the weapon.
+	 */
+	public void reloadActiveWeapon(){
+		ammo = weapon.reload(ammo);
 	}
 	/**
 	 * Return the direction the player is currently moving
