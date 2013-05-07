@@ -49,15 +49,7 @@ public class GameModel {
 	/**
 	 * The message sent when a food supply is added
 	 */
-	public final static String ADDED_FOOD = "addedfood";
-	/**
-	 * The message sent when a ammo supply is added
-	 */
-	public final static String ADDED_AMMO = "addedammo";
-	/**
-	 * The message sent when a health supply is added
-	 */
-	public final static String ADDED_HEALTH = "addedhealth";
+	public final static String ADDED_SUPPLY = "addedsupply";
 
 	/**
 	 * Creates a new default game model.
