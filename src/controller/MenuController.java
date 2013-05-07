@@ -163,10 +163,12 @@ public class MenuController{
 	 */
 	public static void pauseMenu(){
 		//TODO
-
-		gameController.pause(true);
+		System.out.println("Pause menu show");
+//		gameController.pause(true);
 		
 		changeWindowTo(new PauseMenu("PAUSE", createPauseMenuButtons()));
+		
+		System.out.println("Pause menu show 2");
 
 	}
 	private static void changeWindowTo(JPanel p){

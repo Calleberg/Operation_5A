@@ -138,7 +138,7 @@ public class GameController extends Thread {
 		}
 		
 		if(input.isPressed(KeyEvent.VK_ESCAPE)){
-			System.out.println("ESCAPE pressed entering pause menu");
+			System.out.println("ESCAPE pressed");
 			MenuController.pauseMenu();
 		}
 			
@@ -150,6 +150,6 @@ public class GameController extends Thread {
 	 */
 	public void pause(boolean b){
 		isRunning=!b;
-		run();
+//		run();
 	}
 }
