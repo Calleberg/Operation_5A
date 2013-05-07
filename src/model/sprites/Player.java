@@ -30,7 +30,7 @@ public class Player implements Sprite {
 	 */
 	public Player(float x, float y){
 		state = State.STANDING;
-		this.speed = 0.2f;
+		this.speed = 0.15f;
 		this.health = 100;
 		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
 		this.food = 100;
