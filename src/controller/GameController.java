@@ -35,6 +35,7 @@ public class GameController extends Thread {
 	private int tick = 0;
 	private boolean tileOcuppied;
 	private int foodTicks;
+	private int enemySpawnTick;
 
 	
 	/**
@@ -145,6 +146,21 @@ public class GameController extends Thread {
 
 			}
 		}
+		
+		//spawnEnemies
+		//TODO fix
+		enemySpawnTick++;
+		if(enemySpawnTick >= 400){
+			enemySpawnTick = 0;
+			if((int)getMsSinceStart()/1000 < 120){
+				model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position(50,50)));
+			}else if((int)getMsSinceStart()/1000 < 480){
+				model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position(55,55)));
+			}else{
+				model.getWorld().addSprite(EnemyFactory.createHardEnemy(new Position(45,45)));
+			}
+		}
+		
 		
 		//reducePlayerFoodLevel
 		foodTicks++;
