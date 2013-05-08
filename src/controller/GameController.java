@@ -158,6 +158,8 @@ public class GameController extends Thread {
 	
 	private void playerDropWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
+			Weapon w = model.getPlayer().getActiveWeapon();
+			w.setPosition(new Position(50, 50));
 			model.getPlayer().dropWeapon();
 			Tile[][] t = model.getWorld().getTiles();
 			//TODO where spawn weapon?
@@ -195,6 +197,7 @@ public class GameController extends Thread {
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
 			Weapon w = WeaponFactory.startingWeapon();
+			w.setPosition(new Position(50,50));
 			model.getWorld().getItems().add(w);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
 			System.out.println("Weapon supposed to spawn");

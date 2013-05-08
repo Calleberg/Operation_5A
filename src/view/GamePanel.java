@@ -250,7 +250,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}else if(e.getPropertyName().equals(GameModel.ADDED_PROJECTILE)) {
 			this.objects.add(new ProjectileView((Projectile)e.getNewValue()));
 		}else if(e.getPropertyName().equals(GameModel.ADDED_SUPPLY)){
-			this.objects.add(new SupplyView((Supply)e.getNewValue()));
+			this.objects.add(new ItemView((Item)e.getNewValue()));
 		}
 	}
 

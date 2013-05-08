@@ -48,6 +48,11 @@ public class Item implements WorldObject{
 	@Override
 	public void setPosition(Position p) {
 		this.pos =p;
+		if(cBox != null){
+			this.cBox.setPosition(p);
+		}else{
+			this.cBox = new Rectangle(p.getX(),p.getY(),1,1);
+		}
 	}
 
 	/**
