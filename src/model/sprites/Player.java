@@ -207,8 +207,8 @@ public class Player implements Sprite {
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*1f), 
-				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*1f));
+		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*0.4f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
+				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*0.4f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
 	}
 	
 	@Override

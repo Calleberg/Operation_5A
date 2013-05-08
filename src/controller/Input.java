@@ -28,6 +28,15 @@ public class Input implements KeyListener, MouseListener {
 	}
 	
 	/**
+	 * Resets the specified key. 
+	 * Does the same as releasing a key.
+	 * @param e the key to reset.
+	 */
+	public void resetKey(KeyEvent e) {
+		this.keys[e.getKeyCode()] = false;
+	}
+	
+	/**
 	 * Gives <code>true</code> if the specified key is pressed.
 	 * @param key the key to check.
 	 * @return <code>true</code> if the specified key is pressed.
