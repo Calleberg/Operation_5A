@@ -6,6 +6,7 @@ import model.geometrical.Rectangle;
 import model.items.Item;
 import model.items.Supply;
 import model.items.weapons.Weapon;
+import model.items.weapons.WeaponFactory;
 
 /**
  * Models a player which can populate a world.
@@ -147,24 +148,25 @@ public class Player implements Sprite {
 	
 	//TODO dropped weapon still exist or destroyed?
 	/**
-	 * The player drops the weapon with the index i. The first weapon will
-	 * be active.
-	 * @param i the index of the weapon which is dropped.
+	 * The player drops the active weapon and picks up another. If w == null
+	 * the player will get a melee weapon
+	 * @param w the weapon the player should use after method.
 	 */
-	public void dropWeapon(){
+	public void pickUpWeapon(Weapon w){
 		for(int i = 0; i<3 ; i++){
 			if(weapons[i] == activeWeapon){
-				weapons[i] = null;
-				System.out.println(i);
-			}
-		}
-		for(Weapon w : weapons){
-			if(w != null){
-				activeWeapon = w;
+				if(w != null){
+					weapons[i] = w;
+					activeWeapon = w;
+				}else{
+					weapons[i] = WeaponFactory.createEnemyMeleeWeapon();
+					activeWeapon = weapons[i];
+				}
 			}
 		}
 	}
 	
+	//TODO remove this method, exist for testing purposes with starting weapon
 	/**
 	 * Try to add a weapon to the player. The player can carry a maxiumum
 	 * of three weapons.
@@ -174,9 +176,9 @@ public class Player implements Sprite {
 	 */
 	public boolean addWeapon(Weapon w){
 		for(int i = 0; i<3; i++){
-			if(weapons[i] == null){
+			if(weapons[i] == activeWeapon){
 				weapons[i] = w;
-				activeWeapon = weapons[i];
+				activeWeapon = w;
 				return true;
 			}
 		}
@@ -351,9 +353,6 @@ public class Player implements Sprite {
 			}else{
 				return false;
 			}
-		}else if(i instanceof Weapon){
-			Weapon w = (Weapon)i;
-			return this.addWeapon(w);
 		}else{
 			return false;
 		}

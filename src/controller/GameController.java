@@ -122,7 +122,7 @@ public class GameController extends Thread {
 		}
 		
 		playerSwitchWeapon();
-		playerDropWeapon();
+		playerPickUpWeapon();
 		
 		//Spawn supplies
 		if(model.getSpawnPoints() != null){
@@ -163,14 +163,20 @@ public class GameController extends Thread {
 		model.update();
 	}
 	
-	private void playerDropWeapon(){
+	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
+			if(model.getWorld().playerPickUpWeapon()){
+				
+			}
 			Weapon w = model.getPlayer().getActiveWeapon();
-			w.setPosition(new Position(50, 50));
-			model.getPlayer().dropWeapon();
+			model.getPlayer().pickUpWeapon(null);
 			Tile[][] t = model.getWorld().getTiles();
+//			input.resetKey(KeyEvent.VK_G);
 			//TODO where spawn weapon?
-			spawnSupplies(t[(int) model.getPlayer().getPosition().getX()-2][(int)model.getPlayer().getPosition().getX()]);
+			t[(int) model.getPlayer().getPosition().getX()-2]
+					[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
+			spawnSupplies(t[(int) model.getPlayer().getPosition().getX()-2]
+					[(int)model.getPlayer().getPosition().getY()]);
 		}
 	}
 	
@@ -204,7 +210,7 @@ public class GameController extends Thread {
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
 			Weapon w = WeaponFactory.startingWeapon();
-			w.setPosition(new Position(50,50));
+			w.setPosition(t.getPosition());
 			model.getWorld().getItems().add(w);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
 			System.out.println("Weapon supposed to spawn");
