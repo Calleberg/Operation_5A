@@ -9,7 +9,7 @@ import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Line;
 import model.geometrical.Position;
-import model.items.Supply;
+import model.items.Item;
 import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
@@ -26,7 +26,7 @@ public class World {
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Tile> spawnPoints;
-	private List<Supply> supplies = new ArrayList<Supply>();
+	private List<Item> items = new ArrayList<Item>();
 	private int tick = 0;
 	private boolean tileOcuppied;
 	
@@ -118,7 +118,7 @@ public class World {
 	 * Updates the world.
 	 */
 	public void update() {
-		List<Supply> suppliesToBeRemoved = new ArrayList<Supply>(); 
+		List<Item> itemsToBeRemoved = new ArrayList<Item>(); 
 		//Updates all the sprites
 		for(Sprite sprite : sprites) {
 			sprite.moveXAxis();
@@ -152,14 +152,14 @@ public class World {
 				}
 			}
 			
-			//Check if player hit supply
-			for(int j = 0; j < supplies.size(); j++){
-				if(sprite.getHitBox().intersects(supplies.get(j).getCollisionBox())){
-					if(sprite.pickUpItem(supplies.get(j))){
-						suppliesToBeRemoved.add(supplies.get(j));
-					}
-				}
-			}
+//			//Check if player hit Item
+//			for(int j = 0; j < items.size(); j++){
+//				if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
+//					if(sprite.pickUpItem(items.get(j))){
+//						itemsToBeRemoved.add(items.get(j));
+//					}
+//				}
+//			}
 		}
 		
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
@@ -201,29 +201,8 @@ public class World {
 		//Remove all the objects which needs to be removed
 		this.removeSprites(spritesToBeRemoved);
 		this.removeProjectiles(projectilesToBeRemoved);
-		this.removeSupplies(suppliesToBeRemoved);
+		this.removeitems(itemsToBeRemoved);
 		
-		//TODO flytta till controller
-		//Spawn supplies
-		if(spawnPoints != null){
-			tick++;
-			if(tick == 600){
-				int rnd = (int)Math.random()*spawnPoints.size();
-				Tile t = spawnPoints.get(rnd);
-				tileOcuppied = false;
-				for(Supply s : supplies){
-					if(s.getPosition().equals(t.getPosition())){
-						tileOcuppied = true;
-						break;
-					}
-				}
-				if(!tileOcuppied){
-					this.spawnSupplies(t);
-					tick = 0;	
-				}
-
-			}
-		}
 	}
 	
 	/*
@@ -244,6 +223,14 @@ public class World {
 		tilesToCheck[7] = ((validPosition(new Position(x + 1, y - 1))) ? tiles[x + 1][y - 1] : null);
 		tilesToCheck[8] = ((validPosition(new Position(x + 1, y + 1))) ? tiles[x + 1][y + 1] : null);
 		return tilesToCheck;
+	}
+	
+	/**
+	 * returns all items currently in the world
+	 * @return all the items in the world
+	 */
+	public List<Item> getItems(){
+		return this.items;
 	}
 	
 	/**
@@ -335,34 +322,13 @@ public class World {
 	public int getHeight() {
 		return this.tiles[0].length;
 	}
-	/**
-	 * adds a supply to a given tile
-	 * @param t the tile given
-	 */
-	public void spawnSupplies(Tile t){
-		int supplyProperty = t.getProperty();
-		if(supplyProperty == 1){//Create a food
-			this.supplies.add(SupplyFactory.createFood(25, t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 2){//Create an ammo
-			this.supplies.add(SupplyFactory.createAmmo(12, t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 3){//Create a health
-			this.supplies.add(SupplyFactory.createHealth(25, t.getPosition()));
-			pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, supplies.get(supplies.size()-1));
-		}else if(supplyProperty == 4){//create a weapon
-			//TODO implement weapon as a supply
-			System.out.println("Weapon supposed to spawn");
-		}
-		
-	}
 	
 	/**
-	 * returns all supplies currently in the world
-	 * @return all the supplies in the world
+	 * returns all items currently in the world
+	 * @return all the items in the world
 	 */
-	public List<Supply> getSupplies(){
-		return this.supplies;
+	public List<Item> getitems(){
+		return this.items;
 	}
 	
 	/**
@@ -374,20 +340,29 @@ public class World {
 	}
 	
 	/**
-	 * Removes the specified supplies from the world.
-	 * @param supplies the supplies to remove.
+	 * Removes the specified items from the world.
+	 * @param items the items to remove.
 	 */
-	public void removeSupplies(List<Supply> supplies) {
-		for(Supply s : supplies) {
-			this.removeSupply(s);
+	public void removeitems(List<Item> items) {
+		for(Item s : items) {
+			this.removeItem(s);
 		}
 	}
 	/**
-	 * Removes the specified supply from the world.
-	 * @param supply the supply to remove.
+	 * Removes the specified Item from the world.
+	 * @param Item the Item to remove.
 	 */
-	public void removeSupply(Supply supply) {
-		this.supplies.remove(supply);
-		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, supply, null);
+	public void removeItem(Item Item) {
+		this.items.remove(Item);
+		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, Item, null);
+	}
+
+	/**
+	 * Fire an event.
+	 * @param event string describing the event.
+	 * @param obj the object which has changed.
+	 */
+	public void fireEvent(String event, Object obj){
+		pcs.firePropertyChange(event, null, obj);
 	}
 }

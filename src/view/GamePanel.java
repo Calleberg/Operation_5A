@@ -28,6 +28,7 @@ import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Player;
 import model.sprites.Sprite;
+import model.items.Item;
 import model.items.Supply;
 
 /**
@@ -125,8 +126,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		for(Projectile p : this.model.getWorld().getProjectiles()) {
 			objects.add(new ProjectileView(p));
 		}
-		for(Supply s : this.model.getWorld().getSupplies()){
-			objects.add(new SupplyView(s));
+		for(Item i : this.model.getWorld().getItems()){
+			//objects.add(new SupplyView(i));
 		}
 	}
 	
