@@ -32,8 +32,8 @@ public class Input implements KeyListener, MouseListener {
 	 * Does the same as releasing a key.
 	 * @param e the key to reset.
 	 */
-	public void resetKey(KeyEvent e) {
-		this.keys[e.getKeyCode()] = false;
+	public void resetKey(int key) {
+		this.keys[key] = false;
 	}
 	
 	/**
