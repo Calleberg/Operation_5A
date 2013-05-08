@@ -178,7 +178,9 @@ public class Player implements Sprite {
 		for(int i = 0; i<3; i++){
 			if(weapons[i] == activeWeapon){
 				weapons[i] = w;
-				activeWeapon = w;
+				if(activeWeapon == null){
+					activeWeapon = w;
+				}
 				return true;
 			}
 		}

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import model.GameModel;
+import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
 import model.sprites.Player;
 
@@ -214,6 +215,7 @@ public class MenuController{
 		Player player = new Player(50,50);
 		player.addWeapon(WeaponFactory.startingWeapon());
 		player.addWeapon(WeaponFactory.createTestWeapon2());
+		player.addWeapon(WeaponFactory.createEnemyMeleeWeapon());
 		model.setPlayer(player);
 
 		return model;

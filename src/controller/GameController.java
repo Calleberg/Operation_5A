@@ -165,6 +165,7 @@ public class GameController extends Thread {
 	
 	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
+<<<<<<< HEAD
 			if(model.getWorld().playerPickUpWeapon()){
 				
 			}
@@ -177,6 +178,22 @@ public class GameController extends Thread {
 					[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
 			spawnSupplies(t[(int) model.getPlayer().getPosition().getX()-2]
 					[(int)model.getPlayer().getPosition().getY()]);
+=======
+			Weapon oldWeapon = model.getPlayer().getActiveWeapon();
+			if(model.getWorld().playerPickUpWeapon()){
+				Tile[][] t = model.getWorld().getTiles();
+				input.resetKey(KeyEvent.VK_G);
+				//TODO oldWeapon.type or similar, because you cant throw fists
+				if(oldWeapon.getMagazineCapacity() > 1000){
+					return;
+				}
+				//TODO where spawn weapon?
+				t[(int) model.getPlayer().getPosition().getX()-2]
+						[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
+				spawnWeapon(t[(int) model.getPlayer().getPosition().getX()-2]
+						[(int)model.getPlayer().getPosition().getY()], oldWeapon);
+			}
+>>>>>>> origin/temp4
 		}
 	}
 	
@@ -188,6 +205,17 @@ public class GameController extends Thread {
 		}else if(input.isPressed(KeyEvent.VK_3)){
 			model.getPlayer().switchWeapon(2);
 		}
+	}
+	
+	/**
+	 * Adds a Weapon to a given tile.
+	 * @param t the tile given
+	 */
+	private void spawnWeapon(Tile t, Weapon w){
+		w.setPosition(t.getPosition());
+		model.getWorld().getItems().add(w);
+		model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+		System.out.println("Weapon supposed to spawn");
 	}
 	
 	/**
@@ -209,7 +237,11 @@ public class GameController extends Thread {
 			model.getWorld().getItems().add(supply);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
+<<<<<<< HEAD
 			Weapon w = WeaponFactory.startingWeapon();
+=======
+			Weapon w = model.getPlayer().getActiveWeapon();
+>>>>>>> origin/temp4
 			w.setPosition(t.getPosition());
 			model.getWorld().getItems().add(w);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);

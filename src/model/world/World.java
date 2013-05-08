@@ -287,10 +287,20 @@ public class World {
 					if(p.getHitBox().intersects(items.get(j).getCollisionBox()) && 
 							items.get(j) instanceof Weapon){
 						p.pickUpWeapon((Weapon)items.get(j));
+<<<<<<< HEAD
+=======
+						this.tiles[(int)p.getX()][(int)p.getY()].setProperty(Tile.NONE);
+						this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
+>>>>>>> origin/temp4
 						items.remove(j);
 						return true;
 					}
 				}
+<<<<<<< HEAD
+=======
+				p.pickUpWeapon(null);
+				return true;
+>>>>>>> origin/temp4
 			}
 		}
 		return false;
