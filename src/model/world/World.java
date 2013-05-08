@@ -152,14 +152,14 @@ public class World {
 				}
 			}
 			
-//			//Check if player hit Item
-//			for(int j = 0; j < items.size(); j++){
-//				if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
-//					if(sprite.pickUpItem(items.get(j))){
-//						itemsToBeRemoved.add(items.get(j));
-//					}
-//				}
-//			}
+			//Check if player hit Item
+			for(int j = 0; j < items.size(); j++){
+				if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
+					if(sprite.pickUpItem(items.get(j))){
+						itemsToBeRemoved.add(items.get(j));
+					}
+				}
+			}
 		}
 		
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();

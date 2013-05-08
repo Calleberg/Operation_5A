@@ -5,6 +5,7 @@ import model.geometrical.Position;
 import model.items.Supply;
 import model.items.weapons.Weapon;
 import model.other.WorldObject;
+import model.items.Item;
 
 
 public interface Sprite extends WorldObject {
@@ -99,5 +100,5 @@ public interface Sprite extends WorldObject {
 	 * picks up an item if the Sprite is eligible
 	 * @return if the Sprite is eligible
 	 */
-	public boolean pickUpItem(Supply s);
+	public boolean pickUpItem(Item i);
 }

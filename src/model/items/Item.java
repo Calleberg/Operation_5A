@@ -1,16 +1,22 @@
 package model.items;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
+import model.geometrical.Rectangle;
 import model.other.WorldObject;
 
 //Empty interface created to group Items
 public class Item implements WorldObject{
 	private Position pos;
 	private final int iconNumber;
+	private CollisionBox cBox;
 	
 	public Item(Position position, int iconNumber) {
 		this.pos=position;
 		this.iconNumber=iconNumber;
+		if(position != null){
+			cBox = new Rectangle(pos.getX(),pos.getY(),1,1);
+		}
 	}
 	
 	
@@ -50,6 +56,14 @@ public class Item implements WorldObject{
 	 */
 	public int getIconNumber() {
 		return iconNumber;
+	}
+	
+	/**
+	 * Return the collisionBox of the item.
+	 * @return the collisionBox of the item.
+	 */
+	public CollisionBox getCollisionBox() {
+		return this.cBox;
 	}
 	
 }

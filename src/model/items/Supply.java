@@ -39,7 +39,6 @@ public class Supply extends Item {
 	private int amount;
 	private Type type;
 	private Position pos;
-	private CollisionBox cBox;
 
 	/**
 	 * 
@@ -48,11 +47,10 @@ public class Supply extends Item {
 	 * @param position
 	 */
 	protected Supply(int amount, Type type, Position pos){
-		super(null, type.getIconNumber());
+		super(pos, type.getIconNumber());
 		this.amount=amount;
 		this.type=type;
 		this.pos = pos;
-		cBox = new Rectangle(pos.getX(),pos.getY(),1,1);
 	}
 	
 	/**
@@ -84,9 +82,5 @@ public class Supply extends Item {
 	 */
 	public Position getPosition(){
 		return this.pos;
-	}
-
-	public CollisionBox getCollisionBox() {
-		return this.cBox;
 	}
 }
