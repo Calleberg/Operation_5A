@@ -26,6 +26,7 @@ public class GameController extends Thread {
 	private long startTime = Calendar.getInstance().getTimeInMillis();
 	private int ticks;
 	private boolean isRunning = true;
+	private int foodTicks;
 	
 	/**
 	 * Creates a new gameController.
@@ -114,8 +115,15 @@ public class GameController extends Thread {
 		playerSwitchWeapon();
 		playerDropWeapon();
 		
+		//reducePlayerFoodLevel
+		foodTicks++;
+		if(foodTicks == 120){
+			model.getPlayer().removeFood(1);
+			foodTicks = 0;
+		}
+		
 		//gameOver
-		if(model.getPlayer().getHealth() <= 0){
+		if(model.getPlayer().getHealth() <= 0 || model.getPlayer().getFood() <= 0){
 			//TODO
 			System.out.println("Game over, Tid: " + getMsSinceStart()/1000 + "s");
 			this.pause(true);
