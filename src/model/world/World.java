@@ -12,6 +12,8 @@ import model.geometrical.Position;
 import model.items.Item;
 import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
+import model.items.weapons.Weapon;
+import model.sprites.Player;
 import model.sprites.Sprite;
 
 /**
@@ -271,6 +273,27 @@ public class World {
 	 */
 	public List<Projectile> getProjectiles() {
 		return this.projectiles;
+	}
+	
+	/**
+	 * The Player picks up any weapon the player stands on.
+	 * @return true if the player picks up a weapon.
+	 */
+	public boolean playerPickUpWeapon(){
+		for(Sprite sprite : this.sprites){
+			if(sprite instanceof Player){
+				Player p = (Player)sprite;
+				for(int j = 0; j < items.size(); j++){
+					if(p.getHitBox().intersects(items.get(j).getCollisionBox()) && 
+							items.get(j) instanceof Weapon){
+						p.pickUpWeapon((Weapon)items.get(j));
+						items.remove(j);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
