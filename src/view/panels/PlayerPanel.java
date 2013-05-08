@@ -28,5 +28,14 @@ public class PlayerPanel extends JPanel {
 				player.getAmmoAmount(), 10, 20);
 		g.drawString("Weapon: " + player.getActiveWeapon().toString(), 10, 30);
 		g.drawString("Food : " + player.getFood(), 10, 40);
+		
+		for(int i = 0; i < player.getWeapons().length; i++) {
+			if(player.getWeapons()[i] != null) {
+				g.drawString("Slot " + (i+1) + ": " + player.getWeapons()[i].toString(), 200, 10*(i+1));
+			}else{
+				g.drawString("Slot " + (i+1) + ": Empty", 200, 10*(i+1));
+			}
+		}
+
 	}
 }

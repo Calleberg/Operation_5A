@@ -61,7 +61,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			transformer.concatenate(AffineTransform.getRotateInstance(-sprite.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
 			transformer.concatenate(AffineTransform.getScaleInstance(sprite.getHitBox().getWidth(), 
-					(sprite.getHitBox().getHeight() * scale)/scale));
+					sprite.getHitBox().getHeight()));
 			switch(sprite.getState()) {
 			case MOVING:
 				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
@@ -82,6 +82,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
 			
 			GamePanel.renderCollisionBox(g, offset, scale, sprite.getHitBox(), Color.RED, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, sprite.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 }

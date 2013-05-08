@@ -166,6 +166,7 @@ public class GameController extends Thread {
 		
 		if(input.isPressed(KeyEvent.VK_ESCAPE)){
 			System.out.println("ESCAPE pressed");
+			input.reset();
 			MenuController.pauseMenu();
 		}
 			

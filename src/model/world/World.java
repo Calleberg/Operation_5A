@@ -120,42 +120,42 @@ public class World {
 	public void update() {
 		List<Supply> suppliesToBeRemoved = new ArrayList<Supply>(); 
 		//Updates all the sprites
-		for(int i = 0; i < sprites.size(); i++) {
-			sprites.get(i).moveXAxis();
-			CollisionBox box = sprites.get(i).getHitBox();
-			Tile[] tilesToCheck = getTileAround(box.getPosition());
+		for(Sprite sprite : sprites) {
+			sprite.moveXAxis();
+			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
 			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (box.intersects(tilesToCheck[j].getCollisionBox())
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
 						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprites.get(i).getHitBox())))) {
-					box.moveBack();
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
 				}
 			}
 			//Check if the sprite hit another sprite
-			for(int j = 0; j < sprites.size(); j++) {
-				if(i != j && sprites.get(i).getHitBox().intersects(sprites.get(j).getHitBox())) {
-					box.moveBack();
+			for(Sprite sprite2 : sprites) {
+				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+					sprite.moveBack();
 				}
 			}
 			
-			sprites.get(i).moveYAxis();
+			sprite.moveYAxis();
 			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (box.intersects(tilesToCheck[j].getCollisionBox())
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
 						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprites.get(i).getHitBox())))) {
-					box.moveBack();
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
 				}
 			}
 			//Check if the sprite hit another sprite
-			for(int j = 0; j < sprites.size(); j++) {
-				if(i != j && sprites.get(i).getHitBox().intersects(sprites.get(j).getHitBox())) {
-					box.moveBack();
+			for(Sprite sprite2 : sprites) {
+				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+					sprite.moveBack();
 				}
 			}
+			
 			//Check if player hit supply
 			for(int j = 0; j < supplies.size(); j++){
-				if(sprites.get(i).getHitBox().intersects(supplies.get(j).getCollisionBox())){
-					if(sprites.get(i).pickUpItem(supplies.get(j))){
+				if(sprite.getHitBox().intersects(supplies.get(j).getCollisionBox())){
+					if(sprite.pickUpItem(supplies.get(j))){
 						suppliesToBeRemoved.add(supplies.get(j));
 					}
 				}

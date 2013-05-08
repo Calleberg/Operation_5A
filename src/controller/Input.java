@@ -14,14 +14,15 @@ import java.awt.event.MouseListener;
  */
 public class Input implements KeyListener, MouseListener {
 
-	private boolean[] keys = new boolean[255];
-	private boolean[] mouseButtons = new boolean[3];	//the 3 mouse buttons.
+	private boolean[] keys;
+	private boolean[] mouseButtons;
 	
 	/**
 	 * Sets which container to listen to.
 	 * @param container the container to get input from.
 	 */
 	public void setContainer(Container container) {
+		this.reset();
 		container.addKeyListener(this);
 		container.addMouseListener(this);
 	}
@@ -37,6 +38,14 @@ public class Input implements KeyListener, MouseListener {
 		}else{
 			return keys[key];
 		}
+	}
+	
+	/**
+	 * Resets the instance and sets all the keys to false.
+	 */
+	public void reset() {
+		keys = new boolean[255];
+		mouseButtons = new boolean[3];
 	}
 
 	@Override

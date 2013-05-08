@@ -69,7 +69,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 			transformer.concatenate(AffineTransform.getRotateInstance(-p.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
 			transformer.concatenate(AffineTransform.getScaleInstance(p.getHitBox().getWidth(), 
-					(p.getHitBox().getHeight() * scale)/scale));
+					p.getHitBox().getHeight()));
 			switch(p.getState()) {
 			case MOVING:
 				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
@@ -90,6 +90,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
 			
 			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 

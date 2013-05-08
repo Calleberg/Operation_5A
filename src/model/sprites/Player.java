@@ -1,6 +1,5 @@
 package model.sprites;
 
-import model.geometrical.Circle;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
@@ -23,6 +22,7 @@ public class Player implements Sprite {
 	private Weapon[] weapons;
 	private int health;
 	private CollisionBox collisionBox;
+	private CollisionBox hitBox;
 	private int ammo;
 	private int food;
 	
@@ -35,7 +35,8 @@ public class Player implements Sprite {
 		state = State.STANDING;
 		this.speed = 0.15f;
 		this.health = 100;
-		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
+		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
+		hitBox = new Rectangle(x, y, 0.6f, 0.6f);
 		this.food = 100;
 		this.ammo = 500;
 		this.weapons = new Weapon[3];
@@ -44,16 +45,16 @@ public class Player implements Sprite {
 	@Override
 	public void moveXAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			collisionBox.setPosition(new Position(collisionBox.getPosition().getX() + (float)(Math.cos(moveDir)*speed), 
-					collisionBox.getPosition().getY()));
+			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(moveDir)*speed), 
+					hitBox.getPosition().getY()));
 		}
 	}
 
 	@Override
 	public void moveYAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			collisionBox.setPosition(new Position(collisionBox.getPosition().getX(), 
-					collisionBox.getPosition().getY() - (float)(Math.sin(moveDir)*speed)));
+			hitBox.setPosition(new Position(hitBox.getPosition().getX(), 
+					hitBox.getPosition().getY() - (float)(Math.sin(moveDir)*speed)));
 		}
 	}
 	
@@ -92,7 +93,7 @@ public class Player implements Sprite {
 	 * @return the x-coordinate of the player's position.
 	 */
 	public float getX(){
-		return collisionBox.getPosition().getX();
+		return hitBox.getPosition().getX();
 	}
 	
 	/**
@@ -100,7 +101,7 @@ public class Player implements Sprite {
 	 * @return the y-coordinate of the player's position.
 	 */
 	public float getY(){
-		return collisionBox.getPosition().getY();
+		return hitBox.getPosition().getY();
 	}
 	
 	/**
@@ -108,7 +109,7 @@ public class Player implements Sprite {
 	 * @param x the new x-coordinate.
 	 */
 	public void setX(float x){
-		this.collisionBox.setPosition(new Position(x, this.getY()));
+		this.hitBox.setPosition(new Position(x, this.getY()));
 	}
 	
 	/**
@@ -116,7 +117,7 @@ public class Player implements Sprite {
 	 * @param y the new y-coordinate.
 	 */
 	public void setY(float y){
-		this.collisionBox.setPosition(new Position(this.getX(),y));
+		this.hitBox.setPosition(new Position(this.getX(),y));
 	}
 	
 	/**
@@ -201,7 +202,7 @@ public class Player implements Sprite {
 	 * @return the position of the player.
 	 */
 	public Position getPosition() {
-		return collisionBox.getPosition();
+		return hitBox.getPosition();
 	}
 	
 	@Override
@@ -220,7 +221,7 @@ public class Player implements Sprite {
 	 * @param p the position of the player.
 	 */
 	public void setPosition(Position p) {
-		this.collisionBox.setPosition(p);
+		this.hitBox.setPosition(p);
 	}
 
 	@Override
@@ -235,11 +236,6 @@ public class Player implements Sprite {
 	 */
 	public void increaseHealth(int i){
 		this.health = this.health + i;
-	}
-	
-	@Override
-	public CollisionBox getHitBox() {
-		return collisionBox;
 	}
 	
 	/**
@@ -329,5 +325,22 @@ public class Player implements Sprite {
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	public CollisionBox getMoveBox() {
+		this.collisionBox.setPosition(new Position(this.getX() + (hitBox.getWidth() - collisionBox.getWidth()) / 2
+				, this.getY() + (hitBox.getHeight() - collisionBox.getHeight()) / 2));
+		return this.collisionBox;
+	}
+	
+	@Override
+	public CollisionBox getHitBox() {
+		return this.hitBox;
+	}
+
+	@Override
+	public void moveBack() {
+		this.hitBox.moveBack();
 	}
 }

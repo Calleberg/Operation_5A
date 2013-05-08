@@ -68,22 +68,27 @@ public interface Sprite extends WorldObject {
 	public void reduceHealth(int i);
 	
 	/**
+	 * Return the collisionBox used when moving.
+	 * @return the collisionBox used when moving.
+	 */
+	public CollisionBox getMoveBox();
+	
+	/**
 	 * Return the hit box of the sprite.
 	 * @return the hit box of the sprite.
 	 */
 	public CollisionBox getHitBox();
-	
-//	/**
-//	 * Return the collisionBox used when moving.
-//	 * @return the collisionBox used when moving.
-//	 */
-//	public CollisionBox getMoveBox();
 	
 	/**
 	 * Gives the position of where to spawn projectiles from.
 	 * @return the position of where to spawn projectiles from.
 	 */
 	public Position getProjectileSpawn();
+	
+	/**
+	 * Moves the sprite back one step.
+	 */
+	public void moveBack();
 	
 	/**
 	 * Gives the position of the center of the sprite.
