@@ -5,6 +5,7 @@ import java.util.List;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.items.Item;
 import model.items.Supply;
 import model.items.weapons.Weapon;
 import model.pathfinding.PathfindingNode;
@@ -194,7 +195,7 @@ public class Enemy implements Sprite{
 	}
 
 	@Override
-	public boolean pickUpItem(Supply s) {
+	public boolean pickUpItem(Item i) {
 		return false;
 	}
 

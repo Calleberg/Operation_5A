@@ -8,7 +8,7 @@ package model.items.weapons;
 public class WeaponFactory {
 	public static enum Type{
 		//Range
-		PISTOL (0.1f,5,50f,6,6000,1000,10, "Pistol"),
+		PISTOL (0.1f,5,50f,6,6000,1000,4, "Pistol"),
 //		SHOTGUN,
 //		REVOLVER,
 //		HUNTING_RIFLE,
@@ -17,13 +17,13 @@ public class WeaponFactory {
 //		ROCKET_LAUNCHER,
 //TODO more weapons
 		//Melee
-		FISTS (0.25f,1,0.3f,100000000,0,1000, 20, "Fists"),
+		FISTS (0.25f,1,0.3f,100000000,0,1000, 4, "Fists"),
 //		POCKET_KNIFE,
 //		MACHETTE,
 //		BAT,
 //		PIPE,
 		
-		TEST_WEAPON (0.1f,2,100f,100000000,5,1000,1337, "Test weapon");
+		TEST_WEAPON (0.1f,2,100f,100000000,5,1000,4, "Test weapon");
 		
 		private final float projectileSpeed;
 		private final int damage;

@@ -6,8 +6,14 @@ import java.util.Calendar;
 
 import model.GameModel;
 import model.geometrical.Position;
+import model.items.Item;
+import model.items.Supply;
+import model.items.SupplyFactory;
+import model.items.weapons.Weapon;
+import model.items.weapons.WeaponFactory;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
+import model.world.Tile;
 
 /**
  * Controls a specified model.
@@ -26,7 +32,10 @@ public class GameController extends Thread {
 	private long startTime = Calendar.getInstance().getTimeInMillis();
 	private int ticks;
 	private boolean isRunning = true;
+	private int tick = 0;
+	private boolean tileOcuppied;
 	private int foodTicks;
+
 	
 	/**
 	 * Creates a new gameController.
@@ -115,9 +124,31 @@ public class GameController extends Thread {
 		playerSwitchWeapon();
 		playerDropWeapon();
 		
+		//Spawn supplies
+		if(model.getSpawnPoints() != null){
+			tick++;
+			if(tick == 600){
+				int rnd = (int)Math.random()*model.getSpawnPoints().size();
+				Tile t = model.getSpawnPoints().get(rnd);
+				tileOcuppied = false;
+				for(Item i : model.getWorld().getItems()){
+					if(i.getPosition().equals(t.getPosition())){
+						tileOcuppied = true;
+						tick = 0;
+						break;
+					}
+				}
+				if(!tileOcuppied){
+					this.spawnSupplies(t);
+					tick = 0;	
+				}
+
+			}
+		}
+		
 		//reducePlayerFoodLevel
 		foodTicks++;
-		if(foodTicks == 120){
+		if(foodTicks >= 120){
 			model.getPlayer().removeFood(1);
 			foodTicks = 0;
 		}
@@ -134,7 +165,12 @@ public class GameController extends Thread {
 	
 	private void playerDropWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
+			Weapon w = model.getPlayer().getActiveWeapon();
+			w.setPosition(new Position(50, 50));
 			model.getPlayer().dropWeapon();
+			Tile[][] t = model.getWorld().getTiles();
+			//TODO where spawn weapon?
+			spawnSupplies(t[(int) model.getPlayer().getPosition().getX()-2][(int)model.getPlayer().getPosition().getX()]);
 		}
 	}
 	
@@ -146,6 +182,33 @@ public class GameController extends Thread {
 		}else if(input.isPressed(KeyEvent.VK_3)){
 			model.getPlayer().switchWeapon(2);
 		}
+	}
+	
+	/**
+	 * adds a supply to a given tile
+	 * @param t the tile given
+	 */
+	private void spawnSupplies(Tile t){
+		Supply supply;
+		if(t.getProperty() == Tile.FOOD_SPAWN){//Create a food
+			supply = SupplyFactory.createFood(25, t.getPosition());
+			model.getWorld().getItems().add(supply);
+			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+		}else if(t.getProperty() == Tile.AMMO_SPAWN){//Create an ammo
+			supply = SupplyFactory.createAmmo(12, t.getPosition());
+			model.getWorld().getItems().add(supply);
+			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+		}else if(t.getProperty() == Tile.HEALTH_SPAWN){//Create a health
+			supply = SupplyFactory.createHealth(25, t.getPosition());
+			model.getWorld().getItems().add(supply);
+			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
+			Weapon w = WeaponFactory.startingWeapon();
+			w.setPosition(new Position(50,50));
+			model.getWorld().getItems().add(w);
+			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+			System.out.println("Weapon supposed to spawn");
+		}	
 	}
 	
 	/*

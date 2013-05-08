@@ -3,6 +3,7 @@ package model.sprites;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.items.Item;
 import model.items.Supply;
 import model.items.weapons.Weapon;
 
@@ -38,7 +39,7 @@ public class Player implements Sprite {
 		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
 		hitBox = new Rectangle(x, y, 0.6f, 0.6f);
 		this.food = 100;
-		this.ammo = 500;
+		this.ammo = 20;
 		this.weapons = new Weapon[3];
 	}
 	
@@ -236,6 +237,9 @@ public class Player implements Sprite {
 	 */
 	public void increaseHealth(int i){
 		this.health = this.health + i;
+		if(this.health > 100){
+			this.health = 100;
+		}
 	}
 	
 	/**
@@ -252,6 +256,9 @@ public class Player implements Sprite {
 	 */
 	public void increaseAmmo(int pickedUpAmmo){
 		this.ammo += pickedUpAmmo;
+		if(this.ammo > 100){
+			this.ammo = 100;
+		}
 	}
 	
 	/**
@@ -295,6 +302,9 @@ public class Player implements Sprite {
 	 */
 	public void addFood(int foodToAdd){
 		this.food += foodToAdd;
+		if(this.food > 100){
+			this.food = 100;
+		}
 	}
 	/**
 	 * returns the food level of the player
@@ -312,16 +322,38 @@ public class Player implements Sprite {
 	}
 
 	@Override
-	public boolean pickUpItem(Supply s) {
-		if(s.getType() == Supply.Type.FOOD){
-			this.addFood(s.getAmount());
-			return true;
-		}else if(s.getType() == Supply.Type.AMMO){
-			this.increaseAmmo(s.getAmount());
-			return true;
-		}else if(s.getType() == Supply.Type.HEALTH){
-			this.increaseHealth(s.getAmount());
-			return true;
+	public boolean pickUpItem(Item i) {
+		if(i instanceof Supply){
+			Supply s = (Supply)i;
+			if(s.getType() == Supply.Type.FOOD){
+				if(this.food >= 100){
+					return false;
+				}else{
+					this.addFood(s.getAmount());
+					return true;	
+				}
+			}else if(s.getType() == Supply.Type.AMMO){
+				if(this.ammo >= 100){
+					return false;
+				}else{
+					this.increaseAmmo(s.getAmount());
+					return true;
+				}
+
+			}else if(s.getType() == Supply.Type.HEALTH){
+				if(this.health >= 100){
+					return false;
+				}else{
+					this.increaseHealth(s.getAmount());
+					return true;
+				}
+
+			}else{
+				return false;
+			}
+		}else if(i instanceof Weapon){
+			Weapon w = (Weapon)i;
+			return this.addWeapon(w);
 		}else{
 			return false;
 		}

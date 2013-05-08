@@ -10,6 +10,7 @@ import model.pathfinding.PathfindingNode;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
+import model.world.Tile;
 import model.world.World;
 import model.world.WorldBuilder;
 
@@ -29,6 +30,7 @@ public class GameModel {
 	private EnemyPathfinder pathfinder;
 	int tick = 30;
 	int max = 30;
+	private List<Tile> spawnPoints;
 	
 	/**
 	 * The message sent when a new sprite is added.
@@ -55,7 +57,7 @@ public class GameModel {
 		WorldBuilder wb = new WorldBuilder();
 		world.setTiles(wb.getNewWorld(500, 500));
 		pathfinder = new EnemyPathfinder(world);
-		world.setSpawnPoints(wb.getSpawnPoints());
+		spawnPoints = wb.getSpawnPoints();
 	}
 	
 	/**
@@ -127,6 +129,14 @@ public class GameModel {
 	public void playerShoot(){
 		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn()));
+	}
+	
+	/**
+	 * Return the spawnPoints for items.
+	 * @return the spawnPoints for items.
+	 */
+	public List<Tile> getSpawnPoints(){
+		return spawnPoints;
 	}
 	
 	/**
