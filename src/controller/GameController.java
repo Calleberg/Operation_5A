@@ -146,6 +146,13 @@ public class GameController extends Thread {
 			}
 		}
 		
+		//reducePlayerFoodLevel
+		foodTicks++;
+		if(foodTicks >= 120){
+			model.getPlayer().removeFood(1);
+			foodTicks = 0;
+		}
+		
 		//gameOver
 		if(model.getPlayer().getHealth() <= 0 || model.getPlayer().getFood() <= 0){
 			//TODO
