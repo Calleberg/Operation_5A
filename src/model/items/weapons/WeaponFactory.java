@@ -134,7 +134,9 @@ public class WeaponFactory {
 	public static Weapon createTestWeapon() {
 		return createWeapon(Type.PISTOL, Level.EPIC);
 	}
-
+	public static Weapon createTestWeapon2(){
+		return createWeapon(Type.PISTOL, Level.NORMAL);
+	}
 	/**
 	 * Creates the weapon enemies uses
 	 * @return the weapon enemies uses.
@@ -142,6 +144,7 @@ public class WeaponFactory {
 	public static Weapon createEnemyMeleeWeapon(){
 		return createWeapon(Type.FISTS, Level.RUSTY);
 	}
+	
 	public static Weapon startingWeapon() {
 		return createTestWeapon();
 	}

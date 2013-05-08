@@ -111,7 +111,10 @@ public class GameController extends Thread {
 			model.getPlayer().reloadActiveWeapon();
 		}
 		
-		//gameOver?
+		playerSwitchWeapon();
+		playerDropWeapon();
+		
+		//gameOver
 		if(model.getPlayer().getHealth() <= 0){
 			//TODO
 			System.out.println("Game over, Tid: " + getMsSinceStart()/1000 + "s");
@@ -119,6 +122,22 @@ public class GameController extends Thread {
 		}
 		
 		model.update();
+	}
+	
+	private void playerDropWeapon(){
+		if(input.isPressed(KeyEvent.VK_G)){
+			model.getPlayer().dropWeapon();
+		}
+	}
+	
+	private void playerSwitchWeapon(){
+		if(input.isPressed(KeyEvent.VK_1)){
+			model.getPlayer().switchWeapon(0);
+		}else if(input.isPressed(KeyEvent.VK_2)){
+			model.getPlayer().switchWeapon(1);
+		}else if(input.isPressed(KeyEvent.VK_3)){
+			model.getPlayer().switchWeapon(2);
+		}
 	}
 	
 	/*

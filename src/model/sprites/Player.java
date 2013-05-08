@@ -19,7 +19,8 @@ public class Player implements Sprite {
 	private float faceDir;
 	private float moveDir; //TODO mer!
 	private float speed;
-	private Weapon weapon;
+	private Weapon activeWeapon;
+	private Weapon[] weapons;
 	private int health;
 	private CollisionBox collisionBox;
 	private int ammo;
@@ -37,6 +38,7 @@ public class Player implements Sprite {
 		collisionBox = new Rectangle(x, y, 0.6f, 0.6f);
 		this.food = 100;
 		this.ammo = 500;
+		this.weapons = new Weapon[3];
 	}
 	
 	@Override
@@ -122,15 +124,71 @@ public class Player implements Sprite {
 	 * @return the player's weapon
 	 */
 	public Weapon getActiveWeapon(){
-		return this.weapon;
+		return this.activeWeapon;
+	}
+	
+//	/**
+//	 * Set the player's weapon
+//	 * @param w The player's weapon
+//	 */
+//	public void setWeapon(Weapon w){
+//		this.activeWeapon = w;
+//	}
+	
+	/**
+	 * Return the player's weapons.
+	 * @return the player's weapons.
+	 */
+	public Weapon[] getWeapons(){
+		return this.weapons;
+	}
+	
+	//TODO dropped weapon still exist or destroyed?
+	/**
+	 * The player drops the weapon with the index i. The first weapon will
+	 * be active.
+	 * @param i the index of the weapon which is dropped.
+	 */
+	public void dropWeapon(){
+		for(int i = 0; i<3 ; i++){
+			if(weapons[i] == activeWeapon){
+				weapons[i] = null;
+				System.out.println(i);
+			}
+		}
+		for(Weapon w : weapons){
+			if(w != null){
+				activeWeapon = w;
+			}
+		}
 	}
 	
 	/**
-	 * Set the player's weapon
-	 * @param w The player's weapon
+	 * Try to add a weapon to the player. The player can carry a maxiumum
+	 * of three weapons.
+	 * @param w The weapon which is tried to add.
+	 * @return true if the weapon is added, false if the player carry three
+	 * weapons before.
 	 */
-	public void setWeapon(Weapon w){
-		this.weapon = w;
+	public boolean addWeapon(Weapon w){
+		for(int i = 0; i<3; i++){
+			if(weapons[i] == null){
+				weapons[i] = w;
+				activeWeapon = weapons[i];
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Swtich to a new active weapon.
+	 * @param i the index of the new active weapon.
+	 */
+	public void switchWeapon(int i){
+		if(weapons[i] != null){
+			this.activeWeapon = weapons[i];
+		}
 	}
 	
 	@Override
@@ -221,7 +279,7 @@ public class Player implements Sprite {
 	 * needed to reload the weapon.
 	 */
 	public void reloadActiveWeapon(){
-		ammo = weapon.reload(ammo);
+		ammo = activeWeapon.reload(ammo);
 	}
 	/**
 	 * Return the direction the player is currently moving

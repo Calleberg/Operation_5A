@@ -21,7 +21,7 @@ public class GameModelTest {
 	public void playerShoot() {
 		int size = w.getProjectiles().size();
 		model.setPlayer(p);
-		p.setWeapon(WeaponFactory.createWeapon(Type.PISTOL, Level.LARGE));
+		p.addWeapon(WeaponFactory.createWeapon(Type.PISTOL, Level.LARGE));
 		model.playerShoot();
 		
 		//actually add a projectile

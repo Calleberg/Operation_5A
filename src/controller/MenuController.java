@@ -212,7 +212,8 @@ public class MenuController{
 	private static GameModel createGameModel() {
 		GameModel model = new GameModel();
 		Player player = new Player(50,50);
-		player.setWeapon(WeaponFactory.startingWeapon());
+		player.addWeapon(WeaponFactory.startingWeapon());
+		player.addWeapon(WeaponFactory.createTestWeapon2());
 		model.setPlayer(player);
 
 		return model;
