@@ -148,7 +148,7 @@ public class GameController extends Thread {
 		}
 		
 		//spawnEnemies
-		//TODO fix
+		//TODO fix spawning pos
 		enemySpawnTick++;
 		if(enemySpawnTick >= 400){
 			enemySpawnTick = 0;
