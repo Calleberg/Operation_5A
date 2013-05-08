@@ -108,11 +108,13 @@ public class GameModel {
 	 * Updates the model.
 	 */
 	public void update() {
-		if(tick >= max){
-			this.pathfindingUpdate();
-			tick = 0;
-		}
-		tick++;
+//		if(tick >= max){
+//			this.pathfindingUpdate();
+//			tick = 0;
+//		}
+//		tick++;
+		this.pathfindingUpdate();
+		
 		//at the moment every enemy attack with a melee weapon as often as possible
 		for (Sprite s : world.getSprites()){
 			if(s instanceof Enemy){
@@ -148,13 +150,17 @@ public class GameModel {
 	}
 	
 	private void pathfindingUpdate(){
-		for(Sprite s : world.getSprites()){
-			if(s instanceof Enemy){
-				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
+//		for(Sprite s : world.getSprites()){
+			tick++;
+			int enemyIndex = tick%world.getSprites().size();
+			if(world.getSprites().get(enemyIndex) instanceof Enemy){//s instanceof Enemy
+//				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
+//						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
+				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)world.getSprites().get(enemyIndex).getX()][(int)world.getSprites().get(enemyIndex).getY()], 
 						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
-				Enemy e = (Enemy) s;
+				Enemy e = (Enemy) world.getSprites().get(enemyIndex);
 				e.setWay(list);
 			}
-		}
+//		}
 	}
 }
