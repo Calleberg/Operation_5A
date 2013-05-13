@@ -295,7 +295,7 @@ public class GameController implements Runnable {
 		notify();
 	}
 	/**
-	 * Spawns enemies whith difficulties depending on how long the game has been running
+	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
 		spawnPos = new Position((int)(Math.random()*model.getWorld().getWidth()), 
