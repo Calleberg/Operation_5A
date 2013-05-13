@@ -181,20 +181,6 @@ public class GameController extends Thread {
 	
 	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
-<<<<<<< HEAD
-			if(model.getWorld().playerPickUpWeapon()){
-				
-			}
-			Weapon w = model.getPlayer().getActiveWeapon();
-			model.getPlayer().pickUpWeapon(null);
-			Tile[][] t = model.getWorld().getTiles();
-//			input.resetKey(KeyEvent.VK_G);
-			//TODO where spawn weapon?
-			t[(int) model.getPlayer().getPosition().getX()-2]
-					[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
-			spawnSupplies(t[(int) model.getPlayer().getPosition().getX()-2]
-					[(int)model.getPlayer().getPosition().getY()]);
-=======
 			Weapon oldWeapon = model.getPlayer().getActiveWeapon();
 			if(model.getWorld().playerPickUpWeapon()){
 				Tile[][] t = model.getWorld().getTiles();
@@ -204,12 +190,11 @@ public class GameController extends Thread {
 					return;
 				}
 				//TODO where spawn weapon?
-				t[(int) model.getPlayer().getPosition().getX()-2]
+				t[(int) model.getPlayer().getPosition().getX()]
 						[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
-				spawnWeapon(t[(int) model.getPlayer().getPosition().getX()-2]
+				spawnWeapon(t[(int) model.getPlayer().getPosition().getX()]
 						[(int)model.getPlayer().getPosition().getY()], oldWeapon);
 			}
->>>>>>> origin/temp4
 		}
 	}
 	
@@ -253,11 +238,7 @@ public class GameController extends Thread {
 			model.getWorld().getItems().add(supply);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
-<<<<<<< HEAD
-			Weapon w = WeaponFactory.startingWeapon();
-=======
 			Weapon w = model.getPlayer().getActiveWeapon();
->>>>>>> origin/temp4
 			w.setPosition(t.getPosition());
 			model.getWorld().getItems().add(w);
 			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);

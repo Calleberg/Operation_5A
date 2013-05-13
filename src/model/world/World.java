@@ -13,6 +13,7 @@ import model.items.Item;
 import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
+import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
 
@@ -132,6 +133,10 @@ public class World {
 					sprite.moveBack();
 				}
 			}
+			
+			//Check if enemies are in range of a player
+			enemyShoot();
+			
 			//Check if the sprite hit another sprite
 			for(Sprite sprite2 : sprites) {
 				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
@@ -276,6 +281,39 @@ public class World {
 	}
 	
 	/**
+	 * If the player
+	 * @param e
+	 * @param p
+	 */
+	public void enemyShoot() {
+		List<Player> players = new ArrayList<Player>();
+		for(Sprite s : sprites){
+			if(s instanceof Player){
+				players.add((Player)s);
+			}else{//All players will be in the first places in sprites -> all players are in 
+				//list players before we get into else
+				for(Player p : players){
+					float dx = s.getX() - p.getX();
+					float dy = s.getY() - p.getY();
+					float distance = (float) Math.sqrt(dx*dx+dy*dy);
+					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
+							canMove(s.getCenter(), p.getCenter())){
+						addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
+								s.getProjectileSpawn()));
+					}
+				}
+			}
+		}
+//		float dx = e.getX() - player.getX();
+//		float dy = e.getY() - player.getY();
+//		float distance = (float) Math.sqrt(dx*dx+dy*dy);
+//		if(distance <= e.getActiveWeapon().getRange() + player.getHitBox().getWidth() && 
+//				canMove(e.getCenter(), player.getCenter())){
+//			addProjectile(e.getActiveWeapon().createProjectile(e.getDirection(), e.getProjectileSpawn()));
+//		}
+	}
+	
+	/**
 	 * The Player picks up any weapon the player stands on.
 	 * @return true if the player picks up a weapon.
 	 */
@@ -287,20 +325,15 @@ public class World {
 					if(p.getHitBox().intersects(items.get(j).getCollisionBox()) && 
 							items.get(j) instanceof Weapon){
 						p.pickUpWeapon((Weapon)items.get(j));
-<<<<<<< HEAD
-=======
+
 						this.tiles[(int)p.getX()][(int)p.getY()].setProperty(Tile.NONE);
 						this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
->>>>>>> origin/temp4
 						items.remove(j);
 						return true;
 					}
 				}
-<<<<<<< HEAD
-=======
 				p.pickUpWeapon(null);
 				return true;
->>>>>>> origin/temp4
 			}
 		}
 		return false;

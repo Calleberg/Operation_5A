@@ -176,7 +176,7 @@ public class Player implements Sprite {
 	 */
 	public boolean addWeapon(Weapon w){
 		for(int i = 0; i<3; i++){
-			if(weapons[i] == activeWeapon){
+			if(weapons[i] == null){
 				weapons[i] = w;
 				if(activeWeapon == null){
 					activeWeapon = w;

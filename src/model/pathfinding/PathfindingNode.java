@@ -15,14 +15,11 @@ public class PathfindingNode {
 	private float distanceToGoal;
 	
 	/**
-	 * Create a new node with the specific data.
+	 * Create a new node with data needed to calculate the shortest path between two positions.
 	 * @param t the tile this node represents.
-	 * @param distanceFromParent the distance from the parent.
 	 */
-	public PathfindingNode(Tile t, /*float distanceToGoal,*/ float distanceFromParent){
+	public PathfindingNode(Tile t){
 		this.tile = t;
-		setDistanceFromParent(distanceFromParent);
-		//TODO ta bort float disntancefromparent som argument, javadoc
 	}
 	
 	/**
@@ -56,11 +53,10 @@ public class PathfindingNode {
 	
 	/**
 	 * Set the distance to goal.
-	 * @param i the distance to goal.
+	 * @param goal the pathfindingNode which is the goal.
 	 */
-	//TODO ta tile som argument
-	public void setDistanceToGoal(float i){
-		this.distanceToGoal = i;
+	public void setDistanceToGoal(PathfindingNode goal){
+		this.distanceToGoal = getDistance(tile, goal.getTile());
 	}
 	
 	/**
@@ -77,10 +73,6 @@ public class PathfindingNode {
 	 */
 	public float getDistanceToGoal(){
 		return distanceToGoal;
-	}
-	//TODO remvoe this method.
-	public void setDistanceFromParent(float d){
-		
 	}
 	
 	/**

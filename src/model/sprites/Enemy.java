@@ -19,17 +19,16 @@ public class Enemy implements Sprite{
 	private int health;
 	private CollisionBox collisionBox;
 	private CollisionBox hitBox;
-	private List<PathfindingNode> list;
+	private List<Position> pathfindingList;
 	private int pathfindingListIndex;
-	
 
 	protected Enemy(Position position, float speed, Weapon weapon, int health){
 		this.setState(Sprite.State.STANDING);
 		this.speed = speed;
 		this.weapon = weapon;
 		this.health = health;
-		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
-		hitBox = new Rectangle(position.getX(), position.getY(), 0.6f, 0.6f);
+		collisionBox = new Rectangle(0, 0, 0.7f, 0.7f);
+		hitBox = new Rectangle(position.getX(), position.getY(), 0.5f, 0.5f);
 	}
 	
 	/**
@@ -127,55 +126,58 @@ public class Enemy implements Sprite{
 	@Override
 	public void reduceHealth(int damage) {
 		health = health - damage;
-		System.out.println("Enemy health: " + health);
 	}
-
-	public void setWay(List<PathfindingNode> list){
+	
+	/**
+	 * Set a list which the enemy will move along.
+	 * @param list the list of Positions the enemy will follow.
+	 */
+	public void setWay(List<Position> list){
 		this.state = State.MOVING;
 		pathfindingListIndex = 0;
-		this.list = list;
-		list.remove(0);//removes the tile the enemy currently stands on
-		
+		this.pathfindingList = list;
+	}
+	
+	/**
+	 * Set the direction of the enemy according to current list and pathfindingListIndex.
+	 */
+	private void setDirection(){
+		float dx = (float) (this.getCenter().getX() - (pathfindingList.get(pathfindingListIndex).getX()));
+		float dy = (float) (this.getCenter().getY() - (pathfindingList.get(pathfindingListIndex).getY()));
+		float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
+		if(dx>0){
+			this.setDirection((float)Math.PI - sin);
+		}else{
+			this.setDirection(sin);
 		}
+	}
+	
+	/**
+	 * Set the direction towards the existing list.
+	 */
 	private void setDirectionTowardsList(){
-		
-		if(list.size() <= pathfindingListIndex){
+		//If the enemy have moved to the end of the list, stand still.
+		if(pathfindingList.size() <= pathfindingListIndex){
 			this.state = State.STANDING;
 			return;//TODO varför behövs detta?
 		}
 		
+		//If the enemy is close to the current position in the pathfindingList set the direction,
+		//otherwise increase the pathfindingListIndex and the set the direction.
 		if(Math.abs(this.getCenter().getX() - 
-				(list.get(pathfindingListIndex).getTile().getX()+0.5)) > 0.05
+				(pathfindingList.get(pathfindingListIndex).getX())) > 0.02
 				|| Math.abs(this.getCenter().getY() - 
-				(list.get(pathfindingListIndex).getTile().getY()+0.5)) > 0.05){
-			float dx = (float) (this.getCenter().getX() - (list.get(pathfindingListIndex).getTile().getX()+0.5));
-			float dy = (float) (this.getCenter().getY() - (list.get(pathfindingListIndex).getTile().getY()+0.5));
-			float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
-			if(dx>0){
-				this.setDirection((float)Math.PI - sin);
-			}else{
-				this.setDirection(sin);
-			}
+				(pathfindingList.get(pathfindingListIndex).getY())) > 0.02){
+			setDirection();
 		}else{
 			pathfindingListIndex++;
 			
-			if(!(list.size()<=pathfindingListIndex)){
-				float dx = this.collisionBox.getPosition().getX() - 
-						list.get(pathfindingListIndex).getTile().getX();
-				float dy = this.collisionBox.getPosition().getY() - 
-						list.get(pathfindingListIndex).getTile().getY();
-				float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
-				if(dx>0){
-					this.setDirection((float)Math.PI - sin);
-				}else{
-					this.setDirection(sin);
-				}
+			//if the pathfindingListIndex increases over size of list, stand still.
+			if(!(pathfindingList.size()<=pathfindingListIndex)){
+				setDirection();
 			}else{
-				
-				System.out.println("standing");
 				state = State.STANDING;
 			}
-			
 		}
 	}
 

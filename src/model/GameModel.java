@@ -5,8 +5,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import model.geometrical.Position;
 import model.pathfinding.EnemyPathfinder;
-import model.pathfinding.PathfindingNode;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
@@ -28,10 +28,13 @@ public class GameModel {
 	private final World world;
 	private Player player;
 	private EnemyPathfinder pathfinder;
-	int tick = 30;
-	int max = 30;
+	int pathfindingUpdateTick;
 	private List<Tile> spawnPoints;
 	
+	/**
+	 * The amount of updates in the gameModel it is between two pathfinding updates for an enemy.
+	 */
+	private final static int PATHFINDING_UPDATE_INTERVAL = 20;
 	/**
 	 * The message sent when a new sprite is added.
 	 */
@@ -108,20 +111,8 @@ public class GameModel {
 	 * Updates the model.
 	 */
 	public void update() {
-//		if(tick >= max){
-//			this.pathfindingUpdate();
-//			tick = 0;
-//		}
-//		tick++;
 		this.pathfindingUpdate();
 		
-		//at the moment every enemy attack with a melee weapon as often as possible
-		for (Sprite s : world.getSprites()){
-			if(s instanceof Enemy){
-				Enemy e = (Enemy) s;
-				enemyShoot(e);
-			}
-		}
 		world.update();
 	}
 	
@@ -150,17 +141,26 @@ public class GameModel {
 	}
 	
 	private void pathfindingUpdate(){
-//		for(Sprite s : world.getSprites()){
-			tick++;
-			int enemyIndex = tick%world.getSprites().size();
-			if(world.getSprites().get(enemyIndex) instanceof Enemy){//s instanceof Enemy
-//				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)s.getX()][(int)s.getY()], 
-//						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
-				List<PathfindingNode> list = pathfinder.findWay(world.getTiles()[(int)world.getSprites().get(enemyIndex).getX()][(int)world.getSprites().get(enemyIndex).getY()], 
-						world.getTiles()[(int)player.getCenter().getX()][(int)player.getCenter().getY()], world.getTiles());
-				Enemy e = (Enemy) world.getSprites().get(enemyIndex);
-				e.setWay(list);
+		if(pathfindingUpdateTick < PATHFINDING_UPDATE_INTERVAL){
+			for(Sprite s : world.getSprites()){
+				if(s instanceof Enemy && (world.getSprites().indexOf(s)+pathfindingUpdateTick)%
+						PATHFINDING_UPDATE_INTERVAL == 0){
+					Enemy e = (Enemy) s;
+					List<Position> list = pathfinder.findWay(e.getCenter(), player.getCenter());
+					e.setWay(list);
+				}
 			}
+		}else{
+			pathfindingUpdateTick = 0;
+		}
+//		int enemyIndex = pathfindingUpdateTick%world.getSprites().size();
+//		if(world.getSprites().get(enemyIndex) instanceof Enemy){
+//			List<Position> list = pathfinder.findWay(world.getSprites().get(enemyIndex).getCenter(), 
+//					player.getCenter());
+//			Enemy e = (Enemy) world.getSprites().get(enemyIndex);
+//			e.setWay(list);
 //		}
+//		pathfindingUpdateEnemyIndex++;
+		pathfindingUpdateTick++;
 	}
 }

@@ -135,6 +135,13 @@ public class Weapon extends Item {
 	public int getAmmunitionInMagazine(){
 		return ammunitionInMagazine;
 	}
+	/**
+	 * Return the range of the weapon.
+	 * @return the range of the weapon.
+	 */
+	public float getRange(){
+		return range;
+	}
 	public String toString() {
 		return name;
 	}
