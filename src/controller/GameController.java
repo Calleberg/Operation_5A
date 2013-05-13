@@ -36,6 +36,7 @@ public class GameController implements Runnable {
 	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
+	Position spawnPos;
 	
 	/**
 	 * Creates a new gameController.
@@ -45,6 +46,10 @@ public class GameController implements Runnable {
 	public GameController(GameModel model, Input input) {
 		this.model = model;
 		this.input = input;	
+		
+		for(int i = 0; i <=5; i++){
+			spawnEnemy();
+		}
 	}
 	
 	@Override
@@ -152,17 +157,9 @@ public class GameController implements Runnable {
 		}
 		
 		//spawnEnemies
-		//TODO fix spawning pos
 		enemySpawnTick++;
 		if(enemySpawnTick >= 400){
-			enemySpawnTick = 0;
-			if((int)getMsSinceStart()/1000 < 120){
-				model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position(50,50)));
-			}else if((int)getMsSinceStart()/1000 < 480){
-				model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position(55,55)));
-			}else{
-				model.getWorld().addSprite(EnemyFactory.createHardEnemy(new Position(45,45)));
-			}
+			spawnEnemy();
 		}
 		
 		
@@ -296,5 +293,24 @@ public class GameController implements Runnable {
 	public synchronized void stopThread(){
 		isRunning=false;
 		notify();
+	}
+	/**
+	 * Spawns enemies whith difficulties depending on how long the game has been running
+	 */
+	private void spawnEnemy(){
+		spawnPos = new Position((int)(Math.random()*model.getWorld().getWidth()), 
+				(int)(Math.random()*model.getWorld().getHeight()));
+		if(model.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+0.01f , spawnPos.getY()+0.01f))){
+			if((int)getMsSinceStart()/1000 < 120){
+				model.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
+			}else if((int)getMsSinceStart()/1000 < 480){
+				model.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
+			}else{
+				model.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
+			}
+			enemySpawnTick = 0;
+		}else{
+			spawnEnemy();
+		}
 	}
 }

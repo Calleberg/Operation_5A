@@ -71,8 +71,6 @@ public class GameModel implements PropertyChangeListener {
 		player.addWeapon(WeaponFactory.startingWeapon());
 		player.addWeapon(WeaponFactory.createTestWeapon2());
 		this.setPlayer(player);
-		this.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (55, 55)));
-		this.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (45, 45)));
 	}
 	
 	/**
