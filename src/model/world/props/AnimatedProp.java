@@ -1,7 +1,7 @@
 package model.world.props;
 
-import view.Animation;
 import model.geometrical.CollisionBox;
+import model.other.Animation;
 
 public class AnimatedProp extends Prop {
 

@@ -17,8 +17,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import view.panels.Minimap;
-import view.panels.PlayerPanel;
 
 import controller.GameController;
 

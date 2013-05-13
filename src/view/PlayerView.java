@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
+import model.other.Animation;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import controller.IO.Resources;

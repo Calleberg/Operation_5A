@@ -1,9 +1,9 @@
 package model.world.props;
 
-import view.Animation;
 import model.geometrical.Circle;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.other.Animation;
 
 /**
  * A factory for props.
