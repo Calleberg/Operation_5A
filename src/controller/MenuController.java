@@ -6,10 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import model.GameModel;
-import model.items.weapons.Weapon;
-import model.items.weapons.WeaponFactory;
-import model.sprites.Player;
-
 import view.GamePanel;
 import view.Window;
 import view.menu.HighscorePanel;
@@ -25,15 +21,106 @@ import view.menu.PauseMenu;
  *
  */
 public class MenuController{
-	private static final Window window = new Window();
+	private final static Window window = new Window();
 	private static JPanel activePanel = null;
 	private static GameController gameController = null;
 	private static GamePanel gamePanel = null;
 
 	public MenuController() {
-		mainMenu();
+		showMainMenu();
+		
+		//Starts heavy components.
+		createGameController();
+		
 	}
+	/**
+	 * Changes the program window to the main menu.
+	 */
+	public static void showMainMenu(){
+		//TODO
+		changeWindowTo(new MainMenu("Main Menu", createMainMenuButtons()));
+	}
+	private synchronized static void startGame(){
+		//TODO
+		changeWindowTo(new LoadingScreen());
+		if (gameController != null){
+			terminateThreads();
+		}
+		createGameController();
+		startGameThreads();
+		changeWindowTo(gamePanel);
+	}
+	private synchronized static void terminateThreads() {
+		// TODO Auto-generated method stub
+		
+	}
+	private static void startGameThreads(){
+		new Thread(gamePanel).start();
+		new Thread(gameController).start();
+	}
+	private static void exitGame(){
+		System.exit(0);
+	}
+	private static void highscore(){
+		//TODO
+		changeWindowTo(new HighscorePanel());
+//		gameController.
+	}
+	private static void settings(){
+		//TODO
+	}
+	private static void saveLoadGame(){
+		//TODO
+	}
+	private static void loadSavedGame(){
+		//TODO
+	}
+	/**
+	 * Changes the program window to the paused game menu.
+	 */
+	public static void pauseMenu(){
+		//TODO
+		gameController.pauseThread();
+		gamePanel.pauseThread();
+		
+		changeWindowTo(new PauseMenu("PAUSE", createPauseMenuButtons()));
+	}
+	
+	private synchronized static void changeWindowTo(JPanel p){
+		if (activePanel != null){
+			window.remove(activePanel);
+		}
+		window.add(p);
+		activePanel=p;
 
+//		window.revalidate();
+		window.invalidate();
+		window.validate();
+		p.repaint();
+		p.requestFocus();
+	}
+	private static void resumeGame() {
+		gamePanel.resumeThread();
+		gameController.resumeThread();
+
+		changeWindowTo(gamePanel);
+	}
+	
+	
+	private synchronized static void createGameController(){
+
+		Input input = new Input();
+		
+		GameModel gameModel = new GameModel();
+		
+		gameController = new GameController(gameModel, input);
+		
+		gamePanel = new GamePanel(gameModel, gameController);
+
+		input.setContainer(gamePanel);
+		gameModel.addListener(gamePanel);
+	}
+	
 	private static MenuButton[] createMainMenuButtons() {
 		MenuButton buttons[] = new MenuButton[5];
 		
@@ -103,7 +190,7 @@ public class MenuController{
 		buttons[2].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainMenu();
+				showMainMenu();
 			}
 		});
 		
@@ -124,101 +211,6 @@ public class MenuController{
 		});
 		
 		return buttons;
-	}
-
-	
-	private static void startGame(){
-		//TODO
-		LoadingScreen l = new LoadingScreen();
-		changeWindowTo(l);
-		if (gameController == null){
-			createGameController();
-		}
-		changeWindowTo(gamePanel);
-	}
-	private static void exitGame(){
-		System.exit(0);
-	}
-	private static void highscore(){
-		//TODO
-		changeWindowTo(new HighscorePanel());
-	}
-	private static void settings(){
-		//TODO
-	}
-	private static void saveLoadGame(){
-		//TODO
-	}
-	private static void loadSavedGame(){
-		//TODO
-	}
-	/**
-	 * Changes the program window to the main menu.
-	 */
-	public static void mainMenu(){
-		//TODO
-		changeWindowTo(new MainMenu("Main Menu", createMainMenuButtons()));
-	}
-	/**
-	 * Changes the program window to the paused game menu.
-	 */
-	public static void pauseMenu(){
-		//TODO
-		System.out.println("Pause menu show");
-//		gameController.pause(true);
-		
-		changeWindowTo(new PauseMenu("PAUSE", createPauseMenuButtons()));
-		
-		System.out.println("Pause menu show 2");
-
-	}
-	private static void changeWindowTo(JPanel p){
-		if (activePanel != null){
-			window.remove(activePanel);
-		}
-		window.add(p);
-		activePanel=p;
-
-//		window.revalidate();
-		window.invalidate();
-		window.validate();
-		p.repaint();
-		p.requestFocus();
-	}
-	private static void resumeGame() {
-
-		gameController.pause(false);
-
-		changeWindowTo(gamePanel);
-
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private static void createGameController(){
-
-		Input input = new Input();
-		GameModel gameModel = createGameModel();
-		gameController = new GameController(gameModel, input);
-		gamePanel = new GamePanel(gameModel, gameController);
-
-		input.setContainer(gamePanel);
-		gameModel.addListener(gamePanel);
-
-		//Starts all the loops
-		gamePanel.start();
-		gameController.start();
-
-	}
-	private static GameModel createGameModel() {
-		GameModel model = new GameModel();
-		Player player = new Player(50,50);
-		player.addWeapon(WeaponFactory.startingWeapon());
-		player.addWeapon(WeaponFactory.createTestWeapon2());
-		player.addWeapon(WeaponFactory.createEnemyMeleeWeapon());
-		model.setPlayer(player);
-
-		return model;
 	}
 
 }
