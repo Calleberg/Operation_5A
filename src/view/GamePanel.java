@@ -47,7 +47,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private List<ObjectRenderer<?>> objects;
 	private Camera camera;
 	private final int SLEEP = 1000 / 60;
-	private boolean isRunning = true;
+	private volatile boolean paused = false;
+	private volatile boolean isRunning = true;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -68,12 +69,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	
 	@Override
 	public void run() {
-		while(true) {
+		while(isRunning) {
 			runThread();
 		}
 	}
 	private synchronized void runThread(){
-		if (isRunning) {
+		if (!paused) {
 			repaint();
 			tick++;
 			try{
@@ -273,13 +274,18 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
 	 */
 	public synchronized void pauseThread(){
-		isRunning=false;
+		paused=true;
 	}
 	/**
 	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
 	 */
 	public synchronized void resumeThread(){
-		isRunning=true;
+		paused=false;
 		notify();
+	}
+
+	public synchronized void stopThread() {
+		isRunning=false;
+		notify();		
 	}
 }

@@ -3,11 +3,8 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
-
-import model.GameModel;
-import view.GamePanel;
 import view.Window;
+import view.menu.GameOverPanel;
 import view.menu.HighscorePanel;
 import view.menu.LoadingScreen;
 import view.menu.MainMenu;
@@ -15,202 +12,179 @@ import view.menu.MenuButton;
 import view.menu.PauseMenu;
 
 /**
- * The controller which is responsible for managing the program window and its menus.
+ * The controller which is responsible for managing the program window and it's menus.
  * 
  * @author Vidar Eriksson
  *
  */
 public class MenuController{
-	private final static Window window = new Window();
-	private static JPanel activePanel = null;
+	private static final Window window = new Window();
+	//TODO gör understående två saker till en subklass inom denna klass
 	private static GameController gameController = null;
-	private static GamePanel gamePanel = null;
-
+	
+	/**
+	 * Creates game window and the main menu for the game.
+	 */
 	public MenuController() {
-		showMainMenu();
-		
-		//Starts heavy components.
-		createGameController();
-		
+		showMainMenu();		
 	}
 	/**
 	 * Changes the program window to the main menu.
 	 */
 	public static void showMainMenu(){
-		//TODO
-		changeWindowTo(new MainMenu("Main Menu", createMainMenuButtons()));
+		window.add(new MainMenu("Main Menu", MenuButtons.getMainMenuButtons()));
 	}
-	private synchronized static void startGame(){
+	private synchronized static void startNewGame(){
 		//TODO
-		changeWindowTo(new LoadingScreen());
-		if (gameController != null){
-			terminateThreads();
-		}
-		createGameController();
-		startGameThreads();
-		changeWindowTo(gamePanel);
-	}
-	private synchronized static void terminateThreads() {
-		// TODO Auto-generated method stub
+		window.add(new LoadingScreen());
 		
-	}
-	private static void startGameThreads(){
-		new Thread(gamePanel).start();
+		
+		if (gameController != null){
+			gameController.stopThread();
+		}
+		gameController = new GameController();
+		window.add(gameController.getGamePanel());
 		new Thread(gameController).start();
 	}
 	private static void exitGame(){
 		System.exit(0);
 	}
-	private static void highscore(){
-		//TODO
-		changeWindowTo(new HighscorePanel());
-//		gameController.
+	private static void showhighscore(){
+		window.add(new HighscorePanel());
 	}
-	private static void settings(){
+	private static void showSettings(){
 		//TODO
 	}
-	private static void saveLoadGame(){
+	private static void showSaveLoadGame(){
 		//TODO
 	}
-	private static void loadSavedGame(){
+	private static void showLoadSavedGame(){
 		//TODO
+	}
+	/**
+	 * 
+	 * @param totalRuntime the time the game has been played. Corresponds to the highscore.
+	 */
+	public static void gameOver(long totalRuntime){
+		window.add(new GameOverPanel(totalRuntime));
 	}
 	/**
 	 * Changes the program window to the paused game menu.
 	 */
-	public static void pauseMenu(){
-		//TODO
-		gameController.pauseThread();
-		gamePanel.pauseThread();
-		
-		changeWindowTo(new PauseMenu("PAUSE", createPauseMenuButtons()));
+	public static void showPauseMenu(){
+		//TODO lägg pause menyn över spelvärlden
+		window.add(new PauseMenu("PAUSE", MenuButtons.getPauseMenuButtons()));
 	}
 	
-	private synchronized static void changeWindowTo(JPanel p){
-		if (activePanel != null){
-			window.remove(activePanel);
-		}
-		window.add(p);
-		activePanel=p;
 
-//		window.revalidate();
-		window.invalidate();
-		window.validate();
-		p.repaint();
-		p.requestFocus();
-	}
 	private static void resumeGame() {
-		gamePanel.resumeThread();
+		window.add(gameController.getGamePanel());
 		gameController.resumeThread();
-
-		changeWindowTo(gamePanel);
 	}
 	
 	
-	private synchronized static void createGameController(){
+	private static class MenuButtons {
+		private static MenuButton mainMenuButtons[] = null;
+		private static MenuButton pauseMenuButtons[] = null;
+		
+		private static MenuButton[] getMainMenuButtons() {
+			if (mainMenuButtons==null){
+				
+				MenuButton[] buttons = new MenuButton[5];
+				
+				buttons[0]= new MenuButton("New Game");
+				buttons[0].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						startNewGame();
+					}
+				});
+				
+				buttons[1]= new MenuButton("Load Game");
+				buttons[1].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showLoadSavedGame();
+					}
+				});
+				
+				buttons[2]= new MenuButton("Highscore");
+				buttons[2].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showhighscore();
+					}
+				});
+				
+				buttons[3]= new MenuButton("Settings");
+				buttons[3].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showSettings();
+					}
+				});
+				
+				buttons[4]= new MenuButton("Exit Game");
+				buttons[4].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						exitGame();
+					}
+				});
+				mainMenuButtons=buttons;
+			}
+			
+			return mainMenuButtons;
+		}
+		
+		private static MenuButton[] getPauseMenuButtons() {
+			if (pauseMenuButtons==null){
+				MenuButton buttons[] = new MenuButton[5];
+				
+				buttons[0]= new MenuButton("Settings");
+				buttons[0].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showSettings();
+					}
+				});
+				
+				buttons[1]= new MenuButton("Save / Load");
+				buttons[1].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showSaveLoadGame();
+					}
+				});
+				
+				buttons[2]= new MenuButton("Main Menu");
+				buttons[2].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showMainMenu();
+					}
+				});
+				
+				buttons[3]= new MenuButton("Exit Game");
+				buttons[3].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						exitGame();
+					}
+				});
+				
+				buttons[4]= new MenuButton("Resume");
+				buttons[4].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						resumeGame();
+					}
+				});
+				pauseMenuButtons=buttons;
+			}
+			return pauseMenuButtons;
+		}
 
-		Input input = new Input();
-		
-		GameModel gameModel = new GameModel();
-		
-		gameController = new GameController(gameModel, input);
-		
-		gamePanel = new GamePanel(gameModel, gameController);
-
-		input.setContainer(gamePanel);
-		gameModel.addListener(gamePanel);
-	}
-	
-	private static MenuButton[] createMainMenuButtons() {
-		MenuButton buttons[] = new MenuButton[5];
-		
-		buttons[0]= new MenuButton("New Game");
-		buttons[0].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				startGame();
-			}
-		});
-		
-		buttons[1]= new MenuButton("Load Game");
-		buttons[1].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadSavedGame();
-			}
-		});
-		
-		buttons[2]= new MenuButton("Highscore");
-		buttons[2].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				highscore();
-			}
-		});
-		
-		buttons[3]= new MenuButton("Settings");
-		buttons[3].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings();
-			}
-		});
-		
-		buttons[4]= new MenuButton("Exit Game");
-		buttons[4].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				exitGame();
-			}
-		});
-		
-		return buttons;
-	}
-	
-	private static MenuButton[] createPauseMenuButtons() {
-		MenuButton buttons[] = new MenuButton[5];
-		
-		buttons[0]= new MenuButton("Settings");
-		buttons[0].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				settings();
-			}
-		});
-		
-		buttons[1]= new MenuButton("Save / Load");
-		buttons[1].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				saveLoadGame();
-			}
-		});
-		
-		buttons[2]= new MenuButton("Main Menu");
-		buttons[2].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showMainMenu();
-			}
-		});
-		
-		buttons[3]= new MenuButton("Exit Game");
-		buttons[3].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				exitGame();
-			}
-		});
-		
-		buttons[4]= new MenuButton("Resume");
-		buttons[4].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				resumeGame();
-			}
-		});
-		
-		return buttons;
 	}
 
 }

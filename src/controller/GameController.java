@@ -4,6 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 
+import javax.swing.JPanel;
+
+import view.GamePanel;
+
 import model.GameModel;
 import model.geometrical.Position;
 import model.items.Item;
@@ -26,9 +30,10 @@ import model.world.Tile;
 public class GameController implements Runnable {
 
 	private final int SLEEP = 1000 / 60;
-	private GameModel model;
+	private GameModel gameModel;
 	private Input input;
-	private long startTime = Calendar.getInstance().getTimeInMillis();
+	private long lastTimeControllerStarted = 0;
+	private long totalRuntime=0;
 	private int ticks;
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
@@ -36,19 +41,29 @@ public class GameController implements Runnable {
 	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
+	private long objectCreationTime=timeNow();
+	private GamePanel gamePanel;
 	
-	/**
-	 * Creates a new gameController.
-	 * @param model The model which the gameController controls.
-	 * @param input The input which the gameController collects input from.
-	 */
-	public GameController(GameModel model, Input input) {
-		this.model = model;
-		this.input = input;	
+	
+	public GameController(){
+		gameModel = new GameModel();
+		input = new Input();	
+				
+		gamePanel = new GamePanel(gameModel, this);
+
+		input.setContainer(gamePanel);
+		gameModel.addListener(gamePanel);
+
+	}
+	
+	public JPanel getGamePanel(){
+		return gamePanel;
 	}
 	
 	@Override
 	public void run() {
+		lastTimeControllerStarted=timeNow();
+		new Thread(gamePanel).start();
 		while (isRunning){
 			runThread();
 		}
@@ -83,8 +98,7 @@ public class GameController implements Runnable {
 	 * @return the time in ms the controller has existed.
 	 */
 	public long getMsSinceStart() {
-		long timeNow = Calendar.getInstance().getTimeInMillis();
-		return timeNow - this.startTime;
+		return timeNow()-objectCreationTime;
 	}
 	
 	/**
@@ -93,13 +107,13 @@ public class GameController implements Runnable {
 	 * @param y The y-coordinate of the mouse' position.
 	 */
 	public void handleMouseAt(float x, float y) {
-		float dx = model.getPlayer().getCenter().getX() - x;
-		float dy = model.getPlayer().getCenter().getY() - y;
+		float dx = gameModel.getPlayer().getCenter().getX() - x;
+		float dy = gameModel.getPlayer().getCenter().getY() - y;
 		float dir = (float)Math.atan(dy/dx);
 		if(dx < 0) {
 			dir -= (float)(Math.PI);
 		}
-		model.getPlayer().setDirection(-dir + (float)Math.PI);
+		gameModel.getPlayer().setDirection(-dir + (float)Math.PI);
 	}
 		
 	/**
@@ -110,7 +124,8 @@ public class GameController implements Runnable {
 		//Escape pressed
 		if(input.isPressed(KeyEvent.VK_ESCAPE)){
 			input.reset();
-			MenuController.pauseMenu();
+			pauseThread();
+			MenuController.showPauseMenu();
 		}
 		
 		//playerMove
@@ -118,25 +133,25 @@ public class GameController implements Runnable {
 				
 		//playerShoot
 		if(input.mousePressed(MouseEvent.BUTTON1)){
-			model.playerShoot();
+			gameModel.playerShoot();
 		}
 		
 		//playerReload
 		if(input.isPressed(KeyEvent.VK_R)){
-			model.getPlayer().reloadActiveWeapon();
+			gameModel.getPlayer().reloadActiveWeapon();
 		}
 		
 		playerSwitchWeapon();
 	playerPickUpWeapon();
 		
 		//Spawn supplies
-		if(model.getSpawnPoints() != null){
+		if(gameModel.getSpawnPoints() != null){
 			tick++;
 			if(tick == 600){
-				int rnd = (int)Math.random()*model.getSpawnPoints().size();
-				Tile t = model.getSpawnPoints().get(rnd);
+				int rnd = (int)Math.random()*gameModel.getSpawnPoints().size();
+				Tile t = gameModel.getSpawnPoints().get(rnd);
 				tileOcuppied = false;
-				for(Item i : model.getWorld().getItems()){
+				for(Item i : gameModel.getWorld().getItems()){
 					if(i.getPosition().equals(t.getPosition())){
 						tileOcuppied = true;
 						tick = 0;
@@ -157,11 +172,11 @@ public class GameController implements Runnable {
 		if(enemySpawnTick >= 400){
 			enemySpawnTick = 0;
 			if((int)getMsSinceStart()/1000 < 120){
-				model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position(50,50)));
+				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position(50,50)));
 			}else if((int)getMsSinceStart()/1000 < 480){
-				model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position(55,55)));
+				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position(55,55)));
 			}else{
-				model.getWorld().addSprite(EnemyFactory.createHardEnemy(new Position(45,45)));
+				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(new Position(45,45)));
 			}
 		}
 		
@@ -169,47 +184,52 @@ public class GameController implements Runnable {
 		//reducePlayerFoodLevel
 		foodTicks++;
 		if(foodTicks >= 120){
-			model.getPlayer().removeFood(1);
+			gameModel.getPlayer().removeFood(1);
 			foodTicks = 0;
 		}
 		
 		//gameOver
-		if(model.getPlayer().getHealth() <= 0 || model.getPlayer().getFood() <= 0){
+		if(gameModel.getPlayer().getHealth() <= 0 || gameModel.getPlayer().getFood() <= 0){
 			//TODO
-			System.out.println("Game over, Tid: " + getMsSinceStart()/1000 + "s");
-			
+			MenuController.gameOver(totalRuntime());
 			this.stopThread();
+	
 		}
 		
-		model.update();
+		gameModel.update();
 	}
 	
+	private long totalRuntime() {
+		totalRuntime+=timeNow()-lastTimeControllerStarted;
+		return totalRuntime;
+	}
+
 	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
-			Weapon oldWeapon = model.getPlayer().getActiveWeapon();
-			if(model.getWorld().playerPickUpWeapon()){
-				Tile[][] t = model.getWorld().getTiles();
+			Weapon oldWeapon = gameModel.getPlayer().getActiveWeapon();
+			if(gameModel.getWorld().playerPickUpWeapon()){
+				Tile[][] t = gameModel.getWorld().getTiles();
 				input.resetKey(KeyEvent.VK_G);
 				//TODO oldWeapon.type or similar, because you cant throw fists
 				if(oldWeapon.getMagazineCapacity() > 1000){
 					return;
 				}
 				//TODO where spawn weapon?
-				t[(int) model.getPlayer().getPosition().getX()]
-						[(int)model.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
-				spawnWeapon(t[(int) model.getPlayer().getPosition().getX()]
-						[(int)model.getPlayer().getPosition().getY()], oldWeapon);
+				t[(int) gameModel.getPlayer().getPosition().getX()]
+						[(int)gameModel.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
+				spawnWeapon(t[(int) gameModel.getPlayer().getPosition().getX()]
+						[(int)gameModel.getPlayer().getPosition().getY()], oldWeapon);
 			}
 		}
 	}
 	
 	private void playerSwitchWeapon(){
 		if(input.isPressed(KeyEvent.VK_1)){
-			model.getPlayer().switchWeapon(0);
+			gameModel.getPlayer().switchWeapon(0);
 		}else if(input.isPressed(KeyEvent.VK_2)){
-			model.getPlayer().switchWeapon(1);
+			gameModel.getPlayer().switchWeapon(1);
 		}else if(input.isPressed(KeyEvent.VK_3)){
-			model.getPlayer().switchWeapon(2);
+			gameModel.getPlayer().switchWeapon(2);
 		}
 	}
 	
@@ -219,8 +239,8 @@ public class GameController implements Runnable {
 	 */
 	private void spawnWeapon(Tile t, Weapon w){
 		w.setPosition(t.getPosition());
-		model.getWorld().getItems().add(w);
-		model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+		gameModel.getWorld().getItems().add(w);
+		gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
 		System.out.println("Weapon supposed to spawn");
 	}
 	
@@ -232,21 +252,21 @@ public class GameController implements Runnable {
 		Supply supply;
 		if(t.getProperty() == Tile.FOOD_SPAWN){//Create a food
 			supply = SupplyFactory.createFood(25, t.getPosition());
-			model.getWorld().getItems().add(supply);
-			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().getItems().add(supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else if(t.getProperty() == Tile.AMMO_SPAWN){//Create an ammo
 			supply = SupplyFactory.createAmmo(12, t.getPosition());
-			model.getWorld().getItems().add(supply);
-			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().getItems().add(supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else if(t.getProperty() == Tile.HEALTH_SPAWN){//Create a health
 			supply = SupplyFactory.createHealth(25, t.getPosition());
-			model.getWorld().getItems().add(supply);
-			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().getItems().add(supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
-			Weapon w = model.getPlayer().getActiveWeapon();
+			Weapon w = gameModel.getPlayer().getActiveWeapon();
 			w.setPosition(t.getPosition());
-			model.getWorld().getItems().add(w);
-			model.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+			gameModel.getWorld().getItems().add(w);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
 			System.out.println("Weapon supposed to spawn");
 		}	
 	}
@@ -258,30 +278,34 @@ public class GameController implements Runnable {
 	 */
 	private void updatePlayerPosition() {
 		if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_D)) {
-			model.getPlayer().setMoveDir((float)(Math.PI/4));
+			gameModel.getPlayer().setMoveDir((float)(Math.PI/4));
 		}else if(input.isPressed(KeyEvent.VK_D) && input.isPressed(KeyEvent.VK_S)) {
-			model.getPlayer().setMoveDir((float)(-Math.PI/4));
+			gameModel.getPlayer().setMoveDir((float)(-Math.PI/4));
 		}else if(input.isPressed(KeyEvent.VK_A) && input.isPressed(KeyEvent.VK_S)) {
-			model.getPlayer().setMoveDir((float)(-Math.PI*3/4));
+			gameModel.getPlayer().setMoveDir((float)(-Math.PI*3/4));
 		}else if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_A)) {
-			model.getPlayer().setMoveDir((float)(Math.PI*3/4));
+			gameModel.getPlayer().setMoveDir((float)(Math.PI*3/4));
 		}else if(input.isPressed(KeyEvent.VK_W)) {
-			model.getPlayer().setMoveDir((float)(Math.PI/2));
+			gameModel.getPlayer().setMoveDir((float)(Math.PI/2));
 		}else if(input.isPressed(KeyEvent.VK_A)) {
-			model.getPlayer().setMoveDir((float)(Math.PI));
+			gameModel.getPlayer().setMoveDir((float)(Math.PI));
 		}else if(input.isPressed(KeyEvent.VK_S)) {
-			model.getPlayer().setMoveDir((float)(-Math.PI/2));
+			gameModel.getPlayer().setMoveDir((float)(-Math.PI/2));
 		}else if(input.isPressed(KeyEvent.VK_D)) {
-			model.getPlayer().setMoveDir(0f);
+			gameModel.getPlayer().setMoveDir(0f);
 		}else{
-			model.getPlayer().setState(Player.State.STANDING);
+			gameModel.getPlayer().setState(Player.State.STANDING);
 		}	
 	}
+	
+	//TODO understående metoder skall också gära sama sak med game panel.
 	/**
 	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
 	 */
 	public synchronized void pauseThread(){
 		paused=true;
+		totalRuntime();
+		gamePanel.pauseThread();
 	}
 	/**
 	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
@@ -289,6 +313,8 @@ public class GameController implements Runnable {
 	public synchronized void resumeThread(){
 		paused=false;
 		notify();
+		lastTimeControllerStarted=timeNow();
+		gamePanel.resumeThread();
 	}
 	/**
 	 * Stops the thread from executing further actions, is irreversible. 
@@ -296,5 +322,10 @@ public class GameController implements Runnable {
 	public synchronized void stopThread(){
 		isRunning=false;
 		notify();
+		totalRuntime();
+		gamePanel.stopThread();
+	}
+	private long timeNow(){
+		return Calendar.getInstance().getTimeInMillis();
 	}
 }
