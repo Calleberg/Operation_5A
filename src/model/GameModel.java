@@ -7,8 +7,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import model.geometrical.Position;
+import model.items.weapons.WeaponFactory;
 import model.pathfinding.EnemyPathfinder;
 import model.sprites.Enemy;
+import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import model.world.Tile;
@@ -63,6 +65,14 @@ public class GameModel implements PropertyChangeListener {
 		pathfinder = new EnemyPathfinder(world);
 		spawnPoints = wb.getSpawnPoints();
 		this.world.addListener(this);
+	
+		
+		Player player = new Player(50,50);
+		player.addWeapon(WeaponFactory.startingWeapon());
+		player.addWeapon(WeaponFactory.createTestWeapon2());
+		this.setPlayer(player);
+		this.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (55, 55)));
+		this.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (45, 45)));
 	}
 	
 	/**
