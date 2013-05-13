@@ -295,12 +295,14 @@ public class GameController implements Runnable {
 		notify();
 	}
 	/**
-	 * Spawns enemies whith difficulties depending on how long the game has been running
+	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
 		spawnPos = new Position((int)(Math.random()*model.getWorld().getWidth()), 
 				(int)(Math.random()*model.getWorld().getHeight()));
-		if(model.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+0.01f , spawnPos.getY()+0.01f))){
+		Tile[][] tiles = model.getWorld().getTiles();
+		if(model.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+0.1f , spawnPos.getY()+0.1f)) 
+				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
 			if((int)getMsSinceStart()/1000 < 120){
 				model.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
 			}else if((int)getMsSinceStart()/1000 < 480){
