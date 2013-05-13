@@ -37,7 +37,7 @@ import model.items.Supply;
  * @author 
  *
  */
-public class GamePanel extends JPanel implements PropertyChangeListener, MouseMotionListener {
+public class GamePanel extends JPanel implements PropertyChangeListener, MouseMotionListener, Runnable {
 
 	private static final long serialVersionUID = 1L;
 	private GameModel model;
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private List<ObjectRenderer<?>> objects;
 	private Camera camera;
 	private final int SLEEP = 1000 / 60;
-	private Thread t;
+	private boolean isRunning = true;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -64,27 +64,30 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		
 		this.initObjectList();
 		this.initTileList();
-		t = new Thread() {
-			@Override
-			public void run() {
-				while(true) {
-					repaint();
-					tick++;
-					try{
-						Thread.sleep(SLEEP);
-					}catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
 	}
 	
-	/**
-	 * The panel will start rendering.
-	 */
-	public void start() {
-		t.start();
+	@Override
+	public void run() {
+		while(true) {
+			runThread();
+		}
+	}
+	private synchronized void runThread(){
+		if (isRunning) {
+			repaint();
+			tick++;
+			try{
+				Thread.sleep(SLEEP);
+			}catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try{
+				wait();
+			}catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/*
@@ -128,6 +131,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}
 		for(Item i : this.model.getWorld().getItems()){
 			//objects.add(new SupplyView(i));
+
 		}
 	}
 	
@@ -264,5 +268,18 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	public void mouseMoved(MouseEvent e) {
 		this.controller.handleMouseAt((float)(e.getX()-camera.getX())/camera.getScale(), 
 				(float)(e.getY()-camera.getY())/camera.getScale());
+	}
+	/**
+	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
+	 */
+	public synchronized void pauseThread(){
+		isRunning=false;
+	}
+	/**
+	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
+	 */
+	public synchronized void resumeThread(){
+		isRunning=true;
+		notify();
 	}
 }
