@@ -17,6 +17,9 @@ public class PlayerPanel extends JPanel {
 		super();
 		this.player = player;
 		this.setPreferredSize(new Dimension(500, 100));
+		
+//		ResourceBundle labels = ResourceBundle.getBundle("languages/LabelsBundle", Locale.ENGLISH);
+//		System.out.println(labels.getString("s1"));
 	}
 	
 	@Override
@@ -30,7 +33,11 @@ public class PlayerPanel extends JPanel {
 		g.drawString("Food : " + player.getFood(), 10, 40);
 		
 		for(int i = 0; i < player.getWeapons().length; i++) {
+			g.setColor(Color.BLACK);
 			if(player.getWeapons()[i] != null) {
+				if(player.getWeapons()[i] == player.getActiveWeapon()) {
+					g.setColor(Color.RED);
+				}
 				g.drawString("Slot " + (i+1) + ": " + player.getWeapons()[i].toString(), 200, 10*(i+1));
 			}else{
 				g.drawString("Slot " + (i+1) + ": Empty", 200, 10*(i+1));

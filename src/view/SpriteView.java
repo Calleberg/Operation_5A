@@ -21,10 +21,10 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 
 	private Sprite sprite;
 	//TODO: add enemy texture
-	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 2);
+	private BufferedImage[] texture = Resources.splitImages("zombie01.png", 5, 4);
 	
-	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4}, 100, true);
-	private int standImage = 5;
+	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 100, true);
+	private int standImage = 10;
 	
 	/**
 	 * Creates a new sprite view which will render the specified sprite.
@@ -48,38 +48,32 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 	public void render(Graphics g, Position offset, int scale) {
 		if(sprite != null) {
 			//Saves some values for quick access.
-			int x = (int)(sprite.getX() * scale + offset.getX());
-			int y = (int)(sprite.getY() * scale + offset.getY());
+			int x = (int)(sprite.getMoveBox().getPosition().getX() * scale + offset.getX());
+			int y = (int)(sprite.getMoveBox().getPosition().getY() * scale + offset.getY());
 			int rX = (int)(sprite.getCenter().getX() * scale + offset.getX());
 			int rY = (int)(sprite.getCenter().getY() * scale + offset.getY());
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
-			
+
 			//Draws the body
 			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
 			transformer.concatenate(AffineTransform.getRotateInstance(-sprite.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
-			transformer.concatenate(AffineTransform.getScaleInstance(sprite.getHitBox().getWidth(), 
-					sprite.getHitBox().getHeight()));
-			switch(sprite.getState()) {
-			case MOVING:
+			transformer.concatenate(AffineTransform.getScaleInstance(sprite.getMoveBox().getWidth(), 
+					sprite.getMoveBox().getHeight()));
+			if(sprite.getState() == Sprite.State.MOVING) {
 				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
-				break;
-			case STANDING:
-				g2d.drawImage(texture[standImage], transformer, null);
-				break;
-			default:
-				break;
 			}
+			g2d.drawImage(texture[standImage], transformer, null);
 			
 			//Draws dev data
-			g2d.setColor(Color.RED);
-			g2d.drawString(sprite.getHealth() + "hp", x, y);
-			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
-					(int)(sprite.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
-			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
-					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
+//			g2d.setColor(Color.RED);
+//			g2d.drawString(sprite.getHealth() + "hp", x, y);
+//			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
+//					(int)(sprite.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
+//			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
+//					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
 			
 //			GamePanel.renderCollisionBox(g, offset, scale, sprite.getHitBox(), Color.RED, false, null);
 //			GamePanel.renderCollisionBox(g, offset, scale, sprite.getMoveBox(), Color.ORANGE, false, null);

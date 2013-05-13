@@ -1,0 +1,8 @@
+Number of building facing north: 
+0
+Number of building facing east: 
+1
+Number of building facing south: 
+0
+Number of building facing west: 
+4

@@ -31,7 +31,7 @@ public class Minimap extends JPanel {
 	 */
 	public Minimap(GameModel model) {
 		super();
-		this.setBackground(new Color(30, 135, 254));
+		this.setBackground(new Color(19,64,141));
 		this.model = model;
 		this.camera = new Camera(1);
 		minimap = createMinimap();

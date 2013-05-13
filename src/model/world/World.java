@@ -10,7 +10,6 @@ import model.geometrical.CollisionBox;
 import model.geometrical.Line;
 import model.geometrical.Position;
 import model.items.Item;
-import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.sprites.Sprite;
 
@@ -21,14 +20,13 @@ import model.sprites.Sprite;
  *
  */
 public class World {
+	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Tile> spawnPoints;
 	private List<Item> items = new ArrayList<Item>();
-	private int tick = 0;
-	private boolean tileOcuppied;
 	
 
 	/**
@@ -210,18 +208,13 @@ public class World {
 	 */
 	private Tile[] getTileAround(Position pos) {
 		Tile[] tilesToCheck = new Tile[9];
-		//TODO: använda loopar istället
-		int x = (int)pos.getX();
-		int y = (int)pos.getY();
-		tilesToCheck[0] = ((validPosition(new Position(x, y))) ? tiles[x][y] : null);
-		tilesToCheck[1] = ((validPosition(new Position(x, y - 1))) ? tiles[x][y - 1] : null);
-		tilesToCheck[2] = ((validPosition(new Position(x, y + 1))) ? tiles[x][y + 1] : null);
-		tilesToCheck[3] = ((validPosition(new Position(x - 1, y))) ? tiles[x - 1][y] : null);
-		tilesToCheck[4] = ((validPosition(new Position(x - 1, y - 1))) ? tiles[x - 1][y - 1] : null);
-		tilesToCheck[5] = ((validPosition(new Position(x - 1, y + 1))) ? tiles[x - 1][y + 1] : null);
-		tilesToCheck[6] = ((validPosition(new Position(x + 1, y))) ? tiles[x + 1][y] : null);
-		tilesToCheck[7] = ((validPosition(new Position(x + 1, y - 1))) ? tiles[x + 1][y - 1] : null);
-		tilesToCheck[8] = ((validPosition(new Position(x + 1, y + 1))) ? tiles[x + 1][y + 1] : null);
+		int i = 0;
+		for(int x = (int)pos.getX() - 1; x <= (int)pos.getX() + 1; x++) {
+			for(int y = (int)pos.getY() - 1; y <= (int)pos.getY() + 1; y++) {
+				tilesToCheck[i] = ((validPosition(new Position(x, y))) ? tiles[x][y] : null);
+				i++;
+			}
+		}
 		return tilesToCheck;
 	}
 	
@@ -274,15 +267,11 @@ public class World {
 	}
 	
 	/**
-	 * Checks if there is possible to move between two adjacent tiles.
-	 * NOTE:
-	 * <br>-This method do support diagonal tile checks.
-	 * <br>-This will not check if the two positions are actually adjacent.
-	 * Therefore, <code>canMove(new Position(0, 0), new Position(0, 1))</code>
-	 * will, for example, return the same as <code>canMove(new Position(0, 0), new Position(0, 10))</code>.
-	 * @param pos1 the position of the first tile.
-	 * @param pos2 the position of the second tile.
-	 * @return <code>true</code> if it's possible to move between the two tiles.
+	 * Checks if it is possible to move between the two positions without crossing an obstacle.<br>
+	 * Note: <code>canMove(pos1, pos2)</code> will return the same as <code>canMove(pos2, pos1)</code>.
+	 * @param pos1 one of the two positions.
+	 * @param pos2 the second of the two positions.
+	 * @return <code>true</code> if its possible to move between the two positions.
 	 */
 	public boolean canMove(Position pos1, Position pos2) {
 		Line l = new Line(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());

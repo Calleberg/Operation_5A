@@ -34,7 +34,7 @@ public class Player implements Sprite {
 	 */
 	public Player(float x, float y){
 		state = State.STANDING;
-		this.speed = 0.15f;
+		this.speed = 0.1f;
 		this.health = 100;
 		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
 		hitBox = new Rectangle(x, y, 0.6f, 0.6f);
@@ -208,8 +208,8 @@ public class Player implements Sprite {
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*0.4f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
-				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*0.4f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
+		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*0.45f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
+				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*0.45f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
 	}
 	
 	@Override
