@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import controller.IO.Resources;
 
 import model.geometrical.Position;
+import model.other.Animation;
 import model.sprites.Sprite;
 
 /**

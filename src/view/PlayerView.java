@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
+import model.other.Animation;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import controller.IO.Resources;
@@ -83,8 +84,8 @@ public class PlayerView implements ObjectRenderer<Player> {
 			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),
 					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
 			
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 

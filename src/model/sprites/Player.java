@@ -18,7 +18,7 @@ public class Player implements Sprite {
 	
 	private State state;
 	private float faceDir;
-	private float moveDir; //TODO mer!
+	private float moveDir;
 	private float speed;
 	private Weapon activeWeapon;
 	private Weapon[] weapons;
@@ -42,6 +42,7 @@ public class Player implements Sprite {
 		this.food = 100;
 		this.ammo = 20;
 		this.weapons = new Weapon[3];
+		this.setStartingWeapons();
 	}
 	
 	@Override
@@ -129,14 +130,6 @@ public class Player implements Sprite {
 	public Weapon getActiveWeapon(){
 		return this.activeWeapon;
 	}
-	
-//	/**
-//	 * Set the player's weapon
-//	 * @param w The player's weapon
-//	 */
-//	public void setWeapon(Weapon w){
-//		this.activeWeapon = w;
-//	}
 	
 	/**
 	 * Return the player's weapons.
@@ -288,6 +281,15 @@ public class Player implements Sprite {
 	public void reloadActiveWeapon(){
 		ammo = activeWeapon.reload(ammo);
 	}
+	
+	private void setStartingWeapons(){
+		weapons = new Weapon[3];
+		for(int i = 0; i<3; i++){
+			weapons[i] = WeaponFactory.createEnemyMeleeWeapon();
+		}
+		activeWeapon = weapons[0];
+	}
+	
 	/**
 	 * Return the direction the player is currently moving
 	 * @return the direction of movement

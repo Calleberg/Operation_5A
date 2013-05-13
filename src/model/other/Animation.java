@@ -1,4 +1,4 @@
-package view;
+package model.other;
 
 import java.util.Calendar;
 

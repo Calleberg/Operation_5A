@@ -1,4 +1,4 @@
-package view.panels;
+package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 
 import model.GameModel;
 import model.geometrical.Position;
-import view.Camera;
-import view.TileView;
 
 /**
  * 
@@ -33,7 +31,7 @@ public class Minimap extends JPanel {
 		super();
 		this.setBackground(new Color(30, 135, 254));
 		this.model = model;
-		this.camera = new Camera(1);
+		this.camera = new Camera(2);
 		minimap = createMinimap();
 	}
 	
@@ -41,13 +39,13 @@ public class Minimap extends JPanel {
 	 * Creates a small version of the map and saves it as an image.
 	 */
 	private BufferedImage createMinimap() {
-		BufferedImage minimap = new BufferedImage(model.getWorld().getTiles().length , 
-				model.getWorld().getTiles()[0].length, BufferedImage.OPAQUE);
+		BufferedImage minimap = new BufferedImage(model.getWorld().getTiles().length * camera.getScale() , 
+				model.getWorld().getTiles()[0].length * camera.getScale(), BufferedImage.OPAQUE);
 		Graphics2D g2d = (Graphics2D)minimap.getGraphics();
 		for(int x = 0; x < model.getWorld().getTiles().length; x++) {
 			for(int y = 0; y < model.getWorld().getTiles()[0].length; y++) {
 				TileView tv = new TileView(model.getWorld().getTiles()[x][y]);
-				tv.render(g2d, new Position(0, 0), 1);
+				tv.render(g2d, new Position(0, 0), camera.getScale());
 			}
 		}
 		return minimap;
@@ -62,8 +60,11 @@ public class Minimap extends JPanel {
 			g.drawImage(minimap, (int)camera.getX(), (int)camera.getY(), null);
 		}
 		//Draws a small player.
+		int x = (int)(model.getPlayer().getX() * camera.getScale() + camera.getX());
+		int y = (int)(model.getPlayer().getY() *camera.getScale() + camera.getY());
+		
 		g.setColor(Color.RED);
-		g.fillRect((int)(model.getPlayer().getX() - 1 + camera.getX()), 
-				(int)(model.getPlayer().getY() - 1 + camera.getY()), 3, 3);
+		g.drawLine(x - camera.getScale()*3, y, x + camera.getScale()*3, y);
+		g.drawLine(x, y - camera.getScale()*3, x, y + camera.getScale()*3);
 	}
 }

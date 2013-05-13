@@ -14,6 +14,7 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
+import model.pathfinding.AI;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.world.Tile;
@@ -44,6 +45,8 @@ public class GameController implements Runnable {
 	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
+	Position spawnPos;
+	private AI ai;
 	
 	
 	/**
@@ -59,8 +62,14 @@ public class GameController implements Runnable {
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
+		ai = new AI(gameModel.getWorld(), gameModel.getPlayer());
+		
+		for(int i = 0; i <=5; i++){
+			spawnEnemy();
+		}
 
 	}	
+
 	@Override
 	public void run() {
 		lastTimeControllerRun=timeNow();
@@ -117,11 +126,12 @@ public class GameController implements Runnable {
 	public void handleMouseAt(float x, float y) {
 		float dx = gameModel.getPlayer().getCenter().getX() - x;
 		float dy = gameModel.getPlayer().getCenter().getY() - y;
-		float dir = (float)Math.atan(dy/dx);
+		float dir = (float)Math.atan(-dy/dx);
+
 		if(dx < 0) {
-			dir -= (float)(Math.PI);
+			dir += (float)(Math.PI);
 		}
-		gameModel.getPlayer().setDirection(-dir + (float)Math.PI);
+		gameModel.getPlayer().setDirection(dir + (float)Math.PI);
 	}
 		
 	/**
@@ -151,7 +161,10 @@ public class GameController implements Runnable {
 		
 		playerSwitchWeapon();
 		playerPickUpWeapon();
-		
+
+		//EnemyUpdate
+		ai.updateEnemies();
+
 		//Spawn supplies
 		if(gameModel.getSpawnPoints() != null){
 			tick++;
@@ -175,17 +188,9 @@ public class GameController implements Runnable {
 		}
 		
 		//spawnEnemies
-		//TODO fix spawning pos
 		enemySpawnTick++;
 		if(enemySpawnTick >= 400){
-			enemySpawnTick = 0;
-			if((int)getMsSinceStart()/1000 < 120){
-				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position(50,50)));
-			}else if((int)getMsSinceStart()/1000 < 480){
-				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position(55,55)));
-			}else{
-				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(new Position(45,45)));
-			}
+			spawnEnemy();
 		}
 		
 		
@@ -345,5 +350,26 @@ public class GameController implements Runnable {
 	 */
 	private long timeNow(){
 		return Calendar.getInstance().getTimeInMillis();
+	}
+	/**
+	 * Spawns enemies with difficulties depending on how long the game has been running
+	 */
+	private void spawnEnemy(){
+		spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()), 
+				(int)(Math.random()*gameModel.getWorld().getHeight()));
+		Tile[][] tiles = gameModel.getWorld().getTiles();
+		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+0.1f , spawnPos.getY()+0.1f)) 
+				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
+			if((int)getMsSinceStart()/1000 < 120){
+				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
+			}else if((int)getMsSinceStart()/1000 < 480){
+				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
+			}else{
+				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
+			}
+			enemySpawnTick = 0;
+		}else{
+			spawnEnemy();
+		}
 	}
 }

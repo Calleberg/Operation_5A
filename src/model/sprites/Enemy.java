@@ -59,11 +59,43 @@ public class Enemy implements Sprite{
 	public void setPosition(Position p) {
 		this.hitBox.setPosition(p);
 	}
+	
+	/**
+	 * Return the PathfindlingListIndex.
+	 * @return the pathfindlingList
+	 */
+	public List<Position> getPathfindingList(){
+		return this.pathfindingList;
+	}
+	
+	/**
+	 * Set the pathfindingList.
+	 * @param pathfindingList
+	 */
+	public void setPathfindingList(List<Position> pathfindingList){
+		this.pathfindingList = pathfindingList;
+	}
+	
+	/**
+	 * Return the PathfindlingListIndex.
+	 * @return PathfindlingListIndex
+	 */
+	public int getPathfindingListIndex(){
+		return this.pathfindingListIndex;
+	}
+	
+	/**
+	 * Set the PathfindlingListIndex.
+	 * @param PathfindlingListIndex
+	 */
+	public void setPathfindingListIndex(int pathfindingListIndex){
+		this.pathfindingListIndex = pathfindingListIndex;
+	}
+
 
 	@Override
 	public void moveXAxis(){
 		if(this.state == Sprite.State.MOVING) {
-			this.setDirectionTowardsList();
 			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
 					hitBox.getPosition().getY()));
 		}
@@ -143,49 +175,6 @@ public class Enemy implements Sprite{
 		this.state = State.MOVING;
 		pathfindingListIndex = 0;
 		this.pathfindingList = list;
-	}
-	
-	/**
-	 * Set the direction of the enemy according to current list and pathfindingListIndex.
-	 */
-	private void setDirection(){
-		float dx = (float) (this.getCenter().getX() - (pathfindingList.get(pathfindingListIndex).getX()));
-		float dy = (float) (this.getCenter().getY() - (pathfindingList.get(pathfindingListIndex).getY()));
-		float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
-		if(dx>0){
-			this.setDirection((float)Math.PI - sin);
-		}else{
-			this.setDirection(sin);
-		}
-	}
-	
-	/**
-	 * Set the direction towards the existing list.
-	 */
-	private void setDirectionTowardsList(){
-		//If the enemy have moved to the end of the list, stand still.
-		if(pathfindingList.size() <= pathfindingListIndex){
-			this.state = State.STANDING;
-			return;//TODO varför behövs detta?
-		}
-		
-		//If the enemy is close to the current position in the pathfindingList set the direction,
-		//otherwise increase the pathfindingListIndex and the set the direction.
-		if(Math.abs(this.getCenter().getX() - 
-				(pathfindingList.get(pathfindingListIndex).getX())) > 0.02
-				|| Math.abs(this.getCenter().getY() - 
-				(pathfindingList.get(pathfindingListIndex).getY())) > 0.02){
-			setDirection();
-		}else{
-			pathfindingListIndex++;
-			
-			//if the pathfindingListIndex increases over size of list, stand still.
-			if(!(pathfindingList.size()<=pathfindingListIndex)){
-				setDirection();
-			}else{
-				state = State.STANDING;
-			}
-		}
 	}
 
 	@Override
