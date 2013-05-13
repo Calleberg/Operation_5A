@@ -10,7 +10,6 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
-import model.items.weapons.WeaponFactory;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.world.Tile;
@@ -24,19 +23,19 @@ import model.world.Tile;
  * @author
  *
  */
-public class GameController extends Thread {
+public class GameController implements Runnable {
 
 	private final int SLEEP = 1000 / 60;
 	private GameModel model;
 	private Input input;
 	private long startTime = Calendar.getInstance().getTimeInMillis();
 	private int ticks;
-	private boolean isRunning = true;
+	private volatile boolean paused = false;
+	private volatile boolean isRunning = true;
 	private int tick = 0;
 	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
-
 	
 	/**
 	 * Creates a new gameController.
@@ -45,29 +44,27 @@ public class GameController extends Thread {
 	 */
 	public GameController(GameModel model, Input input) {
 		this.model = model;
-		this.input = input;
-		
-		model.getWorld().addSprite(EnemyFactory.createEasyEnemy(new Position (55, 55)));
-		model.getWorld().addSprite(EnemyFactory.createMediumEnemy(new Position (45, 45)));
-		
+		this.input = input;	
 	}
 	
-	/**
-	 * Update's the game a specific amount of times per second.
-	 */
 	@Override
 	public void run() {
-		while (true){
-			runControler();
+		while (isRunning){
+			runThread();
 		}
 	}
-	private void runControler(){
-
-		while(isRunning) {
-			this.update();
+	private synchronized void runThread(){
+		if (!paused) {
+			update();
 			ticks++;
 			try{
 				Thread.sleep(SLEEP);
+			}catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try{
+				wait();
 			}catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -86,8 +83,8 @@ public class GameController extends Thread {
 	 * @return the time in ms the controller has existed.
 	 */
 	public long getMsSinceStart() {
-		long time = Calendar.getInstance().getTimeInMillis();
-		return time - this.startTime;
+		long timeNow = Calendar.getInstance().getTimeInMillis();
+		return timeNow - this.startTime;
 	}
 	
 	/**
@@ -109,6 +106,13 @@ public class GameController extends Thread {
 	 * Updates the model.
 	 */
 	public void update() {
+		//TODO de metoder som kallas i slutet av update() dröjer ett tag innan de exekveras AKA lagg
+		//Escape pressed
+		if(input.isPressed(KeyEvent.VK_ESCAPE)){
+			input.reset();
+			MenuController.pauseMenu();
+		}
+		
 		//playerMove
 		this.updatePlayerPosition();
 				
@@ -123,7 +127,7 @@ public class GameController extends Thread {
 		}
 		
 		playerSwitchWeapon();
-		playerPickUpWeapon();
+	playerPickUpWeapon();
 		
 		//Spawn supplies
 		if(model.getSpawnPoints() != null){
@@ -173,7 +177,8 @@ public class GameController extends Thread {
 		if(model.getPlayer().getHealth() <= 0 || model.getPlayer().getFood() <= 0){
 			//TODO
 			System.out.println("Game over, Tid: " + getMsSinceStart()/1000 + "s");
-			this.pause(true);
+			
+			this.stopThread();
 		}
 		
 		model.update();
@@ -246,6 +251,8 @@ public class GameController extends Thread {
 		}	
 	}
 	
+	
+	
 	/*
 	 * Updates the player's position.
 	 */
@@ -268,22 +275,26 @@ public class GameController extends Thread {
 			model.getPlayer().setMoveDir(0f);
 		}else{
 			model.getPlayer().setState(Player.State.STANDING);
-		}
-		
-		if(input.isPressed(KeyEvent.VK_ESCAPE)){
-			System.out.println("ESCAPE pressed");
-			input.reset();
-			MenuController.pauseMenu();
-		}
-			
-
+		}	
 	}
 	/**
-	 * Pauses the thread from running depending on the input parameter.
-	 * @param b the parameter. if true the trhead will not execute.
+	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
 	 */
-	public void pause(boolean b){
-		isRunning=!b;
-//		run();
+	public synchronized void pauseThread(){
+		paused=true;
+	}
+	/**
+	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
+	 */
+	public synchronized void resumeThread(){
+		paused=false;
+		notify();
+	}
+	/**
+	 * Stops the thread from executing further actions, is irreversible. 
+	 */
+	public synchronized void stopThread(){
+		isRunning=false;
+		notify();
 	}
 }
