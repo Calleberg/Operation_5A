@@ -60,7 +60,7 @@ public class TileView {
 			for(int i = 0; i < t.getProps().size(); i++) {
 				g.drawImage(props[t.getProps().get(i).getImageNbr()], x, y, scale, scale, null);
 			}
-			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), new Color(255, 0, 0, 100), false, null);
+//			GamePanel.renderCollisionBox(g, offset, scale, t.getCollisionBox(), new Color(255, 0, 0, 100), false, null);
 			
 			//TODO: fixa lite 
 			if(t.hasNorthWall()) {

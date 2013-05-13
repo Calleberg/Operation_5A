@@ -198,6 +198,36 @@ public class WorldTest {
 
 	}
 	
+	@Test
+	public void canMoveAll() {
+		Tile[][] tiles = WorldBuilder.getEmptyWorld(10, 10);
+		World w = new World(tiles);
+		Sprite s1 = EnemyFactory.createEasyEnemy(new Position(3, 3));
+		Sprite s2 = EnemyFactory.createEasyEnemy(new Position(6, 6));
+		Sprite s3 = EnemyFactory.createEasyEnemy(new Position(3, 6));
+		Sprite s4 = EnemyFactory.createEasyEnemy(new Position(6, 3));
+		w.addSprite(s1);
+		w.addSprite(s2);
+		w.addSprite(s3);
+		w.addSprite(s4);
+		
+		assertTrue(w.canMoveAll(s1.getCenter(), s3.getCenter()));
+		assertTrue(w.canMoveAll(s3.getCenter(), s1.getCenter()));
+		
+		assertTrue(w.canMoveAll(s1.getCenter(), s4.getCenter()));
+		assertTrue(w.canMoveAll(s4.getCenter(), s1.getCenter()));
+		
+		assertTrue(w.canMoveAll(s1.getCenter(), s2.getCenter()));
+		assertTrue(w.canMoveAll(s2.getCenter(), s1.getCenter()));		
+		
+		Sprite s5 = EnemyFactory.createEasyEnemy(new Position(5, 5));
+		w.addSprite(s5);
+		assertFalse(w.canMoveAll(s1.getCenter(), s2.getCenter()));
+		assertFalse(w.canMoveAll(s2.getCenter(), s1.getCenter()));
+		
+		assertFalse(w.canMoveAll(new Position(4, 6), new Position(6, 4)));
+	}
+	
 //	@Test
 //	public void Update() {
 //		
