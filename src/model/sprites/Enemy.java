@@ -22,6 +22,13 @@ public class Enemy implements Sprite{
 	private List<Position> pathfindingList;
 	private int pathfindingListIndex;
 
+	/**
+	 * Creates a new enemy.
+	 * @param position the position of the enemy.
+	 * @param speed the speed of the enemy.
+	 * @param weapon the weapon of the enemy.
+	 * @param health the health of the ememy.
+	 */
 	protected Enemy(Position position, float speed, Weapon weapon, int health){
 		this.setState(Sprite.State.STANDING);
 		this.speed = speed;
