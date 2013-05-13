@@ -10,6 +10,7 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
+import model.pathfinding.AI;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
 import model.world.Tile;
@@ -37,6 +38,7 @@ public class GameController implements Runnable {
 	private int foodTicks;
 	private int enemySpawnTick;
 	Position spawnPos;
+	private AI ai;
 	
 	/**
 	 * Creates a new gameController.
@@ -46,6 +48,7 @@ public class GameController implements Runnable {
 	public GameController(GameModel model, Input input) {
 		this.model = model;
 		this.input = input;	
+		ai = new AI(model.getWorld(), model.getPlayer());
 		
 		for(int i = 0; i <=5; i++){
 			spawnEnemy();
@@ -132,7 +135,10 @@ public class GameController implements Runnable {
 		}
 		
 		playerSwitchWeapon();
-	playerPickUpWeapon();
+		playerPickUpWeapon();
+		
+		//EnemyUpdate
+		ai.updateEnemies();
 		
 		//Spawn supplies
 		if(model.getSpawnPoints() != null){
