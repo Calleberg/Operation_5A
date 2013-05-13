@@ -1,4 +1,4 @@
-package view.panels;
+package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 
 import model.GameModel;
 import model.geometrical.Position;
-import view.Camera;
-import view.TileView;
 
 /**
  * 
