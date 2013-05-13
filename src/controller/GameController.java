@@ -100,11 +100,11 @@ public class GameController implements Runnable {
 	public void handleMouseAt(float x, float y) {
 		float dx = model.getPlayer().getCenter().getX() - x;
 		float dy = model.getPlayer().getCenter().getY() - y;
-		float dir = (float)Math.atan(dy/dx);
+		float dir = (float)Math.atan(-dy/dx);
 		if(dx < 0) {
-			dir -= (float)(Math.PI);
+			dir += (float)(Math.PI);
 		}
-		model.getPlayer().setDirection(-dir + (float)Math.PI);
+		model.getPlayer().setDirection(dir + (float)Math.PI);
 	}
 		
 	/**

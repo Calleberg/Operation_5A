@@ -87,7 +87,7 @@ public class Weapon extends Item {
 	
 	private void outOfAmmo() {
 		//TODO no ammo error and sound...
-		
+		System.out.println("Sound: (no ammo)");
 	}
 
 

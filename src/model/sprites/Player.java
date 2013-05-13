@@ -18,7 +18,7 @@ public class Player implements Sprite {
 	
 	private State state;
 	private float faceDir;
-	private float moveDir; //TODO mer!
+	private float moveDir;
 	private float speed;
 	private Weapon activeWeapon;
 	private Weapon[] weapons;

@@ -334,22 +334,11 @@ public class World {
 	}
 	
 	/**
-	 * Checks if there is possible to move between two adjacent tiles.
-	 * NOTE:
-	 * <br>-This method do support diagonal tile checks.
-	 * <br>-This will not check if the two positions are actually adjacent.
-	 * Therefore, <code>canMove(new Position(0, 0), new Position(0, 1))</code>
-	 * will, for example, return the same as <code>canMove(new Position(0, 0), new Position(0, 10))</code>.
-	 * @param pos1 the position of the first tile.
-	 * @param pos2 the position of the second tile.
-	 * @return <code>true</code> if it's possible to move between the two tiles.
-=======
 	 * Checks if it is possible to move between the two positions without crossing an obstacle.<br>
 	 * Note: <code>canMove(pos1, pos2)</code> will return the same as <code>canMove(pos2, pos1)</code>.
 	 * @param pos1 one of the two positions.
 	 * @param pos2 the second of the two positions.
-	 * @return <code>true</code> if its possible to move between the two positions.
->>>>>>> origin/CallebergBranch
+	 * @return <code>true</code> if it is possible to move between the two positions.
 	 */
 	public boolean canMove(Position pos1, Position pos2) {
 		Line l = new Line(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
@@ -362,6 +351,50 @@ public class World {
 			}
 		}
 		
+		return true;
+	}
+	
+	/**
+	 * Checks if it is possible to move between the two positions. This works just like the method <code>
+	 * canMove</code>, however, this method checks against sprites too.
+	 * @param pos1 the start.
+	 * @param pos2 the end.
+	 * @return <code>true</code> if it is possible to move between the two positions without crossing
+	 * and obstacle or other sprite.
+	 */
+	public boolean canMoveAll(Position pos1, Position pos2) {
+		//Simple check first
+		if(!canMove(pos1, pos2)) {
+			return false;
+		}
+		
+		float dx = (pos1.getX()-pos2.getX());
+		float dy = (pos1.getY()-pos2.getY());
+		float angle = (float)Math.atan(-dy/dx);
+		
+		if (angle < 0) {
+			angle += Math.PI;
+		}
+		int ySign = 1;
+		if(dy < 0) {
+			ySign = -1;
+		}
+		int xsign = -1;
+		if(dx < 0) {
+			xsign = 1;
+		}
+
+		float distance = 1f;
+		Line l = new Line(
+				pos1.getX() + xsign * (float)(Math.cos(angle)*distance), 
+				pos1.getY() - ySign * (float)(Math.sin(angle)*distance), 
+				pos2.getX() - xsign * (float)(Math.cos(angle)*distance), 
+				pos2.getY() + ySign * (float)(Math.sin(angle)*distance));
+		for(Sprite s : this.getSprites()) {
+			if(s.getHitBox().intersects(l)) {
+				return false;
+			}
+		}
 		return true;
 	}
 	
