@@ -202,8 +202,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		g.setColor(Color.BLACK);
 		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
 		g.drawString("World size: " + model.getWorld().getTiles().length + "x" + model.getWorld().getTiles()[0].length, 10, 20);
-		g.drawString("Number of updates since start (ctr): " + controller.getNbrOfUpdates() 
-				+ ", average: " + controller.getNbrOfUpdates()/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 40);
+		g.drawString("Number of updates since start (ctr): " + controller.getNumbersOfUpdates() 
+				+ ", average: " + controller.getNumbersOfUpdates()/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 40);
 		g.drawString("Number of updates since start (view): " + tick 
 				+ ", average: " + tick/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 60);
 		g.drawString("Number of projectiles in model: " + model.getWorld().getProjectiles().size(), 10, 80);

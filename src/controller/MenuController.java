@@ -18,12 +18,11 @@ import view.menu.PauseMenu;
  *
  */
 public class MenuController{
-	private static final Window window = new Window();
-	//TODO gör understående två saker till en subklass inom denna klass
+	private static final Window WINDOW = new Window();
 	private static GameController gameController = null;
 	
 	/**
-	 * Creates game window and the main menu for the game.
+	 * Creates game window and starts the main menu for the game.
 	 */
 	public MenuController() {
 		showMainMenu();		
@@ -32,25 +31,26 @@ public class MenuController{
 	 * Changes the program window to the main menu.
 	 */
 	public static void showMainMenu(){
-		window.add(new MainMenu("Main Menu", MenuButtons.getMainMenuButtons()));
+		WINDOW.add(new MainMenu("Main Menu", MenuButtons.getMainMenuButtons()));
 	}
-	private synchronized static void startNewGame(){
+	private static void startNewGame(){
 		//TODO
-		window.add(new LoadingScreen());
+		WINDOW.add(new LoadingScreen());
 		
 		
 		if (gameController != null){
 			gameController.stopThread();
 		}
+
 		gameController = new GameController();
-		window.add(gameController.getGamePanel());
+		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
 	}
 	private static void exitGame(){
 		System.exit(0);
 	}
 	private static void showhighscore(){
-		window.add(new HighscorePanel());
+		WINDOW.add(new HighscorePanel());
 	}
 	private static void showSettings(){
 		//TODO
@@ -63,22 +63,22 @@ public class MenuController{
 	}
 	/**
 	 * 
-	 * @param totalRuntime the time the game has been played. Corresponds to the highscore.
+	 * @param the time the game has been played. Corresponds to the highscore.
 	 */
 	public static void gameOver(long totalRuntime){
-		window.add(new GameOverPanel(totalRuntime));
+		WINDOW.add(new GameOverPanel(totalRuntime));
 	}
 	/**
 	 * Changes the program window to the paused game menu.
 	 */
 	public static void showPauseMenu(){
 		//TODO lägg pause menyn över spelvärlden
-		window.add(new PauseMenu("PAUSE", MenuButtons.getPauseMenuButtons()));
+		WINDOW.add(new PauseMenu("PAUSE", MenuButtons.getPauseMenuButtons()));
 	}
 	
 
 	private static void resumeGame() {
-		window.add(gameController.getGamePanel());
+		WINDOW.add(gameController.getGamePanel());
 		gameController.resumeThread();
 	}
 	
@@ -96,6 +96,7 @@ public class MenuController{
 				buttons[0].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						WINDOW.add(new LoadingScreen());//TODO
 						startNewGame();
 					}
 				});

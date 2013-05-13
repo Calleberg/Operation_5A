@@ -19,10 +19,7 @@ import model.sprites.Player;
 import model.world.Tile;
 
 /**
- * Controls a specified model.
- * The controller will not start in a running state, so <code>start()</code> must be
- * called for the controller to start updating its model. However, other
- * methods will still work.
+ * Controls a specific GameModel.
  * 
  * @author
  *
@@ -30,21 +27,30 @@ import model.world.Tile;
 public class GameController implements Runnable {
 
 	private final int SLEEP = 1000 / 60;
+	
 	private GameModel gameModel;
+	private GamePanel gamePanel;
 	private Input input;
-	private long lastTimeControllerStarted = 0;
+	
+	private long objectCreationTime=timeNow();
+	private long lastTimeControllerRun = 0;
 	private long totalRuntime=0;
-	private int ticks;
+
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
+	
+	private int ticks;
 	private int tick = 0;
 	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
-	private long objectCreationTime=timeNow();
-	private GamePanel gamePanel;
 	
 	
+	/**
+	 * Creates a new GameController. The controller will not
+	 * start in a running state so the method<code>start()<code>
+	 * need to be called before the execution starts.
+	 */
 	public GameController(){
 		gameModel = new GameModel();
 		input = new Input();	
@@ -54,15 +60,10 @@ public class GameController implements Runnable {
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
 
-	}
-	
-	public JPanel getGamePanel(){
-		return gamePanel;
-	}
-	
+	}	
 	@Override
 	public void run() {
-		lastTimeControllerStarted=timeNow();
+		lastTimeControllerRun=timeNow();
 		new Thread(gamePanel).start();
 		while (isRunning){
 			runThread();
@@ -86,16 +87,23 @@ public class GameController implements Runnable {
 		}
 	}
 	/**
+	 * Returns the GamePanel that is responsible of displaying this controller's graphics.
+	 * @return the GamePanel that is responsible of displaying this controller's graphics.
+	 */
+	public JPanel getGamePanel(){
+		return gamePanel;
+	}
+	/**
 	 * Gives the number of updates since start.
 	 * @return the number of updates since start.
 	 */
-	public int getNbrOfUpdates() {
-		return this.ticks;
+	public int getNumbersOfUpdates() {
+		return ticks;
 	}
 	
 	/**
-	 * Gives the time in ms the controller has existed.
-	 * @return the time in ms the controller has existed.
+	 * Gives the time in milliseconds the controller has existed.
+	 * @return the time in milliseconds the controller has existed.
 	 */
 	public long getMsSinceStart() {
 		return timeNow()-objectCreationTime;
@@ -117,15 +125,15 @@ public class GameController implements Runnable {
 	}
 		
 	/**
-	 * Updates the model.
+	 * Updates the model which this controller is responsible for.
 	 */
 	public void update() {
-		//TODO de metoder som kallas i slutet av update() dröjer ett tag innan de exekveras AKA lagg
-		//Escape pressed
-		if(input.isPressed(KeyEvent.VK_ESCAPE)){
+		//Pause game
+		if(input.isPressed(KeyEvent.VK_ESCAPE) || input.isPressed(KeyEvent.VK_P)){
 			input.reset();
 			pauseThread();
 			MenuController.showPauseMenu();
+			return;
 		}
 		
 		//playerMove
@@ -142,7 +150,7 @@ public class GameController implements Runnable {
 		}
 		
 		playerSwitchWeapon();
-	playerPickUpWeapon();
+		playerPickUpWeapon();
 		
 		//Spawn supplies
 		if(gameModel.getSpawnPoints() != null){
@@ -189,18 +197,16 @@ public class GameController implements Runnable {
 		}
 		
 		//gameOver
-		if(gameModel.getPlayer().getHealth() <= 0 || gameModel.getPlayer().getFood() <= 0){
-			//TODO
+		if(gameModel.getPlayer().getHealth() <= 0){
 			MenuController.gameOver(totalRuntime());
 			this.stopThread();
-	
 		}
 		
 		gameModel.update();
 	}
 	
 	private long totalRuntime() {
-		totalRuntime+=timeNow()-lastTimeControllerStarted;
+		totalRuntime+=timeNow()-lastTimeControllerRun;
 		return totalRuntime;
 	}
 
@@ -273,32 +279,39 @@ public class GameController implements Runnable {
 	
 	
 	
-	/*
+	/**
 	 * Updates the player's position.
 	 */
 	private void updatePlayerPosition() {
-		if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_D)) {
+		if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_D)
+				|| input.isPressed(KeyEvent.VK_UP) && input.isPressed(KeyEvent.VK_RIGHT)) {
 			gameModel.getPlayer().setMoveDir((float)(Math.PI/4));
-		}else if(input.isPressed(KeyEvent.VK_D) && input.isPressed(KeyEvent.VK_S)) {
+		}else if(input.isPressed(KeyEvent.VK_D) && input.isPressed(KeyEvent.VK_S)
+				|| input.isPressed(KeyEvent.VK_RIGHT) && input.isPressed(KeyEvent.VK_DOWN)) {
 			gameModel.getPlayer().setMoveDir((float)(-Math.PI/4));
-		}else if(input.isPressed(KeyEvent.VK_A) && input.isPressed(KeyEvent.VK_S)) {
+		}else if(input.isPressed(KeyEvent.VK_A) && input.isPressed(KeyEvent.VK_S)
+				|| input.isPressed(KeyEvent.VK_LEFT) && input.isPressed(KeyEvent.VK_DOWN)) {
 			gameModel.getPlayer().setMoveDir((float)(-Math.PI*3/4));
-		}else if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_A)) {
+		}else if(input.isPressed(KeyEvent.VK_W) && input.isPressed(KeyEvent.VK_A)
+				|| input.isPressed(KeyEvent.VK_UP) && input.isPressed(KeyEvent.VK_LEFT)) {
 			gameModel.getPlayer().setMoveDir((float)(Math.PI*3/4));
-		}else if(input.isPressed(KeyEvent.VK_W)) {
+		}else if(input.isPressed(KeyEvent.VK_W)
+				|| input.isPressed(KeyEvent.VK_UP)) {
 			gameModel.getPlayer().setMoveDir((float)(Math.PI/2));
-		}else if(input.isPressed(KeyEvent.VK_A)) {
+		}else if(input.isPressed(KeyEvent.VK_A)
+				|| input.isPressed(KeyEvent.VK_LEFT)) {
 			gameModel.getPlayer().setMoveDir((float)(Math.PI));
-		}else if(input.isPressed(KeyEvent.VK_S)) {
+		}else if(input.isPressed(KeyEvent.VK_S)
+				|| input.isPressed(KeyEvent.VK_DOWN)) {
 			gameModel.getPlayer().setMoveDir((float)(-Math.PI/2));
-		}else if(input.isPressed(KeyEvent.VK_D)) {
+		}else if(input.isPressed(KeyEvent.VK_D)
+				|| input.isPressed(KeyEvent.VK_RIGHT)) {
 			gameModel.getPlayer().setMoveDir(0f);
 		}else{
 			gameModel.getPlayer().setState(Player.State.STANDING);
 		}	
 	}
 	
-	//TODO understående metoder skall också gära sama sak med game panel.
 	/**
 	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
 	 */
@@ -308,16 +321,16 @@ public class GameController implements Runnable {
 		gamePanel.pauseThread();
 	}
 	/**
-	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
+	 * Resumes the thread to a running state. To pause the thread call <code>pauseThread()</code>.
 	 */
 	public synchronized void resumeThread(){
 		paused=false;
 		notify();
-		lastTimeControllerStarted=timeNow();
+		lastTimeControllerRun=timeNow();
 		gamePanel.resumeThread();
 	}
 	/**
-	 * Stops the thread from executing further actions, is irreversible. 
+	 * Stops the thread from executing further actions, this method is irreversible. 
 	 */
 	public synchronized void stopThread(){
 		isRunning=false;
@@ -325,6 +338,11 @@ public class GameController implements Runnable {
 		totalRuntime();
 		gamePanel.stopThread();
 	}
+	
+	/**
+	 * Returns the time now in milliseconds.
+	 * @return the time now in milliseconds.
+	 */
 	private long timeNow(){
 		return Calendar.getInstance().getTimeInMillis();
 	}

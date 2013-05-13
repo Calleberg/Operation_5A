@@ -37,12 +37,12 @@ public class Window extends JFrame {
 			remove(activePanel);
 		}
 		activePanel=p;
-
 //		revalidate();
 //		invalidate();
 		validate();
 		p.repaint();
 		p.requestFocus();
+		p.validate();
 		
 	}
 
