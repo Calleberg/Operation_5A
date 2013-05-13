@@ -65,11 +65,11 @@ public class TileView {
 			//TODO: fixa lite 
 			if(t.hasNorthWall()) {
 				g.setColor(Color.BLACK);
-				g.fillRect(x, y, scale, scale/10);
+				g.fillRect(x, y - scale/20, scale, scale/10);
 			}
 			if(t.hasWestWall()) {
 				g.setColor(Color.BLACK);
-				g.fillRect(x, y, scale/10, scale);
+				g.fillRect(x - scale/20, y, scale/10, scale);
 			}
 		}
 	}

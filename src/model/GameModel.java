@@ -1,6 +1,7 @@
 package model;
 
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
@@ -22,7 +23,7 @@ import model.world.WorldBuilder;
  * @author
  *
  */
-public class GameModel {
+public class GameModel implements PropertyChangeListener {
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private final World world;
@@ -58,9 +59,10 @@ public class GameModel {
 	public GameModel(){
 		world = new World();
 		WorldBuilder wb = new WorldBuilder();
-		world.setTiles(wb.getNewWorld(500, 500));
+		world.setTiles(wb.getNewWorld(400, 400));
 		pathfinder = new EnemyPathfinder(world);
 		spawnPoints = wb.getSpawnPoints();
+		this.world.addListener(this);
 	}
 	
 	/**
@@ -79,7 +81,6 @@ public class GameModel {
 	 */
 	public void addListener(PropertyChangeListener pcl) {
 		this.pcs.addPropertyChangeListener(pcl);
-		this.world.addListener(pcl);
 	}
 	
 	/**
@@ -88,7 +89,6 @@ public class GameModel {
 	 */
 	public void removeListener(PropertyChangeListener pcl) {
 		this.pcs.removePropertyChangeListener(pcl);
-		this.world.removeListener(pcl);
 	}
 	
 	/**
@@ -162,5 +162,11 @@ public class GameModel {
 //		}
 //		pathfindingUpdateEnemyIndex++;
 		pathfindingUpdateTick++;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		//Sends the event down
+		this.pcs.firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
 	}
 }

@@ -41,8 +41,8 @@ public class Enemy implements Sprite{
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(direction)*0.4f) + (float)(Math.cos(direction - Math.PI/2)*0.2f), 
-				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(direction)*0.4f) - (float)(Math.sin(direction - Math.PI/2)*0.2f));
+		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(direction)*0.5f), 
+				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(direction)*0.5f));
 	}
 
 	/**

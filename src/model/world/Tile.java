@@ -166,10 +166,10 @@ public class Tile implements WorldObject {
 		if(box == null) {
 			box = new ComplexShape();
 			if(hasNorthWall()) {
-				box.addShape(new Rectangle(getX(), getY(), 1f, 0.1f));
+				box.addShape(new Rectangle(getX(), getY() - 0.05f, 1f, 0.1f));
 			}
 			if(hasWestWall()) {
-				box.addShape(new Rectangle(getX(), getY(), 0.1f, 1f));
+				box.addShape(new Rectangle(getX() - 0.05f, getY(), 0.1f, 1f));
 			}
 			for(int i = 0; i < this.props.size(); i++) {
 				box.addShape(props.get(i).getCollisionBox());
