@@ -1,21 +1,21 @@
 package controller;
 
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import view.Window;
-import view.menu.GameOverPanel;
-import view.menu.HighscorePanel;
-import view.menu.LoadGamePanel;
-import view.menu.LoadingScreen;
-import view.menu.MainMenu;
+import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
-import view.menu.PauseMenu;
-import view.menu.SettingsPanel;
+import view.menu.PauseMenuPanel;
+import view.menu.sub.GameOverPanel;
+import view.menu.sub.HighscorePanel;
+import view.menu.sub.LoadGamePanel;
+import view.menu.sub.LoadingPanel;
+import view.menu.sub.SaveLoadGamePanel;
+import view.menu.sub.SettingsPanel;
 
 /**
- * The controller which is responsible for managing the program window and it's menus.
+ * The controller which is responsible for managing the program window and it's menus and the sub menus.
  * 
  * @author Vidar Eriksson
  *
@@ -34,12 +34,10 @@ public class MenuController{
 	 * Changes the program window to the main menu.
 	 */
 	public static void showMainMenu(){
-		WINDOW.add(new MainMenu("Main Menu", MenuButtons.getMainMenuButtons()));
+		WINDOW.add(new MainMenuPanel("Main Menu", MenuButtons.getMainMenuButtons()));
 	}
 	private static void startNewGame(){
-		//TODO
-		WINDOW.add(new LoadingScreen());
-		
+		WINDOW.add(new LoadingPanel());
 		
 		if (gameController != null){
 			gameController.stopThread();
@@ -55,16 +53,14 @@ public class MenuController{
 	private static void showhighscore(){
 		WINDOW.add(new HighscorePanel(MenuButtons.getMainMenuButton()));
 	}
-	private static void showSettings(){
+	private static void showSettingsFromMainMenu(){
 		WINDOW.add(new SettingsPanel(MenuButtons.getMainMenuButton()));
 	}
+	private static void showSettingsFromPauseMenu(){
+		WINDOW.add(new SettingsPanel(MenuButtons.getPauseMenuButton()));
+	}
 	private static void showSaveLoadGame(){
-		//TODO 
-		//TODO 
-		//TODO 
-		//TODO 
-		//TODO  fixa i sublkkass i denna så att återgå till menu button finns
-		
+		WINDOW.add(new SaveLoadGamePanel(MenuButtons.getPauseMenuButton()));
 	}
 	private static void showLoadSavedGame(){
 		WINDOW.add(new LoadGamePanel(MenuButtons.getMainMenuButton()));
@@ -73,14 +69,14 @@ public class MenuController{
 	 * 
 	 * @param the time the game has been played. Corresponds to the highscore.
 	 */
-	public static void gameOver(long totalRuntime){
-		WINDOW.add(new GameOverPanel(totalRuntime));
+	public static void showGameOverPanel(){
+		WINDOW.add(new HighscorePanel(MenuButtons.getMainMenuButton()));
 	}
 	/**
 	 * Changes the program window to the paused game menu.
 	 */
 	public static void showPauseMenu(){
-		WINDOW.add(new PauseMenu("PAUSE", MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));
+		WINDOW.add(new PauseMenuPanel("PAUSE", MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));
 	}
 	
 	private static void resumeGame() {
@@ -93,10 +89,11 @@ public class MenuController{
 		private static MenuButton mainMenuButtons[] = null;
 		private static MenuButton pauseMenuButtons[] = null;
 		private static MenuButton toMainMenuButton = null;
+		private static MenuButton toPauseMenuButton = null;
 		
-		public static MenuButton getMainMenuButton() {
+		private static MenuButton getMainMenuButton() {
 			if (toMainMenuButton == null){
-				toMainMenuButton = new MenuButton("New Game");
+				toMainMenuButton = new MenuButton("Main Menu");
 				toMainMenuButton .addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -105,6 +102,19 @@ public class MenuController{
 				});
 			}
 			return toMainMenuButton;
+		}
+		
+		private static MenuButton getPauseMenuButton() {
+			if (toPauseMenuButton == null){
+				toPauseMenuButton = new MenuButton("Back to Menu");
+				toPauseMenuButton .addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						showPauseMenu();
+					}
+				});
+			}
+			return toPauseMenuButton;
 		}
 		
 		private static MenuButton[] getMainMenuButtons() {
@@ -140,7 +150,7 @@ public class MenuController{
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						showSettings();
+						showSettingsFromMainMenu();
 					}
 				});
 				
@@ -165,7 +175,7 @@ public class MenuController{
 				buttons[0].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						showSettings();
+						showSettingsFromPauseMenu();
 					}
 				});
 				
