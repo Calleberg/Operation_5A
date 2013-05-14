@@ -187,9 +187,14 @@ public class GameController implements Runnable {
 		}
 		
 		
-		//reducePlayerFoodLevel
+		//reducePlayerFoodLevel and changes the player's health according to current food level
 		foodTicks++;
 		if(foodTicks >= 120){
+			if(gameModel.getPlayer().getFood() < 30){
+				gameModel.getPlayer().reduceHealth(1);
+			}else if(gameModel.getPlayer().getFood() > 70){
+				gameModel.getPlayer().increaseHealth(1);
+			}
 			gameModel.getPlayer().removeFood(1);
 			foodTicks = 0;
 		}
