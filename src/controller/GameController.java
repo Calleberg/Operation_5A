@@ -41,8 +41,8 @@ public class GameController implements Runnable {
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
 	
-	private int ticks;
-	private int tick = 0;
+	private int nbrOfUpdates;
+	private int suppliesTick = 0;
 	private int foodTicks;
 	private int enemySpawnTick;
 	private AI ai;
@@ -86,7 +86,7 @@ public class GameController implements Runnable {
 	private synchronized void runThread(){
 		if (!paused) {
 			update();
-			ticks++;
+			nbrOfUpdates++;
 			try{
 				Thread.sleep(SLEEP);
 			}catch (InterruptedException e) {
@@ -112,7 +112,7 @@ public class GameController implements Runnable {
 	 * @return the number of updates since start.
 	 */
 	public int getNumbersOfUpdates() {
-		return ticks;
+		return nbrOfUpdates;
 	}
 	
 	/**
@@ -172,8 +172,8 @@ public class GameController implements Runnable {
 
 		//Spawn supplies
 		if(gameModel.getSpawnPoints() != null){
-			tick++;
-			if(tick == 600){
+			suppliesTick++;
+			if(suppliesTick == 600){
 				calculateSupplySpawnPos();
 			}
 		}
@@ -375,13 +375,13 @@ public class GameController implements Runnable {
 		for(Item i : gameModel.getWorld().getItems()){
 			if(i.getPosition().equals(t.getPosition())){
 				tileOcuppied = true;
-				tick = 0;
+				suppliesTick = 0;
 				break;
 			}
 		}
 		if(!tileOcuppied){
 			this.spawnSupplies(t);
-			tick = 0;	
+			suppliesTick = 0;	
 		}
 	}
 }

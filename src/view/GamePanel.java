@@ -102,7 +102,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
         gridBagConstraints.weighty = 0.1;
         add(new PlayerPanel(model.getPlayer()), gridBagConstraints);
         
-//        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -110,6 +109,21 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
         minimap.setPreferredSize(new Dimension(200, 200));
         minimap.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
         add(minimap, gridBagConstraints);
+        
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        add(new BarPanel(model.getPlayer()), gridBagConstraints);
+        
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        add(new ScorePanel(controller), gridBagConstraints);
+        
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        add(new DevPanel(model, controller), gridBagConstraints);
 	}
 	
 	/*
@@ -150,21 +164,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		return new Position((pos.getX() - camera.getX())/camera.getScale(), 
 				(pos.getY() - camera.getY())/camera.getScale());
 	}
-	
-	//TODO: snyggare att stoppa allt i en egen klass
-	private int lastTime;
-	private int lastFPS;
-	private int tickFPS;
-	private int getFPS() {
-		int newTime = (int)(controller.getMsSinceStart()/1000);
-		tickFPS++;
-		if(lastTime != newTime) {
-			lastFPS = tickFPS;
-			tickFPS = 0;
-			lastTime = newTime;
-		}
-		return lastFPS;
-	}
 
 	/**
 	 * Draws everything.
@@ -181,12 +180,10 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		//Draws all the static world objects.
 		Position drawMin = translatePos(new Position(0, 0));
 		Position drawMax = translatePos(new Position(getWidth(), getHeight()));
-		int tilesDrawn = 0;
 		camera.setToCenter(model.getPlayer().getCenter(), getSize());
 		for(int x = Math.max((int)drawMin.getX(), 0); x < Math.min(model.getWorld().getWidth(), drawMax.getX()); x++) {
 			for(int y = Math.max((int)drawMin.getY(), 0); y < Math.min(model.getWorld().getHeight(), drawMax.getY()); y++) {
 				tiles[x][y].render(g2d, camera.getOffset(), camera.getScale());
-				tilesDrawn++;
 			}
 		}
 		
@@ -194,25 +191,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		for(int i = objects.size() - 1; i >= 0; i--) {
 			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
 		}
+		
 		//data:
-		g.setColor(new Color(255, 255, 255, 150));
-		g.fillRect(0, 0, 600, 220);
 		g.setColor(Color.BLACK);
-		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
-		g.drawString("World size: " + model.getWorld().getTiles().length + "x" + model.getWorld().getTiles()[0].length, 10, 20);
-		g.drawString("Number of updates since start (ctr): " + controller.getNumbersOfUpdates() 
-				+ ", average: " + controller.getNumbersOfUpdates()/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 40);
 		g.drawString("Number of updates since start (view): " + tick 
-				+ ", average: " + tick/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 60);
-		g.drawString("Number of projectiles in model: " + model.getWorld().getProjectiles().size(), 10, 80);
-		g.drawString("Number of characters/sprites: " + model.getWorld().getSprites().size(), 10, 100);
-		g.drawString("Time: " + (int)(controller.getMsSinceStart()/1000) + " s", 10, 120);
-		g.drawString("Number of ObjectRenderers: " + this.objects.size(), 10, 140);
-		g.drawString("Number of tiles drawn: " + tilesDrawn + "/" + (tiles.length*tiles[0].length), 10, 160);
-		Position camPos = translatePos(new Position(getWidth()/2, getHeight()/2));
-		g.drawString("Camera position: (" + (int)camPos.getX() + "," + (int)camPos.getY() + ")", 10, 180);
-		g.drawString("FPS: " + this.getFPS() + " (max: ~" + 1000/SLEEP + ")" , 10, 200);
-		//TODO ta bort det mest över....................
+				+ ", average: " + tick/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 150);
 	}
 	
 	/**
