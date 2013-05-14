@@ -23,6 +23,7 @@ public class PauseMenu extends JPanel{
 
 	public PauseMenu(String string, MenuButton[] pauseMenuButtons,
 			JPanel gamePanel) {
+		this(string, pauseMenuButtons);
 		// TODO Auto-generated constructor stub
 		//TODO lägg pause menyn över spelvärlden
 	}
