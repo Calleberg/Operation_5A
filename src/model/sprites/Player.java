@@ -220,7 +220,7 @@ public class Player implements Sprite {
 	 */
 	@Override
 	public void setPosition(Position p) {
-		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2 + 0.5f, p.getY() - hitBox.getHeight()/2 + 0.5f));
+		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2, p.getY() - hitBox.getHeight()/2));
 	}
 
 	@Override
