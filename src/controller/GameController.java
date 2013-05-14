@@ -42,10 +42,8 @@ public class GameController implements Runnable {
 	
 	private int ticks;
 	private int tick = 0;
-	private boolean tileOcuppied;
 	private int foodTicks;
 	private int enemySpawnTick;
-	Position spawnPos;
 	private AI ai;
 	
 	
@@ -169,21 +167,7 @@ public class GameController implements Runnable {
 		if(gameModel.getSpawnPoints() != null){
 			tick++;
 			if(tick == 600){
-				int rnd = (int)Math.random()*gameModel.getSpawnPoints().size();
-				Tile t = gameModel.getSpawnPoints().get(rnd);
-				tileOcuppied = false;
-				for(Item i : gameModel.getWorld().getItems()){
-					if(i.getPosition().equals(t.getPosition())){
-						tileOcuppied = true;
-						tick = 0;
-						break;
-					}
-				}
-				if(!tileOcuppied){
-					this.spawnSupplies(t);
-					tick = 0;	
-				}
-
+				calculateSupplySpawnPos();
 			}
 		}
 		
@@ -355,10 +339,10 @@ public class GameController implements Runnable {
 	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
-		spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()), 
+		 Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()), 
 				(int)(Math.random()*gameModel.getWorld().getHeight()));
 		Tile[][] tiles = gameModel.getWorld().getTiles();
-		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+0.1f , spawnPos.getY()+0.1f)) 
+		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
 				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
 			if((int)getMsSinceStart()/1000 < 120){
 				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
@@ -370,6 +354,24 @@ public class GameController implements Runnable {
 			enemySpawnTick = 0;
 		}else{
 			spawnEnemy();
+		}
+	}
+	
+	private void calculateSupplySpawnPos(){
+		boolean tileOcuppied;
+		int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
+		Tile t = gameModel.getSpawnPoints().get(rnd);
+		tileOcuppied = false;
+		for(Item i : gameModel.getWorld().getItems()){
+			if(i.getPosition().equals(t.getPosition())){
+				tileOcuppied = true;
+				tick = 0;
+				break;
+			}
+		}
+		if(!tileOcuppied){
+			this.spawnSupplies(t);
+			tick = 0;	
 		}
 	}
 }
