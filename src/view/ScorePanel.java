@@ -33,7 +33,6 @@ public class ScorePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.BLACK);
-		//TODO: lägg till rätt metod!
-		g.drawString("Score: " + ctrl.getNumbersOfUpdates(), 10, 10);
+		g.drawString("Score: " + ctrl.getGameScore(), 10, 10);
 	}
 }
