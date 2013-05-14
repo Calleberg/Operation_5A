@@ -2,6 +2,7 @@ package model.pathfinding;
 //TODO lose track of player
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.geometrical.Position;
 import model.sprites.Enemy;
@@ -47,22 +48,26 @@ public class AI {
 				if(s instanceof Enemy && (world.getSprites().indexOf(s)+pathfindingUpdateTick)%
 						PATHFINDING_UPDATE_INTERVAL == 0){
 					Enemy e = (Enemy) s;
-					if(e.getState() == Enemy.State.MOVING){
+					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
 							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
+							setDirectionTowardsList(e);
 						}else{
-							e.setState(Enemy.State.STANDING);
+							setRandomDirection(e);
 						}
 					}else{
 						if(getDistance(e.getCenter(), player.getCenter()) < 8 && 
 								world.canMove(e.getCenter(), player.getCenter())){
-							e.setState(Enemy.State.MOVING);
+							e.setState(Enemy.State.RUNNING);
 							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
+							setDirectionTowardsList(e);
+						}else{
+							setRandomDirection(e);
 						}
 					}
-					if(e.getPathfindingList() != null){
-						setDirectionTowardsList(e);
-					}
+//					if(e.getPathfindingList() != null){
+//						setDirectionTowardsList(e);
+//					}
 				}
 			}
 		}else{
@@ -139,5 +144,18 @@ public class AI {
 		float dx = Math.abs(p1.getX() - p2.getX());
 		float dy = Math.abs(p1.getY() - p2.getY());
 		return (float)Math.sqrt(dx*dx+dy*dy);
+	}
+	
+	private void setRandomDirection(Enemy e){
+		Random random = new Random();
+		if(random.nextFloat() > 0.95){
+			int randomNumber = random.nextInt(100);
+			float randomDirection = (float) (randomNumber * (2*Math.PI/(100)));
+			e.setDirection(randomDirection);
+			e.setState(Enemy.State.WALKING);
+
+		}else if(random.nextFloat() > 0.98){
+			e.setState(Enemy.State.STANDING);
+		}
 	}
 }

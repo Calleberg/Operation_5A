@@ -14,7 +14,7 @@ public class PlayerTest {
 	@Test
 	public void move(){
 		Player p = new Player(1,1);
-		p.setState(State.MOVING);
+		p.setState(State.RUNNING);
 		
 //		p.setMoveDir(0f);
 //		p.move();
@@ -80,7 +80,7 @@ public class PlayerTest {
 	@Test
 	public void setState(){
 		Player p = new Player(1,1);
-		p.setState(State.MOVING);
+		p.setState(State.RUNNING);
 		p.moveXAxis();
 		p.moveYAxis();
 		assertTrue(p.getX() != 1 || p.getY() != 1);

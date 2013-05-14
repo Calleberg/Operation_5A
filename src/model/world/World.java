@@ -15,6 +15,7 @@ import model.items.weapons.Weapon;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
+import model.sprites.Sprite.State;
 
 /**
  * Hold all the objects that populates the world.
@@ -180,6 +181,7 @@ public class World {
 						if(sprites.get(i).getHitBox().intersects(projectiles.get(j).getCollisionBox())) {
 							System.out.println("projectile collision");
 							sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
+							sprites.get(i).setState(Enemy.State.RUNNING);
 							projectilesToBeRemoved.add(projectiles.get(j));
 							if(sprites.get(i).getHealth() <= 0){
 								spritesToBeRemoved.add(sprites.get(i));
@@ -291,7 +293,7 @@ public class World {
 					float dy = s.getY() - p.getY();
 					float distance = (float) Math.sqrt(dx*dx+dy*dy);
 					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
-							canMove(s.getCenter(), p.getCenter())){
+							canMove(s.getProjectileSpawn(), p.getCenter())){
 						addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
 								s.getProjectileSpawn()));
 					}

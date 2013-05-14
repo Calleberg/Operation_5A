@@ -61,7 +61,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 
 			//			Draws thelegs			
 			AffineTransform transformer;
-			if(p.getState() == Sprite.State.MOVING) {
+			if(p.getState() == Sprite.State.RUNNING) {
 				transformer = (AffineTransform)g2d.getTransform().clone();
 				transformer.concatenate(AffineTransform.getRotateInstance(-p.getMoveDir(), rX, rY));
 				transformer.concatenate(AffineTransform.getTranslateInstance(x, y));

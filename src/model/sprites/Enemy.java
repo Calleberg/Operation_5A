@@ -46,6 +46,14 @@ public class Enemy implements Sprite{
 		return hitBox.getPosition();
 	}
 	
+	/**
+	 * Gives the speed of the enemy.
+	 * @return the speed of the enemy.
+	 */
+	public float getSpeed() {
+		return speed;
+	}
+	
 	@Override
 	public Position getProjectileSpawn() {
 		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(direction)*0.5f), 
@@ -95,17 +103,23 @@ public class Enemy implements Sprite{
 
 	@Override
 	public void moveXAxis(){
-		if(this.state == Sprite.State.MOVING) {
+		if(this.state == Sprite.State.RUNNING) {
 			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
+					hitBox.getPosition().getY()));
+		}else if(this.state == Sprite.State.WALKING){
+			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(direction)*speed/3), 
 					hitBox.getPosition().getY()));
 		}
 	}
 
 	@Override
 	public void moveYAxis(){
-		if(this.state == Sprite.State.MOVING) {
+		if(this.state == Sprite.State.RUNNING) {
 			hitBox.setPosition(new Position(hitBox.getPosition().getX(), 
 					hitBox.getPosition().getY() - (float)(Math.sin(direction)*speed)));
+		}else if(this.state == Sprite.State.WALKING){
+			hitBox.setPosition(new Position(hitBox.getPosition().getX(), 
+					hitBox.getPosition().getY() - (float)(Math.sin(direction)*speed/3)));
 		}
 	}
 	
@@ -172,7 +186,7 @@ public class Enemy implements Sprite{
 	 * @param list the list of Positions the enemy will follow.
 	 */
 	public void setWay(List<Position> list){
-		this.state = State.MOVING;
+		this.state = State.RUNNING;
 		pathfindingListIndex = 0;
 		this.pathfindingList = list;
 	}
@@ -212,6 +226,9 @@ public class Enemy implements Sprite{
 	@Override
 	public void moveBack() {
 		this.hitBox.moveBack();
+		if(this.state == Sprite.State.WALKING){
+			direction = (float) ((direction+Math.PI)%(2*Math.PI));
+		}
 	}
 
 }

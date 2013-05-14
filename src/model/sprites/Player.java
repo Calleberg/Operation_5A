@@ -48,7 +48,7 @@ public class Player implements Sprite {
 	
 	@Override
 	public void moveXAxis(){
-		if(this.state == Sprite.State.MOVING) {
+		if(this.state == Sprite.State.RUNNING) {
 			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(moveDir)*speed), 
 					hitBox.getPosition().getY()));
 		}
@@ -56,7 +56,7 @@ public class Player implements Sprite {
 
 	@Override
 	public void moveYAxis(){
-		if(this.state == Sprite.State.MOVING) {
+		if(this.state == Sprite.State.RUNNING) {
 			hitBox.setPosition(new Position(hitBox.getPosition().getX(), 
 					hitBox.getPosition().getY() - (float)(Math.sin(moveDir)*speed)));
 		}
@@ -67,7 +67,7 @@ public class Player implements Sprite {
 	 * @param d the new angle in radians.
 	 */
 	public void setMoveDir(float d) {
-		this.setState(Sprite.State.MOVING);
+		this.setState(Sprite.State.RUNNING);
 		this.moveDir = d;
 	}
 	

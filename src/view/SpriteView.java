@@ -63,7 +63,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
 			transformer.concatenate(AffineTransform.getScaleInstance(sprite.getMoveBox().getWidth(), 
 					sprite.getMoveBox().getHeight()));
-			if(sprite.getState() == Sprite.State.MOVING) {
+			if(sprite.getState() == Sprite.State.RUNNING) {
 				g2d.drawImage(texture[walkAnimation.getFrame()], transformer, null);
 			}
 			g2d.drawImage(texture[standImage], transformer, null);
