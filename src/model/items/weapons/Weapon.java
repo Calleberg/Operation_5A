@@ -27,6 +27,11 @@ public class Weapon extends Item {
 	private long lastTimeReloaded=0;
 	
 	/**
+	 * Value which specified if a weapon has an unlimited ammo.
+	 */
+	public static final int UNLIMITED_AMMO = -1;
+	
+	/**
 	 * Creates a weapon with the specified parameters.
 	 * @param projectileSpeed the speed of the projectile
 	 * @param damage the damage done by the projectile

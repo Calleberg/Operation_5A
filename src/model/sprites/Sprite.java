@@ -2,7 +2,6 @@ package model.sprites;
 
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
-import model.items.Supply;
 import model.items.weapons.Weapon;
 import model.other.WorldObject;
 import model.items.Item;

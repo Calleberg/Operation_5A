@@ -43,7 +43,6 @@ public class Window extends JFrame {
 		p.repaint();
 		p.requestFocus();
 		p.validate();
-		
 	}
 
 	

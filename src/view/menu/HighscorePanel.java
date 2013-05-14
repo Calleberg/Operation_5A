@@ -33,4 +33,8 @@ public class HighscorePanel extends JPanel {
 				
 	}
 
+	public HighscorePanel(MenuButton mainMenuButton) {
+		// TODO Auto-generated constructor stub
+	}
+
 }

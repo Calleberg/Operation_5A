@@ -9,7 +9,7 @@ import java.awt.Graphics;
  * @author 
  *
  */
-public class HealthBar {
+public class StatusBar {
 
 	private int max;
 	private int value;
@@ -22,7 +22,7 @@ public class HealthBar {
 	 * @param width the width of the bar.
 	 * @param max the maximum value of the bar.
 	 */
-	public HealthBar(float height, float width, int max) {
+	public StatusBar(float height, float width, int max) {
 		this(height, width, max, max);
 	}
 	
@@ -34,7 +34,7 @@ public class HealthBar {
 	 * @param max the max value of the bar.
 	 * @param start the current value of the bar.
 	 */
-	public HealthBar(float height, float width, int max, int start) {
+	public StatusBar(float height, float width, int max, int start) {
 		this.max = max;
 		this.w = width;
 		this.h = height;
@@ -65,7 +65,7 @@ public class HealthBar {
 	 * @param scale the scale to draw at.
 	 */
 	public void render(Graphics g, int x, int y, int scale) {
-		g.setColor(this.barColor);
+		g.setColor(barColor);
 		g.fillRect(x, y, (int)((w * scale) * ((float)value/max)), (int)(h * scale));
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, (int)(w * scale), (int)(h * scale));

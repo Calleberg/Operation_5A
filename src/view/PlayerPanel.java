@@ -8,11 +8,21 @@ import javax.swing.JPanel;
 
 import model.sprites.Player;
 
+/**
+ * The GUI object which displays information about the player.
+ * 
+ * @author 
+ *
+ */
 public class PlayerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Player player;
 
+	/**
+	 * Creates a new instance which will display info about the specified player.
+	 * @param player the player to display information about.
+	 */
 	public PlayerPanel(Player player) {
 		super();
 		this.player = player;
@@ -23,11 +33,9 @@ public class PlayerPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.BLACK);
-		g.drawString("HP: " + player.getHealth(), 10, 10);
 		g.drawString("Ammo: " + player.getActiveWeapon().getAmmunitionInMagazine() + "/" + 
 				player.getAmmoAmount(), 10, 20);
 		g.drawString("Weapon: " + player.getActiveWeapon().toString(), 10, 30);
-		g.drawString("Food : " + player.getFood(), 10, 40);
 		
 		for(int i = 0; i < player.getWeapons().length; i++) {
 			if(player.getWeapons()[i] != null) {

@@ -7,7 +7,6 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
-import model.other.Animation;
 
 /**
  * Models a player which can populate a world.
@@ -39,11 +38,12 @@ public class Player implements Sprite {
 		this.speed = 0.1f;
 		this.health = 100;
 		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
-		hitBox = new Rectangle(x, y, 0.6f, 0.6f);
+		hitBox = new Rectangle(0, 0, 0.6f, 0.6f);
 		this.food = 100;
 		this.ammo = 20;
 		this.weapons = new Weapon[3];
 		this.setStartingWeapons();
+		this.setPosition(new Position(x, y));
 	}
 	
 	@Override
@@ -113,7 +113,7 @@ public class Player implements Sprite {
 	 * @param x the new x-coordinate.
 	 */
 	public void setX(float x){
-		this.hitBox.setPosition(new Position(x, this.getY()));
+		this.setPosition(new Position(x, this.getY()));
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class Player implements Sprite {
 	 * @param y the new y-coordinate.
 	 */
 	public void setY(float y){
-		this.hitBox.setPosition(new Position(this.getX(),y));
+		this.setPosition(new Position(this.getX(),y));
 	}
 	
 	/**
@@ -216,11 +216,11 @@ public class Player implements Sprite {
 	}
 	
 	/**
-	 * Sets the position of the player.
-	 * @param p the position of the player.
+	 * Sets the center position.
 	 */
+	@Override
 	public void setPosition(Position p) {
-		this.hitBox.setPosition(p);
+		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2, p.getY() - hitBox.getHeight()/2));
 	}
 
 	@Override

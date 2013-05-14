@@ -21,7 +21,7 @@ import model.sprites.Sprite;
 public class SpriteView implements ObjectRenderer<Sprite> {
 
 	private Sprite sprite;
-	private HealthBar hpbar;
+	private StatusBar hpbar;
 	private BufferedImage[] texture = Resources.splitImages("zombie01.png", 5, 4);
 	
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 100, true);
@@ -43,7 +43,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 	@Override
 	public void setObject(Sprite object) {
 		this.sprite = object;
-		this.hpbar = new HealthBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
+		this.hpbar = new StatusBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
 	}
 	
 	@Override
