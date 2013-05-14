@@ -210,7 +210,7 @@ public class GameController implements Runnable {
 		
 		//gameOver
 		if(gameModel.getPlayer().getHealth() <= 0){
-			model.HighScore.addScore(getTotalRuntime());
+			model.HighScoreModel.addNewScore(getTotalRuntime());
 			MenuController.showGameOverPanel();
 			this.stopThread();
 		}

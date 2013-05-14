@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.HighScore;
+import model.HighScoreModel;
 
 
 import view.menu.MenuButton;
@@ -16,21 +16,22 @@ public class HighscorePanel extends SubMenuPanel {
 	
 	private static JPanel doSomething(){
 		JPanel p = new JPanel();
-		HighScore h = new HighScore();
-		p.setBackground(Color.red);
-		p.setLayout(new GridLayout(h.getHighScore().getLenght(), 0, 0, 10));
+		HighScoreModel h = new HighScoreModel();
+		
+		p.setLayout(new GridLayout(11, 0, 0, 10));
 
-		for (int a=0; a<h.getHighScore().getLenght(); a++){
+		for (int a=0; a<10 && a<h.getLenght(); a++){
 			p.add(new JLabel(
-					a+1 + ". " +h.getHighScore().getScore(a) + "p. " + h.getHighScore().getName(a)));
+					a+1 + ". " +h.getScore(a) + "p. " + h.getName(a)));
 		}
-//		p.repaint();
+
 		return p;
 				
 	}
 
 	public HighscorePanel(MenuButton mainMenuButton) {
 		super(mainMenuButton, doSomething());
+		super.setBackground(Color.red);
 		// TODO Auto-generated constructor stub
 	}
 

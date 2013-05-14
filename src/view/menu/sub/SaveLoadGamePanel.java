@@ -7,12 +7,18 @@ import view.menu.MenuButton;
 
 @SuppressWarnings("serial")
 public class SaveLoadGamePanel extends SubMenuPanel{
-	private static SaveLoadGamePanel panel = null; 
+	 
 	public SaveLoadGamePanel(MenuButton pauseMenuButton) {
-		super(pauseMenuButton, panel);
+		super(pauseMenuButton, createPanel());
+
+		// TODO Auto-generated constructor stub
+	}
+	private static JPanel createPanel() {
+		// TODO Auto-generated method stub
+		JPanel panel = new JPanel();
 		panel.add(new JLabel("Load/SavePanel"));
 		panel.setFont(resources.GameFont.getLargeFont());
-		// TODO Auto-generated constructor stub
+		return panel;
 	}
 
 }
