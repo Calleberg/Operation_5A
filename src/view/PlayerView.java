@@ -22,7 +22,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 
 	private Player p;
 	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 4);
-	private HealthBar hpBar;
+	private StatusBar hpBar;
 	
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 50, true);
 	private int standImage = 10;
@@ -43,7 +43,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 	@Override
 	public void setObject(Player object) {
 		this.p = object;
-		hpBar = new HealthBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
+		hpBar = new StatusBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
 	}
 
 	@Override
