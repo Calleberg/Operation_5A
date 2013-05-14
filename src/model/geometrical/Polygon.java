@@ -2,14 +2,13 @@ package model.geometrical;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A basic polygon. 
- * Note: This will not autocomplete itself even if its not a closed circuit.
+ * Note: This will not autocomplete itself even if it is not a closed circuit.
  * 
  * @author
  *
@@ -19,6 +18,7 @@ public class Polygon implements CollisionBox {
 	private List<Line2D> polygon;
 	private float x, y;
 	private Position oldPosition;
+	private Position position;	//the position this polygon moves relative to.
 	
 	/**
 	 * Creates a new polygon with the specified position as anchor.
@@ -26,6 +26,7 @@ public class Polygon implements CollisionBox {
 	public Polygon() {
 		this.polygon = new ArrayList<Line2D>();
 		this.oldPosition = new Position(0, 0);
+		this.position = new Position(0, 0);
 	}
 	
 	/**
@@ -33,7 +34,8 @@ public class Polygon implements CollisionBox {
 	 * @param line the line to add.
 	 */
 	public void addLine(Line2D line) {
-		this.polygon.add(line);
+		this.polygon.add(new PolygonSegement(position, (float)line.getX1(), (float)line.getY1(), 
+				(float)line.getX2(), (float)line.getY2()));
 	}
 	
 	@Override
@@ -84,8 +86,8 @@ public class Polygon implements CollisionBox {
 
 	@Override
 	public void setPosition(Position pos) {
-		Position oldPos = this.getPosition();
-		this.move(pos.getX() - oldPos.getX(), pos.getY() - oldPos.getY());
+		this.oldPosition = this.getPosition();
+		this.move(pos.getX() - oldPosition.getX(), pos.getY() - oldPosition.getY());
 	}
 
 	/**
@@ -136,15 +138,7 @@ public class Polygon implements CollisionBox {
 	@Override
 	public void move(float dx, float dy) {
 		this.oldPosition = this.getPosition();
-		this.x += dx;
-		this.y += dy;
-		double[] pt;
-		for(Line2D l : this.getLines()) {
-			pt = new double[]{l.getX1(), l.getY1(), l.getX2(), l.getY2()};
-			AffineTransform.getTranslateInstance(dx, dy)
-			.transform(pt, 0, pt, 0, 2);
-			
-			l.setLine(pt[0], pt[1], pt[2], pt[3]);
-		}
+		this.position.setX(position.getX() + dx);
+		this.position.setY(position.getY() + dy);
 	}
 }

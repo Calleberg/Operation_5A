@@ -22,6 +22,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 
 	private Player p;
 	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 4);
+	private HealthBar hpBar;
 	
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 50, true);
 	private int standImage = 10;
@@ -31,7 +32,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 	 * @param p the player to render.
 	 */
 	public PlayerView(Player p) {
-		this.p = p;
+		this.setObject(p);
 	}
 	
 	@Override
@@ -42,6 +43,7 @@ public class PlayerView implements ObjectRenderer<Player> {
 	@Override
 	public void setObject(Player object) {
 		this.p = object;
+		hpBar = new HealthBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
 	}
 
 	@Override
@@ -77,15 +79,18 @@ public class PlayerView implements ObjectRenderer<Player> {
 			g2d.drawImage(texture[standImage], transformer, null);
 			
 			//Draws data
-			g2d.setColor(Color.RED);
-			g2d.drawString(p.getHealth() + "hp", x, y);
-			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),
-					(int)(p.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
-			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),
-					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
+			hpBar.setValue(p.getHealth());
+			hpBar.render(g2d, x, y - (int)(scale/10), scale);
 			
-			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
-			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
+//			g2d.setColor(Color.RED);
+//			g2d.drawString(p.getHealth() + "hp", x, y);
+//			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),
+//					(int)(p.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
+//			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),
+//					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
+//			
+//			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
+//			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -21,7 +20,7 @@ import model.sprites.Sprite;
 public class SpriteView implements ObjectRenderer<Sprite> {
 
 	private Sprite sprite;
-	//TODO: add enemy texture
+	private HealthBar hpbar;
 	private BufferedImage[] texture = Resources.splitImages("zombie01.png", 5, 4);
 	
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 100, true);
@@ -32,7 +31,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 	 * @param sprite the sprite to render.
 	 */
 	public SpriteView(Sprite sprite) {
-		this.sprite = sprite;
+		this.setObject(sprite);
 	}
 	
 	@Override
@@ -43,6 +42,7 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 	@Override
 	public void setObject(Sprite object) {
 		this.sprite = object;
+		this.hpbar = new HealthBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
 	}
 	
 	@Override
@@ -69,6 +69,9 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 			g2d.drawImage(texture[standImage], transformer, null);
 			
 			//Draws dev data
+			hpbar.setValue(sprite.getHealth());
+			hpbar.render(g2d, x, y - (int)(scale/10), scale);
+			
 //			g2d.setColor(Color.RED);
 //			g2d.drawString(sprite.getHealth() + "hp", x, y);
 //			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
