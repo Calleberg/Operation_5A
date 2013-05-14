@@ -32,7 +32,8 @@ public class EnemyPathfinder {
 	}
 	
 	/**
-	 * Return a list of Positions containing the fastest way from p to goal.
+	 * Return a list of Positions containing the fastest way from p to goal. A way will
+	 * never contain a position which is longer than 25 away from the start position.
 	 * @param p the start position.
 	 * @param goal The end position.
 	 * @return a list of Positions containing the fastest way from p to goal.
@@ -46,12 +47,6 @@ public class EnemyPathfinder {
 		currentNode = openTileList.get(0);
 		currentNode.setParentNode(null);
 		
-		//if the distance is long (outside of screen) just walk towards the player.
-		if(getDistance(currentNode.getTile(), this.goal.getTile()) > 25){
-			List<Position> l = new ArrayList<Position>();
-			l.add(goal);
-			return l;
-		}
 		
 		//Looping through the tiles to find the fastest way. End the loop if the fastest way is found, 
 		//no way was found or if there is a straight way found towards the goal.
@@ -109,6 +104,14 @@ public class EnemyPathfinder {
 		//switch the last position the the playerCenter(goal) instead 
 		correctListInverted.remove(correctListInverted.size()-1);
 		correctListInverted.add(goal);
+		
+		for(int i = 0; i<correctListInverted.size()-2; i++){
+			if(adjustedCanMove(correctListInverted.get(i), correctListInverted.get(i+2))){
+				correctListInverted.remove(i+1);
+				System.out.println("remove");
+				i--;
+			}
+		}
 		
 		return correctListInverted;
 	}

@@ -1,6 +1,7 @@
 package model.sprites;
 
 import java.util.List;
+import java.util.Random;
 
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
@@ -102,6 +103,7 @@ public class Enemy implements Sprite{
 
 	@Override
 	public void moveXAxis(){
+		setDirection();
 		if(this.state == Sprite.State.RUNNING) {
 			hitBox.setPosition(new Position(hitBox.getPosition().getX() + (float)(Math.cos(direction)*speed), 
 					hitBox.getPosition().getY()));
@@ -188,6 +190,69 @@ public class Enemy implements Sprite{
 		this.state = State.RUNNING;
 		pathfindingListIndex = 0;
 		this.pathfindingList = list;
+	}
+	
+	/**
+	 * Changes the direction of the enemy according the pathfindingList and 
+	 * pathfindingListIndex. PathfindingList = null will activate random walk.
+	 */
+	private void setDirection(){
+		//pathfindinglist is set to null when the enemy "lost track" on the player and 
+		//should random walk.
+		if(pathfindingList == null/* || pathfindingList.size() <= pathfindingListIndex*/){
+			this.randomWalk();
+			return;//TODO varför behövs detta?
+		}
+		
+		//If the enemy is close to the current position in the pathfindingList set the direction,
+		//otherwise increase the pathfindingListIndex and the set the direction.
+		if(Math.abs(getCenter().getX() - 
+				(pathfindingList.get(pathfindingListIndex).getX())) > 0.02
+				|| Math.abs(getCenter().getY() - 
+				(pathfindingList.get(pathfindingListIndex).getY())) > 0.02){
+			setDirectionTowardsList();
+		}else{
+			pathfindingListIndex++;
+			//if the pathfindingListIndex increases over size of list, stand still.
+			if(!(pathfindingList.size()<=pathfindingListIndex)){
+				setDirectionTowardsList();
+			}else{
+				setState(Enemy.State.STANDING);
+			}
+		}
+	}
+	
+	/**
+	 * The enemy will sometimes change to a random direction or stand still.
+	 */
+	private void randomWalk(){
+		Random random = new Random();
+		if(random.nextFloat() > 0.995){
+			int randomNumber = random.nextInt(100);
+			float randomDirection = (float) (randomNumber * (2*Math.PI/(100)));
+			direction = randomDirection;
+			state = Sprite.State.WALKING;
+
+		}else if(random.nextFloat() > 0.998){
+			state = Sprite.State.STANDING;
+		}
+	}
+	
+	/**
+	 * The enemy will set direction according the current pathfindingList and 
+	 * pathfindingListIndex.
+	 */
+	private void setDirectionTowardsList(){
+		float dx = (float) (getCenter().getX() - 
+				(pathfindingList.get(pathfindingListIndex).getX()));
+		float dy = (float) (getCenter().getY() - 
+				(pathfindingList.get(pathfindingListIndex).getY()));
+		float sin = (float) Math.asin((float) (dy/Math.sqrt(dx*dx+dy*dy)));
+		if(dx>0){
+			setDirection((float)Math.PI - sin);
+		}else{
+			setDirection(sin);
+		}
 	}
 
 	@Override
