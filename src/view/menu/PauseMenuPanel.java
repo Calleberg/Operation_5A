@@ -8,20 +8,20 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class PauseMenu extends JPanel{
+public class PauseMenuPanel extends JPanel{
 	
-	private PauseMenu() {
+	private PauseMenuPanel() {
 		setBackground(Color.BLUE);
 
 		
 	}
 
-	public PauseMenu(String string, MenuButton[] buttons) {
+	public PauseMenuPanel(String string, MenuButton[] buttons) {
 		this();
 		add(new ButtonColumn(new MenuLabel(string), buttons));
 	}
 
-	public PauseMenu(String string, MenuButton[] pauseMenuButtons,
+	public PauseMenuPanel(String string, MenuButton[] pauseMenuButtons,
 			JPanel gamePanel) {
 		this(string, pauseMenuButtons);
 		// TODO Auto-generated constructor stub

@@ -1,6 +1,8 @@
-package view.menu;
+package view.menu.sub;
 
 import javax.swing.JPanel;
+
+import view.menu.MenuButton;
 
 @SuppressWarnings("serial")
 public class LoadGamePanel extends JPanel {

@@ -1,4 +1,4 @@
-package view.menu;
+package view.menu.sub;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

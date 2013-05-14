@@ -8,18 +8,18 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class MainMenu extends JPanel {
+public class MainMenuPanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	private MainMenu() {
+	private MainMenuPanel() {
 		setBackground(Color.GREEN);
 
 		
 	}
 
-	public MainMenu(String string, MenuButton[] buttons) {
+	public MainMenuPanel(String string, MenuButton[] buttons) {
 		this();
 		add(new ButtonColumn(new MenuLabel(string), buttons));
 	}

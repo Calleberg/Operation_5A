@@ -1,4 +1,4 @@
-package view.menu;
+package view.menu.sub;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -7,9 +7,9 @@ import javax.swing.JLabel;
  *
  */
 @SuppressWarnings("serial")
-public class LoadingScreen extends JPanel{
+public class LoadingPanel extends JPanel{
 	
-	public LoadingScreen() {
+	public LoadingPanel() {
 		
 		JLabel lblLoading = new JLabel("Loading...");
 		add(lblLoading);
