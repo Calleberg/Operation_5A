@@ -46,10 +46,7 @@ public class GameController implements Runnable {
 	private int suppliesTick = 0;
 	private int foodTicks;
 	private int enemySpawnTick;
-<<<<<<< HEAD
-=======
 	private Position spawnPos;
->>>>>>> origin/Vidar
 	private AI ai;
 	
 	
@@ -118,7 +115,6 @@ public class GameController implements Runnable {
 	 */
 	public int getNumbersOfUpdates() {
 		return nbrOfUpdates;
-<<<<<<< HEAD
 	}
 	
 	/**
@@ -126,9 +122,7 @@ public class GameController implements Runnable {
 	 * @return the time in milliseconds the controller has existed.
 	 */
 	public long getMsSinceStart() {
-		return timeNow()-objectCreationTime;
-=======
->>>>>>> origin/Vidar
+		return timeNow()-startTime;
 	}
 	
 	/**
