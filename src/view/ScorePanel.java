@@ -31,7 +31,9 @@ public class ScorePanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		g.setColor(new Color(255, 255, 255, 255));
+		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		
 		g.setColor(Color.BLACK);
 		g.drawString("Score: " + ctrl.getGameScore(), 10, 10);
 	}

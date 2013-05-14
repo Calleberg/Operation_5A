@@ -30,22 +30,27 @@ public class BarPanel extends JPanel {
 	public BarPanel(Player player) {
 		super();
 		this.player = player;
-		this.setPreferredSize(new Dimension(100, 100));
-		hpBar = new StatusBar(20, 75, 100, player.getHealth());
-		foodBar = new StatusBar(20, 75, 100, player.getFood());
+		this.setPreferredSize(new Dimension(120, 100));
+		hpBar = new StatusBar(20, 100, 100, player.getHealth());
+		foodBar = new StatusBar(20, 100, 100, player.getFood());
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		g.setColor(new Color(255, 255, 255, 255));
+		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		
 		hpBar.setValue(player.getHealth());
 		foodBar.setValue(player.getFood());
+		
 		setHpBarColor();
 		setFoodBarColor();
 		g.setColor(Color.BLACK);
-		g.drawString("HP: " + player.getHealth(), 10, 20);
+		
+		g.drawString("HP", 10, 20);
 		hpBar.render(g, 10, 25, 1);
-		g.drawString("Food : " + player.getFood(), 10, 56);
+		
+		g.drawString("Food", 10, 56);
 		foodBar.render(g, 10, 61, 1);
 		
 	}
