@@ -12,7 +12,7 @@ public class WeaponFactory {
 //		SHOTGUN,
 //		REVOLVER,
 //		HUNTING_RIFLE,
-//		MACHINEGUN,
+//		SUB_MACHINEGUN,
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
 //TODO more weapons
