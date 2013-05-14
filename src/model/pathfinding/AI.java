@@ -35,7 +35,7 @@ public class AI {
 	}
 	
 	/**
-	 * Update the movement and actions on all players.
+	 * Update the movement and actions on all enemies.
 	 */
 	public void updateEnemies(){
 		this.updateMovement();
@@ -46,8 +46,11 @@ public class AI {
 		if(pathfindingUpdateTick < PATHFINDING_UPDATE_INTERVAL){
 			for(Sprite s : world.getSprites()){
 				if(s instanceof Enemy && (world.getSprites().indexOf(s)+pathfindingUpdateTick)%
-						PATHFINDING_UPDATE_INTERVAL == 0){
+						PATHFINDING_UPDATE_INTERVAL == 0){//All enemies will update once every
+					//20 updates, all enemies will have their updates spread out as much as possible.
 					Enemy e = (Enemy) s;
+					//If the Enemy is running it won't loose track of the player until the 
+					//distance is 15.
 					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
 							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
@@ -55,7 +58,8 @@ public class AI {
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);
 						}
-					}else{
+					}else{//If an enemy isn't running it wont discover the player until the distance
+						//is less than eight and there is a clear sight of the player.
 						if(getDistance(e.getCenter(), player.getCenter()) < 8 && 
 								world.canMove(e.getCenter(), player.getCenter())){
 							e.setState(Enemy.State.RUNNING);

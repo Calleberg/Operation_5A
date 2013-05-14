@@ -34,16 +34,16 @@ public class EnemyPathfinder {
 	/**
 	 * Return a list of Positions containing the fastest way from p to goal. A way will
 	 * never contain a position which is longer than 25 away from the start position.
-	 * @param p the start position.
+	 * @param start the start position.
 	 * @param goal The end position.
 	 * @return a list of Positions containing the fastest way from p to goal.
 	 */
-	public List<Position> findWay(Position p, Position goal){
+	public List<Position> findWay(Position start, Position goal){
 		noWayFound = false;
 		closedTileList = new ArrayList<PathfindingNode>();
 		openTileList = new ArrayList<PathfindingNode>();
 		this.goal = nodes[(int)goal.getX()][(int)goal.getY()];
-		openTileList.add(nodes[(int)p.getX()][(int)p.getY()]);
+		openTileList.add(nodes[(int)start.getX()][(int)start.getY()]);
 		currentNode = openTileList.get(0);
 		currentNode.setParentNode(null);
 		
@@ -53,7 +53,7 @@ public class EnemyPathfinder {
 		while(((currentNode.getTile().getX() != this.goal.getTile().getX() ||
 				currentNode.getTile().getY() != this.goal.getTile().getY())) && !noWayFound && 
 				!(adjustedCanMove(currentNode.getCenter(), this.goal.getCenter()))){
-			findWay(p);
+			findWay(start);
 		}
 		
 		//if noWayFound set the direction straight towards the goal. This won't solve the problem but
@@ -88,16 +88,8 @@ public class EnemyPathfinder {
 		}
 		
 		//This is necessary to stop enemies from getting stuck next to some props. 
-		if(!adjustedCanMove(p, correctListInverted.get(0))){
+		if(!adjustedCanMove(start, correctListInverted.get(0))){
 			correctListInverted.remove(0);
-		}
-		
-		//if it is possible to skip the first position, skip it. This will stop an enemy to move slightly
-		//backwards before going on the path.
-		if(correctListInverted.size()>1){
-			if(adjustedCanMove(p, correctListInverted.get(1))){
-				correctListInverted.remove(0);	
-			}
 		}
 		
 		//Currently the last position is the center of the node the player stands on(this.goal, last index),
@@ -105,14 +97,21 @@ public class EnemyPathfinder {
 		correctListInverted.remove(correctListInverted.size()-1);
 		correctListInverted.add(goal);
 		
+		//remove unnecessary positions in the list.
 		for(int i = 0; i<correctListInverted.size()-2; i++){
 			if(adjustedCanMove(correctListInverted.get(i), correctListInverted.get(i+2))){
 				correctListInverted.remove(i+1);
-				System.out.println("remove");
 				i--;
 			}
 		}
 		
+		//if it is possible to skip the first position, skip it. This will stop an enemy to move slightly
+				//backwards before going on the path.
+				if(correctListInverted.size()>1){
+					if(adjustedCanMove(start, correctListInverted.get(1))){
+						correctListInverted.remove(0);	
+					}
+				}
 		return correctListInverted;
 	}
 	

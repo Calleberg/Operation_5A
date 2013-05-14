@@ -200,9 +200,9 @@ public class Enemy implements Sprite{
 	private void setDirection(){
 		//pathfindinglist is set to null when the enemy "lost track" on the player and 
 		//should random walk.
-		if(pathfindingList == null/* || pathfindingList.size() <= pathfindingListIndex*/){
+		if(pathfindingList == null){
 			this.randomWalk();
-			return;//TODO varför behövs detta?
+			return;
 		}
 		
 		//If the enemy is close to the current position in the pathfindingList set the direction,
