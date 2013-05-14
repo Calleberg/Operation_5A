@@ -357,6 +357,9 @@ public class GameController implements Runnable {
 		}
 	}
 	
+	/**
+	 * Calculates where the supply is spawned
+	 */
 	private void calculateSupplySpawnPos(){
 		boolean tileOcuppied;
 		int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
