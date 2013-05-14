@@ -195,7 +195,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		//data:
 		g.setColor(Color.BLACK);
 		g.drawString("Number of updates since start (view): " + tick 
+<<<<<<< HEAD
 				+ ", average: " + tick/(int)(1 + controller.getMsSinceStart()/1000) + "/s", 10, 150);
+=======
+				+ ", average: " + tick/(int)(1 + controller.getNumbersOfUpdates()/1000) + "/s", 10, 150);
+>>>>>>> origin/Vidar
 	}
 	
 	/**

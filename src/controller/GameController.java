@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import javax.swing.JPanel;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import view.GamePanel;
 
 import model.GameModel;
@@ -34,9 +35,9 @@ public class GameController implements Runnable {
 	private GamePanel gamePanel;
 	private Input input;
 	
-	private long objectCreationTime=timeNow();
-	private long lastTimeControllerRun = 0;
-	private long totalRuntime=0;
+	private long startTime = 0;
+	private long totalTimePaused = 0;
+	private long lastTimePaused = 0;
 
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
@@ -45,6 +46,10 @@ public class GameController implements Runnable {
 	private int suppliesTick = 0;
 	private int foodTicks;
 	private int enemySpawnTick;
+<<<<<<< HEAD
+=======
+	private Position spawnPos;
+>>>>>>> origin/Vidar
 	private AI ai;
 	
 	
@@ -77,7 +82,7 @@ public class GameController implements Runnable {
 
 	@Override
 	public void run() {
-		lastTimeControllerRun=timeNow();
+		startTime = timeNow();
 		new Thread(gamePanel).start();
 		while (isRunning){
 			runThread();
@@ -113,6 +118,7 @@ public class GameController implements Runnable {
 	 */
 	public int getNumbersOfUpdates() {
 		return nbrOfUpdates;
+<<<<<<< HEAD
 	}
 	
 	/**
@@ -121,6 +127,8 @@ public class GameController implements Runnable {
 	 */
 	public long getMsSinceStart() {
 		return timeNow()-objectCreationTime;
+=======
+>>>>>>> origin/Vidar
 	}
 	
 	/**
@@ -194,16 +202,19 @@ public class GameController implements Runnable {
 		
 		//gameOver
 		if(gameModel.getPlayer().getHealth() <= 0){
-			MenuController.gameOver(totalRuntime());
+			MenuController.gameOver(getTotalRuntime());
 			this.stopThread();
 		}
 		
 		gameModel.update();
 	}
 	
-	private long totalRuntime() {
-		totalRuntime+=timeNow()-lastTimeControllerRun;
-		return totalRuntime;
+	/**
+	 * Calculates how long time the controller has executed. If the thread is paused the timer will also be paused.
+	 * @return the time the controller has been running.
+	 */
+	public long getTotalRuntime() {
+		return timeNow()-startTime-totalTimePaused;
 	}
 
 	private void playerPickUpWeapon(){
@@ -313,7 +324,7 @@ public class GameController implements Runnable {
 	 */
 	public synchronized void pauseThread(){
 		paused=true;
-		totalRuntime();
+		lastTimePaused=timeNow();
 		gamePanel.pauseThread();
 	}
 	/**
@@ -322,7 +333,7 @@ public class GameController implements Runnable {
 	public synchronized void resumeThread(){
 		paused=false;
 		notify();
-		lastTimeControllerRun=timeNow();
+		totalTimePaused+=timeNow()-lastTimePaused;
 		gamePanel.resumeThread();
 	}
 	/**
@@ -331,7 +342,6 @@ public class GameController implements Runnable {
 	public synchronized void stopThread(){
 		isRunning=false;
 		notify();
-		totalRuntime();
 		gamePanel.stopThread();
 	}
 	
@@ -343,6 +353,13 @@ public class GameController implements Runnable {
 		return Calendar.getInstance().getTimeInMillis();
 	}
 	/**
+	 * 
+	 * @return the score of the game. Now it is the time the game has been running.
+	 */
+	public int getGameScore(){
+		return (int) getTotalRuntime()/1000;
+	}
+	/**
 	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
@@ -351,9 +368,9 @@ public class GameController implements Runnable {
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
 				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
-			if((int)getMsSinceStart()/1000 < 120){
+			if((int)getTotalRuntime()/1000 < 120){
 				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
-			}else if((int)getMsSinceStart()/1000 < 480){
+			}else if((int)getTotalRuntime()/1000 < 480){
 				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
 			}else{
 				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
