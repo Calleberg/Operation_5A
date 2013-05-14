@@ -116,103 +116,19 @@ public class World {
 		return this.sprites;
 	}
 	
+	
+	
 	/**
 	 * Updates the world.
 	 */
 	public void update() {
-		List<Item> itemsToBeRemoved = new ArrayList<Item>(); 
-		//Updates all the sprites
-		for(Sprite sprite : sprites) {
-			sprite.moveXAxis();
-			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
-			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-					sprite.moveBack();
-				}
-			}
-			
-			//Check if enemies are in range of a player
-			enemyShoot();
-			
-			//Check if the sprite hit another sprite
-			for(Sprite sprite2 : sprites) {
-				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
-					sprite.moveBack();
-				}
-			}
-			
-			sprite.moveYAxis();
-			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-					sprite.moveBack();
-				}
-			}
-			//Check if the sprite hit another sprite
-			for(Sprite sprite2 : sprites) {
-				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
-					sprite.moveBack();
-				}
-			}
-			
-			//Check if player hit Item
-			for(int j = 0; j < items.size(); j++){
-				if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
-					if(sprite.pickUpItem(items.get(j))){
-						itemsToBeRemoved.add(items.get(j));
-					}
-				}
-			}
-		}
-		
-		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
-		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
-		//Updates the projectiles 5 times each update
-		for(int k = 0; k < 5; k++) {
-			//Moves the projectiles
-			for(int j = 0; j < projectiles.size(); j++) {
-				if(!projectilesToBeRemoved.contains(projectiles.get(j))) {
-					projectiles.get(j).move();
-					//Checks if the projectile hit a sprite
-					for(int i = 0; i < sprites.size(); i++){
-						if(sprites.get(i).getHitBox().intersects(projectiles.get(j).getCollisionBox())) {
-							System.out.println("projectile collision");
-							sprites.get(i).reduceHealth(projectiles.get(j).getDamage());
-							sprites.get(i).setState(Enemy.State.RUNNING);
-							projectilesToBeRemoved.add(projectiles.get(j));
-							if(sprites.get(i).getHealth() <= 0){
-								spritesToBeRemoved.add(sprites.get(i));
-							}
-						}
-					}
-					//Check if the projectile hit an object
-					CollisionBox box = projectiles.get(j).getCollisionBox();
-					Tile[] tilesToCheck = getTileAround(box.getPosition());
-					for(int l = 0;l < tilesToCheck.length; l++) {
-						if(tilesToCheck[l] != null && box.intersects(tilesToCheck[l].getCollisionBox())) {
-							projectilesToBeRemoved.add(projectiles.get(j));
-						}
-					}
-				}
-			}
-		}
-		//Check if the projectile has travelled further then it can
-		for(int i = 0; i < projectiles.size(); i++){
-			if(projectiles.get(i).isMaxRangeReached()){
-				projectilesToBeRemoved.add(projectiles.get(i));
-			}
-		}
-		//Remove all the objects which needs to be removed
-		this.removeSprites(spritesToBeRemoved);
-		this.removeProjectiles(projectilesToBeRemoved);
-		this.removeitems(itemsToBeRemoved);
-		
+		updateSpriteMovement();
+		playerHitItem();
+		enemyShoot();
+		updateProjectiles();
 	}
 	
-	/*
+	/**
 	 * Gives an array of the tiles around the specified position.
 	 */
 	private Tile[] getTileAround(Position pos) {
@@ -276,7 +192,6 @@ public class World {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * If the player
 	 * @param e
 	 * @param p
@@ -459,5 +374,116 @@ public class World {
 	 */
 	public void fireEvent(String event, Object obj){
 		pcs.firePropertyChange(event, null, obj);
+	}
+	
+	private void updateSpriteMovement(){
+		for(Sprite sprite : sprites) {
+			sprite.moveXAxis();
+			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
+				}
+			}		
+			//Check if the sprite hit another sprite
+			for(Sprite sprite2 : sprites) {
+				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+					sprite.moveBack();
+				}
+			}
+			
+			sprite.moveYAxis();
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
+				}
+			}
+			//Check if the sprite hit another sprite
+			for(Sprite sprite2 : sprites) {
+				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+					sprite.moveBack();
+				}
+			}
+		}
+	}
+	
+	private void playerHitItem(){
+		List<Item> itemsToBeRemoved = new ArrayList<Item>();
+		for(Sprite sprite : sprites){
+			if(sprite instanceof Player){
+				for(int j = 0; j < items.size(); j++){
+					if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
+						if(sprite.pickUpItem(items.get(j))){
+							itemsToBeRemoved.add(items.get(j));
+						}
+					}
+				}
+			}
+		}
+		this.removeitems(itemsToBeRemoved);
+	}
+	
+	private void updateProjectiles(){
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
+		
+		for(int j = 0; j < projectiles.size(); j++) {
+			projectiles.get(j).move();
+		}
+		
+		projectileHitSprite();
+		projectileHitObject();	
+		projectilesMaxRange();
+		
+		this.removeSprites(spritesToBeRemoved);
+		this.removeProjectiles(projectilesToBeRemoved);
+	}
+	
+	
+	private void projectileHitObject(){
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		for(Projectile p : projectiles){
+			CollisionBox box = p.getCollisionBox();
+			Tile[] tilesToCheck = getTileAround(box.getPosition());
+			for(int l = 0;l < tilesToCheck.length; l++) {
+				if(tilesToCheck[l] != null && box.intersects(tilesToCheck[l].getCollisionBox())) {
+					projectilesToBeRemoved.add(p);
+				}
+			}
+		}
+		this.removeProjectiles(projectilesToBeRemoved);
+	}
+	
+	private void projectileHitSprite(){
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
+		for(Projectile p : projectiles){
+			for(int i = 0; i < sprites.size(); i++){
+				if(sprites.get(i).getHitBox().intersects(p.getCollisionBox())) {
+					sprites.get(i).reduceHealth(p.getDamage());
+					sprites.get(i).setState(Enemy.State.RUNNING);
+					projectilesToBeRemoved.add(p);
+					if(sprites.get(i).getHealth() <= 0){
+						spritesToBeRemoved.add(sprites.get(i));
+					}
+				}
+			}
+		}
+		this.removeSprites(spritesToBeRemoved);
+		this.removeProjectiles(projectilesToBeRemoved);
+	}
+	
+	private void projectilesMaxRange(){
+		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
+		for(int i = 0; i < projectiles.size(); i++){
+			if(projectiles.get(i).isMaxRangeReached()){
+				projectilesToBeRemoved.add(projectiles.get(i));
+			}
+		}
+		this.removeProjectiles(projectilesToBeRemoved);
 	}
 }
