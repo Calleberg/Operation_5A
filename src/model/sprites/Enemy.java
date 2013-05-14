@@ -6,9 +6,7 @@ import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.items.Item;
-import model.items.Supply;
 import model.items.weapons.Weapon;
-import model.pathfinding.PathfindingNode;
 
 public class Enemy implements Sprite{
 
@@ -35,7 +33,8 @@ public class Enemy implements Sprite{
 		this.weapon = weapon;
 		this.health = health;
 		collisionBox = new Rectangle(0, 0, 0.7f, 0.7f);
-		hitBox = new Rectangle(position.getX(), position.getY(), 0.5f, 0.5f);
+		hitBox = new Rectangle(0, 0, 0.5f, 0.5f);
+		this.setPosition(position);
 	}
 	
 	/**
@@ -61,11 +60,11 @@ public class Enemy implements Sprite{
 	}
 
 	/**
-	 * Sets the position of the enemy.
-	 * @param p the position of the enemy.
+	 * Sets the center position.
 	 */
+	@Override
 	public void setPosition(Position p) {
-		this.hitBox.setPosition(p);
+		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2 + 0.5f, p.getY() - hitBox.getHeight()/2 + 0.5f));
 	}
 	
 	/**
@@ -160,7 +159,7 @@ public class Enemy implements Sprite{
 	 * @param x the x-coordinate.
 	 */
 	public void setX(float x) {
-		this.hitBox.setPosition(new Position(x, this.getY()));
+		this.setPosition(new Position(x, this.getY()));
 	}
 
 	/**
@@ -168,7 +167,7 @@ public class Enemy implements Sprite{
 	 * @param y the y-coordinate.
 	 */
 	public void setY(float y) {
-		this.hitBox.setPosition(new Position(this.getX(),y));
+		this.setPosition(new Position(this.getX(),y));
 	}
 
 	@Override

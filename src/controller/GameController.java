@@ -56,7 +56,7 @@ public class GameController implements Runnable {
 	public GameController(){
 		gameModel = new GameModel();
 		
-		Player player = new Player(45,45);
+		Player player = new Player(45,48);
 		//TODO decide which weapons to start with
 		player.pickUpWeapon(WeaponFactory.startingWeapon());
 		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
