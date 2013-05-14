@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -79,8 +80,8 @@ public class SpriteView implements ObjectRenderer<Sprite> {
 //			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
 //					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
 			
-//			GamePanel.renderCollisionBox(g, offset, scale, sprite.getHitBox(), Color.RED, false, null);
-//			GamePanel.renderCollisionBox(g, offset, scale, sprite.getMoveBox(), Color.ORANGE, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, sprite.getHitBox(), Color.RED, false, null);
+			GamePanel.renderCollisionBox(g, offset, scale, sprite.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 }
