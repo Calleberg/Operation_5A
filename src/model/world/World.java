@@ -300,13 +300,6 @@ public class World {
 				}
 			}
 		}
-//		float dx = e.getX() - player.getX();
-//		float dy = e.getY() - player.getY();
-//		float distance = (float) Math.sqrt(dx*dx+dy*dy);
-//		if(distance <= e.getActiveWeapon().getRange() + player.getHitBox().getWidth() && 
-//				canMove(e.getCenter(), player.getCenter())){
-//			addProjectile(e.getActiveWeapon().createProjectile(e.getDirection(), e.getProjectileSpawn()));
-//		}
 	}
 	
 	/**

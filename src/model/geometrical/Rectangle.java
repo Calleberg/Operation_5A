@@ -24,8 +24,8 @@ public class Rectangle extends Polygon {
 		addLine(new Line2D.Float(x + w, y + h, x, y + h));
 		addLine(new Line2D.Float(x, y + h, x, y));
 		
-//		addLine(new Line2D.Float(x, y, x + w, y + h));
-//		addLine(new Line2D.Float(x + w, y, x, y + h));
+		addLine(new Line2D.Float(x, y, x + w, y + h));
+		addLine(new Line2D.Float(x + w, y, x, y + h));
 	}
 	
 	@Override

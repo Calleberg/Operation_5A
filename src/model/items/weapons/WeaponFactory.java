@@ -116,6 +116,9 @@ public class WeaponFactory {
 		}
 	}
 	public static Weapon createWeapon(Type type, Level level) {
+		return createWeapon(type, level, true);
+	}
+	public static Weapon createWeapon(Type type, Level level, boolean droppable) {
 		return new Weapon(
 				type.getProjectileSpeed(),
 				type.getDamage()*level.multiplier(),
@@ -124,9 +127,11 @@ public class WeaponFactory {
 				type.getReloadTime()/level.multiplier(),
 				type.getRateOfFire(),
 				type.getIconNumber(),
-				level.toString() + " " + type.toString()
+				level.toString() + " " + type.toString(),
+				droppable
 				);
 	}
+
 	/**
 	 * Creates a test weapon for debugging.
 	 * @return a test weapon for debugging.
@@ -142,21 +147,21 @@ public class WeaponFactory {
 	 * @return the weapon enemies uses.
 	 */
 	public static Weapon createEnemyMeleeWeapon(){
-		return createWeapon(Type.FISTS, Level.RUSTY);
+		return createWeapon(Type.FISTS, Level.RUSTY, false);
 	}
 	
 	public static Weapon startingWeapon() {
 		return createTestWeapon();
 	}
-	public static Weapon loadSavedWeapon(String s){
-		return new Weapon(
-				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-				Integer.parseInt(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-				Integer.parseInt(extractSavedString(s)), extractSavedString(s),
-				Integer.parseInt(extractSavedString(s)), Long.parseLong(extractSavedString(s)),
-				Long.parseLong(extractSavedString(s)));		
-	}
+//	public static Weapon loadSavedWeapon(String s){
+//		return new Weapon(
+//				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+//				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+//				Integer.parseInt(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
+//				Integer.parseInt(extractSavedString(s)), extractSavedString(s),
+//				Integer.parseInt(extractSavedString(s)), Long.parseLong(extractSavedString(s)),
+//				Long.parseLong(extractSavedString(s)));		
+//	}
 	private static String extractSavedString(String s){
 		int i = s.indexOf("#");
 		String r = s.substring(0, i);

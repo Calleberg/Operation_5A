@@ -20,6 +20,7 @@ public class Weapon extends Item {
 	private final int rateOfFire;
 	private final int iconNumber;
 	private final String name;
+	private final boolean droppable;
 	
 	private int ammunitionInMagazine;
 	
@@ -42,8 +43,51 @@ public class Weapon extends Item {
 	 * @param iconNumber the icon number corresponding to this icon
 	 * @param name the name of the weapon.
 	 */
-	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name){
+	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
+			int reloadTime, int rateOfFire, int iconNumber, String name){
+		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
+				iconNumber, name, true);
+	}
+	
+	/**
+	 * Creates a weapon with the specified parameters.
+	 * @param projectileSpeed the speed of the projectile
+	 * @param damage the damage done by the projectile
+	 * @param range the numbers of tiles the projectile travels
+	 * @param magazineCapacity the capacity of of the magazine for the weapon
+	 * @param reloadTime the time it takes to reload the weapon in milliseconds
+	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
+	 * @param iconNumber the icon number corresponding to this icon
+	 * @param name the name of the weapon.
+	 * @param droppable whether the weapon is droppable or not.
+	 */
+	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
+			int reloadTime, int rateOfFire, int iconNumber, String name, boolean droppable){
+		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
+				iconNumber, name, droppable, magazineCapacity, 0, 0);
+	}
+	
+	/**
+	 * Creates a weapon with the specified parameters.
+	 * @param projectileSpeed the speed of the projectile
+	 * @param damage the damage done by the projectile
+	 * @param range the numbers of tiles the projectile travels
+	 * @param magazineCapacity the capacity of of the magazine for the weapon
+	 * @param reloadTime the time it takes to reload the weapon in milliseconds
+	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
+	 * @param iconNumber the icon number corresponding to this icon
+	 * @param name the name of the weapon.
+	 * @param droppable whether the weapon is droppable or not.
+	 * @param ammunitionInMagazine the amount of ammunition in the magazine.
+	 * @param lastTimeFired how many milliseconds since the weapon was fired.
+	 * @param lastTimeReloaded how many milliseconds since the weapon was reloaded
+	 */
+	public Weapon(float projectileSpeed, int damage, float range,
+			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
+			boolean droppable, int ammunitionInMagazine, long lastTimeFired, 
+			long lastTimeReloaded){
 		super(null, iconNumber);
+		
 		this.projectileSpeed = projectileSpeed;
 		this.damage = damage;
 		this.range = range;
@@ -52,14 +96,7 @@ public class Weapon extends Item {
 		this.rateOfFire=rateOfFire;
 		this.name=name;
 		this.iconNumber=iconNumber;
-		
-		ammunitionInMagazine=magazineCapacity;
-
-	}
-	public Weapon(float projectileSpeed, int damage, float range,
-			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
-			int ammunitionInMagazine, long lastTimeFired, long lastTimeReloaded){
-		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, iconNumber, name);
+		this.droppable = droppable;
 
 		this.ammunitionInMagazine=ammunitionInMagazine;
 		this.lastTimeFired=lastTimeFired;
@@ -126,6 +163,14 @@ public class Weapon extends Item {
 		return ammunition;
 	}
 
+	/**
+	 * Return true if the weapon is droppable.
+	 * @return true if the weapon is droppable.
+	 */
+	public boolean isDroppable(){
+		return droppable;
+	}
+	
 	/**
 	 * Returns the magazine maximum capacity of the weapon's magazine
 	 * @return the magazine maximum capacity of the weapon's magazine

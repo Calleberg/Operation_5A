@@ -231,15 +231,12 @@ public class GameController implements Runnable {
 			if(gameModel.getWorld().playerPickUpWeapon()){
 				Tile[][] t = gameModel.getWorld().getTiles();
 				input.resetKey(KeyEvent.VK_G);
-				//TODO oldWeapon.type or similar, because you cant throw fists
-				if(oldWeapon.getMagazineCapacity() > 1000){
-					return;
+				if(oldWeapon.isDroppable()){//can't throw fists
+					t[(int) gameModel.getPlayer().getCenter().getX()]
+							[(int)gameModel.getPlayer().getCenter().getY()].setProperty(Tile.WEAPON_SPAWN);
+					spawnWeapon(t[(int) gameModel.getPlayer().getCenter().getX()]
+							[(int)gameModel.getPlayer().getCenter().getY()], oldWeapon);
 				}
-				//TODO where spawn weapon?
-				t[(int) gameModel.getPlayer().getPosition().getX()]
-						[(int)gameModel.getPlayer().getPosition().getY()].setProperty(Tile.WEAPON_SPAWN);
-				spawnWeapon(t[(int) gameModel.getPlayer().getPosition().getX()]
-						[(int)gameModel.getPlayer().getPosition().getY()], oldWeapon);
 			}
 		}
 	}
