@@ -1,7 +1,5 @@
 package view.menu;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 /**
  * @author Vidar Eriksson
@@ -10,15 +8,9 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PauseMenuPanel extends JPanel{
 	
-	private PauseMenuPanel() {
-		setBackground(Color.BLUE);
-
-		
-	}
-
 	public PauseMenuPanel(String string, MenuButton[] buttons) {
-		this();
 		add(new ButtonColumn(new MenuLabel(string), buttons));
+		setBackground(resources.Menu.getMenuColor());
 	}
 
 	public PauseMenuPanel(String string, MenuButton[] pauseMenuButtons,
@@ -27,5 +19,19 @@ public class PauseMenuPanel extends JPanel{
 		// TODO Auto-generated constructor stub
 		//TODO lägg pause menyn över spelvärlden
 	}
-
+	
+//	public PauseMenuPanel(String string, MenuButton[] buttons,
+//			JPanel gamePanel) {
+////		this(string, buttons);
+//		
+//		JLayeredPane layeredPane = new JLayeredPane();
+////		layeredPane.add(gamePanel,0);
+//		layeredPane.add(new ButtonColumn(new MenuLabel(string), buttons), 1);
+//		add(layeredPane);
+////		layeredPane.requestFocus();
+////		layeredPane.repaint();
+//		// TODO Auto-generated constructor stub
+//		//TODO lägg pause menyn över spelvärlden
+//	}
+	
 }

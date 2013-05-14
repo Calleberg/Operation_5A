@@ -8,8 +8,10 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class MenuLabel extends JLabel {
 
-	public MenuLabel(String string) {
-		super(string);
-		setFont(resources.GameFont.getLargeFont());
+	public MenuLabel(String s) {
+//		super(s);
+		setText(s);
+//		setAlignmentY(CENTER_ALIGNMENT);
+		setFont(resources.Menu.getLargeFont());
 	}
 }

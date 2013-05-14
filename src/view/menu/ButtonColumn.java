@@ -1,6 +1,5 @@
 package view.menu;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -16,9 +15,12 @@ public class ButtonColumn extends JPanel {
 	 * Create the panel.
 	 */
 	public ButtonColumn(MenuLabel l, JButton[] b) {
-		setLayout(new GridLayout(1+b.length, 0, 0, 10));
-		setBackground(Color.cyan);
+		setLayout(new GridLayout(0, 1, resources.Menu.getGap(), resources.Menu.getGap()));
+		setBackground(resources.Menu.getMenuColor());
+		
+		
 		add(l);
+		//TODO centrera texten ovan
 		for (int a=0; a<b.length; a++){
 			add(b[a]);
 		}

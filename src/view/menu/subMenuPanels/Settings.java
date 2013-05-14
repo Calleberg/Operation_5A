@@ -1,6 +1,4 @@
-package view.menu.sub;
-
-import java.awt.Color;
+package view.menu.subMenuPanels;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,18 +6,16 @@ import javax.swing.JPanel;
 import view.menu.MenuButton;
 
 @SuppressWarnings("serial")
-public class SettingsPanel extends SubMenuPanel {
+public class Settings extends SubMenuPanel {
 
-	public SettingsPanel(MenuButton mainMenuButton) {
-		super(mainMenuButton, getSettingsPanel());
-		// TODO Auto-generated constructor stub
+	public Settings(MenuButton button) {
+		super("Settings", getSettingsPanel(), button);
 	}
 
 	private static JPanel getSettingsPanel() {
 		// TODO Auto-generated method stub
 		JPanel p = new JPanel();
 		p.add(new JLabel("Detta är settings panel"));
-		p.setBackground(Color.GRAY);
 		return p;
 	}
 

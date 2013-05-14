@@ -1,6 +1,5 @@
-package view.menu.sub;
+package view.menu.subMenuPanels;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -12,9 +11,13 @@ import model.HighScoreModel;
 import view.menu.MenuButton;
 
 @SuppressWarnings("serial")
-public class HighscorePanel extends SubMenuPanel {
+public class Highscore extends SubMenuPanel {
 	
-	private static JPanel doSomething(){
+	public Highscore(MenuButton mainMenuButton) {
+		super("Highscore", getPanel(), mainMenuButton);
+	}
+	
+	private static JPanel getPanel(){
 		JPanel p = new JPanel();
 		HighScoreModel h = new HighScoreModel();
 		
@@ -26,13 +29,9 @@ public class HighscorePanel extends SubMenuPanel {
 		}
 
 		return p;
-				
-	}
-
-	public HighscorePanel(MenuButton mainMenuButton) {
-		super(mainMenuButton, doSomething());
-		super.setBackground(Color.red);
 		// TODO Auto-generated constructor stub
 	}
+	
+
 
 }

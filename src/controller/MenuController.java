@@ -4,15 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import view.Window;
+import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
-import view.menu.sub.GameOverPanel;
-import view.menu.sub.HighscorePanel;
-import view.menu.sub.LoadGamePanel;
-import view.menu.sub.LoadingPanel;
-import view.menu.sub.SaveLoadGamePanel;
-import view.menu.sub.SettingsPanel;
+import view.menu.subMenuPanels.Highscore;
+import view.menu.subMenuPanels.SaveLoadGame;
+import view.menu.subMenuPanels.Settings;
 
 /**
  * The controller which is responsible for managing the program window and it's menus and the sub menus.
@@ -51,26 +49,26 @@ public class MenuController{
 		System.exit(0);
 	}
 	private static void showhighscore(){
-		WINDOW.add(new HighscorePanel(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Highscore(MenuButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromMainMenu(){
-		WINDOW.add(new SettingsPanel(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Settings(MenuButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromPauseMenu(){
-		WINDOW.add(new SettingsPanel(MenuButtons.getPauseMenuButton()));
+		WINDOW.add(new Settings(MenuButtons.getPauseMenuButton()));
 	}
 	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGamePanel(MenuButtons.getPauseMenuButton()));
+		WINDOW.add(new SaveLoadGame(MenuButtons.getPauseMenuButton(), true));
 	}
 	private static void showLoadSavedGame(){
-		WINDOW.add(new LoadGamePanel(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new SaveLoadGame(MenuButtons.getMainMenuButton(),false));
 	}
 	/**
 	 * 
 	 * @param the time the game has been played. Corresponds to the highscore.
 	 */
 	public static void showGameOverPanel(){
-		WINDOW.add(new HighscorePanel(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Highscore(MenuButtons.getMainMenuButton()));
 	}
 	/**
 	 * Changes the program window to the paused game menu.

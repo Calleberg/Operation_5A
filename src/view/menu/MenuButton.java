@@ -1,37 +1,26 @@
 package view.menu;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+
 /**
  * @author Vidar Eriksson
  *
  */
 @SuppressWarnings("serial")
-public class MenuButton extends JButton implements MouseListener{
-	private final Color buttonColor = Color.YELLOW;
-	private final Font font = new Font("Garamond",Font.BOLD, 48);
-//	private final Border border = new SoftBevelBorder(
-//			BevelBorder.RAISED, Color.RED, Color.RED, Color.RED, Color.RED);
-//	private final Border border2 = new SoftBevelBorder(
-//			5, Color.RED, Color.RED, Color.RED, Color.RED);
-	private final Border border = new LineBorder(
-			Color.YELLOW, 5, false);
-	private final Border border2 = new LineBorder(
-			Color.RED, 5, false);
-	
+public class MenuButton extends JButton implements MouseListener, ActionListener{
 
 	public MenuButton(String s){
 		super(s);
-		setBackground(buttonColor);
-		setFont(font);
-		setBorder(border);
+		setBackground(resources.Menu.getButtonColor());
+		setFont(resources.Menu.getButtonFont());
+		setBorder(resources.Menu.getButtoBorder());
 		addMouseListener(this);
+		addActionListener(this);
 	}
 
 	@Override
@@ -41,13 +30,17 @@ public class MenuButton extends JButton implements MouseListener{
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		setBorder(border2);
+		if (this.isEnabled()){
+			setBorder(resources.Menu.getButtonHighlightedBorder());
+		}
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		setBorder(border);
+		if (this.isEnabled()){
+			setBorder(resources.Menu.getButtoBorder());
+		}
 	}
 
 	@Override
@@ -59,8 +52,12 @@ public class MenuButton extends JButton implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 		// Nothing
 	}
-	
-	
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (this.isEnabled()){
+			setBorder(resources.Menu.getButtoBorder());
+		}
+	}
 	
 }

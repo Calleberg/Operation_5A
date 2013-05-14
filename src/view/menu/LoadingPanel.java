@@ -1,4 +1,4 @@
-package view.menu.sub;
+package view.menu;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -13,7 +13,7 @@ public class LoadingPanel extends JPanel{
 		
 		JLabel lblLoading = new JLabel("Loading...");
 		add(lblLoading);
-		lblLoading.setFont(resources.GameFont.getLargeFont());
+		lblLoading.setFont(resources.Menu.getLargeFont());
 	}
 
 }
