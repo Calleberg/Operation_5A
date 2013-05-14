@@ -36,7 +36,7 @@ public class EnemyPathfinder {
 	 * never contain a position which is longer than 25 away from the start position.
 	 * @param start the start position.
 	 * @param goal The end position.
-	 * @return a list of Positions containing the fastest way from p to goal.
+	 * @return a list of Positions containing the fastest way from start to goal.
 	 */
 	public List<Position> findWay(Position start, Position goal){
 		noWayFound = false;
@@ -83,6 +83,8 @@ public class EnemyPathfinder {
 		
 		//Invert the list and convert to Positions, begin with start and end with goal.
 		List<Position> correctListInverted = new ArrayList<Position>();
+		correctListInverted.add(start);//start isn't the exact same position as found in 
+		//correctList(last) and the list should be from start to goal as written in the javadoc.
 		for(int i = correctList.size()-1; i>-1; i--){
 			correctListInverted.add(correctList.get(i).getCenter());
 		}
@@ -97,7 +99,7 @@ public class EnemyPathfinder {
 		correctListInverted.remove(correctListInverted.size()-1);
 		correctListInverted.add(goal);
 		
-		//remove unnecessary positions in the list.
+		//remove skipable positions in the list.
 		for(int i = 0; i<correctListInverted.size()-2; i++){
 			if(adjustedCanMove(correctListInverted.get(i), correctListInverted.get(i+2))){
 				correctListInverted.remove(i+1);
@@ -105,13 +107,7 @@ public class EnemyPathfinder {
 			}
 		}
 		
-		//if it is possible to skip the first position, skip it. This will stop an enemy to move slightly
-				//backwards before going on the path.
-				if(correctListInverted.size()>1){
-					if(adjustedCanMove(start, correctListInverted.get(1))){
-						correctListInverted.remove(0);	
-					}
-				}
+		
 		return correctListInverted;
 	}
 	
