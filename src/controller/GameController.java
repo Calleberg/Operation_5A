@@ -49,6 +49,15 @@ public class GameController implements Runnable {
 	private Position spawnPos;
 	private AI ai;
 	
+	/**
+	 * When food level is higher or equal to FOOD_HIGH the health of the player increases.
+	 */
+	public final static int FOOD_HIGH = 71;
+	/**
+	 * When food level is lower or equal to FOOD_LOW the health of the player increases.
+	 */
+	public final static int FOOD_LOW = 29;
+	
 	
 	/**
 	 * Creates a new GameController. The controller will not
@@ -190,9 +199,9 @@ public class GameController implements Runnable {
 		//reducePlayerFoodLevel and changes the player's health according to current food level
 		foodTicks++;
 		if(foodTicks >= 120){
-			if(gameModel.getPlayer().getFood() < 30){
+			if(gameModel.getPlayer().getFood() <= FOOD_LOW){
 				gameModel.getPlayer().reduceHealth(1);
-			}else if(gameModel.getPlayer().getFood() > 70){
+			}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
 				gameModel.getPlayer().increaseHealth(1);
 			}
 			gameModel.getPlayer().removeFood(1);
