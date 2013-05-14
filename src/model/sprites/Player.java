@@ -7,6 +7,7 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
+import model.other.Animation;
 
 /**
  * Models a player which can populate a world.

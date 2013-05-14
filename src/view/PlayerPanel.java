@@ -31,6 +31,7 @@ public class PlayerPanel extends JPanel {
 		
 		for(int i = 0; i < player.getWeapons().length; i++) {
 			if(player.getWeapons()[i] != null) {
+				g.setColor((player.getWeapons()[i] == player.getActiveWeapon()) ? Color.RED : Color.BLACK);
 				g.drawString("Slot " + (i+1) + ": " + player.getWeapons()[i].toString(), 200, 10*(i+1));
 			}else{
 				g.drawString("Slot " + (i+1) + ": Empty", 200, 10*(i+1));

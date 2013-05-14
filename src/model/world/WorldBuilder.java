@@ -211,7 +211,7 @@ public class WorldBuilder {
 			for(int y = 0; y < mapData[0].length; y++) {
 				//Adds water.
 				if(mapData[x][y] == MapGenerator.WATER) {
-					WorldBuilderIO.addTiles(tiles, x*10, y*10, "lots/water.lot", this.spawnPoints);
+					addTiles(tiles, x*10, y*10, "lots/water.lot");
 				}
 				//Adds shorelines.
 				else if(mapData[x][y] == MapGenerator.LAND) {
@@ -287,7 +287,7 @@ public class WorldBuilder {
 						}
 					}
 					sb.append((1 + random.nextInt(n)));
-					WorldBuilderIO.addTiles(tiles, x*10, y*10, base + sb.toString() + ".lot", spawnPoints);
+					addTiles(tiles, x*10, y*10, base + sb.toString() + ".lot");
 				}
 			}
 		}
@@ -338,7 +338,7 @@ public class WorldBuilder {
 		}
 
 		if(sb.toString().length() > 0) {
-			WorldBuilderIO.addTiles(tiles, x*10, y*10, base + sb.toString() + ".lot", this.spawnPoints);
+			addTiles(tiles, x*10, y*10, base + sb.toString() + ".lot");
 		}
 	}
 	
@@ -350,6 +350,15 @@ public class WorldBuilder {
 		return this.spawnPoints;
 	}
 	
-	
+	/**
+	 * Adds the specified tileset to the world.
+	 * @param tiles the whole map.
+	 * @param startX the X coordinate to add the tileset to.
+	 * @param startY the Y coordinate to add the tileset to.
+	 * @param path the path to where the data of the tileset is stored.
+	 */
+	public void addTiles(Tile[][] tiles, int startX, int startY, String path) {
+		WorldBuilderIO.addTiles(tiles, startX, startY, path, this.spawnPoints);
+	}
 	
 }
