@@ -58,13 +58,6 @@ public class GameModel implements PropertyChangeListener {
 		world.setTiles(wb.getNewWorld(400, 400));
 		spawnPoints = wb.getSpawnPoints();
 		this.world.addListener(this);
-	
-		
-		Player player = new Player(50,50);
-		//TODO decide which weapons to start with
-		player.pickUpWeapon(WeaponFactory.startingWeapon());
-		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
-		this.setPlayer(player);
 	}
 	
 	/**

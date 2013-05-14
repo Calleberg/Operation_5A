@@ -14,6 +14,7 @@ import model.items.Item;
 import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
+import model.items.weapons.WeaponFactory;
 import model.pathfinding.AI;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
@@ -54,6 +55,13 @@ public class GameController implements Runnable {
 	 */
 	public GameController(){
 		gameModel = new GameModel();
+		
+		Player player = new Player(45,45);
+		//TODO decide which weapons to start with
+		player.pickUpWeapon(WeaponFactory.startingWeapon());
+		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
+		gameModel.setPlayer(player);
+		
 		input = new Input();	
 				
 		gamePanel = new GamePanel(gameModel, this);
@@ -65,7 +73,6 @@ public class GameController implements Runnable {
 		for(int i = 0; i <=5; i++){
 			spawnEnemy();
 		}
-
 	}	
 
 	@Override
