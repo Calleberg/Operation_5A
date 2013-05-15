@@ -3,6 +3,8 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import model.HighScoreModel;
 
 import view.Window;
@@ -191,7 +193,14 @@ public class MenuController{
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						showMainMenu();
+						int optionButton = JOptionPane.YES_NO_OPTION;
+						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+								"Confirm", optionButton);
+						if(optionButton == JOptionPane.YES_OPTION){
+							showMainMenu();
+						}else{
+							showPauseMenu();
+						}
 					}
 				});
 				
@@ -199,7 +208,14 @@ public class MenuController{
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						exitGame();
+						int optionButton = JOptionPane.YES_NO_OPTION;
+						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+								"Confirm", optionButton);
+						if(optionButton == JOptionPane.YES_OPTION){
+							exitGame();
+						}else{
+							showPauseMenu();
+						}
 					}
 				});
 				
