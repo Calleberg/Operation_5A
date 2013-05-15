@@ -18,9 +18,11 @@ public class ButtonColumn extends JPanel {
 		setLayout(new GridLayout(0, 1, resources.Menu.getGap(), resources.Menu.getGap()));
 		setBackground(resources.Menu.getMenuColor());
 		
+		JPanel textPanel = new JPanel();
+		add(textPanel);
+		textPanel.add(l);
+		textPanel.setBackground(resources.Menu.getMenuColor());
 		
-		add(l);
-		//TODO centrera texten ovan
 		for (int a=0; a<b.length; a++){
 			add(b[a]);
 		}

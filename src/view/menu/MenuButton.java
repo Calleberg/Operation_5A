@@ -15,14 +15,13 @@ import javax.swing.JButton;
 public class MenuButton extends JButton implements MouseListener, ActionListener{
 
 	public MenuButton(String s){
-		super(s);
+		setText(s);
 		setBackground(resources.Menu.getButtonColor());
 		setFont(resources.Menu.getButtonFont());
 		setBorder(resources.Menu.getButtoBorder());
 		addMouseListener(this);
 		addActionListener(this);
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// Nothing

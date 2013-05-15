@@ -1,38 +1,33 @@
 package view.menu.subMenuPanels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
 import view.menu.MenuButton;
 import view.menu.MenuLabel;
-
+/**
+ * 
+ * @author Vidar Eriksson
+ *
+ */
 @SuppressWarnings("serial")
 public class SubMenuPanel extends JPanel{
 	
-	public SubMenuPanel(String[] s, JPanel p, MenuButton[] b){
+	public SubMenuPanel(String s, JPanel p, MenuButton[] b){
 		
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel textFieldPanel = new JPanel();
 		textFieldPanel.setBackground(resources.Menu.getSubMenuColor());
 		add(textFieldPanel, BorderLayout.NORTH);
-		textFieldPanel.setLayout(new GridLayout(1, 0));
+			textFieldPanel.add(new MenuLabel(s));
 		
-		
-		
-		textFieldPanel.setAlignmentY(CENTER_ALIGNMENT);
-		//TODO
-		
-		
-		
-		for (int a=0; a<s.length; a++){
-			textFieldPanel.add(new MenuLabel(s[a]));
-		}
-		
-		add(p, BorderLayout.CENTER);
+		JPanel centerPanel = new JPanel();
+		centerPanel.add(p);
+		centerPanel.setBackground(resources.Menu.getSubMenuPanelColor());
+		add(centerPanel, BorderLayout.CENTER);
 		p.setBackground(resources.Menu.getSubMenuPanelColor());
 		
 		JPanel buttonFieldPanel = new JPanel();
@@ -47,24 +42,9 @@ public class SubMenuPanel extends JPanel{
 		for (int a=0; a<b.length-1; a++){
 			buttonFieldPanelLeft.add(b[a]);
 		}
-		buttonFieldPanel.add(b[b.length-1], BorderLayout.SOUTH);
-
-		//TODO
-		
-	}
-	
-	public SubMenuPanel(String s, JPanel p, MenuButton[] b){
-		this(new String[]{s}, p, b);
+		buttonFieldPanel.add(b[b.length-1], BorderLayout.SOUTH);	
 	}
 	public SubMenuPanel(String s, JPanel p, MenuButton b){
-		this(new String[]{s}, p, new MenuButton[]{b});
-	}
-	public SubMenuPanel(String[] s, JPanel p, MenuButton b){
 		this(s, p, new MenuButton[]{b});
-	}
-	
-	@Override
-	public void setBackground(Color c){
-		
 	}
 }
