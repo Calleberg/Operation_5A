@@ -25,7 +25,6 @@ public class GameModel implements PropertyChangeListener {
 	
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private World world;
-	private Player player;
 	private List<Tile> spawnPoints;
 	
 	/**
@@ -87,9 +86,7 @@ public class GameModel implements PropertyChangeListener {
 	 * @param player the player of the game.
 	 */
 	public void setPlayer(Player player) {
-		world.removeSprite(player);
-		this.player = player;
-		world.addSprite(player);
+		world.setPlayer(player);
 	}
 	
 	/**
@@ -113,7 +110,7 @@ public class GameModel implements PropertyChangeListener {
 	 * @return the player this model holds.
 	 */
 	public Player getPlayer() {
-		return this.player;
+		return world.getPlayer();
 	}
 	
 	/**
