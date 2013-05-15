@@ -5,11 +5,12 @@ import java.beans.PropertyChangeListener;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.weapons.Weapon;
+import model.other.Saveable;
 import model.other.WorldObject;
 import model.items.Item;
 
 
-public interface Sprite extends WorldObject {
+public interface Sprite extends WorldObject, Saveable {
 	
 	/**
 	 * Name of the event fired when the sprite is reloading its weapon.
@@ -94,7 +95,7 @@ public interface Sprite extends WorldObject {
 	 * @return the collisionBox used when moving.
 	 */
 	public CollisionBox getMoveBox();
-	
+		
 	/**
 	 * Return the hit box of the sprite.
 	 * @return the hit box of the sprite.

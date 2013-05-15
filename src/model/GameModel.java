@@ -4,16 +4,11 @@ package model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Calendar;
 import java.util.List;
 
-import model.geometrical.Position;
 import model.items.weapons.Projectile;
-import model.items.weapons.WeaponFactory;
-import model.pathfinding.EnemyPathfinder;
-import model.sprites.Enemy;
-import model.sprites.EnemyFactory;
 import model.sprites.Player;
-import model.sprites.Sprite;
 import model.world.Tile;
 import model.world.World;
 import model.world.WorldBuilder;
@@ -28,9 +23,8 @@ import model.world.WorldBuilder;
  */
 public class GameModel implements PropertyChangeListener {
 	
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private final World world;
-	private Player player;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private World world;
 	private List<Tile> spawnPoints;
 	
 	/**
@@ -50,25 +44,49 @@ public class GameModel implements PropertyChangeListener {
 	 */
 	public final static String ADDED_SUPPLY = "addedsupply";
 
-	/**
-	 * Creates a new default game model.
-	 */
-	public GameModel(){
-		world = new World();
-		WorldBuilder wb = new WorldBuilder();
-		world.setTiles(wb.getNewWorld(400, 400));
-		spawnPoints = wb.getSpawnPoints();
+//	/**
+//	 * Creates a new default game model.
+//	 */
+//	public GameModel(){
+//		this(Calendar.getInstance().getTimeInMillis());
+//	}
+//	
+//	/**
+//	 * Creates a new game model with the specified seed.
+//	 * @param seed the seed to use when creating the world.
+//	 */
+//	public GameModel() {
+//		this.seed = seed;
+//		world = new World();
+//		WorldBuilder wb = new WorldBuilder();
+//		world.setTiles(wb.getNewWorld(400, 400));
+//		spawnPoints = wb.getSpawnPoints();
+//		this.world.addListener(this);
+//	}
+	
+	public GameModel(World world) {
+		this.world = world;
 		this.world.addListener(this);
 	}
+	
+	public void setSpawns(List<Tile> spawns) {
+		this.spawnPoints = spawns;
+	}
+	
+	/**
+	 * Gives the seed used when creating the world.
+	 * @return the seed used when creating the world.
+	 */
+//	public long getSeed() {
+//		return this.seed;
+//	}
 	
 	/**
 	 * Sets the player of the game.
 	 * @param player the player of the game.
 	 */
 	public void setPlayer(Player player) {
-		world.removeSprite(player);
-		this.player = player;
-		world.addSprite(player);
+		world.setPlayer(player);
 	}
 	
 	/**
@@ -92,7 +110,7 @@ public class GameModel implements PropertyChangeListener {
 	 * @return the player this model holds.
 	 */
 	public Player getPlayer() {
-		return this.player;
+		return world.getPlayer();
 	}
 	
 	/**
@@ -108,18 +126,6 @@ public class GameModel implements PropertyChangeListener {
 	 */
 	public void update() {
 		world.update();
-	}
-	
-	/**
-	 * The Player fires his weapon.
-	 */
-	public void playerShoot(){
-		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
-				player.getProjectileSpawn());
-		if(p != null) {
-			world.addProjectile(p);
-			player.fireEvent(Player.EVENT_USE_WEAPON);
-		}
 	}
 	
 	/**

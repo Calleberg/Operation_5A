@@ -3,14 +3,21 @@ package model.items;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
+import model.other.Saveable;
 import model.other.WorldObject;
 
-//Empty interface created to group Items
-public class Item implements WorldObject{
+
+public abstract class Item implements WorldObject, Saveable{
+	
 	private Position pos;
-	private final int iconNumber;
+	private int iconNumber;
 	private CollisionBox cBox;
 	
+	/**
+	 * Creates a new item at the specified position and with the specified icon.
+	 * @param position the position.
+	 * @param iconNumber the number of the icon to use.
+	 */
 	public Item(Position position, int iconNumber) {
 		this.pos=position;
 		this.iconNumber=iconNumber;
@@ -61,6 +68,14 @@ public class Item implements WorldObject{
 	 */
 	public int getIconNumber() {
 		return iconNumber;
+	}
+	
+	/**
+	 * Sets the icon which should be displayed when rendered.
+	 * @param icon the icon to render.
+	 */
+	public void setIconNumber(int icon) {
+		this.iconNumber = icon;
 	}
 	
 	/**

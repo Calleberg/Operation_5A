@@ -153,8 +153,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			objects.add(new ProjectileView(p));
 		}
 		for(Item i : this.model.getWorld().getItems()){
-			//objects.add(new SupplyView(i));
-
+			objects.add(new ItemView(i));
+//			System.out.println(i.getPosition());
 		}
 	}
 	

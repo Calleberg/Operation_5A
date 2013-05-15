@@ -191,13 +191,32 @@ public class Player implements Sprite {
 	}
 	
 	/**
-	 * Swtich to a new active weapon.
-	 * @param i the index of the new active weapon.
+	 * Switch to a new active weapon.
+	 * @param i the index of the new weapon.
+	 * @return <code>false</code> if the index was out of bounds or if the
+	 * specified index didn't hold any weapon.
 	 */
-	public void switchWeapon(int i){
-		if(weapons[i] != null){
+	public boolean switchWeapon(int i){
+		if(i >= 0 && i < weapons.length && weapons[i] != null){
 			this.activeWeapon = weapons[i];
+			return true;
 		}
+		return false;
+	}
+	
+	/**
+	 * Gives the index in which this weapon is placed in the inventory of the player.
+	 * @param w the weapon the player got in its inventory.
+	 * @return the index of the weapon. It will return <code>-1</code> if the specified weapon
+	 * is not part of the player's.
+	 */
+	public int getIndex(Weapon w) {
+		for(int i = 0; i < this.getWeapons().length; i++) {
+			if(this.getWeapons()[i] == w) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	@Override
@@ -397,5 +416,29 @@ public class Player implements Sprite {
 	@Override
 	public void moveBack() {
 		this.hitBox.moveBack();
+	}
+
+	@Override
+	public void restore(String[] data) {
+		this.speed = Float.parseFloat(data[0]);
+		this.health = Integer.parseInt(data[1]);
+		this.ammo = Integer.parseInt(data[2]);
+		this.food = Integer.parseInt(data[3]);
+		Position center = new Position(Float.parseFloat(data[4]), Float.parseFloat(data[5]));
+		this.setPosition(center);
+		this.switchWeapon(Integer.parseInt(data[6]));
+	}
+
+	@Override
+	public String[] getData() {
+		return new String[] {
+				this.speed + "",
+				this.health + "",
+				this.ammo + "",
+				this.food + "",
+				this.getCenter().getX() + "",
+				this.getCenter().getY() + "",
+				this.getIndex(getActiveWeapon()) + "",
+		};
 	}
 }

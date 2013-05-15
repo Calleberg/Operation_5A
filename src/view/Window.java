@@ -22,7 +22,7 @@ public class Window extends JFrame {
 		
 //		setUndecorated(true);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		this.setAlwaysOnTop(true);
+//		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 	}
 	/**

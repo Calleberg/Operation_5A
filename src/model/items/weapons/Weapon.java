@@ -4,6 +4,7 @@ import java.util.Date;
 
 import model.geometrical.Position;
 import model.items.Item;
+import model.other.Saveable;
 
 /**
  * Represents a weapon in the game.
@@ -11,7 +12,8 @@ import model.items.Item;
  * @author Vidar Eriksson
  *
  */
-public class Weapon extends Item {
+public class Weapon extends Item implements Saveable {
+	
 	private final float projectileSpeed;
 	private final int damage;
 	private final float range;
@@ -28,7 +30,7 @@ public class Weapon extends Item {
 	private long lastTimeReloaded=0;
 	
 	/**
-	 * Value which specified if a weapon has an unlimited ammo.
+	 * Value which specifieS if a weapon has unlimited ammo.
 	 */
 	public static final int UNLIMITED_AMMO = -1;
 	
@@ -43,7 +45,7 @@ public class Weapon extends Item {
 	 * @param iconNumber the icon number corresponding to this icon
 	 * @param name the name of the weapon.
 	 */
-	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
+	protected Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
 			int reloadTime, int rateOfFire, int iconNumber, String name){
 		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
 				iconNumber, name, true);
@@ -61,7 +63,7 @@ public class Weapon extends Item {
 	 * @param name the name of the weapon.
 	 * @param droppable whether the weapon is droppable or not.
 	 */
-	public Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
+	protected Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
 			int reloadTime, int rateOfFire, int iconNumber, String name, boolean droppable){
 		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
 				iconNumber, name, droppable, magazineCapacity, 0, 0);
@@ -82,7 +84,7 @@ public class Weapon extends Item {
 	 * @param lastTimeFired how many milliseconds since the weapon was fired.
 	 * @param lastTimeReloaded how many milliseconds since the weapon was reloaded
 	 */
-	public Weapon(float projectileSpeed, int damage, float range,
+	protected Weapon(float projectileSpeed, int damage, float range,
 			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
 			boolean droppable, int ammunitionInMagazine, long lastTimeFired, 
 			long lastTimeReloaded){
@@ -192,6 +194,8 @@ public class Weapon extends Item {
 	public float getRange(){
 		return range;
 	}
+	
+	@Override
 	public String toString() {
 		return name;
 	}
@@ -213,6 +217,32 @@ public class Weapon extends Item {
 				lastTimeFired+"#"+
 				lastTimeReloaded+"#";
 		return s;
+	}
+
+	/**
+	 * NOTE: Use the factory instead!!
+	 */
+	@Override
+	public void restore(String[] data) {
+		return;
+	}
+
+	@Override
+	public String[] getData() {
+		return new String[]{
+				this.ammunitionInMagazine + "",
+				this.damage + "",
+				this.droppable + "",
+				this.iconNumber + "",
+				this.magazineCapacity + "",
+				this.name,
+				this.projectileSpeed + "",
+				this.range + "",
+				this.rateOfFire + "",
+				this.reloadTime + "",
+				this.lastTimeFired + "",
+				this.lastTimeReloaded + ""
+		};
 	}
 
 

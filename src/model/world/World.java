@@ -15,7 +15,6 @@ import model.items.weapons.Weapon;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
-import model.sprites.Sprite.State;
 
 /**
  * Hold all the objects that populates the world.
@@ -31,13 +30,33 @@ public class World {
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Tile> spawnPoints;
 	private List<Item> items = new ArrayList<Item>();
+	private Player player;
 	
+	/*
+	 * The max distance between a player and an enemy before an enemy don't take any actions. 
+	 */
+	private static final int ENEMY_SHUT_DOWN_RANGE = 25;
+
 
 	/**
 	 * Creates a new empty world.
 	 */
 	public World() {
 		this(null);
+	}
+	
+	/**
+	 * Set the player.
+	 * @param p the player.
+	 */
+	public void setPlayer(Player p){
+		this.removeSprite(player);
+		player = p;
+		this.addSprite(player);
+	}
+	
+	public Player getPlayer(){
+		return this.player;
 	}
 	
 	/**
@@ -124,7 +143,7 @@ public class World {
 	public void update() {
 		updateSpriteMovement();
 		playerHitItem();
-		enemyShoot();
+		enemyAttack();
 		updateProjectiles();
 	}
 	
@@ -161,7 +180,18 @@ public class World {
 			this.pcs.firePropertyChange(GameModel.ADDED_PROJECTILE, null, projectile);
 		}
 	}
-	
+
+	/**
+	 * Adds the specified item to the world.
+	 * @param item the item to add.
+	 */
+	public void addItem(Item item) {
+		if(item != null) {
+			this.items.add(item);
+			this.pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, item);
+		}
+	}
+
 	/**
 	 * Removes the specified projectile from the world.
 	 * @param projectile the projectile to remove.
@@ -192,26 +222,16 @@ public class World {
 	}
 	
 	/**
-	 * If the player
-	 * @param e
-	 * @param p
+	 * If the player is in range of an enemy, the enemy will attack.
 	 */
-	public void enemyShoot() {
-		List<Player> players = new ArrayList<Player>();
+	public void enemyAttack() {
 		for(Sprite s : sprites){
-			if(s instanceof Player){
-				players.add((Player)s);
-			}else{//All players will be in the first places in sprites -> all players are in 
-				//list players before we get into else
-				for(Player p : players){
-					float dx = s.getX() - p.getX();
-					float dy = s.getY() - p.getY();
-					float distance = (float) Math.sqrt(dx*dx+dy*dy);
-					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
-							canMove(s.getProjectileSpawn(), p.getCenter())){
-						addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
-								s.getProjectileSpawn()));
-					}
+			if(s != player){
+				if(getDistance(s.getProjectileSpawn(), player.getCenter()) <= 
+						s.getActiveWeapon().getRange() + player.getHitBox().getWidth() && 
+						canMove(s.getProjectileSpawn(), player.getCenter())){
+					addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
+							s.getProjectileSpawn()));
 				}
 			}
 		}
@@ -222,24 +242,17 @@ public class World {
 	 * @return true if the player picks up a weapon.
 	 */
 	public boolean playerPickUpWeapon(){
-		for(Sprite sprite : this.sprites){
-			if(sprite instanceof Player){
-				Player p = (Player)sprite;
-				for(int j = 0; j < items.size(); j++){
-					if(p.getHitBox().intersects(items.get(j).getCollisionBox()) && 
-							items.get(j) instanceof Weapon){
-						p.pickUpWeapon((Weapon)items.get(j));
-
-						this.tiles[(int)p.getX()][(int)p.getY()].setProperty(Tile.NONE);
-						this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
-						items.remove(j);
-						return true;
-					}
-				}
-				p.pickUpWeapon(null);
+		for(int j = 0; j < items.size(); j++){
+			if(player.getHitBox().intersects(items.get(j).getCollisionBox()) && 
+					items.get(j) instanceof Weapon){
+				player.pickUpWeapon((Weapon)items.get(j));
+				this.tiles[(int)player.getX()][(int)player.getY()].setProperty(Tile.NONE);
+				this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
+				items.remove(j);
 				return true;
 			}
 		}
+		player.pickUpWeapon(null);
 		return false;
 	}
 	
@@ -357,22 +370,6 @@ public class World {
 	}
 	
 	/**
-	 * returns all items currently in the world
-	 * @return all the items in the world
-	 */
-	public List<Item> getitems(){
-		return this.items;
-	}
-	
-	/**
-	 * set the spawn points
-	 * @param spawnPoints the spawn points
-	 */
-	public void setSpawnPoints(List<Tile> spawnPoints){
-		this.spawnPoints = spawnPoints;
-	}
-	
-	/**
 	 * Removes the specified items from the world.
 	 * @param items the items to remove.
 	 */
@@ -401,49 +398,40 @@ public class World {
 	
 	private void updateSpriteMovement(){
 		for(Sprite sprite : sprites) {
-			sprite.moveXAxis();
-			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
-			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-					sprite.moveBack();
+//			if(getDistance(sprite.getCenter(), player.getCenter()) <= ENEMY_SHUT_DOWN_RANGE){
+			if(withinShutDownRange(sprite.getPosition(), player.getPosition())){
+				sprite.moveXAxis();
+				Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
+				for(int j = 0; j < tilesToCheck.length; j++) {
+					if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+							|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+							&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+						sprite.moveBack();
+					}
+				}		
+				//Check if the sprite hit another sprite
+				checkSpriteHitSprite(sprite);
+				
+				sprite.moveYAxis();
+				for(int j = 0; j < tilesToCheck.length; j++) {
+					if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+							|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+							&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+						sprite.moveBack();
+					}
 				}
-			}		
-			//Check if the sprite hit another sprite
-			for(Sprite sprite2 : sprites) {
-				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
-					sprite.moveBack();
-				}
-			}
-			
-			sprite.moveYAxis();
-			for(int j = 0; j < tilesToCheck.length; j++) {
-				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-					sprite.moveBack();
-				}
-			}
-			//Check if the sprite hit another sprite
-			for(Sprite sprite2 : sprites) {
-				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
-					sprite.moveBack();
-				}
+				//Check if the sprite hit another sprite
+				checkSpriteHitSprite(sprite);
 			}
 		}
 	}
 	
 	private void playerHitItem(){
 		List<Item> itemsToBeRemoved = new ArrayList<Item>();
-		for(Sprite sprite : sprites){
-			if(sprite instanceof Player){
-				for(int j = 0; j < items.size(); j++){
-					if(sprite.getHitBox().intersects(items.get(j).getCollisionBox())){
-						if(sprite.pickUpItem(items.get(j))){
-							itemsToBeRemoved.add(items.get(j));
-						}
-					}
+		for(int j = 0; j < items.size(); j++){
+			if(player.getHitBox().intersects(items.get(j).getCollisionBox())){
+				if(player.pickUpItem(items.get(j))){
+					itemsToBeRemoved.add(items.get(j));
 				}
 			}
 		}
@@ -486,6 +474,7 @@ public class World {
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
 		for(Projectile p : projectiles){
 			for(int i = 0; i < sprites.size(); i++){
+				if(isDistanceShort(sprites.get(i).getCenter(), p.getPosition()))
 				if(sprites.get(i).getHitBox().intersects(p.getCollisionBox())) {
 					sprites.get(i).reduceHealth(p.getDamage());
 					sprites.get(i).setState(Enemy.State.RUNNING);
@@ -509,4 +498,53 @@ public class World {
 		}
 		this.removeProjectiles(projectilesToBeRemoved);
 	}
+	
+	private void checkSpriteHitSprite(Sprite sprite){
+		for(Sprite sprite2 : sprites) {
+//			if(getDistance(sprite.getCenter(), player.getCenter()) <= ENEMY_SHUT_DOWN_RANGE){
+//			if(withinShutDownRange(sprite.getCenter(), player.getCenter())){
+//				if(getDistance(sprite.getCenter(), sprite2.getCenter())<1){
+				if(isDistanceShort(sprite.getPosition(), sprite2.getPosition())){
+					if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+						sprite.moveBack();
+					}
+				}
+//			}
+		}
+	}
+	
+	private float getDistance(Position p1, Position p2){
+		float dx = Math.abs(p1.getX() - p2.getX());
+		float dy = Math.abs(p1.getY() - p2.getY());
+		return (float)Math.sqrt(dx*dx+dy*dy);
+	}
+	
+	private boolean isDistanceShort(Position p1, Position p2){
+		float dx = Math.abs(p1.getX() - p2.getX());
+		float dy = Math.abs(p1.getY() - p2.getY());
+		if(dx < 2 && dy < 2){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private boolean withinShutDownRange(Position p1, Position p2){
+		float dx = Math.abs(p1.getX() - p2.getX());
+		float dy = Math.abs(p1.getY() - p2.getY());
+		if(dx < 25 && dy < 25){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+//	public static double sqrt(final double a) {
+//	    final long x = Double.doubleToLongBits(a) >> 32;
+//	    double y = Double.longBitsToDouble((x + 1072632448) << 31);
+//	 
+//	    // repeat the following line for more precision
+//	    //y = (y + a / y) * 0.5;
+//	    return y;
+//	}
 }
