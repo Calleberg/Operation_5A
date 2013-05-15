@@ -166,64 +166,28 @@ public class GameController implements Runnable {
 	 */
 	public void update() {
 		//Pause game
-		if(input.isPressed(KeyEvent.VK_ESCAPE) || input.isPressed(KeyEvent.VK_P)){
-			input.reset();
-			pauseThread();
-			MenuController.showPauseMenu();
-			return;
-		}
+		checkPauseGame();
 		
-		//playerMove
 		this.updatePlayerPosition();
-				
-		//playerShoot
 		if(input.mousePressed(MouseEvent.BUTTON1)){
 			gameModel.playerShoot();
 		}
-		
-		//playerReload
 		if(input.isPressed(KeyEvent.VK_R)){
 			gameModel.getPlayer().reloadActiveWeapon();
 		}
-		
 		playerSwitchWeapon();
 		playerPickUpWeapon();
-
-		//EnemyUpdate
+		
+		spawnEnemy();
 		ai.updateEnemies();
-
-		//Spawn supplies
-		if(gameModel.getSpawnPoints() != null){
-			suppliesTick++;
-			if(suppliesTick == 600){
-				calculateSupplySpawnPos();
-			}
-		}
 		
-		//spawnEnemies
-		enemySpawnTick++;
-		if(enemySpawnTick >= 400){
-			spawnEnemy();
-		}
-		
+		spawnSupplies();
 		
 		//reducePlayerFoodLevel and changes the player's health according to current food level
-		foodTicks++;
-		if(foodTicks >= 120){
-			if(gameModel.getPlayer().getFood() <= FOOD_LOW){
-				gameModel.getPlayer().reduceHealth(1);
-			}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
-				gameModel.getPlayer().increaseHealth(1);
-			}
-			gameModel.getPlayer().removeFood(1);
-			foodTicks = 0;
-		}
+		reducePlayerFood();
 		
-		//gameOver
 		if(gameModel.getPlayer().getHealth() <= 0){
-			model.HighScoreModel.addNewScore(getTotalRuntime());
-			MenuController.showGameOverPanel();
-			this.stopThread();
+			gameOver();
 		}
 		
 		gameModel.update();
@@ -380,42 +344,88 @@ public class GameController implements Runnable {
 	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
-		 Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
-				(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-		Tile[][] tiles = gameModel.getWorld().getTiles();
-		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
-				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
-			if((int)getTotalRuntime()/1000 < 120){
-				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
-			}else if((int)getTotalRuntime()/1000 < 480){
-				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
+		enemySpawnTick++;
+		if(enemySpawnTick >= 400){
+			Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
+					(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
+			Tile[][] tiles = gameModel.getWorld().getTiles();
+			if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
+					&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
+				if((int)getTotalRuntime()/1000 < 120){
+					gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
+				}else if((int)getTotalRuntime()/1000 < 480){
+					gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
+				}else{
+					gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
+				}
+				enemySpawnTick = 0;
 			}else{
-				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
+				spawnEnemy();
 			}
-			enemySpawnTick = 0;
-		}else{
-			spawnEnemy();
 		}
 	}
 	
 	/**
 	 * Calculates where the supply is spawned
 	 */
-	private void calculateSupplySpawnPos(){
-		boolean tileOcuppied;
-		int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
-		Tile t = gameModel.getSpawnPoints().get(rnd);
-		tileOcuppied = false;
-		for(Item i : gameModel.getWorld().getItems()){
-			if(i.getPosition().equals(t.getPosition())){
-				tileOcuppied = true;
-				suppliesTick = 0;
-				break;
+	private void spawnSupplies(){
+		if(gameModel.getSpawnPoints() != null){
+			suppliesTick++;
+			if(suppliesTick == 600){
+				boolean tileOcuppied;
+				int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
+				Tile t = gameModel.getSpawnPoints().get(rnd);
+				tileOcuppied = false;
+				for(Item i : gameModel.getWorld().getItems()){
+					if(i.getPosition().equals(t.getPosition())){
+						tileOcuppied = true;
+						suppliesTick = 0;
+						break;
+					}
+				}
+				if(!tileOcuppied){
+					this.spawnSupplies(t);
+					suppliesTick = 0;	
+				}
 			}
 		}
-		if(!tileOcuppied){
-			this.spawnSupplies(t);
-			suppliesTick = 0;	
+	}
+	
+	/*
+	 * Reduce the player's food level once every 120 updates. If the food level
+	 * is higher or equal to FOOD_HIGH also increases the player's health by one.
+	 * If the food level is lower or equal to FOOD_LOW also decreases the player's
+	 * health by one.
+	 */
+	private void reducePlayerFood(){
+		foodTicks++;
+		if(foodTicks >= 120){
+			if(gameModel.getPlayer().getFood() <= FOOD_LOW){
+				gameModel.getPlayer().reduceHealth(1);
+			}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
+				gameModel.getPlayer().increaseHealth(1);
+			}
+			gameModel.getPlayer().removeFood(1);
+			foodTicks = 0;
 		}
 	}
+	
+	/*
+	 * Add the score to the highscoreModel, show's the gameOverPanel and stop the thread.
+	 */
+	private void gameOver(){
+		model.HighScoreModel.addNewScore(getTotalRuntime());
+		MenuController.showGameOverPanel();
+		this.stopThread();
+	}
+	
+	private void checkPauseGame(){
+		if(input.isPressed(KeyEvent.VK_ESCAPE) || input.isPressed(KeyEvent.VK_P)){
+			input.reset();
+			pauseThread();
+			MenuController.showPauseMenu();
+			return;
+		}
+	}
+	
 }
