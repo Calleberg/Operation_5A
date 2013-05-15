@@ -282,7 +282,7 @@ public class GameController implements Runnable {
 			gameModel.getWorld().getItems().add(supply);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
 		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
-			Weapon w = gameModel.getPlayer().getActiveWeapon();
+			Weapon w = WeaponFactory.createRandomWeapon();
 			w.setPosition(t.getPosition());
 			gameModel.getWorld().getItems().add(w);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);

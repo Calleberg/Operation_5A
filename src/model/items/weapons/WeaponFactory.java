@@ -1,5 +1,7 @@
 package model.items.weapons;
 
+import java.util.Random;
+
 /**
  * Creates different types of weapons.
  * @author Vidar Eriksson
@@ -140,6 +142,15 @@ public class WeaponFactory {
 	public static Weapon createTestWeapon() {
 		return createWeapon(Type.PISTOL, Level.EPIC);
 	}
+	
+	public static Weapon createRandomWeapon(){
+		int typeLength = Type.values().length;
+		int LevelLentgh = Level.values().length;
+		Random random = new Random();
+		return createWeapon(Type.values()[random.nextInt(typeLength)], 
+		Level.values()[random.nextInt(LevelLentgh)]);
+		}
+
 	public static Weapon createTestWeapon2(){
 		return createWeapon(Type.PISTOL, Level.NORMAL);
 	}
