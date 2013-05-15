@@ -65,26 +65,37 @@ public class GameController implements Runnable {
 	 * need to be called before the execution starts.
 	 */
 	public GameController(){
+		this.init();
+	}	
+
+	private void init() {
 		gameModel = new GameModel();
+
+		Position pos = null;
+		do{
+			pos = new Position((int)(Math.random() * gameModel.getWorld().getWidth()) +0.5f, 
+					(int)(Math.random() * gameModel.getWorld().getHeight()) +0.5f);
+		}while(!gameModel.getWorld().canMove(pos, new Position(pos.getX() + 1, pos.getY() + 1)));
 		
-		Player player = new Player(45.5f,48.5f);
+		Player player = new Player(pos.getX(), pos.getY());
 		//TODO decide which weapons to start with
 		player.pickUpWeapon(WeaponFactory.startingWeapon());
 		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
+//		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.BAT, WeaponFactory.Level.NORMAL));
 		gameModel.setPlayer(player);
-		
+
 		input = new Input();	
-				
+
 		gamePanel = new GamePanel(gameModel, this);
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
 		ai = new AI(gameModel.getWorld(), gameModel.getPlayer());
-		
+
 		for(int i = 0; i <=5; i++){
 			spawnEnemy();
 		}
-	}	
+	}
 
 	@Override
 	public void run() {

@@ -1,5 +1,7 @@
 package model.sprites;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +13,7 @@ import model.items.weapons.Weapon;
 
 public class Enemy implements Sprite{
 
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private State state;
 	private float direction;
 	private float speed;
@@ -66,6 +69,16 @@ public class Enemy implements Sprite{
 	@Override
 	public void setPosition(Position p) {
 		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2, p.getY() - hitBox.getHeight()/2));
+	}
+	
+	@Override
+	public void addListener(PropertyChangeListener pcl) {
+		this.pcs.addPropertyChangeListener(pcl);
+	}
+	
+	@Override
+	public void fireEvent(String event) {
+		this.pcs.firePropertyChange(event, 0, 1);
 	}
 	
 	/**

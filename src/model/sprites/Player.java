@@ -1,5 +1,8 @@
 package model.sprites;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.Rectangle;
@@ -16,6 +19,7 @@ import model.items.weapons.WeaponFactory;
  */
 public class Player implements Sprite {
 	
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private State state;
 	private float faceDir;
 	private float moveDir;
@@ -44,6 +48,11 @@ public class Player implements Sprite {
 		this.weapons = new Weapon[3];
 		this.setStartingWeapons();
 		this.setPosition(new Position(x, y));
+	}
+	
+	@Override
+	public void addListener(PropertyChangeListener pcl) {
+		this.pcs.addPropertyChangeListener(pcl);
 	}
 	
 	@Override
@@ -280,9 +289,19 @@ public class Player implements Sprite {
 	 * needed to reload the weapon.
 	 */
 	public void reloadActiveWeapon(){
+		int pre = ammo;
 		ammo = activeWeapon.reload(ammo);
+		if(pre != ammo) {
+			this.pcs.firePropertyChange(EVENT_RELOADING, 0, 1);
+		}
+	}
+
+	@Override
+	public void fireEvent(String event) {
+		this.pcs.firePropertyChange(event, 0, 1);
 	}
 	
+	//TODO
 	private void setStartingWeapons(){
 		weapons = new Weapon[3];
 		for(int i = 0; i<3; i++){
