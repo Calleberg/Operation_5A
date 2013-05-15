@@ -1,6 +1,5 @@
 package model.items;
 
-import model.geometrical.Position;
 import model.geometrical.*;
 
 /**
@@ -22,23 +21,49 @@ public class Supply extends Item {
 		
 		private final int iconNumber;
 		private final String name;
-		Type (int i, String s){
-			this.iconNumber=i;
-			this.name=s;
+		
+		/**
+		 * Creates a new type with the specified icon number and name.
+		 * @param iconnumber the number of the icon to display.
+		 * @param name the name.
+		 */
+		Type (int iconnumber, String name){
+			this.iconNumber = iconnumber;
+			this.name = name;
 		}
 
+		/**
+		 * Gives the number of the icon to display.
+		 * @return the number of the icon to display.
+		 */
 		public int getIconNumber() {
 			return this.iconNumber;
 		}
 		
+		@Override
 		public String toString(){
 			return name;
+		}
+
+		/**
+		 * Gives the Type which has the same text as the text provided.
+		 * @param text the text to check with.
+		 * @return the Type which has the same text as the text provided.
+		 */
+		public static Type fromString(String text) {
+			if (text != null) {
+				for (Type b : Type.values()) {
+					if (text.equalsIgnoreCase(b.toString())) {
+						return b;
+					}
+				}
+			}
+			throw new IllegalArgumentException("No enum with name " + text + " found");
 		}
 	}
 	
 	private int amount;
 	private Type type;
-	private Position pos;
 
 	/**
 	 * 
@@ -50,7 +75,6 @@ public class Supply extends Item {
 		super(pos, type.getIconNumber());
 		this.amount=amount;
 		this.type=type;
-		this.pos = pos;
 	}
 	
 	/**
@@ -75,12 +99,22 @@ public class Supply extends Item {
 	public String toString(){
 		return amount + " " + type.toString();
 	}
-	
-	/**
-	 * returns the position of the supply
-	 * @return the position of the supply
-	 */
-	public Position getPosition(){
-		return this.pos;
+
+	@Override
+	public void restore(String[] data) {
+		Position pos = new Position(Float.parseFloat(data[1]), Float.parseFloat(data[2]));
+		this.setPosition(pos);
+		this.setIconNumber(Integer.parseInt(data[0]));
+		this.type = Type.fromString(data[3]);
+	}
+
+	@Override
+	public String[] getData() {
+		return new String[] {
+				this.getIconNumber() + "",
+				this.getPosition().getX() + "",
+				this.getPosition().getY() + "",
+				this.getType().toString()
+		};
 	}
 }

@@ -2,11 +2,11 @@ package model.items.weapons;
 
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
-import model.geometrical.Rectangle;
 import model.geometrical.ScanLine;
+import model.other.Saveable;
 
 
-public class Projectile {
+public class Projectile implements Saveable {
 	
 	private int damage;
 	private float speed;
@@ -103,5 +103,31 @@ public class Projectile {
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	public void restore(String[] data) {
+		this.damage = Integer.parseInt(data[0]);
+		this.direction = Float.parseFloat(data[1]);
+		this.range = Float.parseFloat(data[2]);
+		this.speed = Float.parseFloat(data[3]);
+		Position pos = new Position(Float.parseFloat(data[4]), Float.parseFloat(data[5]));
+		this.startingPosition = pos;
+		Position currentPos = new Position(Float.parseFloat(data[6]), Float.parseFloat(data[7]));
+		this.collisionBox.move(currentPos.getX(), currentPos.getY());
+	}
+
+	@Override
+	public String[] getData() {
+		return new String[] {
+				this.damage + "",
+				this.direction + "",
+				this.range + "",
+				this.speed + "",
+				this.startingPosition.getX() + "",
+				this.startingPosition.getY() + "",
+				this.collisionBox.getPosition().getX() + "",
+				this.collisionBox.getPosition().getY() + ""
+		};
 	}
 }

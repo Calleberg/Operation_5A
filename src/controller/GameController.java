@@ -6,6 +6,8 @@ import java.util.Calendar;
 
 import javax.swing.JPanel;
 
+import controller.IO.GameIO;
+
 import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import view.GamePanel;
 
@@ -14,6 +16,7 @@ import model.geometrical.Position;
 import model.items.Item;
 import model.items.Supply;
 import model.items.SupplyFactory;
+import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
 import model.pathfinding.AI;
@@ -69,20 +72,8 @@ public class GameController implements Runnable {
 	}	
 
 	private void init() {
-		gameModel = new GameModel();
-
-		Position pos = null;
-		do{
-			pos = new Position((int)(Math.random() * gameModel.getWorld().getWidth()) +0.5f, 
-					(int)(Math.random() * gameModel.getWorld().getHeight()) +0.5f);
-		}while(!gameModel.getWorld().canMove(pos, new Position(pos.getX() + 1, pos.getY() + 1)));
-		
-		Player player = new Player(pos.getX(), pos.getY());
-		//TODO decide which weapons to start with
-		player.pickUpWeapon(WeaponFactory.startingWeapon());
-		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
-//		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.BAT, WeaponFactory.Level.NORMAL));
-		gameModel.setPlayer(player);
+//		gameModel = GameIO.loadGame("C:/Users/Martin/Desktop/save.txt");
+		gameModel = GameIO.newGame();
 
 		input = new Input();	
 
@@ -92,9 +83,9 @@ public class GameController implements Runnable {
 		gameModel.addListener(gamePanel);
 		ai = new AI(gameModel.getWorld(), gameModel.getPlayer());
 
-		for(int i = 0; i <=5; i++){
-			spawnEnemy();
-		}
+//		for(int i = 0; i <=5; i++){
+//			spawnEnemy();
+//		}
 	}
 
 	@Override
@@ -122,6 +113,15 @@ public class GameController implements Runnable {
 			}
 		}
 	}
+	
+	/**
+	 * Gives the game model this controller controls.
+	 * @return the game model this controller controls.
+	 */
+	public GameModel getGameModel() {
+		return this.gameModel;
+	}
+	
 	/**
 	 * Returns the GamePanel that is responsible of displaying this controller's graphics.
 	 * @return the GamePanel that is responsible of displaying this controller's graphics.
@@ -129,6 +129,20 @@ public class GameController implements Runnable {
 	public JPanel getGamePanel(){
 		return gamePanel;
 	}
+	
+	/**
+	 * The Player fires his weapon.
+	 */
+	public void playerShoot(){
+		Player player = this.gameModel.getPlayer();
+		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
+				player.getProjectileSpawn());
+		if(p != null) {
+			this.gameModel.getWorld().addProjectile(p);
+			player.fireEvent(Player.EVENT_USE_WEAPON);
+		}
+	}
+	
 	/**
 	 * Gives the number of updates since start.
 	 * @return the number of updates since start.
@@ -170,19 +184,27 @@ public class GameController implements Runnable {
 		
 		this.updatePlayerPosition();
 		if(input.mousePressed(MouseEvent.BUTTON1)){
-			gameModel.playerShoot();
+			this.playerShoot();
 		}
 		if(input.isPressed(KeyEvent.VK_R)){
 			gameModel.getPlayer().reloadActiveWeapon();
 		}
 		playerSwitchWeapon();
 		playerPickUpWeapon();
-				
+
+		enemySpawnTick++;
+		if(enemySpawnTick >= 400){
+			spawnEnemy();
+			enemySpawnTick = 0;
+		}
 		ai.updateEnemies();
-		spawnEnemy();
-		
-		spawnSupplies();
-		
+
+		suppliesTick++;
+		if(suppliesTick >= 600){
+			spawnSupplies();
+			suppliesTick = 0;
+		}
+
 		//reducePlayerFoodLevel and changes the player's health according to current food level
 		foodTicks++;
 		if(foodTicks >= 120){
@@ -347,49 +369,40 @@ public class GameController implements Runnable {
 	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
-		enemySpawnTick++;
-		if(enemySpawnTick >= 50){
-			Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
-					(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-			Tile[][] tiles = gameModel.getWorld().getTiles();
-			if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
-					&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
-				if((int)getTotalRuntime()/1000 < 120){
-					gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
-				}else if((int)getTotalRuntime()/1000 < 480){
-					gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
-				}else{
-					gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
-				}
-				enemySpawnTick = 0;
+		Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
+				(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
+		Tile[][] tiles = gameModel.getWorld().getTiles();
+		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
+				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
+			if((int)getTotalRuntime()/1000 < 120){
+				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
+			}else if((int)getTotalRuntime()/1000 < 480){
+				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
 			}else{
-				spawnEnemy();
+				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
 			}
+		}else{
+			spawnEnemy();
 		}
 	}
-	
+
 	/**
 	 * Calculates where the supply is spawned
 	 */
 	private void spawnSupplies(){
 		if(gameModel.getSpawnPoints() != null){
-			suppliesTick++;
-			if(suppliesTick == 600){
-				boolean tileOcuppied;
-				int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
-				Tile t = gameModel.getSpawnPoints().get(rnd);
-				tileOcuppied = false;
-				for(Item i : gameModel.getWorld().getItems()){
-					if(i.getPosition().equals(t.getPosition())){
-						tileOcuppied = true;
-						suppliesTick = 0;
-						break;
-					}
+			boolean tileOcuppied;
+			int rnd = (int)(Math.random()*gameModel.getSpawnPoints().size());
+			Tile t = gameModel.getSpawnPoints().get(rnd);
+			tileOcuppied = false;
+			for(Item i : gameModel.getWorld().getItems()){
+				if(i.getPosition().equals(t.getPosition())){
+					tileOcuppied = true;
+					break;
 				}
-				if(!tileOcuppied){
-					this.spawnSupplies(t);
-					suppliesTick = 0;	
-				}
+			}
+			if(!tileOcuppied){
+				this.spawnSupplies(t);
 			}
 		}
 	}

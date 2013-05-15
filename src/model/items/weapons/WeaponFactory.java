@@ -115,6 +115,7 @@ public class WeaponFactory {
 			return name;
 		}
 	}
+	
 	public static Weapon createWeapon(Type type, Level level) {
 		return createWeapon(type, level, true);
 	}
@@ -153,19 +154,25 @@ public class WeaponFactory {
 	public static Weapon startingWeapon() {
 		return createTestWeapon();
 	}
-//	public static Weapon loadSavedWeapon(String s){
-//		return new Weapon(
-//				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-//				Float.parseFloat(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-//				Integer.parseInt(extractSavedString(s)), Integer.parseInt(extractSavedString(s)),
-//				Integer.parseInt(extractSavedString(s)), extractSavedString(s),
-//				Integer.parseInt(extractSavedString(s)), Long.parseLong(extractSavedString(s)),
-//				Long.parseLong(extractSavedString(s)));		
-//	}
-	private static String extractSavedString(String s){
-		int i = s.indexOf("#");
-		String r = s.substring(0, i);
-		s=s.substring(i);
-		return r;
+	
+	/**
+	 * Gives a new weapon based on the data provided.
+	 * @param data the data to base the new weapon on.
+	 * @return a new weapon based on the data provided.
+	 */
+	public static Weapon loadWeapon(String[] data) {
+		return new Weapon(
+				Float.parseFloat(data[6]),
+				Integer.parseInt(data[1]),
+				Float.parseFloat(data[7]),
+				Integer.parseInt(data[4]),
+				Integer.parseInt(data[9]),
+				Integer.parseInt(data[8]),
+				Integer.parseInt(data[3]),
+				data[5],
+				Boolean.parseBoolean(data[3]),
+				Integer.parseInt(data[0]),
+				Long.parseLong(data[10]),
+				Long.parseLong(data[11]));
 	}
 }

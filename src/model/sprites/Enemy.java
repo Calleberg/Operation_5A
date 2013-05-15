@@ -311,4 +311,30 @@ public class Enemy implements Sprite{
 		}
 	}
 
+	@Override
+	public void restore(String[] data) {
+		this.health = Integer.parseInt(data[0]);
+		this.speed = Float.parseFloat(data[1]);
+		Position center = new Position(Float.parseFloat(data[2]), Float.parseFloat(data[3]));
+		this.setPosition(center);
+	}
+
+	@Override
+	public String[] getData() {
+		return new String[] {
+				this.health + "",
+				this.speed + "",
+				this.getCenter().getX() + "",
+				this.getCenter().getY() + ""
+		};
+	}
+
+	/**
+	 * Sets the weapon this enemy uses.
+	 * @param w the weapon to use.
+	 */
+	public void setWeapon(Weapon w) {
+		this.weapon = w;
+	}
+
 }

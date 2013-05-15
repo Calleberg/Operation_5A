@@ -115,15 +115,15 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 			//Draws the body
 			g2d.drawImage(playerTexture[standImage], transformer, null);
 						
-//			g2d.setColor(Color.RED);
+//			g2d.setColor(java.awt.Color.RED);
 //			g2d.drawString(p.getHealth() + "hp", x, y);
 //			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),
 //					(int)(p.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
 //			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),
 //					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
-//			
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), Color.RED, false, null);
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), Color.ORANGE, false, null);
+////			
+//			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), java.awt.Color.RED, false, null);
+//			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), java.awt.Color.ORANGE, false, null);
 		}
 	}
 	

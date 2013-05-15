@@ -15,7 +15,6 @@ import model.items.weapons.Weapon;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
-import model.sprites.Sprite.State;
 
 /**
  * Hold all the objects that populates the world.
@@ -29,9 +28,7 @@ public class World {
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
-	private List<Tile> spawnPoints;
-	private List<Item> items = new ArrayList<Item>();
-	
+	private List<Item> items = new ArrayList<Item>();	
 
 	/**
 	 * Creates a new empty world.
@@ -161,7 +158,18 @@ public class World {
 			this.pcs.firePropertyChange(GameModel.ADDED_PROJECTILE, null, projectile);
 		}
 	}
-	
+
+	/**
+	 * Adds the specified item to the world.
+	 * @param item the item to add.
+	 */
+	public void addItem(Item item) {
+		if(item != null) {
+			this.items.add(item);
+			this.pcs.firePropertyChange(GameModel.ADDED_SUPPLY, null, item);
+		}
+	}
+
 	/**
 	 * Removes the specified projectile from the world.
 	 * @param projectile the projectile to remove.
@@ -354,22 +362,6 @@ public class World {
 	 */
 	public int getHeight() {
 		return this.tiles[0].length;
-	}
-	
-	/**
-	 * returns all items currently in the world
-	 * @return all the items in the world
-	 */
-	public List<Item> getitems(){
-		return this.items;
-	}
-	
-	/**
-	 * set the spawn points
-	 * @param spawnPoints the spawn points
-	 */
-	public void setSpawnPoints(List<Tile> spawnPoints){
-		this.spawnPoints = spawnPoints;
 	}
 	
 	/**
