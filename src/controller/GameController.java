@@ -369,8 +369,13 @@ public class GameController implements Runnable {
 	 * Spawns enemies with difficulties depending on how long the game has been running
 	 */
 	private void spawnEnemy(){
-		Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
-				(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
+		Position spawnPos;
+		do{//TODO maxDistance on enemySpawn?
+			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
+			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
+		}while(Math.abs(gameModel.getPlayer().getX() - spawnPos.getX()) <= 25 && 
+				Math.abs(gameModel.getPlayer().getY() - spawnPos.getY()) <= 25);
+
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
 				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
