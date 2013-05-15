@@ -22,7 +22,7 @@ public class AI {
 	/**
 	 * The amount of updates in the gameModel it is between two pathfinding updates for an enemy.
 	 */
-	private final static int PATHFINDING_UPDATE_INTERVAL = 20;
+	private final static int PATHFINDING_UPDATE_INTERVAL = 30;
 	
 	/**
 	 * Handles all AI required for enemies. Only implemented to handle one player.
@@ -39,8 +39,12 @@ public class AI {
 	 * Update the movement and actions on all enemies.
 	 */
 	public void updateEnemies(){
-		this.updateMovement();
-		this.enemyShoot();
+		for(Sprite s : world.getSprites()){
+			if(getDistance(s.getCenter(), player.getCenter())<25){
+				this.updateMovement();
+				this.enemyShoot();
+			}
+		}
 	}
 
 	private void updateMovement(){
@@ -54,7 +58,7 @@ public class AI {
 					//distance is 15.
 					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
-							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
+							e.setWay(pathfinder.findWay(e, player));//TODO
 						}else{
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);
@@ -64,7 +68,7 @@ public class AI {
 						if(getDistance(e.getCenter(), player.getCenter()) < 8 && 
 								world.canMove(e.getCenter(), player.getCenter())){
 							e.setState(Enemy.State.RUNNING);
-							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
+							e.setWay(pathfinder.findWay(e, player));
 						}else{
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);

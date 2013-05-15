@@ -216,6 +216,9 @@ public class Enemy implements Sprite{
 			this.randomWalk();
 			return;
 		}
+		if(pathfindingListIndex >= pathfindingList.size()){
+			return;
+		}
 		
 		//If the enemy is close to the current position in the pathfindingList set the direction,
 		//otherwise increase the pathfindingListIndex and the set the direction.

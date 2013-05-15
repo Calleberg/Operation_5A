@@ -177,14 +177,17 @@ public class GameController implements Runnable {
 		}
 		playerSwitchWeapon();
 		playerPickUpWeapon();
-		
-		spawnEnemy();
+				
 		ai.updateEnemies();
+		spawnEnemy();
 		
 		spawnSupplies();
 		
 		//reducePlayerFoodLevel and changes the player's health according to current food level
-		reducePlayerFood();
+		foodTicks++;
+		if(foodTicks >= 120){
+			reducePlayerFood();
+		}
 		
 		if(gameModel.getPlayer().getHealth() <= 0){
 			gameOver();
@@ -345,7 +348,7 @@ public class GameController implements Runnable {
 	 */
 	private void spawnEnemy(){
 		enemySpawnTick++;
-		if(enemySpawnTick >= 400){
+		if(enemySpawnTick >= 50){
 			Position spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
 					(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
 			Tile[][] tiles = gameModel.getWorld().getTiles();
@@ -398,8 +401,6 @@ public class GameController implements Runnable {
 	 * health by one.
 	 */
 	private void reducePlayerFood(){
-		foodTicks++;
-		if(foodTicks >= 120){
 			if(gameModel.getPlayer().getFood() <= FOOD_LOW){
 				gameModel.getPlayer().reduceHealth(1);
 			}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
@@ -407,7 +408,6 @@ public class GameController implements Runnable {
 			}
 			gameModel.getPlayer().removeFood(1);
 			foodTicks = 0;
-		}
 	}
 	
 	/*
