@@ -13,7 +13,7 @@ import view.menu.MenuLabel;
  *
  */
 @SuppressWarnings("serial")
-public class SubMenuPanel extends JPanel{
+public abstract class SubMenuPanel extends JPanel{
 	
 	public SubMenuPanel(String s, JPanel p, MenuButton[] b){
 		

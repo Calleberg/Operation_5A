@@ -10,7 +10,7 @@ import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
-import view.menu.subMenuPanels.Highscore;
+import view.menu.subMenuPanels.HighScore;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
 
@@ -51,7 +51,7 @@ public class MenuController{
 		System.exit(0);
 	}
 	private static void showhighscore(){
-		WINDOW.add(new Highscore(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new HighScore(MenuButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromMainMenu(){
 		WINDOW.add(new Settings(MenuButtons.getMainMenuButton()));
@@ -70,7 +70,7 @@ public class MenuController{
 	 * @param the time the game has been played. Corresponds to the highscore.
 	 */
 	public static void showGameOverPanel(){
-		WINDOW.add(new Highscore(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new HighScore(MenuButtons.getMainMenuButton()));
 	}
 	/**
 	 * Changes the program window to the paused game menu.

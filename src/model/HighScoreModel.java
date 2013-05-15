@@ -28,75 +28,56 @@ public class HighScoreModel {
 		return h.getScore(pos);
 	}
 	public static void addNewScore(long newScore){
-		HighScoreWrapper.addNewScore(newScore);
+		HighScoreWrapper.writeScore(newScore);
+	}
+	public static void addNewScore(long newScore, String string){
+		HighScoreWrapper.writeScore(newScore, string);
+	}
+	public boolean existsNoScore() {
+		return h.isNull();
 	}
 
 	private static class HighScoreWrapper{
-		private static String[][] s = loadHighScore();
+		private static String[][] s = readScore();
+		
+		//TODO bättre save path
 		private static final String filePath = "/users/Highscore_Operation5A.txt";
 		
+		
+		private boolean isNull(){
+			return s==null;
+		}
 		private int getLenght(){
 			return s.length;
 		}
-	
-			
-		
-		public static void addNewScore(long newScore) {
-			writeScore(newScore);
-		}
-
-
-
 		private String getName(int pos){
 			return s[pos][0];
 		}
 		private String getScore(int pos){
 			return s[pos][1];
 		}
-		
-		private static String[][] loadHighScore(){
-			String s[][] = createScoreList(readScore());
-			if (s != null && s[0][0]!=null && s[0][1]!=null){
-				return s;
-			} else {
-				return new String[][] {
-						{"Fel", "ERROR"}};
-			}
-		}
-		private static String readScore() {
-			String temp = "";
-		try {
-				// TODO Auto-generated method stub
-				File file = new File(filePath);
-				//TODO bättre save path
-				
-				if (!file.exists()) {
-					file.createNewFile();
+		private static String[][] readScore() {
+			String tempg = null;
+			try {
+					File file = new File(filePath);
+					
+					FileReader fileReader = new FileReader(file.getAbsoluteFile());
+					BufferedReader bufferedReader = new BufferedReader(fileReader);
+					tempg=bufferedReader.readLine();
+					bufferedReader.close();
+					fileReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				
-				FileReader fileReader = new FileReader(file.getAbsoluteFile());
-				BufferedReader bufferedReader = new BufferedReader(fileReader);
-//				bufferedReader.write("Random" + "#" + newScore + "#");
-				temp=bufferedReader.readLine();
-				bufferedReader.close();	 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		System.out.println("Här är read score: "+temp);
-		if (temp==null){
-			temp="";
-		}
-		return temp;
-			
+
+			return createScoreList(tempg);
 		}
 		private static String[][] createScoreList(String string){
-			int savedScores = numbersOfSymbols(string, "##");
-			
-			if (savedScores<1){
-				System.out.println("no saved scores");
-				return new String[][]{{"no saved scores","no saved name"}};
+			if (string==null){
+				return null;
 			} else {
-				String s[][] = new String[savedScores][2];
+				int savedScores = numbersOfSymbols(string, "##");
+				String temp[][] = new String[savedScores][2];
 				
 				for (int a=0; a < savedScores; a++){
 					for (int b=0; b < 2; b++){
@@ -104,11 +85,11 @@ public class HighScoreModel {
 						if(b==1){
 							indexThingie+="#";
 						}
-						s[a][b]=string.substring(0, string.indexOf(indexThingie));
+						temp[a][b]=string.substring(0, string.indexOf(indexThingie));
 						string = string.substring(string.indexOf(indexThingie)+indexThingie.length(), string.length());
 					}
 				}			
-				return s;
+				return temp;
 			}
 		}
 		
@@ -123,22 +104,14 @@ public class HighScoreModel {
 		}
 		
 		private static void writeScore(long newScore) {
-			try {
-				 
-				String content = "No name entered" +"#"+newScore+"##";
-				System.out.println(content);
+			writeScore(newScore, "Nameless Score");
+		}
+		
+		private static void writeScore(long newScore, String name) {
+			try {				 
+				String scoreToAdd[][] = {{name, ""+newScore}};
 				
-				
-				for (int a=0; a < s.length; a++ ){//TODO här kan det blifel om s[0].length är fleplacera, byt eventuellt plats
-					for (int b=0; b < s[0].length; b++ ){
-						if (b==0){
-							content += s[a][b]+"#";
-						} else {
-							content += s[a][b]+"##";
-						}
-					}
-				}
-				
+				String content=convertToSaveableString(insertSorted(scoreToAdd, s));
 				
 				File file = new File(filePath);
 	 
@@ -150,28 +123,60 @@ public class HighScoreModel {
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				bufferedWriter.write(content);
 				bufferedWriter.close();
-	 
-				System.out.println("Saved new Score: " + content);
+				fileWriter.close();
 	 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		
-			
+			s=readScore();
 		}
-		
-		private static String to1DString(String s[][]){
-			String content = "";
-			for (int a=0; a < s.length; a++ ){//TODO här kan det blifel om s[0].length är fleplacera, byt eventuellt plats
-				for (int b=0; b < s[0].length; b++ ){
-					content += s[a][b];
+		private static String[][] insertSorted(String[][] scoreToAdd,
+				String[][] previousScore) {
+			if (previousScore==null){
+				return scoreToAdd;
+			}
+			
+			String temp[][]=new String[previousScore.length+1][2];
+			
+			boolean hasInserted = false;
+			int intScoreToAdd = Integer.parseInt(scoreToAdd[0][1]);
+			for (int a=0, previousScoreIndex=0;
+					a<temp.length && previousScoreIndex<previousScore.length; a++){
+				if (!hasInserted &&  intScoreToAdd 
+						>= Integer.parseInt(previousScore[previousScoreIndex][1])){
+					temp[a][0]=scoreToAdd[0][0];
+					temp[a][1]=scoreToAdd[0][1];
+					hasInserted=true;
+				} else {
+					temp[a][0]=previousScore[previousScoreIndex][0];
+					temp[a][1]=previousScore[previousScoreIndex][1];
+					previousScoreIndex++;
 				}
 			}
-			return content;
+			if (!hasInserted){
+				temp[temp.length-1][0]=scoreToAdd[0][0];
+				temp[temp.length-1][1]=scoreToAdd[0][1];
+			}
 			
+			return temp;
+		}
+		private static String convertToSaveableString(String string[][]){
+			String temp="";
+			for (int a=0; a < string.length; a++ ){
+				for (int b=0; b < 2; b++ ){
+					if (b==0){
+						temp += string[a][b]+"#";
+					} else {
+						temp += string[a][b]+"##";
+					}
+				}
+			}
+			return temp;
 			
 		}
 	
 
 	}
+
 }
