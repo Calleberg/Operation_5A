@@ -151,8 +151,8 @@ public class GameController implements Runnable {
 	 * @param y The y-coordinate of the mouse' position.
 	 */
 	public void handleMouseAt(float x, float y) {
-		float dx = gameModel.getPlayer().getCenter().getX() - x;
-		float dy = gameModel.getPlayer().getCenter().getY() - y;
+		float dx = gameModel.getPlayer().getProjectileSpawn().getX() - x;
+		float dy = gameModel.getPlayer().getProjectileSpawn().getY() - y;
 		float dir = (float)Math.atan(-dy/dx);
 
 		if(dx < 0) {
