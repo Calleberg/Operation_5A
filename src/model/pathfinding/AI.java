@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import model.geometrical.Position;
+import model.items.weapons.Projectile;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
@@ -93,8 +94,12 @@ public class AI {
 					float distance = (float) Math.sqrt(dx*dx+dy*dy);
 					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
 							world.canMove(s.getCenter(), p.getCenter())){
-						world.addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
-								s.getProjectileSpawn()));
+						Projectile temp = s.getActiveWeapon().createProjectile(s.getDirection(), 
+								s.getProjectileSpawn());
+						if(temp != null) {
+							world.addProjectile(temp);
+							s.fireEvent(Sprite.EVENT_USE_WEAPON);
+						}
 					}
 				}
 			}
