@@ -3,6 +3,8 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.HighScoreModel;
+
 import view.Window;
 import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
