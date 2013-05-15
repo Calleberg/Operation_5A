@@ -23,13 +23,8 @@ import model.sprites.Sprite;
 public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListener {
 
 	private Sprite sprite;
-<<<<<<< HEAD
 	private StatusBar hpbar;
-	private BufferedImage[] texture = Resources.splitImages("zombie01.png", 5, 4);
-=======
-	private HealthBar hpbar;
 	private static BufferedImage[] texture1 = Resources.splitImages("zombie01.png", 5, 4);
->>>>>>> origin/CallebergBranch
 	
 	//Leg animations
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 200, true);
@@ -57,12 +52,8 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 	@Override
 	public void setObject(Sprite object) {
 		this.sprite = object;
-<<<<<<< HEAD
-		this.hpbar = new StatusBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
-=======
-		this.hpbar = new HealthBar(0.1f, 1f, object.getHealth());
+		this.hpbar = new StatusBar(0.1f, 1f, object.getHealth());
 		object.addListener(this);
->>>>>>> origin/CallebergBranch
 	}
 	
 	@Override

@@ -23,13 +23,8 @@ import controller.IO.Resources;
 public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListener {
 
 	private Player p;
-<<<<<<< HEAD
-	private BufferedImage[] texture = Resources.splitImages("player.png", 5, 4);
-	private StatusBar hpBar;
-=======
 	private static BufferedImage[] playerTexture = Resources.splitImages("player.png", 5, 6);
 	private static BufferedImage[] weapons = Resources.splitImages("weaponIcon.png", 10, 10);
->>>>>>> origin/CallebergBranch
 	
 	//Leg animations
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 50, true);
@@ -63,11 +58,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 	@Override
 	public void setObject(Player object) {
 		this.p = object;
-<<<<<<< HEAD
-		hpBar = new StatusBar(0.1f, object.getMoveBox().getWidth(), object.getHealth());
-=======
 		object.addListener(this);
->>>>>>> origin/CallebergBranch
 	}
 
 	@Override
