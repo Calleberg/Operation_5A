@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import model.geometrical.Position;
+import model.items.weapons.Projectile;
 import model.items.weapons.WeaponFactory;
 import model.pathfinding.EnemyPathfinder;
 import model.sprites.Enemy;
@@ -110,11 +111,15 @@ public class GameModel implements PropertyChangeListener {
 	}
 	
 	/**
-	 * The Player fire his weapon.
+	 * The Player fires his weapon.
 	 */
 	public void playerShoot(){
-		world.addProjectile(player.getActiveWeapon().createProjectile(player.getDirection(), 
-				player.getProjectileSpawn()));
+		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
+				player.getProjectileSpawn());
+		if(p != null) {
+			world.addProjectile(p);
+			player.fireEvent(Player.EVENT_USE_WEAPON);
+		}
 	}
 	
 	/**

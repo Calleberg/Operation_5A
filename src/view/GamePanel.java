@@ -1,15 +1,18 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.GameController;
-
+import controller.IO.Resources;
 import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
@@ -27,7 +30,6 @@ import model.items.weapons.Projectile;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import model.items.Item;
-import model.items.Supply;
 
 /**
  * 
@@ -47,6 +49,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private final int SLEEP = 1000 / 60;
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
+	private CustomCursor cursor;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -63,6 +66,13 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		
 		this.initObjectList();
 		this.initTileList();
+		
+		//Hides the default cursor
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor");
+		this.setCursor (blankCursor);
+		this.cursor = new CustomCursor();
+		this.addMouseMotionListener(cursor);
 	}
 	
 	@Override
@@ -192,6 +202,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
 		}
 		
+		//Draw cursor
+		cursor.render(g2d);
+		
 		//data:
 		g.setColor(Color.BLACK);
 		g.drawString("Number of updates since start (view): " + tick 
@@ -241,9 +254,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		this.controller.handleMouseAt((float)(e.getX()-camera.getX())/camera.getScale(), 
-				(float)(e.getY()-camera.getY())/camera.getScale());
+	public void mouseDragged(MouseEvent e) {		
+		this.mouseMoved(e);
 	}
 
 	@Override

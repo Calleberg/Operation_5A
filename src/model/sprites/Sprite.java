@@ -1,5 +1,7 @@
 package model.sprites;
 
+import java.beans.PropertyChangeListener;
+
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.weapons.Weapon;
@@ -9,6 +11,26 @@ import model.items.Item;
 
 public interface Sprite extends WorldObject {
 	
+	/**
+	 * Name of the event fired when the sprite is reloading its weapon.
+	 */
+	public static final String EVENT_RELOADING = "reloading";
+	/**
+	 * Name of the event fired when the sprite is using its weapon.
+	 */
+	public static final String EVENT_USE_WEAPON = "useWeapon";
+	
+	/**
+	 * Adds the specified listener to listen to this sprite.
+	 * @param pcl the listener.
+	 */
+	public void addListener(PropertyChangeListener pcl);
+	
+	/**
+	 * Forces the sprite to fire the specified event.
+	 * @param event the event to fire.
+	 */
+	public void fireEvent(String event);
 	
 	/**
 	 * The Sprite's current moving direction.

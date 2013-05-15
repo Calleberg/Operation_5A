@@ -54,7 +54,7 @@ public class BarPanel extends JPanel {
 		foodBar.render(g, 10, 61, 1);
 		
 	}
-	/**
+	/*
 	 * Sets the color of the food bar depending on the food level of the player
 	 * green = high/gaining life, yellow = medium and red = low/loosing life
 	 */
@@ -68,7 +68,7 @@ public class BarPanel extends JPanel {
 		}
 		
 	}
-	/**
+	/*
 	 * Sets the color of the health bar depending on the health bar of the player
 	 * red indicates low life, green is medium and high
 	 */
