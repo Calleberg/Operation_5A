@@ -41,12 +41,12 @@ public class HighScoreModel {
 		
 		private String[][] createHighScore(){
 			return  new String[][] {
-					{"Vidare", "1337"}, {"Linus ", "150"},
-					{"Vidare", "1337"}, {"Linus ", "150"},
-					{"Vidare", "1337"}, {"Linus ", "10"},
-					{"Vidare", "1337"}, {"Linus ", "1150"},
-					{"Vidare", "1337"}, {"Linus ", "350"},
-					{"Vidare", "1337"}, {"Linus ", "0"}
+					{"Vidare", "1337"}, {"Linus ", "151"},
+					{"Vidare", "1336"}, {"Linus ", "150"},
+					{"Vidare", "1335"}, {"Linus ", "10"},
+					{"Vidare", "1334"}, {"Linus ", "1150"},
+					{"Vidare", "1333"}, {"Linus ", "350"},
+					{"Vidare", "1332"}, {"Linus ", "0"}
 					};
 		}
 

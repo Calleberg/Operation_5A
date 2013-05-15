@@ -6,6 +6,11 @@ import java.awt.Font;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+/**
+ * 
+ * @author Vidar Eriksson
+ *
+ */
 public class Menu {
 
 	public static int getGap() {

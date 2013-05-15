@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 
 import view.menu.MenuButton;
 
+/**
+ * 
+ * @author Vidar Eriksson
+ *
+ */
 @SuppressWarnings("serial")
 public class SaveLoadGame extends SubMenuPanel{
 	
@@ -48,7 +53,7 @@ public class SaveLoadGame extends SubMenuPanel{
 	}
 	private static String getText(boolean bol) {
 		if (bol){
-			return "Save / Load";
+			return "Load / Save Game";
 		} else {
 			return "Load Game";
 		}
