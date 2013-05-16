@@ -5,6 +5,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.sprites.Sprite;
 
 /**
  * Holds which keys have been pressed and which haven't.
@@ -14,8 +18,10 @@ import java.awt.event.MouseListener;
  */
 public class Input implements KeyListener, MouseListener {
 
-	private boolean[] keys;
-	private boolean[] mouseButtons;
+	private List<Boolean> keys = new ArrayList<Boolean>();
+	private List<Boolean> mouseButtons = new ArrayList<Boolean>();
+	//private boolean[] keys;
+	//private boolean[] mouseButtons;
 	
 	/**
 	 * Sets which container to listen to.
@@ -33,7 +39,8 @@ public class Input implements KeyListener, MouseListener {
 	 * @param e the key to reset.
 	 */
 	public void resetKey(int key) {
-		this.keys[key] = false;
+		this.keys.set(key, false);
+		//this.keys[key] = false
 	}
 	
 	/**
@@ -42,10 +49,11 @@ public class Input implements KeyListener, MouseListener {
 	 * @return <code>true</code> if the specified key is pressed.
 	 */
 	public boolean isPressed(int key) {
-		if(key < 0 || key >= keys.length) {
+		if(key < 0 || key >= keys.size()){//keys.length
 			return false;
 		}else{
-			return keys[key];
+			return keys.get(key);
+			//return keys[key]
 		}
 	}
 	
@@ -53,18 +61,26 @@ public class Input implements KeyListener, MouseListener {
 	 * Resets the instance and sets all the keys to false.
 	 */
 	public void reset() {
-		keys = new boolean[255];
-		mouseButtons = new boolean[3];
+		keys = new ArrayList<Boolean>();
+		mouseButtons = new ArrayList<Boolean>();
+		
+		for(int i = 0; i <= 254; i++){
+			keys.add(i, false);
+		}
+		
+		for(int i = 0; i <= 2; i++){
+			mouseButtons.add(i, false);
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		this.keys[e.getKeyCode()] = true;
+		this.keys.set(e.getKeyCode(), true);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.keys[e.getKeyCode()] = false;
+		this.keys.set(e.getKeyCode(), false);
 	}
 
 	@Override
@@ -74,7 +90,7 @@ public class Input implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		// Not used
 	}
 
 	@Override
@@ -89,12 +105,12 @@ public class Input implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		this.mouseButtons[arg0.getButton() - 1] = true;
+		this.mouseButtons.set(arg0.getButton() -1,true);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		this.mouseButtons[arg0.getButton() - 1] = false;
+		this.mouseButtons.set(arg0.getButton() - 1, false);
 	}
 
 	/**
@@ -104,10 +120,10 @@ public class Input implements KeyListener, MouseListener {
 	 */
 	public boolean mousePressed(int mouseButton) {
 		mouseButton--;
-		if(mouseButton < 0 || mouseButton >= mouseButtons.length) {
+		if(mouseButton < 0 || mouseButton >= mouseButtons.size()) {
 			return false;
 		}else{
-			return mouseButtons[mouseButton];
+			return mouseButtons.get(mouseButton);
 		}
 	}
 }
