@@ -39,11 +39,11 @@ public class HighScoreModel {
 
 	private static class HighScoreWrapper{
 		private static String[][] s = readScore();
-		
+
 		//TODO bättre save path
 		private static final String filePath = "/users/Highscore_Operation5A.txt";
-		
-		
+
+
 		private boolean isNull(){
 			return s==null;
 		}
@@ -59,16 +59,17 @@ public class HighScoreModel {
 		private static String[][] readScore() {
 			String tempg = null;
 			try {
-					File file = new File(filePath);
-					
+				File file = new File(filePath);
+				if(file.exists()) {
 					FileReader fileReader = new FileReader(file.getAbsoluteFile());
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
 					tempg=bufferedReader.readLine();
 					bufferedReader.close();
 					fileReader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 			return createScoreList(tempg);
 		}
