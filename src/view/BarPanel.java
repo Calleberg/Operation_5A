@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
@@ -22,6 +24,8 @@ public class BarPanel extends JPanel {
 	private Player player;
 	private StatusBar hpBar;
 	private StatusBar foodBar;
+	
+	private final String hp, food;
 
 	/**
 	 * Creates a new instance which will display info about the specified player.
@@ -33,6 +37,10 @@ public class BarPanel extends JPanel {
 		this.setPreferredSize(new Dimension(120, 100));
 		hpBar = new StatusBar(20, 100, 100, player.getHealth());
 		foodBar = new StatusBar(20, 100, 100, player.getFood());
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("bundle/GamePanels", Locale.getDefault());
+		this.hp = bundle.getString("hitPoints");
+		this.food = bundle.getString("food");
 	}
 	
 	@Override
@@ -47,10 +55,10 @@ public class BarPanel extends JPanel {
 		setFoodBarColor();
 		g.setColor(Color.BLACK);
 		
-		g.drawString("HP", 10, 20);
+		g.drawString(hp, 10, 20);
 		hpBar.render(g, 10, 25, 1);
 		
-		g.drawString("Food", 10, 56);
+		g.drawString(food, 10, 56);
 		foodBar.render(g, 10, 61, 1);
 		
 	}

@@ -324,7 +324,7 @@ public class Player implements Sprite {
 	private void setStartingWeapons(){
 		weapons = new Weapon[3];
 		for(int i = 0; i<3; i++){
-			weapons[i] = WeaponFactory.createEnemyMeleeWeapon();
+			weapons[i] = WeaponFactory.getDefaultWeapon();
 		}
 		activeWeapon = weapons[0];
 	}

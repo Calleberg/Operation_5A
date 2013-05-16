@@ -419,15 +419,15 @@ public class GameController implements Runnable {
 	 * health by one.
 	 */
 	private void reducePlayerFood(){
-			if(gameModel.getPlayer().getFood() <= FOOD_LOW){
-				gameModel.getPlayer().reduceHealth(1);
-			}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
-				gameModel.getPlayer().increaseHealth(1);
-			}
-			gameModel.getPlayer().removeFood(1);
-			foodTicks = 0;
+		if(gameModel.getPlayer().getFood() <= FOOD_LOW){
+			gameModel.getPlayer().reduceHealth(1);
+		}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
+			gameModel.getPlayer().increaseHealth(1);
+		}
+		gameModel.getPlayer().removeFood(1);
+		foodTicks = 0;
 	}
-	
+
 	/*
 	 * Add the score to the highscoreModel, show's the gameOverPanel and stop the thread.
 	 */

@@ -45,7 +45,7 @@ public class ItemView implements ObjectRenderer<Item>{
 			int y = (int)(i.getPosition().getY() * scale + offset.getY());
 			if(i instanceof Supply){
 				Supply s = (Supply) i;
-				g.drawImage(textures[s.getType().getIconNumber()-1], x, y, 
+				g.drawImage(textures[s.getType().getIconNumber()], x, y, 
 						(int)(s.getCollisionBox().getWidth()*scale), 
 						(int)(s.getCollisionBox().getHeight()*scale), null);
 			}else if(i instanceof Weapon){

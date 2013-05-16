@@ -15,9 +15,9 @@ public class Supply extends Item {
 	 *
 	 */
 	public static enum Type {
-		FOOD (1, "Food"),
-		AMMO (2, "Ammo"),
-		HEALTH (3, "Health");
+		FOOD (20, "Food"),
+		AMMO (21, "Ammo"),
+		HEALTH (22, "Health");
 		
 		private final int iconNumber;
 		private final String name;

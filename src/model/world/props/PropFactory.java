@@ -36,7 +36,7 @@ public class PropFactory {
 		case 10: case 11: case 12: case 13: 
 		case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27:
 			return new Prop(null, propNbr); //water edges
-		case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39: 	
+		case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39: 				
 			return new AnimatedProp(null, WATER); //animated water
 		case 40: case 41: case 42:
 			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_S);

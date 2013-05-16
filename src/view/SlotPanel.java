@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -13,49 +12,48 @@ import model.items.weapons.Weapon;
 import model.sprites.Player;
 /**
  * A class that draws the picture that each weapon slot has in the HUD(PlayerPanel).
- * @author Jonatan
+ * 
+ * @author Jonatan and Martin
  *
  */
 public class SlotPanel extends JPanel{
-	private int imageNumber;
-	private BufferedImage image;
-	private String name;
+	
+	private static final long serialVersionUID = 1L;
 	private Player player;
-	private static BufferedImage[] textures = Resources.splitImages("supplies.png",5,5);//TODO change to real file
-	private Weapon weapon;
+	private static BufferedImage[] textures = Resources.splitImages("supplies.png", 5, 5);
+	private static BufferedImage slot = Resources.getSingleImage("slot.png");
+	private int weaponIndex;
+	
 	/**
 	 * Creates an instance of a slot panel containing a picture and name of the weapon, 
-	 * it also indicates what weapon is chosen 
-	 * @param player the player holding the weapon
-	 * @param weapon the weapon shown
+	 * it also indicates if that weapon is selected by the player.
+	 * @param player the player holding the weapon.
+	 * @param weapon the weapon to display.
 	 */
-
 	public SlotPanel(Player player, Weapon weapon){
 		super();
-		this.imageNumber = weapon.getIconNumber();
-		this.name = weapon.toString();
-		this.setImage();
-		this.setSize(new Dimension(100, 60));
+		this.setBackground(Color.BLACK);
 		this.player = player;
-		this.weapon = weapon;
-	}
-	
-	private void setImage(){
-		//TODO see above
-		this.image = textures[3];
-	}
-	
+		this.weaponIndex = player.getIndex(weapon);
+	}	
 
+	//Using paint and not paintComponents as this panel does not have to be buffered nor transparent
+	@Override
 	public void paint(Graphics g){
-		g.drawString("" + this.name, 5, 55);
-		g.drawImage(image, 30, 5, null);
+		super.paint(g);
 		
-		if(player.getActiveWeapon() == this.weapon){
+		g.setColor(Color.WHITE);
+		String name = player.getWeapons()[weaponIndex].toString();
+		g.drawString(name, this.getWidth()/2 - (int)g.getFontMetrics().getStringBounds(name, g).getWidth()/2, this.getHeight() - 4);
+		g.drawImage(slot, this.getWidth()/2 - slot.getWidth()/2, 5, null);
+		g.drawImage(textures[player.getWeapons()[weaponIndex].getIconNumber()], this.getWidth()/2 - slot.getWidth()/2, 5, null);
+		g.setColor(new Color(76, 76, 76));
+		g.drawRect(this.getWidth()/2 - slot.getWidth()/2, 5, slot.getWidth(), slot.getHeight());
+		
+		//If this is the active weapon, draw some indications
+		if(player.getActiveWeapon() == player.getWeapons()[weaponIndex]){
 			g.setColor(Color.RED);
-			g.drawLine(0, 0, 99, 0);
-			g.drawLine(99, 0, 99, 59);
-			g.drawLine(99, 59, 0, 59);
-			g.drawLine(0, 59, 0, 0);
+			g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		}	
 	}
 }

@@ -1,14 +1,9 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
+import java.awt.GridLayout;
 import javax.swing.JPanel;
-
-import resources.HUDAmmoFont;
 
 import model.sprites.Player;
 
@@ -21,8 +16,8 @@ import model.sprites.Player;
 public class PlayerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Player player;
 	private SlotPanel[] slotPanels = new SlotPanel[3];
+	private AmmoDisplay ammoDisplay;
 
 	/**
 	 * Creates a new instance which will display info about the specified player.
@@ -30,41 +25,20 @@ public class PlayerPanel extends JPanel {
 	 */
 	public PlayerPanel(Player player) {
 		super();
-		this.player = player;
-		this.setPreferredSize(new Dimension(500, 100));
+		this.setPreferredSize(new Dimension(500, 70));
+		this.setLayout(new GridLayout(1, 4));
+		
+		this.ammoDisplay = new AmmoDisplay(player);
+		this.add(ammoDisplay);
 		
 		for(int i = 0; i < player.getWeapons().length; i++){
 			slotPanels[i] = new SlotPanel(player, player.getWeapons()[i]);
+			this.add(slotPanels[i]);
 		}
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.setFont(HUDAmmoFont.getFont());
-		
-		if(player.getActiveWeapon().getAmmunitionInMagazine()>= 0){
-			g.drawString("" + player.getActiveWeapon().getAmmunitionInMagazine() + "/" + 
-					player.getAmmoAmount(), 10, 55);
-		}else{
-			g.drawString(Character.toString('\u221e'), 10, 55);
-		}
-		
-		for(int i = 0; i < player.getWeapons().length; i++){
-			if(slotPanels[i].getWidth() > 0 && slotPanels[i].getHeight() > 0){
-				g.drawImage(createImage(slotPanels[i]), 50 + 100*(i + 1), 10, null);
-			}
-		}
-	}
-	/*
-	 * Creates a buffered image from a JPanel
-	 */
-	private BufferedImage createImage(JPanel slotPanel){
-		int width = slotPanel.getWidth();
-		int height = slotPanel.getHeight();
-		BufferedImage slotImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = slotImage.createGraphics();
-		slotPanel.paint(g);
-		return slotImage;
+		//Do nothing, we want a transparent panel.
 	}
 }
