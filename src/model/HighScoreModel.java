@@ -40,10 +40,6 @@ public class HighScoreModel {
 	private static class HighScoreWrapper{
 		private static String[][] s = readScore();
 
-		//TODO bättre save path
-		private static final String filePath = "/users/Highscore_Operation5A.txt";
-
-
 		private boolean isNull(){
 			return s==null;
 		}
@@ -59,7 +55,7 @@ public class HighScoreModel {
 		private static String[][] readScore() {
 			String tempg = null;
 			try {
-				File file = new File(filePath);
+				File file = new File(resources.Save.getSavedHighScorePath());
 				if(file.exists()) {
 					FileReader fileReader = new FileReader(file.getAbsoluteFile());
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -114,7 +110,7 @@ public class HighScoreModel {
 				
 				String content=convertToSaveableString(insertSorted(scoreToAdd, s));
 				
-				File file = new File(filePath);
+				File file = new File(resources.Save.getSavedHighScorePath());
 	 
 				if (!file.exists()) {
 					file.createNewFile();

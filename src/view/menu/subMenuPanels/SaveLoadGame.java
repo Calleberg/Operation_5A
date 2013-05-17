@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.GameController;
+import controller.IO.GameIO;
+
 import view.menu.MenuButton;
 
 /**
@@ -21,8 +24,8 @@ public class SaveLoadGame extends SubMenuPanel{
 	 * @param button
 	 * @param bol save enabled / disabled.
 	 */
-	public SaveLoadGame(MenuButton button, boolean bol) {
-		super(getText(bol), getPanel(), new MenuButton[]{getLoadButton(), getSaveButton(bol), button});
+	public SaveLoadGame(MenuButton button, boolean bol, GameController controller) {
+		super(getText(bol), getPanel(), new MenuButton[]{getLoadButton(), getSaveButton(bol, controller), button});
 	}
 	private static MenuButton getLoadButton() {
 		MenuButton b = new MenuButton("Load");
@@ -31,19 +34,21 @@ public class SaveLoadGame extends SubMenuPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				GameIO.loadGame(resources.Save.getSavegamePath());
 				System.out.println("Game Loaded - NOT IMPLEMENTED YET");
 			}
 		});
 		return b;
 	}
 
-	private static MenuButton getSaveButton(boolean bol) {
+	private static MenuButton getSaveButton(boolean bol, final GameController controller) {
 		MenuButton b = new MenuButton("Save");
 		b.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				GameIO.saveGame(controller, resources.Save.getSavegamePath());
 				System.out.println("Game saved - NOT IMPLEMENTED YET");
 			}
 		});

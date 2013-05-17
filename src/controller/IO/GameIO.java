@@ -158,7 +158,7 @@ public class GameIO {
 	public static void saveGame(GameController controller, String path) {
 		GameModel model = controller.getGameModel();	
 		
-		File f = new File(path);
+		File f  = new File(path);
 		if(!f.exists()) {
 			try {
 				f.createNewFile();

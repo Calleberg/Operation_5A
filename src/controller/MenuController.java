@@ -62,10 +62,10 @@ public class MenuController{
 		WINDOW.add(new Settings(MenuButtons.getPauseMenuButton()));
 	}
 	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGame(MenuButtons.getPauseMenuButton(), true));
+		WINDOW.add(new SaveLoadGame(MenuButtons.getPauseMenuButton(), true, gameController));
 	}
 	private static void showLoadSavedGame(){
-		WINDOW.add(new SaveLoadGame(MenuButtons.getMainMenuButton(),false));
+		WINDOW.add(new SaveLoadGame(MenuButtons.getMainMenuButton(),false, gameController));
 	}
 	/**
 	 * 
