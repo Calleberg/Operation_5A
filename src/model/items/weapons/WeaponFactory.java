@@ -16,7 +16,7 @@ public class WeaponFactory {
 	 */
 	public static enum Type{
 		//Range
-		PISTOL (0.5f,5,50f,6,6000,1000,10, "Pistol"),
+		PISTOL (0.75f,5,50f,6,6000,1000,10, "Pistol"),
 //		SHOTGUN,
 //		REVOLVER,
 //		HUNTING_RIFLE,
@@ -25,13 +25,13 @@ public class WeaponFactory {
 //		ROCKET_LAUNCHER,
 //TODO more weapons
 		//Melee
-		FISTS (1.25f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 1000, 0, "Fists"),
+		FISTS (1.8f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 1000, 0, "Fists"),
 //		POCKET_KNIFE,
 //		MACHETTE,
-		BAT(0.25f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat"),
+		BAT(0.35f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat"),
 //		PIPE,
 		
-		TEST_WEAPON (0.5f,2,100f,100000000,5,1000,4, "Test weapon");
+		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "Test weapon");
 		
 		private final float projectileSpeed;
 		private final int damage;

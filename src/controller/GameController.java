@@ -32,7 +32,7 @@ import model.world.Tile;
  */
 public class GameController implements Runnable {
 
-	private final int SLEEP = 1000 / 60;
+	private static final int SLEEP = 1000 / 45;
 	
 	private GameModel gameModel;
 	private GamePanel gamePanel;
@@ -229,15 +229,14 @@ public class GameController implements Runnable {
 	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
 			Weapon oldWeapon = gameModel.getPlayer().getActiveWeapon();
-			if(gameModel.getWorld().playerPickUpWeapon()){
-				Tile[][] t = gameModel.getWorld().getTiles();
-				input.resetKey(KeyEvent.VK_G);
-				if(oldWeapon.isDroppable()){//can't throw fists
-					t[(int) gameModel.getPlayer().getCenter().getX()]
-							[(int)gameModel.getPlayer().getCenter().getY()].setProperty(Tile.WEAPON_SPAWN);
-					spawnWeapon(t[(int) gameModel.getPlayer().getCenter().getX()]
-							[(int)gameModel.getPlayer().getCenter().getY()], oldWeapon);
-				}
+			gameModel.getWorld().playerPickUpWeapon();
+			Tile[][] t = gameModel.getWorld().getTiles();
+			input.resetKey(KeyEvent.VK_G);
+			if(oldWeapon.isDroppable()){//can't throw fists
+				t[(int) gameModel.getPlayer().getCenter().getX()]
+						[(int)gameModel.getPlayer().getCenter().getY()].setProperty(Tile.WEAPON_SPAWN);
+				spawnWeapon(t[(int) gameModel.getPlayer().getCenter().getX()]
+						[(int)gameModel.getPlayer().getCenter().getY()], oldWeapon);
 			}
 		}
 	}
