@@ -1,5 +1,6 @@
 package model.pathfinding;
-
+//TODO if adjustmovesprite doesnt work when an enemy take a straight path, test adjustedmove and
+//set a point at half distance with adjustedmovesprite, repeat until free spot or close distance
 import java.util.ArrayList;
 import java.util.List;
 
