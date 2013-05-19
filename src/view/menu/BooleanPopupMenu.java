@@ -14,12 +14,12 @@ public class BooleanPopupMenu extends JFrame {
 	public BooleanPopupMenu(String text, String button1, String button2) {
 		
 		JPanel p = new JPanel();
-		p.setBackground(resources.Menu.getPopupColor());
+		p.setBackground(resources.MenuLookAndFeel.getPopupColor());
 		
-		p.setLayout(new GridLayout(1, 0, resources.Menu.getGap(), resources.Menu.getGap()));
+		p.setLayout(new GridLayout(1, 0, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
 		p.add(new BooleanButton(button1,true));
 		p.add(new BooleanButton(button2,false));
-		p.setBorder(resources.Menu.getPopupBorder());
+		p.setBorder(resources.MenuLookAndFeel.getPopupBorder());
 		p.setVisible(true);
 		
 //		this.setBackground(Color.magenta);
@@ -29,7 +29,7 @@ public class BooleanPopupMenu extends JFrame {
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.pack();		
 //		this.setSize(1000, 800);
-		this.setIconImage(resources.Menu.setPopupMenuIcon());
+		this.setIconImage(resources.MenuLookAndFeel.setPopupMenuIcon());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 //		this.requestFocus();

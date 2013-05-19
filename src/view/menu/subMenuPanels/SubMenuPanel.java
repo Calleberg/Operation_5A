@@ -26,25 +26,25 @@ public abstract class SubMenuPanel extends JPanel{
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel textFieldPanel = new JPanel();
-		textFieldPanel.setBackground(resources.Menu.getSubMenuColor());
+		textFieldPanel.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		add(textFieldPanel, BorderLayout.NORTH);
 			textFieldPanel.add(new MenuLabel(s));
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.add(p);
-		centerPanel.setBackground(resources.Menu.getSubMenuPanelColor());
+		centerPanel.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
 		add(centerPanel, BorderLayout.CENTER);
-		p.setBackground(resources.Menu.getSubMenuPanelColor());
+		p.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
 		
 		JPanel buttonFieldPanel = new JPanel();
-		buttonFieldPanel.setBackground(resources.Menu.getSubMenuColor());
+		buttonFieldPanel.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		add(buttonFieldPanel, BorderLayout.SOUTH);
-		buttonFieldPanel.setLayout(new GridLayout(1, 0, resources.Menu.getGap(), resources.Menu.getGap()));
+		buttonFieldPanel.setLayout(new GridLayout(1, 0, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
 		
 		JPanel buttonFieldPanelLeft = new JPanel();
-		buttonFieldPanelLeft.setBackground(resources.Menu.getSubMenuColor());
+		buttonFieldPanelLeft.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		buttonFieldPanel.add(buttonFieldPanelLeft);
-		buttonFieldPanelLeft.setLayout(new GridLayout(1, 0, resources.Menu.getGap(), resources.Menu.getGap()));
+		buttonFieldPanelLeft.setLayout(new GridLayout(1, 0, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
 		for (int a=0; a<b.length-1; a++){
 			buttonFieldPanelLeft.add(b[a]);
 		}

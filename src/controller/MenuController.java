@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import resources.Language;
+
+
+
 import view.Window;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
@@ -34,7 +38,7 @@ public class MenuController{
 	 * Changes the program window to the main menu.
 	 */
 	public static void showMainMenu(){
-		WINDOW.add(new MainMenuPanel("Main Menu", MenuButtons.getMainMenuButtons()));
+		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
 	private static void startNewGame(){
 
@@ -75,7 +79,7 @@ public class MenuController{
 	 * Changes the program window to the paused game menu.
 	 */
 	public static void showPauseMenu(){
-		WINDOW.add(new PauseMenuPanel("PAUSE", MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));
+		WINDOW.add(new PauseMenuPanel(Language.getPauseText(), MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));
 	}
 	
 	private static void resumeGame() {
@@ -92,7 +96,7 @@ public class MenuController{
 		
 		private static MenuButton getMainMenuButton() {
 			if (toMainMenuButton == null){
-				toMainMenuButton = new MenuButton("Main Menu");
+				toMainMenuButton = new MenuButton(Language.getMainMenuText());
 				toMainMenuButton .addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -105,7 +109,7 @@ public class MenuController{
 		
 		private static MenuButton getPauseMenuButton() {
 			if (toPauseMenuButton == null){
-				toPauseMenuButton = new MenuButton("Back to Menu");
+				toPauseMenuButton = new MenuButton(Language.getBackToMenuText());
 				toPauseMenuButton .addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -121,7 +125,7 @@ public class MenuController{
 				
 				MenuButton[] buttons = new MenuButton[5];
 				
-				buttons[0]= new MenuButton("New Game");
+				buttons[0]= new MenuButton(resources.Language.getNewGameText());
 				buttons[0].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -129,7 +133,7 @@ public class MenuController{
 					}
 				});
 				
-				buttons[1]= new MenuButton("Load Game");
+				buttons[1]= new MenuButton(resources.Language.getLoadGameText());
 				buttons[1].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -137,7 +141,7 @@ public class MenuController{
 					}
 				});
 				
-				buttons[2]= new MenuButton("Highscore");
+				buttons[2]= new MenuButton(resources.Language.getHighScoreText());
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -145,7 +149,7 @@ public class MenuController{
 					}
 				});
 				
-				buttons[3]= new MenuButton("Settings");
+				buttons[3]= new MenuButton(resources.Language.getSettingsText());
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -153,7 +157,7 @@ public class MenuController{
 					}
 				});
 				
-				buttons[4]= new MenuButton("Exit Game");
+				buttons[4]= new MenuButton(resources.Language.getExitGameText());
 				buttons[4].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -170,7 +174,7 @@ public class MenuController{
 			if (pauseMenuButtons==null){
 				MenuButton buttons[] = new MenuButton[5];
 				
-				buttons[0]= new MenuButton("Settings");
+				buttons[0]= new MenuButton(resources.Language.getSettingsText());
 				buttons[0].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -178,7 +182,7 @@ public class MenuController{
 					}
 				});
 				
-				buttons[1]= new MenuButton("Save / Load");
+				buttons[1]= new MenuButton(resources.Language.getSaveLoadGameText());
 				buttons[1].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -186,18 +190,20 @@ public class MenuController{
 					}
 				});
 				
-				buttons[2]= new MenuButton("Main Menu");
+				buttons[2]= new MenuButton(resources.Language.getMainMenuText());
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						int optionButton = JOptionPane.YES_NO_OPTION;
-						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-								"Confirm", optionButton);
-						if(optionButton == JOptionPane.YES_OPTION){
-							showMainMenu();
-						}else{
-							showPauseMenu();
-						}
+//						int optionButton = JOptionPane.YES_NO_OPTION;
+//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+//								"Confirm", optionButton);
+//						if(optionButton == JOptionPane.YES_OPTION){
+//							showMainMenu();
+//						}else{
+//							showPauseMenu();
+//						}
+						showMainMenu();
+						
 //						//TODO
 ////						PopupMenu popup = new PopupMenu("test 1", "test22222");
 //						int optionButton = BooleanPopupMenu.showConfirmDialog(null, "Are you sure you want to exit the game?", 
@@ -216,37 +222,38 @@ public class MenuController{
 //						BooleanPopupMenu popup = new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult());
 	
 						
-						if (new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult()){
-							showMainMenu();
-							System.out.println("answear: yES");
-						} else {
-							System.out.println("Answear: no");
-							showPauseMenu();
-						}
+//						if (new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult()){
+//							showMainMenu();
+//							System.out.println("answear: yES");
+//						} else {
+//							System.out.println("Answear: no");
+//							showPauseMenu();
+//						}
 						
 						
 						
 					}
 				});
 				
-				buttons[3]= new MenuButton("Exit Game");
+				buttons[3]= new MenuButton(resources.Language.getExitGameText());
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						int optionButton = JOptionPane.YES_NO_OPTION;
-						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-								"Confirm", optionButton);
-						if(optionButton == JOptionPane.YES_OPTION){
-							exitGame();
-						}else{
-							showPauseMenu();
-						}
-						
+//						int optionButton = JOptionPane.YES_NO_OPTION;
+//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+//								"Confirm", optionButton);
+//						if(optionButton == JOptionPane.YES_OPTION){
+//							exitGame();
+//						}else{
+//							showPauseMenu();
+//						}
+						//TODO
+						exitGame();
 					}
 				});
 				
-				buttons[4]= new MenuButton("Resume");
+				buttons[4]= new MenuButton(resources.Language.getResumeGameText());
 				buttons[4].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {

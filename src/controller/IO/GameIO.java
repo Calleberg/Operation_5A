@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
+
+import savePath.SavePath;
 import controller.GameController;
 
 import model.GameModel;
@@ -86,7 +88,8 @@ public class GameIO {
 	 * @param path the path to the file.
 	 * @return a restored game model.
 	 */
-	public static GameModel loadGame(String path) {
+	public static GameModel loadGame() {
+		String path = SavePath.savedGame();
 		try {
 			BufferedReader	reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "ISO-8859-1"));
 			
@@ -155,7 +158,8 @@ public class GameIO {
 	 * @param controller the controller which handles the model to save.
 	 * @param path the path to the file to save to.
 	 */
-	public static void saveGame(GameController controller, String path) {
+	public static void saveGame(GameController controller) {
+		String path = SavePath.savedGame();
 		GameModel model = controller.getGameModel();	
 		
 		File f  = new File(path);

@@ -6,11 +6,11 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class MainMenuPanel extends JPanel {
+public class MenuPanel extends JPanel {
 
-	public MainMenuPanel(String string, MenuButton[] buttons) {
+	public MenuPanel(String string, MenuButton[] buttons) {
 		add(new ButtonColumn(new MenuLabel(string), buttons));
 		setBackground(resources.MenuLookAndFeel.getMenuColor());
 	}
-
+	
 }

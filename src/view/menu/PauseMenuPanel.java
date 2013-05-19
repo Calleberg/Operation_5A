@@ -10,7 +10,7 @@ public class PauseMenuPanel extends JPanel{
 	
 	public PauseMenuPanel(String string, MenuButton[] buttons) {
 		add(new ButtonColumn(new MenuLabel(string), buttons));
-		setBackground(resources.Menu.getMenuColor());
+		setBackground(resources.MenuLookAndFeel.getMenuColor());
 	}
 
 	public PauseMenuPanel(String string, MenuButton[] pauseMenuButtons,

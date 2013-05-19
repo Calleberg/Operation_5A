@@ -5,9 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import resources.HUDAmmoFont;
+
 import model.sprites.Player;
 
-import resources.HUDAmmoFont;
 
 /**
  * Renders the ammo a player currently possesses.

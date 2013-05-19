@@ -26,11 +26,11 @@ public class HighScore extends SubMenuPanel {
 		JPanel p = new JPanel();
 		HighScoreModel h = new HighScoreModel();
 		
-		p.setLayout(new GridLayout(0, 1, 0, resources.Menu.getGap()));
+		p.setLayout(new GridLayout(0, 1, 0, resources.MenuLookAndFeel.getGap()));
 		
 		if (h.existsNoScore()){
 			JLabel l = new JLabel("No High Score Exists");
-			l.setFont(resources.Menu.getLargeFont());
+			l.setFont(resources.MenuLookAndFeel.getLargeFont());
 			p.add(l);
 		} else {
 			for (int a=0; a<h.getLenght(); a++){
@@ -48,7 +48,7 @@ public class HighScore extends SubMenuPanel {
 				}
 				
 				JLabel l = new JLabel(s);
-				l.setFont(resources.Menu.getLargeFont());
+				l.setFont(resources.MenuLookAndFeel.getLargeFont());
 				p.add(l);
 			}
 		}

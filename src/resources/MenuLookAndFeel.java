@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
  * @author Vidar Eriksson
  *
  */
-public class Menu {
+public class MenuLookAndFeel {
 
 	public static int getGap() {
 		// TODO Auto-generated method stub
@@ -69,6 +69,11 @@ public class Menu {
 	}
 
 	public static Border getPopupBorder() {
+		// TODO Auto-generated method stub
+		return new LineBorder(Color.black, 2, false);
+	}
+
+	public static LineBorder getSettingsTextFieldFont() {
 		// TODO Auto-generated method stub
 		return new LineBorder(Color.black, 2, false);
 	}

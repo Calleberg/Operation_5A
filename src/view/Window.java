@@ -15,11 +15,11 @@ public class Window extends JFrame {
 	
 	public Window() {
 		super();
-		this.setTitle(resources.Name.getGameName());
+		this.setTitle(resources.GameWindow.getGameName());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
-		this.setIconImage(resources.Name.getProgramIcon());
+		this.setIconImage(resources.GameWindow.getProgramIcon());
 		
 //		setUndecorated(true);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH); 

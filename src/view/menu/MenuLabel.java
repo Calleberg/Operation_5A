@@ -12,6 +12,6 @@ public class MenuLabel extends JLabel {
 //		super(s);
 		setText(s);
 //		setAlignmentY(CENTER_ALIGNMENT);
-		setFont(resources.Menu.getLargeFont());
+		setFont(resources.MenuLookAndFeel.getLargeFont());
 	}
 }

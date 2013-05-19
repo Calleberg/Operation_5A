@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import controller.GameController;
 import controller.IO.GameIO;
 
+import savePath.SavePath;
 import view.menu.MenuButton;
 
 /**
@@ -34,7 +35,7 @@ public class SaveLoadGame extends SubMenuPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GameIO.loadGame(resources.Save.getSavegamePath());
+				GameIO.loadGame();
 			}
 		});
 		return b;
@@ -47,7 +48,7 @@ public class SaveLoadGame extends SubMenuPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				GameIO.saveGame(controller, resources.Save.getSavegamePath());
+				GameIO.saveGame(controller);
 			}
 		});
 		b.setEnabled(bol);

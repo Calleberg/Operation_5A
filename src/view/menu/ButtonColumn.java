@@ -15,13 +15,13 @@ public class ButtonColumn extends JPanel {
 	 * Create the panel.
 	 */
 	public ButtonColumn(MenuLabel l, JButton[] b) {
-		setLayout(new GridLayout(0, 1, resources.Menu.getGap(), resources.Menu.getGap()));
-		setBackground(resources.Menu.getMenuColor());
+		setLayout(new GridLayout(0, 1, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
+		setBackground(resources.MenuLookAndFeel.getMenuColor());
 		
 		JPanel textPanel = new JPanel();
 		add(textPanel);
 		textPanel.add(l);
-		textPanel.setBackground(resources.Menu.getMenuColor());
+		textPanel.setBackground(resources.MenuLookAndFeel.getMenuColor());
 		
 		for (int a=0; a<b.length; a++){
 			add(b[a]);

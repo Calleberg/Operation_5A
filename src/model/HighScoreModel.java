@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import savePath.SavePath;
+
 /**
  * 
  * @author Vidar Eriksson
@@ -55,7 +57,7 @@ public class HighScoreModel {
 		private static String[][] readScore() {
 			String tempg = null;
 			try {
-				File file = new File(resources.Save.getSavedHighScorePath());
+				File file = new File(SavePath.highScore());
 				if(file.exists()) {
 					FileReader fileReader = new FileReader(file.getAbsoluteFile());
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -110,7 +112,7 @@ public class HighScoreModel {
 				
 				String content=convertToSaveableString(insertSorted(scoreToAdd, s));
 				
-				File file = new File(resources.Save.getSavedHighScorePath());
+				File file = new File(SavePath.highScore());
 	 
 				if (!file.exists()) {
 					file.createNewFile();
