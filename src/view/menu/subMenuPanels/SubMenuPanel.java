@@ -15,6 +15,12 @@ import view.menu.MenuLabel;
 @SuppressWarnings("serial")
 public abstract class SubMenuPanel extends JPanel{
 	
+	/**
+	 * Creates a sub menu panel.
+	 * @param s the title of the sub menu.
+	 * @param p the content to show in the sub menu.
+	 * @param b the buttons to add to the sub menu.
+	 */
 	public SubMenuPanel(String s, JPanel p, MenuButton[] b){
 		
 		setLayout(new BorderLayout(0, 0));
@@ -44,6 +50,12 @@ public abstract class SubMenuPanel extends JPanel{
 		}
 		buttonFieldPanel.add(b[b.length-1], BorderLayout.SOUTH);	
 	}
+	/**
+	 * Creates a sub menu panel.
+	 * @param s the title of the sub menu.
+	 * @param p the content to show in the sub menu.
+	 * @param b the button to add to the sub menu.
+	 */
 	public SubMenuPanel(String s, JPanel p, MenuButton b){
 		this(s, p, new MenuButton[]{b});
 	}

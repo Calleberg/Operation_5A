@@ -5,13 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import model.HighScoreModel;
-
 import view.Window;
 import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
+import view.menu.PopupMenu;
 import view.menu.subMenuPanels.HighScore;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
@@ -193,10 +192,19 @@ public class MenuController{
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						int optionButton = JOptionPane.YES_NO_OPTION;
-						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-								"Confirm", optionButton);
-						if(optionButton == JOptionPane.YES_OPTION){
+//						int optionButton = JOptionPane.YES_NO_OPTION;
+//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+//								"Confirm", optionButton);
+//						if(optionButton == JOptionPane.YES_OPTION){
+//							showMainMenu();
+//						}else{
+//							showPauseMenu();
+//						}
+						
+//						PopupMenu popup = new PopupMenu("test 1", "test22222");
+						int optionButton = PopupMenu.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+								"Confirm", PopupMenu.YES_NO_OPTION);
+						if(optionButton == PopupMenu.YES_OPTION){
 							showMainMenu();
 						}else{
 							showPauseMenu();
@@ -208,6 +216,7 @@ public class MenuController{
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						
 						int optionButton = JOptionPane.YES_NO_OPTION;
 						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
 								"Confirm", optionButton);
@@ -216,6 +225,7 @@ public class MenuController{
 						}else{
 							showPauseMenu();
 						}
+						
 					}
 				});
 				

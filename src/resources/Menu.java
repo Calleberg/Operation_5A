@@ -57,4 +57,9 @@ public class Menu {
 		return new LineBorder(Color.RED, 5, false);
 	}
 
+	public static Color getPopupColor() {
+		// TODO Auto-generated method stub
+		return getMenuColor();
+	}
+
 }

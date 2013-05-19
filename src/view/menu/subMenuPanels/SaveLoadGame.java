@@ -35,7 +35,6 @@ public class SaveLoadGame extends SubMenuPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GameIO.loadGame(resources.Save.getSavegamePath());
-				System.out.println("Game Loaded - NOT IMPLEMENTED YET");
 			}
 		});
 		return b;
@@ -49,7 +48,6 @@ public class SaveLoadGame extends SubMenuPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				GameIO.saveGame(controller, resources.Save.getSavegamePath());
-				System.out.println("Game saved - NOT IMPLEMENTED YET");
 			}
 		});
 		b.setEnabled(bol);
