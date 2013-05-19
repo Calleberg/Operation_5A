@@ -65,7 +65,7 @@ public class Settings extends SubMenuPanel {
 		
 		
 		p.add(new MenuLabel("Language:"));
-		p.add(new MenuLabel("No choises yet..."));
+		p.add(new MenuLabel(language.toString()));
 		
 		
 		p.add(new MenuLabel("Fullscreen:"));

@@ -32,15 +32,14 @@ public class HighScoreModel {
 	public static void addNewScore(long newScore){
 		HighScoreWrapper.writeScore(newScore);
 	}
-	public static void addNewScore(long newScore, String string){
-		HighScoreWrapper.writeScore(newScore, string);
-	}
 	public boolean existsNoScore() {
 		return h.isNull();
 	}
 
 	private static class HighScoreWrapper{
 		private static String[][] s = readScore();
+		private static final String DATA_DIVIDER1 = "#";
+		private static final String DATA_DIVIDER2 = "##";
 
 		private boolean isNull(){
 			return s==null;
@@ -75,14 +74,14 @@ public class HighScoreModel {
 			if (string==null){
 				return null;
 			} else {
-				int savedScores = numbersOfSymbols(string, "##");
+				int savedScores = numbersOfSymbols(string, DATA_DIVIDER2);
 				String temp[][] = new String[savedScores][2];
 				
 				for (int a=0; a < savedScores; a++){
 					for (int b=0; b < 2; b++){
-						String indexThingie="#";
+						String indexThingie=DATA_DIVIDER1;
 						if(b==1){
-							indexThingie+="#";
+							indexThingie+=DATA_DIVIDER1;
 						}
 						temp[a][b]=string.substring(0, string.indexOf(indexThingie));
 						string = string.substring(string.indexOf(indexThingie)+indexThingie.length(), string.length());
@@ -103,12 +102,8 @@ public class HighScoreModel {
 		}
 		
 		private static void writeScore(long newScore) {
-			writeScore(newScore, "Nameless Score");
-		}
-		
-		private static void writeScore(long newScore, String name) {
 			try {				 
-				String scoreToAdd[][] = {{name, ""+newScore}};
+				String scoreToAdd[][] = {{SettingsModel.getUserName(), ""+newScore}};
 				
 				String content=convertToSaveableString(insertSorted(scoreToAdd, s));
 				
@@ -165,9 +160,9 @@ public class HighScoreModel {
 			for (int a=0; a < string.length; a++ ){
 				for (int b=0; b < 2; b++ ){
 					if (b==0){
-						temp += string[a][b]+"#";
+						temp += string[a][b]+DATA_DIVIDER1;
 					} else {
-						temp += string[a][b]+"##";
+						temp += string[a][b]+DATA_DIVIDER2;
 					}
 				}
 			}

@@ -3,6 +3,8 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.SettingsModel;
+
 /**
  * The main widows of the game. All graphics in the game is presented in this frame.
  * 
@@ -21,9 +23,11 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setIconImage(resources.GameWindow.getProgramIcon());
 		
-//		setUndecorated(true);
-//		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//		this.setAlwaysOnTop(true);
+		if (SettingsModel.getFullscreen()){
+			setUndecorated(true);
+			setExtendedState(JFrame.MAXIMIZED_BOTH); 
+			this.setAlwaysOnTop(true);
+		}
 		this.setVisible(true);
 	}
 	/**
