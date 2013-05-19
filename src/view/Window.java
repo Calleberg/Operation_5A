@@ -19,6 +19,7 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
+		this.setIconImage(resources.Name.getProgramIcon());
 		
 //		setUndecorated(true);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -40,6 +41,7 @@ public class Window extends JFrame {
 //		revalidate();
 //		invalidate();
 		validate();
+		p.paintImmediately(p.getBounds());
 		p.repaint();
 		p.requestFocus();
 		p.validate();

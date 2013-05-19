@@ -6,11 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import view.Window;
-import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
-import view.menu.PopupMenu;
+import view.menu.BooleanPopupMenu;
 import view.menu.subMenuPanels.HighScore;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
@@ -38,8 +37,7 @@ public class MenuController{
 		WINDOW.add(new MainMenuPanel("Main Menu", MenuButtons.getMainMenuButtons()));
 	}
 	private static void startNewGame(){
-		WINDOW.add(new LoadingPanel());
-		
+
 		if (gameController != null){
 			gameController.stopThread();
 		}
@@ -192,23 +190,42 @@ public class MenuController{
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-//						int optionButton = JOptionPane.YES_NO_OPTION;
-//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-//								"Confirm", optionButton);
-//						if(optionButton == JOptionPane.YES_OPTION){
+						int optionButton = JOptionPane.YES_NO_OPTION;
+						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+								"Confirm", optionButton);
+						if(optionButton == JOptionPane.YES_OPTION){
+							showMainMenu();
+						}else{
+							showPauseMenu();
+						}
+//						//TODO
+////						PopupMenu popup = new PopupMenu("test 1", "test22222");
+//						int optionButton = BooleanPopupMenu.showConfirmDialog(null, "Are you sure you want to exit the game?", 
+//								"Confirm", BooleanPopupMenu.YES_NO_OPTION);
+//						if(optionButton == BooleanPopupMenu.YES_OPTION){
 //							showMainMenu();
 //						}else{
 //							showPauseMenu();
 //						}
 						
-//						PopupMenu popup = new PopupMenu("test 1", "test22222");
-						int optionButton = PopupMenu.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-								"Confirm", PopupMenu.YES_NO_OPTION);
-						if(optionButton == PopupMenu.YES_OPTION){
+//						BooleanPopupMenu popup = new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No");
+//						popup.repaint();
+//						while (!popup.hasGotResult()){
+//							//Wait
+//						}
+//						BooleanPopupMenu popup = new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult());
+	
+						
+						if (new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult()){
 							showMainMenu();
-						}else{
+							System.out.println("answear: yES");
+						} else {
+							System.out.println("Answear: no");
 							showPauseMenu();
 						}
+						
+						
+						
 					}
 				});
 				

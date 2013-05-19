@@ -2,6 +2,7 @@ package resources;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -47,7 +48,7 @@ public class Menu {
 		return getLargeFont();
 	}
 
-	public static Border getButtoBorder() {
+	public static Border getButtonBorder() {
 		// TODO Auto-generated method stub
 		return new LineBorder(getButtonColor(), 5, false);
 	}
@@ -59,7 +60,17 @@ public class Menu {
 
 	public static Color getPopupColor() {
 		// TODO Auto-generated method stub
-		return getMenuColor();
+		return Color.red;
+	}
+
+	public static Image setPopupMenuIcon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Border getPopupBorder() {
+		// TODO Auto-generated method stub
+		return new LineBorder(Color.black, 2, false);
 	}
 
 }

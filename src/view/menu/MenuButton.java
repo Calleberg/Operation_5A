@@ -18,7 +18,7 @@ public class MenuButton extends JButton implements MouseListener, ActionListener
 		setText(s);
 		setBackground(resources.Menu.getButtonColor());
 		setFont(resources.Menu.getButtonFont());
-		setBorder(resources.Menu.getButtoBorder());
+		setBorder(resources.Menu.getButtonBorder());
 		addMouseListener(this);
 		addActionListener(this);
 	}
@@ -38,7 +38,7 @@ public class MenuButton extends JButton implements MouseListener, ActionListener
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		if (this.isEnabled()){
-			setBorder(resources.Menu.getButtoBorder());
+			setBorder(resources.Menu.getButtonBorder());
 		}
 	}
 
@@ -55,7 +55,7 @@ public class MenuButton extends JButton implements MouseListener, ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (this.isEnabled()){
-			setBorder(resources.Menu.getButtoBorder());
+			setBorder(resources.Menu.getButtonBorder());
 		}
 	}
 	
