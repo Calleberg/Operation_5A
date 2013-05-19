@@ -11,12 +11,16 @@ import resources.MenuLookAndFeel;
 
 
 /**
+ * Should be used for all buttons in the system. Has the specified look and feel of the system.
  * @author Vidar Eriksson
  *
  */
 @SuppressWarnings("serial")
 public class MenuButton extends JButton implements MouseListener, ActionListener{
-
+	/**
+	 * 
+	 * @param s the text on the button.
+	 */
 	public MenuButton(String s){
 		setText(s);
 		setBackground(MenuLookAndFeel.getButtonColor());

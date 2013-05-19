@@ -17,19 +17,27 @@ public class Window extends JFrame {
 	
 	public Window() {
 		super();
+
 		this.setTitle(resources.GameWindow.getGameName());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(1000, 800);
-		this.setLocationRelativeTo(null);
 		this.setIconImage(resources.GameWindow.getProgramIcon());
+		this.setUndecorated(true);
+		update();
 		
+	}
+	private void update(){
 		if (SettingsModel.getFullscreen()){
-			setUndecorated(true);
-			setExtendedState(JFrame.MAXIMIZED_BOTH); 
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 			this.setAlwaysOnTop(true);
+		} else {
+			this.setExtendedState(NORMAL);
+			this.setSize(1000, 800);
+			this.setAlwaysOnTop(false);
 		}
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
+	
 	/**
 	 * Adds a JPanel to the window and removes the old ones.
 	 * @param p the panel to be added.
@@ -49,6 +57,7 @@ public class Window extends JFrame {
 		p.repaint();
 		p.requestFocus();
 		p.validate();
+		update();
 	}
 
 	

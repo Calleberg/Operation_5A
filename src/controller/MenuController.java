@@ -29,13 +29,13 @@ public class MenuController{
 	private static GameController gameController = null;
 	
 	/**
-	 * Creates game window and starts the main menu for the game.
+	 * Creates a new game window and starts the main menu for the game.
 	 */
 	public MenuController() {
 		showMainMenu();		
 	}
 	/**
-	 * Changes the program window to the main menu.
+	 * Changes this controllers window to the main menu.
 	 */
 	public static void showMainMenu(){
 		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
@@ -69,14 +69,13 @@ public class MenuController{
 		WINDOW.add(new SaveLoadGame(MenuButtons.getMainMenuButton(),false, gameController));
 	}
 	/**
-	 * 
-	 * @param the time the game has been played. Corresponds to the highscore.
+	 * Changes this controllers window to the game over view.
 	 */
 	public static void showGameOverPanel(){
 		WINDOW.add(new HighScore(MenuButtons.getMainMenuButton()));
 	}
 	/**
-	 * Changes the program window to the paused game menu.
+	 * Changes this controllers window to the paused game menu.
 	 */
 	public static void showPauseMenu(){
 		WINDOW.add(new PauseMenuPanel(Language.getPauseText(), MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));

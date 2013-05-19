@@ -2,6 +2,7 @@ package view.menu;
 
 import javax.swing.JLabel;
 /**
+ * Has the specified look and feel of the system.
  * @author Vidar Eriksson
  *
  */
@@ -9,9 +10,7 @@ import javax.swing.JLabel;
 public class MenuLabel extends JLabel {
 
 	public MenuLabel(String s) {
-//		super(s);
 		setText(s);
-//		setAlignmentY(CENTER_ALIGNMENT);
 		setFont(resources.MenuLookAndFeel.getLargeFont());
 	}
 }

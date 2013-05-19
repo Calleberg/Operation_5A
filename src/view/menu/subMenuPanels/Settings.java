@@ -5,14 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import resources.MenuLookAndFeel;
-
 import model.SettingsModel;
-
+import resources.MenuLookAndFeel;
 import view.menu.MenuButton;
 import view.menu.MenuLabel;
 
@@ -33,7 +30,7 @@ public class Settings extends SubMenuPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveSettings();				
+				saveSettings();
 			}
 		});
 	}
@@ -50,7 +47,6 @@ public class Settings extends SubMenuPanel {
 	}
 
 	private static JPanel getPanel() {
-		// TODO Auto-generated method stub
 		JPanel p = new JPanel();		
 		
 		p.setLayout(new GridLayout(0, 2, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
@@ -63,9 +59,9 @@ public class Settings extends SubMenuPanel {
 		nameField.setBorder(MenuLookAndFeel.getSettingsTextFieldFont());
 		
 		
-		
-		p.add(new MenuLabel("Language:"));
-		p.add(new MenuLabel(language.toString()));
+		//TODO Some type of dropdown box or similar.
+//		p.add(new MenuLabel("Language:"));
+//		p.add(new MenuLabel(language.toString()));
 		
 		
 		p.add(new MenuLabel("Fullscreen:"));

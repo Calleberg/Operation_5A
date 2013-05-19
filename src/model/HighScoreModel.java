@@ -10,28 +10,52 @@ import java.io.IOException;
 import savePath.SavePath;
 
 /**
- * 
+ * Models the highscores
  * @author Vidar Eriksson
  *
  */
 public class HighScoreModel {
 	private HighScoreWrapper h = null;
-	
+	/*
+	 * Creates a new HighScoreModel.
+	 */
 	public HighScoreModel(){
 		h = new HighScoreWrapper();
 	}
+	/**
+	 * Returns the lengths of the highscore list.
+	 * @return the lengths of the highscore list.
+	 */
 	public int getLenght(){
 		return h.getLenght();	
 	}
+	/**
+	 * Fetches a name from a given position.
+	 * @param pos the position to fetch the name from.
+	 * @return the name at the position.
+	 */
 	public String getName(int pos){
 		return h.getName(pos);
 	}
+	/**
+	 * Fetches a score from a given position.
+	 * @param pos the position to fetch the score from.
+	 * @return the score at the position.
+	 */
 	public String getScore(int pos){
 		return h.getScore(pos);
 	}
+	/**
+	 * Adds a new score to the highscore list. This will sort the in the new score at the proper place.
+	 * @param newScore the score to be added.
+	 */
 	public static void addNewScore(long newScore){
 		HighScoreWrapper.writeScore(newScore);
 	}
+	/**
+	 * 
+	 * @return <code>true<code> if there exist no previously score. 
+	 */
 	public boolean existsNoScore() {
 		return h.isNull();
 	}

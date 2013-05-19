@@ -7,8 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.sun.corba.se.impl.protocol.FullServantCacheLocalCRDImpl;
-
 import savePath.SavePath;
 
 /**
@@ -17,11 +15,19 @@ import savePath.SavePath;
  *
  */
 public class SettingsModel {
-	
+	/**
+	 * The different languages known by the system.
+	 * @author Vidar Eriksson
+	 *
+	 */
 	public static enum Language{
 		ENGLISH,
 		SWEDISH;
-		
+		/**
+		 * Loads a language from a given <code>String<code>.
+		 * @param s the string to lead a language from.
+		 * @return the language loaded.
+		 */
 		public static Language loadFrom(String s){
 			if (s.contains("SWE")){
 				return SWEDISH;
@@ -29,6 +35,10 @@ public class SettingsModel {
 				return ENGLISH;
 			}
 		}
+		/**
+		 * converts a language to a savable string.
+		 * @return the string to be saved.
+		 */
 		public String saveString(){
 			if (this == SWEDISH){
 				return "SWE";
@@ -46,21 +56,44 @@ public class SettingsModel {
 	public static Language getLanguage(){
 		return SettingsWrapper.getLanguage();
 	}
+	/**
+	 * sets the in game language.
+	 * @param language the new language to be set.
+	 */
 	public static void setLanguage(Language language) {
 		SettingsWrapper.setLanguage(language);
 	}
+	/**
+	 * 
+	 * @return the name of the active player.
+	 */
 	public static String getUserName() {
 		return SettingsWrapper.getUserName();
 	}
+	/**
+	 * sets the username.
+	 * @param text the new username to be set.
+	 */
 	public static void setUserName(String text) {
 		SettingsWrapper.setName(text);	
 	}
+	/**
+	 * 
+	 * @return <code>true<code> if the system is to run at fullscreen.
+	 */
 	public static boolean getFullscreen() {
 		return SettingsWrapper.getFullscreen();
 	}
+	/**
+	 * Set the systems fullscreen  preference.
+	 * @param b the fullscreen preference to be used.
+	 */
 	public static void setFullscreen(boolean b) {
 		SettingsWrapper.setFullscreen(b);
 	}
+	/**
+	 * Saves the current settings to file.
+	 */
 	public static void save() {
 		SettingsWrapper.write();
 	}

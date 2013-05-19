@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class PauseMenuPanel extends JPanel{
-	
+	//TODO gemensamma klasser
 	public PauseMenuPanel(String string, MenuButton[] buttons) {
 		add(new ButtonColumn(new MenuLabel(string), buttons));
 		setBackground(resources.MenuLookAndFeel.getMenuColor());

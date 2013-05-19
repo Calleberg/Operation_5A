@@ -1,7 +1,11 @@
 package resources;
 
 import model.SettingsModel;
-
+/**
+ * Not done by far.
+ * @author Vidar Eriksson
+ *
+ */
 public class Language {
 	//TODO Skall allt detta se ut så?
 

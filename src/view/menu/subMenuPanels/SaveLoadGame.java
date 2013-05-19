@@ -9,11 +9,11 @@ import javax.swing.JPanel;
 import controller.GameController;
 import controller.IO.GameIO;
 
-import savePath.SavePath;
 import view.menu.MenuButton;
 
 /**
- * 
+ * not done mvc
+ * Panel to save and load the game.
  * @author Vidar Eriksson
  *
  */
@@ -22,8 +22,9 @@ public class SaveLoadGame extends SubMenuPanel{
 	
 	/**
 	 * 
-	 * @param button
-	 * @param bol save enabled / disabled.
+	 * @param button the escape button to previously menu.
+	 * @param bol <code>true<code> if saving is allowed.
+	 * @param controller the controller to save the gamestate from.
 	 */
 	public SaveLoadGame(MenuButton button, boolean bol, GameController controller) {
 		super(getText(bol), getPanel(), new MenuButton[]{getLoadButton(), getSaveButton(bol, controller), button});
