@@ -241,7 +241,7 @@ public class World {
 	 * The Player picks up any weapon the player stands on.
 	 * @return true if the player picks up a weapon.
 	 */
-	public boolean playerPickUpWeapon(){
+	public void playerPickUpWeapon(){
 		for(int j = 0; j < items.size(); j++){
 			if(player.getHitBox().intersects(items.get(j).getCollisionBox()) && 
 					items.get(j) instanceof Weapon){
@@ -249,11 +249,10 @@ public class World {
 				this.tiles[(int)player.getX()][(int)player.getY()].setProperty(Tile.NONE);
 				this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
 				items.remove(j);
-				return true;
+				return;
 			}
 		}
 		player.pickUpWeapon(null);
-		return false;
 	}
 	
 	/**
