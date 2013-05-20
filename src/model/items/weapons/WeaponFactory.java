@@ -17,10 +17,10 @@ public class WeaponFactory {
 	public static enum Type{
 		//Range
 		PISTOL (0.75f,5,50f,6,6000,1000,10, "Pistol"),
-//		SHOTGUN,
+		SHOTGUN (0.45f, 10, 50f, 6, 10000, 3000, 11, "Shotgun"),
 //		REVOLVER,
 //		HUNTING_RIFLE,
-//		SUB_MACHINEGUN,
+		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "Sub Machinegun"),
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
 //TODO more weapons

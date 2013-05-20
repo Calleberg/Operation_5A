@@ -6,6 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import resources.HUDFonts;
+
 import model.GameModel;
 
 /**
@@ -31,10 +33,8 @@ public class ScorePanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(255, 255, 255, 255));
-		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		
+		g.setFont(HUDFonts.getScoreFont());
 		g.setColor(Color.BLACK);
-		g.drawString("Score: " + model.getScore(), 10, 10);
+		g.drawString("Score: " + model.getScore(), 0, 20);
 	}
 }
