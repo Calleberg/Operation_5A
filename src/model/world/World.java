@@ -30,6 +30,18 @@ public class World {
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Item> items = new ArrayList<Item>();
 	private Player player;
+	//The next two lists exist to make the ongoing update of the world more efficient,
+	//sprites in spritesFarAway won't be checked for movement, collision etc.
+	private List<Sprite> spritesClose = new ArrayList<Sprite>();
+	private List<Sprite> spritesFarAway = new ArrayList<Sprite>();
+	private int spriteListUpdateTick = 0;
+	
+	/*
+	 * The amount of updates between an sprites is checked if the sprite should be in spritesClose
+	 * or spritesFarAway.. 
+	 */
+	private static final int SPRITE_LISTS_UPDATE_INTERVAL = 15;
+
 	
 	/*
 	 * The max distance between a player and an enemy before an enemy don't take any actions. 
@@ -140,10 +152,10 @@ public class World {
 	 * Updates the world.
 	 */
 	public void update() {
+		updateSpriteLists();
+		updateProjectiles();
 		updateSpriteMovement();
 		playerHitItem();
-		enemyAttack();
-		updateProjectiles();
 	}
 	
 	/**
@@ -395,32 +407,29 @@ public class World {
 	}
 	
 	private void updateSpriteMovement(){
-		for(Sprite sprite : sprites) {
-//			if(getDistance(sprite.getCenter(), player.getCenter()) <= ENEMY_SHUT_DOWN_RANGE){
-			if(withinShutDownRange(sprite.getPosition(), player.getPosition())){
-				sprite.moveXAxis();
-				Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
-				for(int j = 0; j < tilesToCheck.length; j++) {
-					if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-							|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-							&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-						sprite.moveBack();
-					}
-				}		
-				//Check if the sprite hit another sprite
-				checkSpriteHitSprite(sprite);
-				
-				sprite.moveYAxis();
-				for(int j = 0; j < tilesToCheck.length; j++) {
-					if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
-							|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
-							&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
-						sprite.moveBack();
-					}
+		for(Sprite sprite : spritesClose) {
+			sprite.moveXAxis();
+			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
 				}
-				//Check if the sprite hit another sprite
-				checkSpriteHitSprite(sprite);
+			}		
+			//Check if the sprite hit another sprite
+			checkSpriteHitSprite(sprite);
+			
+			sprite.moveYAxis();
+			for(int j = 0; j < tilesToCheck.length; j++) {
+				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
+						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
+						&& tilesToCheck[j].intersects(sprite.getHitBox())))) {
+					sprite.moveBack();
+				}
 			}
+			
+			checkSpriteHitSprite(sprite);
 		}
 	}
 	
@@ -471,14 +480,14 @@ public class World {
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
 		for(Projectile p : projectiles){
-			for(int i = 0; i < sprites.size(); i++){
-				if(isDistanceShort(sprites.get(i).getCenter(), p.getPosition()))
-				if(/*p.getOwner() != sprites.get(i) && */sprites.get(i).getHitBox().intersects(p.getCollisionBox())) {
-					sprites.get(i).reduceHealth(p.getDamage());
-					sprites.get(i).setState(Enemy.State.RUNNING);
+			for(int i = 0; i < spritesClose.size(); i++){
+				if(isDistanceShort(spritesClose.get(i).getCenter(), p.getPosition()))
+				if(spritesClose.get(i).getHitBox().intersects(p.getCollisionBox())) {
+					spritesClose.get(i).reduceHealth(p.getDamage());
+					spritesClose.get(i).setState(Enemy.State.RUNNING);
 					projectilesToBeRemoved.add(p);
-					if(sprites.get(i).getHealth() <= 0){
-						spritesToBeRemoved.add(sprites.get(i));
+					if(spritesClose.get(i).getHealth() <= 0){
+						spritesToBeRemoved.add(spritesClose.get(i));
 					}
 				}
 			}
@@ -498,16 +507,34 @@ public class World {
 	}
 	
 	private void checkSpriteHitSprite(Sprite sprite){
-		for(Sprite sprite2 : sprites) {
-//			if(getDistance(sprite.getCenter(), player.getCenter()) <= ENEMY_SHUT_DOWN_RANGE){
-//			if(withinShutDownRange(sprite.getCenter(), player.getCenter())){
-//				if(getDistance(sprite.getCenter(), sprite2.getCenter())<1){
-				if(isDistanceShort(sprite.getPosition(), sprite2.getPosition())){
-					if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
-						sprite.moveBack();
+		for(Sprite sprite2 : spritesClose) {
+			if(isDistanceShort(sprite.getPosition(), sprite2.getPosition())){
+				if(sprite != sprite2 && sprite.getMoveBox().intersects(sprite2.getMoveBox())) {
+					sprite.moveBack();
+				}
+			}
+		}
+	}
+	
+	private void updateSpriteLists(){
+		spriteListUpdateTick++;
+		if(SPRITE_LISTS_UPDATE_INTERVAL >= spriteListUpdateTick){
+			for(Sprite s : sprites){
+				if((sprites.indexOf(s) + spriteListUpdateTick)%
+						SPRITE_LISTS_UPDATE_INTERVAL == 0){
+					if(withinShutDownRange(player.getPosition(), s.getPosition())){
+						if(!spritesClose.contains(s)){
+							spritesFarAway.remove(s);
+							spritesClose.add(s);
+						}
+					}else if(!spritesFarAway.contains(s)){
+						spritesClose.remove(s);
+						spritesFarAway.add(s);
 					}
 				}
-//			}
+			}
+		}else{
+			spriteListUpdateTick = 0;
 		}
 	}
 	
@@ -530,19 +557,10 @@ public class World {
 	private boolean withinShutDownRange(Position p1, Position p2){
 		float dx = Math.abs(p1.getX() - p2.getX());
 		float dy = Math.abs(p1.getY() - p2.getY());
-		if(dx < 25 && dy < 25){
+		if(dx < ENEMY_SHUT_DOWN_RANGE && dy < ENEMY_SHUT_DOWN_RANGE){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
-//	public static double sqrt(final double a) {
-//	    final long x = Double.doubleToLongBits(a) >> 32;
-//	    double y = Double.longBitsToDouble((x + 1072632448) << 31);
-//	 
-//	    // repeat the following line for more precision
-//	    //y = (y + a / y) * 0.5;
-//	    return y;
-//	}
 }
