@@ -194,7 +194,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		playerPickUpWeapon();
 
 		enemySpawnTick++;
-		if(enemySpawnTick >= 400){
+		if(enemySpawnTick >= 5){
 			spawnEnemy();
 			enemySpawnTick = 0;
 		}
