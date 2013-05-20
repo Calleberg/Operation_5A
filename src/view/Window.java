@@ -26,14 +26,15 @@ public class Window extends JFrame {
 		
 	}
 	private void update(){
-		if (SettingsModel.getFullscreen()){
-			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-			this.setAlwaysOnTop(true);
-		} else {
-			this.setExtendedState(NORMAL);
-			this.setSize(1000, 800);
-			this.setAlwaysOnTop(false);
-		}
+//		if (SettingsModel.getFullscreen()){
+//			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//			this.setAlwaysOnTop(true);
+//		} else {
+//			this.setExtendedState(NORMAL);
+//			this.setSize(1000, 800);
+//			this.setAlwaysOnTop(false);
+//		}
+		this.setSize(1000, 800);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
