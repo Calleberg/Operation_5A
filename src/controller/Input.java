@@ -8,8 +8,6 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.sprites.Sprite;
-
 /**
  * Holds which keys have been pressed and which haven't.
  *
@@ -20,8 +18,6 @@ public class Input implements KeyListener, MouseListener {
 
 	private List<Boolean> keys = new ArrayList<Boolean>();
 	private List<Boolean> mouseButtons = new ArrayList<Boolean>();
-	//private boolean[] keys;
-	//private boolean[] mouseButtons;
 	
 	/**
 	 * Sets which container to listen to.
@@ -40,7 +36,6 @@ public class Input implements KeyListener, MouseListener {
 	 */
 	public void resetKey(int key) {
 		this.keys.set(key, false);
-		//this.keys[key] = false
 	}
 	
 	/**
@@ -49,11 +44,10 @@ public class Input implements KeyListener, MouseListener {
 	 * @return <code>true</code> if the specified key is pressed.
 	 */
 	public boolean isPressed(int key) {
-		if(key < 0 || key >= keys.size()){//keys.length
+		if(key < 0 || key >= keys.size()){
 			return false;
 		}else{
 			return keys.get(key);
-			//return keys[key]
 		}
 	}
 	
