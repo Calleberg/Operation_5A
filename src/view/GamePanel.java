@@ -15,14 +15,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-import controller.GameController;
-import controller.IO.Resources;
 import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
@@ -37,11 +34,11 @@ import model.items.Item;
  * @author 
  *
  */
-public class GamePanel extends JPanel implements PropertyChangeListener, MouseMotionListener, Runnable {
+public class GamePanel extends IGamePanel implements PropertyChangeListener, MouseMotionListener, Runnable {
 
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private static final long serialVersionUID = 1L;
 	private GameModel model;
-	private GameController controller;
 	private long tick = 0;
 	private TileView[][] tiles;
 	private List<ObjectRenderer<?>> objects;
@@ -56,10 +53,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	 * @param model the model to display.
 	 * @param controller the controller to use.
 	 */
-	public GamePanel(GameModel model, GameController controller) {
+	public GamePanel(GameModel model) {
 		super();
 		this.model = model;
-		this.controller = controller;
 		this.addMouseMotionListener(this);
 		this.camera = new Camera(40);
 		this.buildLayout();
@@ -99,6 +95,27 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}
 	}
 	
+	/**
+	 * Add a PropertyChangeListener to the listener list. The listener is registered for all properties. 
+	 * The same listener object may be added more than once, and will be called as many times as it is added. 
+	 * If listener is null, no exception is thrown and no action is taken.
+	 * @param pcl The PropertyChangeListener to be added
+	 */
+	public void addListener(PropertyChangeListener pcl) {
+		this.pcs.addPropertyChangeListener(pcl);
+	}
+	
+	/**
+	 * Remove a PropertyChangeListener from the listener list. This removes a PropertyChangeListener 
+	 * that was registered for all properties. If listener was added more than once to the same event 
+	 * source, it will be notified one less time after being removed. If listener is null, or was never added, 
+	 * no exception is thrown and no action is taken.
+	 * @param pcl The PropertyChangeListener to be removed
+	 */
+	public void removeListener(PropertyChangeListener pcl) {
+		this.pcs.removePropertyChangeListener(pcl);
+	}
+	
 	/*
 	 * Builds the layout of the game panel. (Adds all the GUI bits)
 	 */
@@ -128,12 +145,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        add(new ScorePanel(controller), gridBagConstraints);
+        add(new ScorePanel(model), gridBagConstraints);
         
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        add(new DevPanel(model, controller), gridBagConstraints);
+        add(new DevPanel(model), gridBagConstraints);
 	}
 	
 	/*
@@ -154,7 +171,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 		}
 		for(Item i : this.model.getWorld().getItems()){
 			objects.add(new ItemView(i));
-//			System.out.println(i.getPosition());
 		}
 	}
 	
@@ -173,42 +189,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 	private Position translatePos(Position pos) {
 		return new Position((pos.getX() - camera.getX())/camera.getScale(), 
 				(pos.getY() - camera.getY())/camera.getScale());
-	}
-
-	/**
-	 * Draws everything.
-	 */
-	@Override
-	public void paintComponent(Graphics g) {	
-		//super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D)g;
-		//Turn on anti alignment
-		//Note: setting the hints to KEY_ANTIALIASING won't render the rotated images as such!
-		g2d.setRenderingHint(
-				RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		//Draws all the static world objects.
-		Position drawMin = translatePos(new Position(0, 0));
-		Position drawMax = translatePos(new Position(getWidth(), getHeight()));
-		camera.setToCenter(model.getPlayer().getCenter(), getSize());
-		for(int x = Math.max((int)drawMin.getX(), 0); x < Math.min(model.getWorld().getWidth(), drawMax.getX()); x++) {
-			for(int y = Math.max((int)drawMin.getY(), 0); y < Math.min(model.getWorld().getHeight(), drawMax.getY()); y++) {
-				tiles[x][y].render(g2d, camera.getOffset(), camera.getScale());
-			}
-		}
-		
-		//Draws all the dynamic items.
-		for(int i = objects.size() - 1; i >= 0; i--) {
-			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
-		}
-		
-		//Draw cursor
-		cursor.render(g2d);
-		
-		//data:
-		g.setColor(Color.BLACK);
-		g.drawString("Number of updates since start (view): " + tick 
-				+ ", average: " + tick/(int)(1 + controller.getNumbersOfUpdates()/1000) + "/s", 10, 150);
 	}
 	
 	/**
@@ -246,6 +226,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 					break;
 				}
 			}
+			if(e.getOldValue() instanceof Sprite) {
+				objects.add(new BloodPool(((Sprite)e.getOldValue()).getCenter()));
+			}
 		}else if(e.getPropertyName().equals(GameModel.ADDED_PROJECTILE)) {
 			this.objects.add(new ProjectileView((Projectile)e.getNewValue()));
 		}else if(e.getPropertyName().equals(GameModel.ADDED_SUPPLY)){
@@ -260,25 +243,58 @@ public class GamePanel extends JPanel implements PropertyChangeListener, MouseMo
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		this.controller.handleMouseAt((float)(e.getX()-camera.getX())/camera.getScale(), 
+		Position msPos = new Position((float)(e.getX()-camera.getX())/camera.getScale(), 
 				(float)(e.getY()-camera.getY())/camera.getScale());
+		this.pcs.firePropertyChange(MOUSE_INPUT, null, msPos);
 	}
-	/**
-	 * Pauses the thread from a running state. To resume the thread call <code>resumeThread()</code>.
-	 */
+	
+	@Override
 	public synchronized void pauseThread(){
 		paused=true;
 	}
-	/**
-	 * Resumes the thread to a running state. To resume the thread call <code>pauseThread()</code>.
-	 */
+	
+	@Override
 	public synchronized void resumeThread(){
 		paused=false;
 		notify();
 	}
 
+	@Override
 	public synchronized void stopThread() {
 		isRunning=false;
 		notify();		
+	}
+
+	@Override
+	public void render(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		//Turn on anti alignment
+		//Note: setting the hints to KEY_ANTIALIASING won't render the rotated images as such!
+		g2d.setRenderingHint(
+				RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		//Draws all the static world objects.
+		Position drawMin = translatePos(new Position(0, 0));
+		Position drawMax = translatePos(new Position(getWidth(), getHeight()));
+		camera.setToCenter(model.getPlayer().getCenter(), getSize());
+		for(int x = Math.max((int)drawMin.getX(), 0); x < Math.min(model.getWorld().getWidth(), drawMax.getX()); x++) {
+			for(int y = Math.max((int)drawMin.getY(), 0); y < Math.min(model.getWorld().getHeight(), drawMax.getY()); y++) {
+				tiles[x][y].render(g2d, camera.getOffset(), camera.getScale());
+			}
+		}
+
+		//Draws all the dynamic items.
+		for(int i = objects.size() - 1; i >= 0; i--) {
+			objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
+		}
+
+		//Draw cursor
+		cursor.render(g2d);
+
+		//data:
+		//Write dev data to console
+//		System.out.println("Number of updates since start (view): " + tick 
+//				+ ", average: " + tick/(int)(1 + this.model.getGameTime()/1000) + "/s");
 	}
 }

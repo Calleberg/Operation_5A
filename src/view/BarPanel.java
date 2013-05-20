@@ -34,9 +34,9 @@ public class BarPanel extends JPanel {
 	public BarPanel(Player player) {
 		super();
 		this.player = player;
-		this.setPreferredSize(new Dimension(120, 100));
-		hpBar = new StatusBar(20, 100, 100, player.getHealth());
-		foodBar = new StatusBar(20, 100, 100, player.getFood());
+		this.setPreferredSize(new Dimension(170, 100));
+		hpBar = new StatusBar(20, 150, 100, player.getHealth());
+		foodBar = new StatusBar(20, 150, 100, player.getFood());
 		
 		ResourceBundle bundle = ResourceBundle.getBundle("bundle/GamePanels", Locale.getDefault());
 		this.hp = bundle.getString("hitPoints");
@@ -55,12 +55,11 @@ public class BarPanel extends JPanel {
 		setFoodBarColor();
 		g.setColor(Color.BLACK);
 		
-		g.drawString(hp, 10, 20);
 		hpBar.render(g, 10, 25, 1);
-		
-		g.drawString(food, 10, 56);
-		foodBar.render(g, 10, 61, 1);
-		
+		g.drawString(hp, 15, 40);
+				
+		foodBar.render(g, 10, 60, 1);
+		g.drawString(food, 15, 75);
 	}
 	/*
 	 * Sets the color of the food bar depending on the food level of the player

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.geometrical.Position;
+import model.items.Item;
+import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
@@ -17,6 +19,19 @@ import org.junit.Test;
 
 public class WorldTest {
 	
+	@Test
+	public void setGetPlayerTest() {
+		World w = new World();
+		assertTrue(w.getPlayer() == null);
+		
+		Player p = new Player(1, 2);
+		w.setPlayer(p);
+		assertTrue(w.getPlayer() == p);
+		
+		w.setPlayer(null);
+		assertTrue(w.getPlayer() == null);
+	}
+		
 	@Test
 	public void getTiles(){
 		Tile[][] tiles = new Tile[10][10];
@@ -228,52 +243,6 @@ public class WorldTest {
 		assertFalse(w.canMoveAll(new Position(4, 6), new Position(6, 4)));
 	}
 	
-//	@Test
-//	public void Update() {
-//		
-//		//TODO, wait for it to be completed
-//		
-//		//No need to check sprite.move(), already checked in EnemyTest and PlayerTest
-//		World w = new World(null);
-//		Player p = new Player(1,1);
-//		Enemy e = EnemyFactory.createEasyEnemy(new Position(2,1));
-//		Weapon weapon = WeaponFactory.createWeapon(Type.PISTOL, Level.LARGE);
-//		
-//		w.addSprite(e);
-//		w.addSprite(p);
-//		
-//		p.setMoveDir(0f);
-//		w.update();
-//		
-//		//TODO check if collision noticed by World.update()
-//		
-//		p.setPosition(new Position(0,1));
-//		p.setState(State.STANDING);
-//		p.setWeapon(weapon);
-//		w.addProjectile(p.getActiveWeapon().createProjectile(p.getDirection(), p.getProjectileSpawn()));
-//		
-//		for(int i = 0; i < 25; i++){
-//			w.update();
-//		}
-//		
-//		assertTrue(e.getHealth() == 25 && w.getProjectiles().size() == 0);
-//		
-//		p.setWeapon(WeaponFactory.createWeapon(Type.PISTOL, Level.LARGE));//TODO why is this needed?
-//		w.addProjectile(p.getActiveWeapon().createProjectile(p.getDirection(), p.getProjectileSpawn()));
-//		for(int i = 0; i < 50; i++){
-//			w.update();
-//		}
-//		
-//		assertTrue(!(w.getSprites().contains(e)) && w.getProjectiles().size() == 0);
-//		
-//		w.addProjectile(p.getActiveWeapon().createProjectile(p.getDirection(), p.getProjectileSpawn()));
-//		
-//		for(int i = 0; i < 200; i++){
-//			w.update();
-//		}
-//		assertTrue(w.getProjectiles().size() == 0);
-//	}
-	
 	@Test
 	public void validPosition(){
 		Tile[][] tiles = new Tile[20][20];
@@ -329,8 +298,24 @@ public class WorldTest {
 	}
 	
 	@Test
-	public void getTilesAround(){
-		//TODO, wait for it to be completed
+	public void getAndAddRemoveItemsTest() {
+		World w = new World();
+		assertTrue(w.getItems().size() == 0);
+		
+		Item i = SupplyFactory.createFood(100, new Position(0, 0));
+		w.addItem(i);
+		assertTrue(w.getItems().size() == 1);
+		assertTrue(w.getItems().contains(i));
+		
+		Item i2 = SupplyFactory.createRandomAmmo(new Position(0, 0));
+		w.addItem(i2);
+		assertTrue(w.getItems().size() == 2);
+		assertTrue(w.getItems().contains(i2));
+		
+		w.removeItem(i);
+		assertTrue(w.getItems().size() == 1);
+		assertTrue(!w.getItems().contains(i));
 	}
 
+	
 }

@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import controller.IO.Resources;
 
 import model.items.weapons.Weapon;
 import model.sprites.Player;
@@ -40,7 +39,8 @@ public class SlotPanel extends JPanel{
 	//Using paint and not paintComponents as this panel does not have to be buffered nor transparent
 	@Override
 	public void paint(Graphics g){
-		super.paint(g);
+		g.setColor(new Color(0, 0, 0, 100));
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		g.setColor(Color.WHITE);
 		String name = player.getWeapons()[weaponIndex].toString();
