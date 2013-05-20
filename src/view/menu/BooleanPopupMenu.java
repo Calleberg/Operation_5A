@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * not done yet.
+ * @author Vidar Eriksson
+ *
+ */
 @SuppressWarnings("serial")
 public class BooleanPopupMenu extends JFrame {
 	private boolean result = false;

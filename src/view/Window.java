@@ -15,6 +15,9 @@ import model.SettingsModel;
 public class Window extends JFrame {
 	private JPanel activePanel = null;
 	
+	/**
+	 * Creates a new window.
+	 */
 	public Window() {
 		super();
 

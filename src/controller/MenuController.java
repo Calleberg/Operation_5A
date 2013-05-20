@@ -12,6 +12,7 @@ import resources.Language;
 
 
 import view.Window;
+import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
@@ -43,6 +44,12 @@ public class MenuController{
 		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
 	private static void startNewGame(){
+		WINDOW.add(new LoadingPanel());
+		if (gameController != null){
+			gameController.stopThread();
+		}
+
+		gameController = new GameController();
 		gameController.init(GameIO.newGame());
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
