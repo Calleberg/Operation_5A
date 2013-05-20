@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import controller.IO.Resources;
 
 import model.geometrical.Position;
 import model.other.Animation;

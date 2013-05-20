@@ -4,14 +4,11 @@ package model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Calendar;
 import java.util.List;
 
-import model.items.weapons.Projectile;
 import model.sprites.Player;
 import model.world.Tile;
 import model.world.World;
-import model.world.WorldBuilder;
 
 
 
@@ -26,6 +23,8 @@ public class GameModel implements PropertyChangeListener {
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private World world;
 	private List<Tile> spawnPoints;
+	private int score;
+	private long gameTime;
 	
 	/**
 	 * The message sent when a new sprite is added.
@@ -44,42 +43,54 @@ public class GameModel implements PropertyChangeListener {
 	 */
 	public final static String ADDED_SUPPLY = "addedsupply";
 
-//	/**
-//	 * Creates a new default game model.
-//	 */
-//	public GameModel(){
-//		this(Calendar.getInstance().getTimeInMillis());
-//	}
-//	
-//	/**
-//	 * Creates a new game model with the specified seed.
-//	 * @param seed the seed to use when creating the world.
-//	 */
-//	public GameModel() {
-//		this.seed = seed;
-//		world = new World();
-//		WorldBuilder wb = new WorldBuilder();
-//		world.setTiles(wb.getNewWorld(400, 400));
-//		spawnPoints = wb.getSpawnPoints();
-//		this.world.addListener(this);
-//	}
-	
+	/**
+	 * Creates a new model with the specified world.
+	 * @param world the world in this model.
+	 */
 	public GameModel(World world) {
 		this.world = world;
 		this.world.addListener(this);
 	}
 	
+	/**
+	 * Sets a list of all the spawn points in the world.
+	 * @param spawns the spawn points.
+	 */
 	public void setSpawns(List<Tile> spawns) {
 		this.spawnPoints = spawns;
 	}
 	
 	/**
-	 * Gives the seed used when creating the world.
-	 * @return the seed used when creating the world.
+	 * Gives the current score of the game.
+	 * @return the score of the game.
 	 */
-//	public long getSeed() {
-//		return this.seed;
-//	}
+	public int getScore() {
+		return this.score;
+	}
+	
+	/**
+	 * Adds the specified score to the total score.
+	 * @param score the score to add.
+	 */
+	public void addScore(int score) {
+		this.score += score;
+	}
+	
+	/**
+	 * Gives the total time the game has ben running.
+	 * @return the total time the game has been running.
+	 */
+	public long getGameTime() {
+		return this.gameTime;
+	}
+	
+	/**
+	 * Sets the time the game has been running.
+	 * @param gameTime the time the game has been running.
+	 */
+	public void setGameTime(long gameTime) {
+		this.gameTime = gameTime;
+	}
 	
 	/**
 	 * Sets the player of the game.

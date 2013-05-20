@@ -28,7 +28,6 @@ public class World {
 	private Tile[][] tiles;
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
-	private List<Tile> spawnPoints;
 	private List<Item> items = new ArrayList<Item>();
 	private Player player;
 	
@@ -43,6 +42,14 @@ public class World {
 	 */
 	public World() {
 		this(null);
+	}
+	
+	/**
+	 * Creates a new world with the specified tiles.
+	 * @param tiles the tiles to use on this world.
+	 */
+	public World(Tile[][] tiles) {
+		this.tiles = tiles;
 	}
 	
 	/**
@@ -73,14 +80,6 @@ public class World {
 	 */
 	public void removeListener(PropertyChangeListener pcl) {
 		this.pcs.removePropertyChangeListener(pcl);
-	}
-	
-	/**
-	 * Creates a new world with the specified tiles.
-	 * @param tiles the tiles to use on this world.
-	 */
-	public World(Tile[][] tiles) {
-		this.tiles = tiles;
 	}
 	
 	/**
@@ -475,7 +474,7 @@ public class World {
 		for(Projectile p : projectiles){
 			for(int i = 0; i < sprites.size(); i++){
 				if(isDistanceShort(sprites.get(i).getCenter(), p.getPosition()))
-				if(sprites.get(i).getHitBox().intersects(p.getCollisionBox())) {
+				if(/*p.getOwner() != sprites.get(i) && */sprites.get(i).getHitBox().intersects(p.getCollisionBox())) {
 					sprites.get(i).reduceHealth(p.getDamage());
 					sprites.get(i).setState(Enemy.State.RUNNING);
 					projectilesToBeRemoved.add(p);
