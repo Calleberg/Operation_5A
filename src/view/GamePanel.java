@@ -17,6 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -172,6 +173,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 		for(Item i : this.model.getWorld().getItems()){
 			objects.add(new ItemView(i));
 		}
+		Collections.sort(objects, new ObjectSort());
 	}
 	
 	/*
@@ -234,6 +236,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 		}else if(e.getPropertyName().equals(GameModel.ADDED_SUPPLY)){
 			this.objects.add(new ItemView((Item)e.getNewValue()));
 		}
+		Collections.sort(objects, new ObjectSort());
 	}
 
 	@Override

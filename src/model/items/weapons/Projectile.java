@@ -115,7 +115,7 @@ public class Projectile implements Saveable {
 		Position pos = new Position(Float.parseFloat(data[4]), Float.parseFloat(data[5]));
 		this.startingPosition = pos;
 		Position currentPos = new Position(Float.parseFloat(data[6]), Float.parseFloat(data[7]));
-		this.collisionBox.move(currentPos.getX(), currentPos.getY());
+		this.collisionBox.setPosition(new Position(currentPos.getX(), currentPos.getY()));
 	}
 
 	@Override

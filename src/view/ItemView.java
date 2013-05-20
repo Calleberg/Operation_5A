@@ -36,6 +36,11 @@ public class ItemView implements ObjectRenderer<Item>{
 		this.i = i;
 		
 	}
+	
+	@Override
+	public int getLayer() {
+		return 2;
+	}
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {

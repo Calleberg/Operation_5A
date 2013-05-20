@@ -59,6 +59,11 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 		this.p = object;
 		object.addListener(this);
 	}
+	
+	@Override
+	public int getLayer() {
+		return 4;
+	}
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {

@@ -56,6 +56,11 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 	}
 	
 	@Override
+	public int getLayer() {
+		return 3;
+	}
+	
+	@Override
 	public void render(Graphics g, Position offset, int scale) {
 		if(sprite != null) {
 			//Saves some values for quick access.

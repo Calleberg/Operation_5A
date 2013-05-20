@@ -35,6 +35,11 @@ public class BloodPool implements ObjectRenderer<Position> {
 	public void setObject(Position object) {
 		this.pos = object;
 	}
+	
+	@Override
+	public int getLayer() {
+		return 1;
+	}
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {

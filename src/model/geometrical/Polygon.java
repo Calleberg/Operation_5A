@@ -73,22 +73,14 @@ public class Polygon implements CollisionBox {
 
 	@Override
 	public Position getPosition() {
-//		float minX = (float)polygon.get(0).getX1();
-//		float minY = (float)polygon.get(0).getY1();
-//		for(Line2D l : this.getLines()) {
-//			minX = Math.min((float)l.getX1(), minX);
-//			minX = Math.min((float)l.getX2(), minX);
-//			minY = Math.min((float)l.getY1(), minY);
-//			minY = Math.min((float)l.getY2(), minY);
-//		}
-//		return new Position(minX, minY);
 		return (Position) position.clone();
 	}
 
 	@Override
 	public void setPosition(Position pos) {
-		this.oldPosition = this.getPosition();
-		this.move(pos.getX() - oldPosition.getX(), pos.getY() - oldPosition.getY());
+		this.oldPosition = this.getPosition(); 
+		this.position.setX(pos.getX());
+		this.position.setY(pos.getY());
 	}
 
 	/**

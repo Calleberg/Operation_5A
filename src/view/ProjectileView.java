@@ -34,6 +34,11 @@ public class ProjectileView implements ObjectRenderer<Projectile> {
 	public void setObject(Projectile object) {
 		this.p = object;
 	}
+	
+	@Override
+	public int getLayer() {
+		return 5;
+	}
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {
