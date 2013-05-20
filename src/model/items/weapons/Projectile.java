@@ -4,7 +4,6 @@ import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.geometrical.ScanLine;
 import model.other.Saveable;
-import model.sprites.Sprite;
 
 
 public class Projectile implements Saveable {
@@ -15,7 +14,7 @@ public class Projectile implements Saveable {
 	private float direction;
 	private Position startingPosition;
 	private CollisionBox collisionBox;
-//	private Sprite owner;
+	
 
 	public Projectile(int damage, float speed, float range, float direction, Position position) {
 		this.damage = damage;
@@ -23,25 +22,9 @@ public class Projectile implements Saveable {
 		this.range = range;
 		this.direction = direction;
 		this.collisionBox = new ScanLine(position.getX(), position.getY());
+//		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
 		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
 	}
-	
-//	/**
-//	 * Sets the owner of the projectile.
-//	 * The owner of a projectile cannot be hurt by the projectile.
-//	 * @param sprite the new owner.
-//	 */
-//	public void setOwner(Sprite sprite) {
-//		this.owner = sprite;
-//	}
-	
-//	/**
-//	 * Gives the owner of the projectile.
-//	 * @return the owner of the projectile.
-//	 */
-//	public Sprite getOwner() {
-//		return this.owner;
-//	}
 	
 	/**
 	 * Updates the projectile's position.
@@ -124,6 +107,7 @@ public class Projectile implements Saveable {
 
 	@Override
 	public void restore(String[] data) {
+		//TODO Wrong
 		this.damage = Integer.parseInt(data[0]);
 		this.direction = Float.parseFloat(data[1]);
 		this.range = Float.parseFloat(data[2]);

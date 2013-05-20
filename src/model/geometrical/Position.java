@@ -6,7 +6,7 @@ package model.geometrical;
  * @author 
  *
  */
-public class Position {
+public class Position implements Cloneable{
 	
 	private float x;
 	private float y;
@@ -56,5 +56,10 @@ public class Position {
 	@Override
 	public String toString() {
 		return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+	}
+	
+	@Override
+	public Object clone(){
+		return new Position(x,y);
 	}
 }

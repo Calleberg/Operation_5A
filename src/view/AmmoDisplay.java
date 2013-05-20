@@ -5,10 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
-import resources.HUDAmmoFont;
-
 import model.sprites.Player;
 
+import resources.HUDFonts;
 
 /**
  * Renders the ammo a player currently possesses.
@@ -32,7 +31,7 @@ public class AmmoDisplay extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {		
 		g.setColor(Color.BLACK);
-		g.setFont(HUDAmmoFont.getFont());
+		g.setFont(HUDFonts.getAmmoFont());
 		
 		int total = player.getAmmoAmount();
 		int inGun = player.getActiveWeapon().getAmmunitionInMagazine();
