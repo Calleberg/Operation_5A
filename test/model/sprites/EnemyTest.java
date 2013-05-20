@@ -1,14 +1,65 @@
 package model.sprites;
 
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import model.geometrical.Position;
+import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
+import model.sprites.Sprite.State;
 
 import org.junit.Test;
 
 public class EnemyTest {
 
+//TODO getX,..., returns getCenter.getX
+	//TODO remove move
+	//TODO remove getCollisionBox
+	@Test
+	public void moveXAxis(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setDirection((float) (Math.PI/2));
+		e.moveXAxis();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1);
+		
+		e.setDirection((float) (Math.PI));
+		e.moveXAxis();
+		assertTrue(e.getPosition().getX() == 0.8);
+		assertTrue(e.getPosition().getY() == 1);
+		
+		e.setDirection((float) (Math.PI/4));
+		e.moveYAxis();
+		e.moveXAxis();
+		e.moveBack();
+		assertTrue(e.getPosition().getX() == 1 + Math.sqrt(0.02));
+		assertTrue(e.getPosition().getY() == 1);
+	}
+	
+	@Test
+	public void moveYAxis(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setDirection((float) (Math.PI/2));
+		e.moveXAxis();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1.2);
+		
+		e.setDirection((float) (Math.PI));
+		e.moveXAxis();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1);
+		
+		e.setDirection((float) (Math.PI/4));
+		e.moveYAxis();
+		e.moveXAxis();
+		e.moveBack();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1 - Math.sqrt(0.02));
+	}
+	
 	@Test
 	public void move(){//TODO Error
 		Enemy e = new Enemy(new Position(1f,1f), 0.2f, null, 1);
@@ -147,7 +198,135 @@ public class EnemyTest {
 	}
 	
 	@Test
-	public void setDirectionTowardsList(){
-		//TODO, wait until complete in Enemy
+	public void restore(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		String[] s = e.getData();
+		Enemy e2 = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e2.restore(s);
+		assertTrue(e.getHealth() == e2.getHealth());
+		assertTrue(e.getSpeed() == e2.getSpeed());
+		assertTrue(e.getPosition().getX() == e2.getPosition().getX());
+		assertTrue(e.getPosition().getY() == e2.getPosition().getY());
+	}
+	
+	@Test
+	public void moveBack(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setDirection((float) (Math.PI/1.5));
+		e.moveYAxis();
+		e.moveXAxis();
+		e.moveBack();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1);
+		
+		e.setDirection((float) (Math.PI/3.5));
+		e.moveYAxis();
+		e.moveXAxis();
+		e.moveBack();
+		assertTrue(e.getPosition().getX() == 1);
+		assertTrue(e.getPosition().getY() == 1);
+		
+		//TODO
+	}
+
+	@Test
+	public void getHitBox(){
+		//TODO
+	}
+	
+	@Test
+	public void getMoveBox(){
+		//TODO
+	}
+	
+	@Test
+	public void pickUpItem(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(!e.pickUpItem(SupplyFactory.createRandomSupply(e.getPosition())));
+		assertTrue(!e.pickUpItem(WeaponFactory.createRandomWeapon()));
+	}
+	
+	@Test
+	public void setPathfindingListIndex(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setPathfindingListIndex(5);
+		assertTrue(e.getPathfindingListIndex() == 5);
+	}
+	
+	@Test
+	public void getPathfindingListIndex(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		e.setPathfindingListIndex(5);
+		assertTrue(e.getPathfindingListIndex() == 5);
+	}
+	
+	@Test
+	public void setPathfindingList(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		List<Position> list = new ArrayList<Position>();
+		e.setPathfindingList(list);
+		assertTrue(e.getPathfindingList() == list);
+	}
+	
+	@Test
+	public void getPathfindingList(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		List<Position> list = new ArrayList<Position>();
+		e.setPathfindingList(list);
+		assertTrue(e.getPathfindingList() == list);
+	}
+	
+	@Test
+	public void getSpeed(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getSpeed() == 0.2f);
+	}
+		
+	@Test
+	public void setState(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+
+		e.setState(Enemy.State.STANDING);
+		assertTrue(e.getState() == Enemy.State.STANDING);
+		
+		e.setState(Enemy.State.WALKING);
+		assertTrue(e.getState() == Enemy.State.WALKING);
+		
+		e.setState(Enemy.State.RUNNING);
+		assertTrue(e.getState() == Enemy.State.RUNNING);
+	}
+	
+	@Test
+	public void setWay(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		List<Position> list = new ArrayList<Position>();
+		e.setPathfindingList(new ArrayList<Position>());
+		e.setPathfindingListIndex(5);
+		e.setWay(list);
+		assertTrue(e.getPathfindingList() == list);
+		assertTrue(e.getPathfindingListIndex() == 0);
+	}
+	
+	@Test
+	public void getData(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		
+		String[] s = new String[] {
+				e.getHealth() + "",
+				e.getSpeed() + "",
+				e.getCenter().getX() + "",
+				e.getCenter().getY() + ""
+		};
+		for(int i = 0; i<s.length; i++){
+			assertTrue(s[i].equals(e.getData()[i]));
+		}
+	}
+	
+	@Test
+	public void setWeapon(){
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		Weapon w = WeaponFactory.createRandomWeapon();
+		e.setWeapon(w);
+		assertTrue(e.getActiveWeapon() == w);
 	}
 }
