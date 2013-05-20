@@ -90,6 +90,7 @@ public class GameIO {
 	 */
 	public static GameModel loadGame() {
 		String path = SavePath.savedGame();
+//		System.out.println("path:" +path);
 		try {
 			BufferedReader	reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "ISO-8859-1"));
 			
@@ -97,6 +98,8 @@ public class GameIO {
 			String line;
 			seed = Long.parseLong(reader.readLine());
 			GameModel model = initBase(seed);
+			model.addScore(Integer.parseInt(reader.readLine()));
+			model.setGameTime(Long.parseLong(reader.readLine()));
 			
 			while ((line = reader.readLine()) != null) {
 				//Extracts the identifier
@@ -178,8 +181,8 @@ public class GameIO {
 
 			//Write data needed everytime
 			osw.write(seed + "\r\n");
-			osw.write(controller.getGameScore() + "\r\n");
-			osw.write(controller.getTotalRuntime() + "\r\n");
+			osw.write(model.getScore() + "\r\n");
+			osw.write(model.getGameTime() + "\r\n");
 
 			//Writes all the sprites
 			for(Sprite s : model.getWorld().getSprites()) {

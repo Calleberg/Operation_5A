@@ -78,7 +78,6 @@ public class EnemyPathfinder {
 			List<Position> l = new ArrayList<Position>();
 			l.add(goal);
 			return l;
-		}else{
 		}
 		
 		//if there exist a straight way found from the currentNode towards the goal, 
@@ -89,43 +88,21 @@ public class EnemyPathfinder {
 			currentNode = this.goal;
 		}
 		
-		//Create a list of the chain of parentNodes, starting from currentNode. The list
-		//will be a path starting with goal and ending the the start.
-		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
-		correctList.add(currentNode);
-		while(currentNode.getParentNode() != null){
-			correctList.add(currentNode.getParentNode());
-			currentNode = currentNode.getParentNode();
-		}
-		
-		//Invert the list and convert to Positions, begin with start and end with goal.
-		List<Position> correctListInverted = new ArrayList<Position>();
-		correctListInverted.add(start);//start isn't the exact same position as found in 
-		//correctList(last) and the list should be from start to goal as written in the javadoc.
-		for(int i = correctList.size()-1; i>-1; i--){
-			correctListInverted.add(correctList.get(i).getCenter());
-		}
+		List<Position> correctList = createListOfPositions();
 		
 		//This is necessary to stop enemies from getting stuck next to some props. 
-		if(!adjustedCanMove(start, correctListInverted.get(0))){
-			correctListInverted.remove(0);
+		if(!adjustedCanMove(start, correctList.get(0))){
+			correctList.remove(0);
 		}
 		
 		//Currently the last position is the center of the node the player stands on(this.goal, last index),
 		//switch the last position the the playerCenter(goal) instead 
-		correctListInverted.remove(correctListInverted.size()-1);
-		correctListInverted.add(goal);
+		correctList.remove(correctList.size()-1);
+		correctList.add(goal);
 		
-		//remove skipable positions in the list.
-		for(int i = 0; i<correctListInverted.size()-2; i++){
-			if(adjustedCanMove(correctListInverted.get(i), correctListInverted.get(i+2))){
-				correctListInverted.remove(i+1);
-				i--;
-			}
-		}
+		removeUnnecessaryPositions(correctList);
 		
-		
-		return correctListInverted;
+		return correctList;
 	}
 	
 	/**
@@ -250,6 +227,34 @@ public class EnemyPathfinder {
 		float dx = Math.abs(t1.getX() - t2.getX());
 		float dy = Math.abs(t1.getY() - t2.getY());
 		return (float)Math.sqrt(dx*dx+dy*dy);
+	}
+	private List<Position> createListOfPositions(){
+		//Create a list of the chain of parentNodes, starting from currentNode. The list
+		//will be a path starting with goal and ending the the start.
+		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
+		correctList.add(currentNode);
+		while(currentNode.getParentNode() != null){
+			correctList.add(currentNode.getParentNode());
+			currentNode = currentNode.getParentNode();
+		}
+		
+		//Invert the list and convert to Positions, begin with start and end with goal.
+		List<Position> correctListInverted = new ArrayList<Position>();
+		correctListInverted.add(start);//start isn't the exact same position as found in 
+		//correctList(last) and the list should be from start to goal as written in the javadoc.
+		for(int i = correctList.size()-1; i>-1; i--){
+			correctListInverted.add(correctList.get(i).getCenter());
+		}
+		return correctListInverted;
+	}
+	
+	private void removeUnnecessaryPositions(List<Position> list){
+		for(int i = 0; i<list.size()-2; i++){
+			if(adjustedCanMove(list.get(i), list.get(i+2))){
+				list.remove(i+1);
+				i--;
+			}
+		}
 	}
 	
 	

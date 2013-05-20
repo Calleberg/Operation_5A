@@ -295,8 +295,8 @@ public class Player implements Sprite {
 	 */
 	public boolean reduceAmmo(int ammo){
 		this.ammo -= ammo;
-		if(ammo < 0) {
-			ammo = 0;
+		if(this.ammo < 0) {
+			this.ammo = 0;
 			return false;
 		}else{
 			return true;
@@ -364,6 +364,9 @@ public class Player implements Sprite {
 	 */
 	public void removeFood(int foodToRemove){
 		this.food -= foodToRemove;
+		if(food < 0){
+			food = 0;
+		}
 	}
 
 	@Override

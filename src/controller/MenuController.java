@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import controller.IO.GameIO;
+
 import resources.Language;
 
 
@@ -27,7 +29,7 @@ import view.menu.subMenuPanels.Settings;
  */
 public class MenuController{
 	private static final Window WINDOW = new Window();
-	private static GameController gameController = null;
+	private static GameController gameController = new GameController();
 	
 	/**
 	 * Creates a new game window and starts the main menu for the game.
@@ -48,6 +50,7 @@ public class MenuController{
 		}
 
 		gameController = new GameController();
+		gameController.init(GameIO.newGame());
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
 	}

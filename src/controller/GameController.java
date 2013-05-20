@@ -71,12 +71,12 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 * need to be called before the execution starts.
 	 */
 	public GameController(){
-		this.init();
+		
 	}	
 
-	private void init() {
-//		gameModel = GameIO.loadGame("C:/Users/Martin/Desktop/save.txt");
-		gameModel = GameIO.newGame();
+	public void init(GameModel model) {
+		this.gameModel = model;
+		this.startTime = model.getGameTime();
 
 		input = new Input();	
 

@@ -3,7 +3,7 @@ package savePath;
 public class SavePath {
 	private static String getSavePath(){
 		//TODO var sparas?
-		return "/users/";
+		return System.getenv("APPDATA") + "/";
 	}
 	
 	public static  String settings(){

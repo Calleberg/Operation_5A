@@ -27,16 +27,16 @@ public class SaveLoadGame extends SubMenuPanel{
 	 * @param controller the controller to save the gamestate from.
 	 */
 	public SaveLoadGame(MenuButton button, boolean bol, GameController controller) {
-		super(getText(bol), getPanel(), new MenuButton[]{getLoadButton(), getSaveButton(bol, controller), button});
+		super(getText(bol), getPanel(), new MenuButton[]{getLoadButton(controller), getSaveButton(bol, controller), button});
 	}
-	private static MenuButton getLoadButton() {
+	private static MenuButton getLoadButton(final GameController controller) {
 		MenuButton b = new MenuButton("Load");
 		b.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GameIO.loadGame();
+				controller.init(GameIO.loadGame());
 			}
 		});
 		return b;

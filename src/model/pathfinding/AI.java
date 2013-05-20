@@ -39,12 +39,8 @@ public class AI {
 	 * Update the movement and actions on all enemies.
 	 */
 	public void updateEnemies(){
-		for(Sprite s : world.getSprites()){
-			if(getDistance(s.getCenter(), player.getCenter())<25){
-				this.updateMovement();
-				this.enemyShoot();
-			}
-		}
+		this.updateMovement();
+		this.enemyShoot();
 	}
 
 	private void updateMovement(){
@@ -54,7 +50,7 @@ public class AI {
 						PATHFINDING_UPDATE_INTERVAL == 0){//All enemies will update once every
 					//20 updates, all enemies will have their updates spread out as much as possible.
 					Enemy e = (Enemy) s;
-					//If the Enemy is running it won't loose track of the player until the 
+					//If the Enemy is running, it won't loose track of the player until the 
 					//distance is 15.
 					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
