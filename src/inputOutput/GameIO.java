@@ -1,4 +1,4 @@
-package controller.IO;
+package inputOutput;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -151,9 +151,8 @@ public class GameIO {
 			return model;
 		} catch (IOException exc) {
 			System.out.println("Could not find " + path);
+			return newGame();
 		}
-		
-		return null;
 	}
 
 	/**
@@ -161,9 +160,8 @@ public class GameIO {
 	 * @param controller the controller which handles the model to save.
 	 * @param path the path to the file to save to.
 	 */
-	public static void saveGame(GameController controller) {
+	public static void saveGame(GameModel model) {
 		String path = SavePath.savedGame();
-		GameModel model = controller.getGameModel();	
 		
 		File f  = new File(path);
 		if(!f.exists()) {

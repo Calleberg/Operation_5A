@@ -1,5 +1,7 @@
 package view.menu.subMenuPanels;
 
+import inputOutput.SettingsModel;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +10,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import model.SettingsModel;
 import resources.MenuLookAndFeel;
 import view.menu.MenuButton;
 import view.menu.MenuLabel;

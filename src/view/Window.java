@@ -1,9 +1,10 @@
 package view;
 
+import inputOutput.SettingsModel;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.SettingsModel;
 
 /**
  * The main widows of the game. All graphics in the game is presented in this frame.
