@@ -125,6 +125,9 @@ public class World {
 	 */
 	public void removeSprite(Sprite sprite) {
 		this.sprites.remove(sprite);
+		if(spritesClose.contains(sprite)){
+			spritesClose.remove(sprite);
+		}
 		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, sprite, null);
 	}
 	

@@ -1,5 +1,7 @@
 package controller;
 
+import inputOutput.GameIO;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -8,7 +10,6 @@ import java.util.Calendar;
 
 import javax.swing.JPanel;
 
-import controller.IO.GameIO;
 
 import view.GamePanel;
 import view.IGamePanel;
@@ -194,7 +195,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		playerPickUpWeapon();
 
 		enemySpawnTick++;
-		if(enemySpawnTick >= 400){
+		if(enemySpawnTick >= 5){
 			spawnEnemy();
 			enemySpawnTick = 0;
 		}
@@ -444,7 +445,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 * Add the score to the highscoreModel, show's the gameOverPanel and stop the thread.
 	 */
 	private void gameOver(){
-		model.HighScoreModel.addNewScore(getTotalRuntime());
+		inputOutput.HighScoreModel.addNewScore(getTotalRuntime());
 		MenuController.showGameOverPanel();
 		this.stopThread();
 	}

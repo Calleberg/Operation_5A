@@ -1,6 +1,6 @@
 package resources;
 
-import model.SettingsModel;
+import inputOutput.SettingsModel;
 /**
  * Not done by far.
  * @author Vidar Eriksson

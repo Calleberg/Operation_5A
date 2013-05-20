@@ -1,11 +1,14 @@
 package controller;
 
+import inputOutput.GameIO;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import controller.IO.GameIO;
+import model.GameModel;
+
 
 import resources.Language;
 
@@ -43,16 +46,21 @@ public class MenuController{
 	public static void showMainMenu(){
 		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
-	private static void startNewGame(){
-		WINDOW.add(new LoadingPanel());
-		if (gameController != null){
-			gameController.stopThread();
+	//TODO temp public
+	public static void startGame(GameModel m){
+		if (m == null){
+			startNewGame();
 		}
+		
+		WINDOW.add(new LoadingPanel());
+		
+		gameController.init(m);
 
-		gameController = new GameController();
-		gameController.init(GameIO.newGame());
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
+	}
+	private static void startNewGame(){
+		startGame(GameIO.newGame());
 	}
 	private static void exitGame(){
 		System.exit(0);
@@ -67,10 +75,12 @@ public class MenuController{
 		WINDOW.add(new Settings(MenuButtons.getPauseMenuButton()));
 	}
 	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGame(MenuButtons.getPauseMenuButton(), true, gameController));
+		WINDOW.add(new SaveLoadGame(new MenuButton[]{MenuButtons.getLoadButton(),
+				MenuButtons.getSaveButton(), MenuButtons.getPauseMenuButton()}, true));
 	}
 	private static void showLoadSavedGame(){
-		WINDOW.add(new SaveLoadGame(MenuButtons.getMainMenuButton(),false, gameController));
+		WINDOW.add(new SaveLoadGame(new MenuButton[]{MenuButtons.getLoadButton(),
+				MenuButtons.getSaveButton(), MenuButtons.getPauseMenuButton()}, false));
 	}
 	/**
 	 * Changes this controllers window to the game over view.
@@ -96,6 +106,37 @@ public class MenuController{
 		private static MenuButton pauseMenuButtons[] = null;
 		private static MenuButton toMainMenuButton = null;
 		private static MenuButton toPauseMenuButton = null;
+		private static MenuButton saveButton = null;
+		private static MenuButton loadButton = null;
+		
+		private static MenuButton getSaveButton() {
+			if (saveButton == null){
+				saveButton = new MenuButton("Save");
+				saveButton .addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						GameIO.saveGame(gameController.getGameModel());
+//						showMainMenu();//TODO
+					}
+				});
+			}
+			return saveButton;
+		}
+		
+		private static MenuButton getLoadButton() {
+			if (loadButton == null){
+				loadButton = new MenuButton("Load");
+				loadButton .addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						startGame(GameIO.loadGame());
+//						showMainMenu();//TODO
+					}
+				});
+			}
+			return loadButton;
+		}
+		
 		
 		private static MenuButton getMainMenuButton() {
 			if (toMainMenuButton == null){
