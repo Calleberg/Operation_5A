@@ -18,9 +18,9 @@ import view.menu.MenuButton;
  *
  */
 @SuppressWarnings("serial")
-public class HighScore extends SubMenuPanel {
+public class Score extends SubMenuPanel {
 	
-	public HighScore(MenuButton mainMenuButton) {
+	public Score(MenuButton mainMenuButton) {
 		super("High Score", getPanel(), mainMenuButton);
 	}
 	

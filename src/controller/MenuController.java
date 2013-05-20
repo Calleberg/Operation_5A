@@ -20,7 +20,7 @@ import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
 import view.menu.BooleanPopupMenu;
-import view.menu.subMenuPanels.HighScore;
+import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
 
@@ -66,7 +66,7 @@ public class MenuController{
 		System.exit(0);
 	}
 	private static void showhighscore(){
-		WINDOW.add(new HighScore(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Score(MenuButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromMainMenu(){
 		WINDOW.add(new Settings(MenuButtons.getMainMenuButton()));
@@ -86,7 +86,7 @@ public class MenuController{
 	 * Changes this controllers window to the game over view.
 	 */
 	public static void showGameOverPanel(){
-		WINDOW.add(new HighScore(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Score(MenuButtons.getMainMenuButton()));
 	}
 	/**
 	 * Changes this controllers window to the paused game menu.
