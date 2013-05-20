@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import controller.GameController;
+import model.GameModel;
 
 /**
  * A GUI object which will render a score.
@@ -17,16 +17,16 @@ import controller.GameController;
 public class ScorePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private GameController ctrl;
+	private GameModel model;
 	
 	/**
 	 * Creates a new instance of the object.
-	 * @param ctrl the controller which holds the high score.
+	 * @param model The model to fetch values from.
 	 */
-	public ScorePanel(GameController ctrl) {
+	public ScorePanel(GameModel model) {
 		super();
 		this.setPreferredSize(new Dimension(100, 100));
-		this.ctrl = ctrl;
+		this.model = model;
 	}
 	
 	@Override
@@ -35,6 +35,6 @@ public class ScorePanel extends JPanel {
 		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		
 		g.setColor(Color.BLACK);
-		g.drawString("Score: " + ctrl.getGameScore(), 10, 10);
+		g.drawString("Score: " + model.getScore(), 10, 10);
 	}
 }

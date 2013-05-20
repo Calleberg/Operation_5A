@@ -12,7 +12,6 @@ import model.items.weapons.Weapon;
 import model.other.Animation;
 import model.sprites.Player;
 import model.sprites.Sprite;
-import controller.IO.Resources;
 
 /**
  * A class which renders a player.

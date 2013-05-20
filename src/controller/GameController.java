@@ -2,14 +2,16 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
 import javax.swing.JPanel;
 
 import controller.IO.GameIO;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import view.GamePanel;
+import view.IGamePanel;
 
 import model.GameModel;
 import model.geometrical.Position;
@@ -30,7 +32,7 @@ import model.world.Tile;
  * @author
  *
  */
-public class GameController implements Runnable {
+public class GameController implements Runnable, PropertyChangeListener {
 
 	private static final int SLEEP = 1000 / 45;
 	
@@ -49,8 +51,9 @@ public class GameController implements Runnable {
 	private int suppliesTick = 0;
 	private int foodTicks;
 	private int enemySpawnTick;
-	private Position spawnPos;
 	private AI ai;
+	
+	private int lastSecondStamp;
 	
 	/**
 	 * When food level is higher or equal to FOOD_HIGH the health of the player increases.
@@ -77,15 +80,12 @@ public class GameController implements Runnable {
 
 		input = new Input();	
 
-		gamePanel = new GamePanel(gameModel, this);
+		gamePanel = new GamePanel(gameModel);
+		gamePanel.addListener(this);
 
 		input.setContainer(gamePanel);
 		gameModel.addListener(gamePanel);
 		ai = new AI(gameModel.getWorld(), gameModel.getPlayer());
-
-//		for(int i = 0; i <=5; i++){
-//			spawnEnemy();
-//		}
 	}
 
 	@Override
@@ -138,6 +138,7 @@ public class GameController implements Runnable {
 		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn());
 		if(p != null) {
+//			p.setOwner(player);
 			this.gameModel.getWorld().addProjectile(p);
 			player.fireEvent(Player.EVENT_USE_WEAPON);
 		}
@@ -164,7 +165,7 @@ public class GameController implements Runnable {
 	 * @param x The x-coordinate of the mouse' position.
 	 * @param y The y-coordinate of the mouse' position.
 	 */
-	public void handleMouseAt(float x, float y) {
+	private void handleMouseAt(float x, float y) {
 		float dx = gameModel.getPlayer().getProjectileSpawn().getX() - x;
 		float dy = gameModel.getPlayer().getProjectileSpawn().getY() - y;
 		float dir = (float)Math.atan(-dy/dx);
@@ -215,7 +216,19 @@ public class GameController implements Runnable {
 			gameOver();
 		}
 		
+		int newTime = (int) (this.getTotalRuntime() / 1000);
+		if(newTime != lastSecondStamp) {
+			this.gameModel.addScore(1);
+			lastSecondStamp = newTime;
+		}
+		
+		this.gameModel.setGameTime(this.getTotalRuntime());
+		
 		gameModel.update();
+		
+		//Write dev data to console
+//		System.out.println("Number of updates since start (ctr): " + this.getNumbersOfUpdates() 
+//				+ ", average: " + this.getNumbersOfUpdates()/(int)(1 + this.getMsSinceStart()/1000) + "/s");
 	}
 	
 	/**
@@ -442,6 +455,14 @@ public class GameController implements Runnable {
 			pauseThread();
 			MenuController.showPauseMenu();
 			return;
+		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equals(IGamePanel.MOUSE_INPUT)) {
+			Position msPos = (Position)evt.getNewValue();
+			this.handleMouseAt(msPos.getX(), msPos.getY());
 		}
 	}
 	

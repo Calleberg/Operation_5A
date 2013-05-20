@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import controller.IO.Resources;
 
 /**
  * A cursor with a custom image and which supports alpha values on the image.
