@@ -43,16 +43,20 @@ public class MenuController{
 	public static void showMainMenu(){
 		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
-	private static void startNewGame(){
-		WINDOW.add(new LoadingPanel());
-		if (gameController != null){
-			gameController.stopThread();
+	private static void startGame(GameController c){
+		if (c==null){
+			c=new GameController();
 		}
+		WINDOW.add(new LoadingPanel());
+		
+		gameController = c;
 
-		gameController = new GameController();
 		gameController.init(GameIO.newGame());
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
+	}
+	private static void startNewGame(){
+		startGame(new GameController());
 	}
 	private static void exitGame(){
 		System.exit(0);
