@@ -10,8 +10,8 @@ import model.geometrical.*;
 public class Supply extends Item {
 	
 	/**
-	 * Describes the different types of supplys.
-	 * @author Vidar
+	 * Describes the different types of supply.
+	 * @author Vidar Eriksson
 	 *
 	 */
 	public static enum Type {
