@@ -86,8 +86,8 @@ public class AI {
 			}else{//All players will be in the first places in sprites -> all players are in 
 				//list players before we get into else
 				for(Player p : players){
-					float dx = s.getX() - p.getX();
-					float dy = s.getY() - p.getY();
+					float dx = s.getPosition().getX() - p.getPosition().getX();
+					float dy = s.getPosition().getY() - p.getPosition().getY();
 					float distance = (float) Math.sqrt(dx*dx+dy*dy);
 					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
 							world.canMove(s.getCenter(), p.getCenter())){

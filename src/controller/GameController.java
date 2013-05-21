@@ -75,7 +75,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	public void init(GameModel model) {
 		this.gameModel = model;
-		this.startTime = model.getGameTime();
+		this.setStartTime(model.getGameTime());
 
 		input = new Input();	
 
@@ -89,7 +89,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	@Override
 	public void run() {
-		startTime = timeNow();
 		new Thread(gamePanel).start();
 		while (isRunning){
 			runThread();
@@ -173,6 +172,10 @@ public class GameController implements Runnable, PropertyChangeListener {
 			dir += (float)(Math.PI);
 		}
 		gameModel.getPlayer().setDirection(dir + (float)Math.PI);
+	}
+	
+	private void setStartTime(long gameTime) {
+		this.startTime = this.timeNow() - gameTime;
 	}
 		
 	/**
@@ -353,6 +356,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		paused=false;
 		notify();
 		totalTimePaused+=timeNow()-lastTimePaused;
+		gameModel.setGameTime(this.getTotalRuntime());
 		if (gamePanel != null){
 			gamePanel.resumeThread();
 		}
@@ -390,8 +394,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 		do{//TODO maxDistance on enemySpawn?
 			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
 			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-		}while(Math.abs(gameModel.getPlayer().getX() - spawnPos.getX()) <= 25 && 
-				Math.abs(gameModel.getPlayer().getY() - spawnPos.getY()) <= 25);
+		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= 25 && 
+				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= 25);
 
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
