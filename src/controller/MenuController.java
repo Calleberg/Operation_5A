@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.GameModel;
+import model.MainModel;
 import resources.Language;
 import view.Window;
 import view.menu.LoadingPanel;
@@ -25,6 +26,7 @@ import view.menu.subMenuPanels.Settings;
 public class MenuController{
 	private static final Window WINDOW = new Window();
 	private static GameController gameController = null;
+	private static MainModel mainModel = new MainModel();
 	
 	/**
 	 * Creates a new game window and starts the main menu for the game.
@@ -48,7 +50,7 @@ public class MenuController{
 		
 		WINDOW.add(new LoadingPanel());
 		
-		gameController = new GameController();
+		gameController = new GameController(mainModel);
 		gameController.init(m);
 
 		WINDOW.add(gameController.getGamePanel());

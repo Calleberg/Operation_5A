@@ -13,6 +13,7 @@ import view.GamePanel;
 import view.IGamePanel;
 
 import model.GameModel;
+import model.MainModel;
 import model.geometrical.Position;
 import model.items.Item;
 import model.items.Supply;
@@ -35,6 +36,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	private static final int SLEEP = 1000 / 45;
 	
+	private MainModel mainModel;
 	private GameModel gameModel;
 	private GamePanel gamePanel;
 	private Input input;
@@ -65,6 +67,10 @@ public class GameController implements Runnable, PropertyChangeListener {
 	
 	//TODO bra värde?
 	private final static int ENEMY_SPAWN_DISTANCE = 25;
+	
+	public GameController(MainModel mainModel){
+		this.mainModel = mainModel;
+	}
 	
 	/**
 	 * Initialises the controller with the specified model.
