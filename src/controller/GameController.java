@@ -356,6 +356,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		paused=false;
 		notify();
 		totalTimePaused+=timeNow()-lastTimePaused;
+		gameModel.setGameTime(this.getTotalRuntime());
 		if (gamePanel != null){
 			gamePanel.resumeThread();
 		}
