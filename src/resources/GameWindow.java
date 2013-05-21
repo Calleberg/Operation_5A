@@ -8,6 +8,8 @@ import java.awt.Image;
  *
  */
 public class GameWindow {
+	
+	//TODO: dessa används bara av window, varför ligger de ej som konstanter där?
 	/**
 	 * The name of the game.
 	 * @return the name to be used for the window and similar things.
