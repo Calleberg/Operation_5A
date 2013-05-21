@@ -34,14 +34,17 @@ import model.world.WorldBuilder;
  */
 public class GameIO {
 	
+	/*Added between each value in a save string*/
 	private static final String DATA_DIVIDER = "#";
 	
+	/*All the identifiers for the different kinds of objects which can be saved*/
 	private static final char ENEMY = 'e';
 	private static final char PLAYER = 'p';
 	private static final char WEAPON = 'w';
 	private static final char PROJECTILE = 'P';
 	private static final char ITEM = 'i';
 	
+	/*The seed used when loading/creating a new model*/
 	private static long seed = Calendar.getInstance().getTimeInMillis();
 	
 	/**
@@ -89,7 +92,6 @@ public class GameIO {
 	 */
 	public static GameModel loadGame() {
 		String path = SavePath.savedGame();
-//		System.out.println("path:" +path);
 		try {
 			BufferedReader	reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "ISO-8859-1"));
 			

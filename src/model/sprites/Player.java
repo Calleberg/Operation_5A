@@ -427,7 +427,7 @@ public class Player implements Sprite {
 
 	@Override
 	public void restore(String[] data) {
-		this.speed = Float.parseFloat(data[0]);
+		this.faceDir = Float.parseFloat(data[0]);
 		this.health = Integer.parseInt(data[1]);
 		this.ammo = Integer.parseInt(data[2]);
 		this.food = Integer.parseInt(data[3]);
@@ -439,7 +439,7 @@ public class Player implements Sprite {
 	@Override
 	public String[] getData() {
 		return new String[] {
-				this.speed + "",
+				this.faceDir + "",
 				this.health + "",
 				this.ammo + "",
 				this.food + "",
