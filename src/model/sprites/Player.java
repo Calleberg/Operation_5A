@@ -211,7 +211,6 @@ public class Player implements Sprite {
 	@Override
 	public void reduceHealth(int damage) {
 		health = health - damage;
-		System.out.println("Enemy health: " + health);
 	}
 	
 	/**
