@@ -77,7 +77,7 @@ public class GameModel implements PropertyChangeListener {
 	}
 	
 	/**
-	 * Gives the total time the game has ben running.
+	 * Gives the total time the game has been running.
 	 * @return the total time the game has been running.
 	 */
 	public long getGameTime() {
