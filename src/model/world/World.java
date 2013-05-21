@@ -37,8 +37,8 @@ public class World {
 	private int spriteListUpdateTick = 0;
 	
 	/*
-	 * The amount of updates between an sprites is checked if the sprite should be in spritesClose
-	 * or spritesFarAway.. 
+	 * The amount of updates between a sprite is checked if the sprite should be in 
+	 * spritesClose or spritesFarAway.
 	 */
 	private static final int SPRITE_LISTS_UPDATE_INTERVAL = 15;
 
@@ -127,6 +127,8 @@ public class World {
 		this.sprites.remove(sprite);
 		if(spritesClose.contains(sprite)){
 			spritesClose.remove(sprite);
+		}else if(spritesFarAway.contains(sprite)){
+			spritesFarAway.remove(sprite);
 		}
 		this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, sprite, null);
 	}
@@ -236,38 +238,20 @@ public class World {
 	}
 	
 	/**
-	 * If the player is in range of an enemy, the enemy will attack.
+	 * Return the weapon the collisionBox intersects.
+	 * @return the weapon the collisionBox intersects.
 	 */
-	public void enemyAttack() {
-		for(Sprite s : sprites){
-			if(s != player){
-				if(getDistance(s.getProjectileSpawn(), player.getCenter()) <= 
-						s.getActiveWeapon().getRange() + player.getHitBox().getWidth() && 
-						canMove(s.getProjectileSpawn(), player.getCenter())){
-					addProjectile(s.getActiveWeapon().createProjectile(s.getDirection(), 
-							s.getProjectileSpawn()));
-				}
-			}
-		}
-	}
-	
-	/**
-	 * The Player picks up any weapon the player stands on.
-	 * @return true if the player picks up a weapon.
-	 */
-	public void playerPickUpWeapon(){
+	public Weapon getIntersectedWeapon(CollisionBox c){
 		for(int j = 0; j < items.size(); j++){
-			if(player.getHitBox().intersects(items.get(j).getCollisionBox()) && 
+			if(c.intersects(items.get(j).getCollisionBox()) && 
 					items.get(j) instanceof Weapon){
-				player.pickUpWeapon((Weapon)items.get(j));
-				this.tiles[(int)player.getPosition().getX()][(int)player.getPosition().getY()]
-						.setProperty(Tile.NONE);
 				this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
+				Weapon weapon = (Weapon) items.get(j);
 				items.remove(j);
-				return;
+				return weapon;
 			}
 		}
-		player.pickUpWeapon(null);
+		return null;
 	}
 	
 	/**
@@ -291,6 +275,7 @@ public class World {
 		return true;
 	}
 	
+	//TODO might not be needed
 	/**
 	 * Checks if it is possible to move between the two sprites without crossing an obstacle or
 	 * another sprite, excluding all sprites in excludingSprites.
@@ -309,50 +294,6 @@ public class World {
 				if(l.intersects(s.getMoveBox())){
 					return false;
 				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Checks if it is possible to move between the two positions. This works just like the method <code>
-	 * canMove</code>, however, this method checks against sprites too.
-	 * @param pos1 the start.
-	 * @param pos2 the end.
-	 * @return <code>true</code> if it is possible to move between the two positions without crossing
-	 * and obstacle or other sprite.
-	 */
-	public boolean canMoveAll(Position pos1, Position pos2) {
-		//Simple check first
-		if(!canMove(pos1, pos2)) {
-			return false;
-		}
-		
-		float dx = (pos1.getX()-pos2.getX());
-		float dy = (pos1.getY()-pos2.getY());
-		float angle = (float)Math.atan(-dy/dx);
-		
-		if (angle < 0) {
-			angle += Math.PI;
-		}
-		int ySign = 1;
-		if(dy < 0) {
-			ySign = -1;
-		}
-		int xsign = -1;
-		if(dx < 0) {
-			xsign = 1;
-		}
-
-		float distance = 1f;
-		Line l = new Line(
-				pos1.getX() + xsign * (float)(Math.cos(angle)*distance), 
-				pos1.getY() - ySign * (float)(Math.sin(angle)*distance), 
-				pos2.getX() - xsign * (float)(Math.cos(angle)*distance), 
-				pos2.getY() + ySign * (float)(Math.sin(angle)*distance));
-		for(Sprite s : this.getSprites()) {
-			if(s.getHitBox().intersects(l)) {
-				return false;
 			}
 		}
 		return true;
@@ -406,13 +347,15 @@ public class World {
 	 * @param event string describing the event.
 	 * @param obj the object which has changed.
 	 */
-	public void fireEvent(String event, Object obj){
-		pcs.firePropertyChange(event, null, obj);
+	public void fireEvent(String event, Object objOld, Object objNew){
+		pcs.firePropertyChange(event, objOld, objNew);
 	}
 	
 	private void updateSpriteMovement(){
 		for(Sprite sprite : spritesClose) {
 			sprite.moveXAxis();
+			
+			//check if sprite move onto an unwalkable tile
 			Tile[] tilesToCheck = getTileAround(sprite.getMoveBox().getPosition());
 			for(int j = 0; j < tilesToCheck.length; j++) {
 				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
@@ -425,6 +368,8 @@ public class World {
 			checkSpriteHitSprite(sprite);
 			
 			sprite.moveYAxis();
+			
+			//check if sprite move onto an unwalkable tile
 			for(int j = 0; j < tilesToCheck.length; j++) {
 				if(tilesToCheck[j] != null && (sprite.getMoveBox().intersects(tilesToCheck[j].getCollisionBox())
 						|| (tilesToCheck[j].getProperty() == Tile.UNWALKABLE 
@@ -432,11 +377,14 @@ public class World {
 					sprite.moveBack();
 				}
 			}
-			
+			//Check if the sprite hit another sprite
 			checkSpriteHitSprite(sprite);
 		}
 	}
 	
+	/*
+	 *
+	 */
 	private void playerHitItem(){
 		List<Item> itemsToBeRemoved = new ArrayList<Item>();
 		for(int j = 0; j < items.size(); j++){

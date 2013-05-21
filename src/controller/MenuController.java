@@ -16,7 +16,8 @@ import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.Settings;
 
 /**
- * The controller which is responsible for managing the program window and it's menus and the sub menus.
+ * The controller which is responsible for managing the program window and it's menus '
+ * and the sub menus.
  * 
  * @author Vidar Eriksson
  *

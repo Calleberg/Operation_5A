@@ -260,8 +260,6 @@ public class WeaponFactory {
 				Integer.parseInt(data[3]),
 				data[5],
 				Boolean.parseBoolean(data[3]),
-				Integer.parseInt(data[0]),
-				Long.parseLong(data[10]),
-				Long.parseLong(data[11]));
+				Integer.parseInt(data[0]));
 	}
 }
