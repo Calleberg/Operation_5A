@@ -13,29 +13,29 @@ import model.geometrical.Position;
  */
 public interface WorldObject {
 
-	/**
-	 * Sets the x-coordinate of this object.
-	 * @param x the x-coordinate.
-	 */
-	public void setX(float x);
-	
-	/**
-	 * Gives the x-coordinate of this object.
-	 * @return the x-coordinate of this object.
-	 */
-	public float getX();
-	
-	/**
-	 * Sets the y-coordinate of this object.
-	 * @param y the y-coordinate.
-	 */
-	public void setY(float y);
-	
-	/**
-	 * Gives the y-coordinate of this object.
-	 * @return the y-coordinate of this object.
-	 */
-	public float getY();
+//	/**
+//	 * Sets the x-coordinate of this object.
+//	 * @param x the x-coordinate.
+//	 */
+//	public void setX(float x);
+//	
+//	/**
+//	 * Gives the x-coordinate of this object.
+//	 * @return the x-coordinate of this object.
+//	 */
+//	public float getX();
+//	
+//	/**
+//	 * Sets the y-coordinate of this object.
+//	 * @param y the y-coordinate.
+//	 */
+//	public void setY(float y);
+//	
+//	/**
+//	 * Gives the y-coordinate of this object.
+//	 * @return the y-coordinate of this object.
+//	 */
+//	public float getY();
 	
 	/**
 	 * Gives the position of this object.

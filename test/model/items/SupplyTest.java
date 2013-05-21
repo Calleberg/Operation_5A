@@ -57,7 +57,7 @@ public class SupplyTest {
 	@Test
 	public void restore(){
 		s.restore(data);
-		assertTrue(s.getX() == 2 && s.getY() == 2);
+		assertTrue(s.getPosition().getX() == 2 && s.getPosition().getY() == 2);
 		assertTrue(s.getIconNumber() == 20);
 		assertTrue(s.getType() == Supply.Type.FOOD);
 	}

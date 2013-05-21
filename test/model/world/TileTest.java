@@ -54,40 +54,40 @@ public class TileTest {
 	@Test
 	public void setX(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
-		t.setX(4);
-		assertTrue(t.getX() == 4);
+		t.getPosition().setX(4);
+		assertTrue(t.getPosition().getX() == 4);
 	}
 	
 	@Test
 	public void setY(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
-		t.setY(5);
-		assertTrue(t.getY() == 5);
+		t.getPosition().setY(5);
+		assertTrue(t.getPosition().getY() == 5);
 	}
 	
 	@Test
 	public void getX(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
-		assertTrue(t.getX() == 1);
+		assertTrue(t.getPosition().getX() == 1);
 	}
 	
 	@Test
 	public void getY(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
-		assertTrue(t.getY() == 1);
+		assertTrue(t.getPosition().getY() == 1);
 	}
 	
 	@Test
 	public void getPosition(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
-		assertTrue(t.getX() == 1 && t.getY() == 1);
+		assertTrue(t.getPosition().getX() == 1 && t.getPosition().getY() == 1);
 	}
 	
 	@Test
 	public void setPosition(){
 		Tile t = new Tile(new Position(1, 1), 3, true, true, Tile.NONE);
 		t.setPosition(new Position(3,5));
-		assertTrue(t.getX() == 3 && t.getY() == 5);
+		assertTrue(t.getPosition().getX() == 3 && t.getPosition().getY() == 5);
 	}
 	
 	@Test

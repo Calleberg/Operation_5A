@@ -59,17 +59,18 @@ public class Enemy implements Sprite{
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(direction)*0.5f), 
-				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(direction)*0.5f));
+		return new Position(this.getPosition().getX() + getHitBox().getWidth()/2 + 
+				(float)(Math.cos(direction)*0.5f), this.getPosition().getY() + 
+				getHitBox().getHeight()/2 - (float)(Math.sin(direction)*0.5f));
 	}
 
 	/**
-	 * Sets the center position.
+	 * Sets the position.
 	 */
 	@Override
 	public void setPosition(Position p) {
-		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2, p.getY() - hitBox.getHeight()/2));
-	}
+		this.hitBox.setPosition(new Position(p.getX(), p.getY()));
+	}	
 	
 	@Override
 	public void addListener(PropertyChangeListener pcl) {
@@ -153,37 +154,37 @@ public class Enemy implements Sprite{
 		this.direction = direction;
 	}
 
-	/**
-	 * Gives the x-coordinate.
-	 * @return the x-coordinate.
-	 */
-	public float getX() {
-		return this.hitBox.getPosition().getX();
-	}
-
-	/**
-	 * Gives the y-coordinate.
-	 * @return the y-coordinate.
-	 */
-	public float getY() {
-		return this.hitBox.getPosition().getY();
-	}
-
-	/**
-	 * Sets the x-coordinate.
-	 * @param x the x-coordinate.
-	 */
-	public void setX(float x) {
-		this.setPosition(new Position(x, this.getY()));
-	}
-
-	/**
-	 * Sets the y-coordinate.
-	 * @param y the y-coordinate.
-	 */
-	public void setY(float y) {
-		this.setPosition(new Position(this.getX(),y));
-	}
+//	/**
+//	 * Gives the x-coordinate.
+//	 * @return the x-coordinate.
+//	 */
+//	public float getX() {
+//		return this.hitBox.getPosition().getX();
+//	}
+//
+//	/**
+//	 * Gives the y-coordinate.
+//	 * @return the y-coordinate.
+//	 */
+//	public float getY() {
+//		return this.hitBox.getPosition().getY();
+//	}
+//
+//	/**
+//	 * Sets the x-coordinate.
+//	 * @param x the x-coordinate.
+//	 */
+//	public void setX(float x) {
+//		this.setPosition(new Position(x, this.getY()));
+//	}
+//
+//	/**
+//	 * Sets the y-coordinate.
+//	 * @param y the y-coordinate.
+//	 */
+//	public void setY(float y) {
+//		this.setPosition(new Position(this.getX(),y));
+//	}
 
 	@Override
 	public Weapon getActiveWeapon() {
@@ -273,7 +274,8 @@ public class Enemy implements Sprite{
 
 	@Override
 	public Position getCenter() {
-		return new Position(getX() + getHitBox().getWidth()/2, getY() + getHitBox().getHeight()/2);
+		return new Position(this.getPosition().getX() + getHitBox().getWidth()/2, 
+				this.getPosition().getY() + getHitBox().getHeight()/2);
 	}
 
 	@Override
@@ -293,8 +295,9 @@ public class Enemy implements Sprite{
 
 	@Override
 	public CollisionBox getMoveBox() {
-		this.collisionBox.setPosition(new Position(this.getX() + (hitBox.getWidth() - collisionBox.getWidth()) / 2
-				, this.getY() + (hitBox.getHeight() - collisionBox.getHeight()) / 2));
+		this.collisionBox.setPosition(new Position(this.getPosition().getX() + 
+				(hitBox.getWidth() - collisionBox.getWidth()) / 2, this.getPosition().getY() + 
+				(hitBox.getHeight() - collisionBox.getHeight()) / 2));
 		return this.collisionBox;
 	}
 	
@@ -336,5 +339,4 @@ public class Enemy implements Sprite{
 	public void setWeapon(Weapon w) {
 		this.weapon = w;
 	}
-
 }

@@ -384,8 +384,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 		do{//TODO maxDistance on enemySpawn?
 			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
 			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-		}while(Math.abs(gameModel.getPlayer().getX() - spawnPos.getX()) <= 25 && 
-				Math.abs(gameModel.getPlayer().getY() - spawnPos.getY()) <= 25);
+		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= 25 && 
+				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= 25);
 
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 

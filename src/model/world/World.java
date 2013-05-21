@@ -260,7 +260,8 @@ public class World {
 			if(player.getHitBox().intersects(items.get(j).getCollisionBox()) && 
 					items.get(j) instanceof Weapon){
 				player.pickUpWeapon((Weapon)items.get(j));
-				this.tiles[(int)player.getX()][(int)player.getY()].setProperty(Tile.NONE);
+				this.tiles[(int)player.getPosition().getX()][(int)player.getPosition().getY()]
+						.setProperty(Tile.NONE);
 				this.pcs.firePropertyChange(GameModel.REMOVED_OBJECT, items.get(j), null);
 				items.remove(j);
 				return;
