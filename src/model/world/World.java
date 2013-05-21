@@ -443,14 +443,17 @@ public class World {
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
 		for(Projectile p : projectiles){
-			for(int i = 0; i < spritesClose.size(); i++){
-				if(isDistanceShort(spritesClose.get(i).getCenter(), p.getPosition()))
-				if(spritesClose.get(i).getHitBox().intersects(p.getCollisionBox())) {
-					spritesClose.get(i).reduceHealth(p.getDamage());
-					spritesClose.get(i).setState(Enemy.State.RUNNING);
-					projectilesToBeRemoved.add(p);
-					if(spritesClose.get(i).getHealth() <= 0){
-						spritesToBeRemoved.add(spritesClose.get(i));
+			for(Sprite s : spritesClose){
+				if(isDistanceShort(s.getCenter(), p.getPosition())){
+					if(s.getHitBox().intersects(p.getCollisionBox())) {
+						s.reduceHealth(p.getDamage());
+						if(s instanceof Enemy){
+							s.setState(Enemy.State.RUNNING);
+						}
+						projectilesToBeRemoved.add(p);
+						if(s.getHealth() <= 0){
+							spritesToBeRemoved.add(s);
+						}
 					}
 				}
 			}
