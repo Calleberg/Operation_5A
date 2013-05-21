@@ -101,38 +101,6 @@ public class Player implements Sprite {
 		this.faceDir = faceDir;
 	}
 	
-//	/**
-//	 * Returns the x-coordinate of the player's position.
-//	 * @return the x-coordinate of the player's position.
-//	 */
-//	public float getX(){
-//		return hitBox.getPosition().getX();
-//	}
-//	
-//	/**
-//	 * Returns the y-coordinate of the player's position.
-//	 * @return the y-coordinate of the player's position.
-//	 */
-//	public float getY(){
-//		return hitBox.getPosition().getY();
-//	}
-//	
-//	/**
-//	 * Set the x-coordinate of the player's position.
-//	 * @param x the new x-coordinate.
-//	 */
-//	public void setX(float x){
-//		this.setPosition(new Position(x, this.getY()));
-//	}
-//	
-//	/**
-//	 * Set the y-coordinate of the player's position.
-//	 * @param y the new y-coordinate.
-//	 */
-//	public void setY(float y){
-//		this.setPosition(new Position(this.getX(),y));
-//	}
-	
 	/**
 	 * Returns the player's weapon
 	 * @return the player's weapon

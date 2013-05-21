@@ -26,27 +26,6 @@ public abstract class Item implements WorldObject, Saveable{
 		}
 	}
 	
-	
-//	@Override
-//	public void setX(float x) {
-//		this.pos.setX(x);
-//	}
-//	
-//	@Override
-//	public float getX() {
-//		return this.pos.getX();
-//	}
-//	
-//	@Override
-//	public void setY(float y) {
-//		this.pos.setY(y);
-//	}	
-//	
-//	@Override
-//	public float getY() {
-//		return this.pos.getY();
-//	}
-	
 	@Override
 	public Position getPosition() {
 		return pos;
