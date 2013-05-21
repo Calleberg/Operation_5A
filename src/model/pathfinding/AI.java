@@ -1,8 +1,5 @@
 package model.pathfinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Enemy;

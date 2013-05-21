@@ -5,7 +5,8 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
- * Interface for a view of the game. The implemented classes should be able to loop a paint method.
+ * Interface for a view of the game. The implemented classes should be able to loop a paint
+ * method.
  * 
  * @author 
  *
