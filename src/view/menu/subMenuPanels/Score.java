@@ -20,8 +20,8 @@ import view.menu.MenuButton;
 @SuppressWarnings("serial")
 public class Score extends SubMenuPanel {
 	
-	public Score(MenuButton mainMenuButton) {
-		super("High Score", getPanel(), mainMenuButton);
+	public Score(MenuButton button) {
+		super("High Score", getPanel(), button);
 	}
 	
 	private static JPanel getPanel(){
