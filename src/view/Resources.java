@@ -3,8 +3,6 @@ package view;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,29 +74,5 @@ public class Resources {
 			System.out.println("Could not find resources");
 		}
 		return null;
-	}
-
-	/**
-	 * Gives a rotated copy of the specified image.
-	 * @param image the image to get a rotated copy of.
-	 * @param rotation the amount in radians to rotate.
-	 * @return a rotated copy of the specified image.
-	 */
-	public static BufferedImage getRotatedImage(BufferedImage image, double rotation) {
-		//New image
-		BufferedImage temp = new BufferedImage(image.getWidth(), image.getHeight(), image.getTransparency());
-		
-		//Draws and saves the rotated image
-		Graphics2D g2d = (Graphics2D)temp.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		AffineTransform transformer = new AffineTransform();
-		transformer.setToRotation(rotation, image.getWidth()/2, image.getHeight()/2);
-		g2d.transform(transformer);
-		g2d.drawImage(image, 0, 0, image.getWidth(), image.getHeight(),	//destination of image.
-				0, 0, image.getWidth(), image.getHeight(), //source of the image on the sheet.
-				null);
-		g2d.dispose();
-
-		return temp;
 	}
 }

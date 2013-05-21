@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * A class which renders a health bar. This works similar to a progress bar (max value and current value).
+ * A class which renders a health bar. This works similar to a progress bar (max value and 
+ * current value).
  * 
  * @author 
  *

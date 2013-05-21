@@ -2,6 +2,7 @@ package model.sprites;
 
 import static org.junit.Assert.*;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
@@ -82,13 +83,33 @@ public class PlayerTest {
 	//TODO remove getcollisionBox
 	
 	@Test
-	public void getMoveBoxWeapon(){
-		//TODO
+	public void moveBack(){
+		Player p = new Player(1,1);
+		p.setDirection((float) (Math.PI/1.5));
+		p.moveYAxis();
+		p.moveXAxis();
+		p.moveBack();
+		assertTrue(p.getPosition().getX() == 1);
+		assertTrue(p.getPosition().getY() == 1);
+		
+		p.setDirection((float) (Math.PI/3.5));
+		p.moveYAxis();
+		p.moveXAxis();
+		p.moveBack();
+		assertTrue(p.getPosition().getX() == 1);
+		assertTrue(p.getPosition().getY() == 1);
 	}
 	
 	@Test
-	public void getHitBoxWeapon(){
-		//TODO
+	public void getHitBox(){
+		Player p = new Player(1,1);
+		assertTrue(p.getHitBox() instanceof CollisionBox);
+	}
+	
+	@Test
+	public void getMoveBox(){
+		Player p = new Player(1,1);
+		assertTrue(p.getMoveBox() instanceof CollisionBox);
 	}
 	
 	@Test
@@ -140,15 +161,10 @@ public class PlayerTest {
 				p.getHitBox().getHeight()/2 - (float)(Math.sin(p.getDirection())*0.45f) - 
 				(float)(Math.sin(p.getDirection() - Math.PI/2)*0.2f));
 		
-		System.out.println(projectileSpawn + " " + p.getProjectileSpawn());
 		assertTrue(p.getProjectileSpawn().getX() == projectileSpawn.getX());
 		assertTrue(p.getProjectileSpawn().getY() == projectileSpawn.getY());
 	}
-//	return new Position(this.getPosition().getX() + getHitBox().getWidth()/2 + 
-//			(float)(Math.cos(faceDir)*0.45f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
-//			this.getPosition().getY() + getHitBox().getHeight()/2 - 
-//			(float)(Math.sin(faceDir)*0.45f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
-	
+
 	@Test
 	public void getCenter(){
 		Player p = new Player(1,1);
@@ -379,33 +395,6 @@ public class PlayerTest {
 		assertTrue(p.getDirection() == 1);
 	}
 
-//	@Test
-//	public void setX(){
-//		Player p = new Player(1,1);
-//		p.setX(4);
-//		System.out.println("" + p.getX());
-//		assertTrue(p.getX() == 4);
-//	}
-	
-//	@Test
-//	public void setY(){
-//		Player p = new Player(1,1);
-//		p.setY(6);
-//		assertTrue(p.getY() == 6);
-//	}
-	
-//	@Test
-//	public void getX(){
-//		Player p = new Player(1,1);
-//		assertTrue(p.getX() == 1);
-//	}
-	
-//	@Test
-//	public void getY(){
-//		Player p = new Player(1,1);
-//		assertTrue(p.getY() == 1);
-//	}
-//	
 	@Test
 	public void setWeapon(){
 		Player p = new Player(1,1);

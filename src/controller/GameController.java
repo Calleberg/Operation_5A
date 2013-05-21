@@ -269,7 +269,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 		w.setPosition(t.getPosition());
 		gameModel.getWorld().getItems().add(w);
 		gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
-		System.out.println("Weapon supposed to spawn");
 	}
 	
 	/**

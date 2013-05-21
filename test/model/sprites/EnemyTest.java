@@ -5,19 +5,16 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
-import model.sprites.Sprite.State;
 
 import org.junit.Test;
 
 public class EnemyTest {
 
-//TODO getX,..., returns getCenter.getX
-	//TODO remove move
-	//TODO remove getCollisionBox
 	@Test
 	public void moveXAxis(){
 		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
@@ -29,15 +26,12 @@ public class EnemyTest {
 		
 		e.setDirection((float) (Math.PI));
 		e.moveXAxis();
-		System.out.println(e.getPosition().getX());
-		System.out.println(e.getPosition().getY());
 		assertTrue(e.getPosition().getX() == 1-e.getSpeed());
 		assertTrue(e.getPosition().getY() == 1);
 		
 		e.setDirection((float) (Math.PI/4));
 		e.moveBack();
 		e.moveXAxis();
-		System.out.println(e.getSpeed());
 		assertTrue(e.getPosition().getX() == (float)(1 + Math.sqrt(e.getSpeed()*e.getSpeed()/2)));
 		assertTrue(e.getPosition().getY() == 1);
 	}
@@ -64,38 +58,6 @@ public class EnemyTest {
 		assertTrue(e.getPosition().getX() == 1);
 		assertTrue(e.getPosition().getY() == (float)(1 - Math.sqrt(0.02)));
 	}
-	
-//	@Test
-//	public void move(){//TODO Error
-//		Enemy e = new Enemy(new Position(1f,1f), 0.2f, null, 1);
-//		//TODO Doesn't work because of setDirectionTowardsList()
-//		//TODO: setState when implemented in Enemy
-//		
-//		e.setDirection(0f);
-//		e.moveXAxis();
-//		e.moveYAxis();
-//		assertTrue(e.getPosition().getX() == 1.2f && e.getPosition().getY() == 1f);
-//		
-//		e.setDirection((float)Math.PI);
-//		e.moveXAxis();
-//		e.moveYAxis();
-//		assertTrue(e.getPosition().getX() == 1f && e.getPosition().getY() == 1f);
-//		
-//		e.setDirection((float)Math.PI/2);
-//		e.moveXAxis();
-//		e.moveYAxis();
-//		assertTrue(e.getPosition().getX() == 1f && e.getPosition().getY() == 0.8f);
-//		
-//		e.setDirection((float)Math.PI*3/2);
-//		e.moveXAxis();
-//		e.moveYAxis();
-//		assertTrue(e.getPosition().getX() == 1f && e.getPosition().getY() == 1f);
-//		
-//		e.setDirection((float)Math.PI*-1/4);
-//		e.moveXAxis();
-//		e.moveYAxis();
-//		assertTrue(e.getPosition().getX() == e.getPosition().getY());
-//	}
 
 	@Test
 	public void getActiveWeapon(){
@@ -113,14 +75,6 @@ public class EnemyTest {
 		assertTrue(p.getDirection() == 5f);
 		p.setDirection((float)Math.PI/2);
 		assertTrue(p.getDirection() == (float)Math.PI/2);
-	}
-	
-	@Test
-	public void getCollisionBox(){
-		//TODO more tests?
-		Player p = new Player(1,1);
-		assertTrue(p.getHitBox().getPosition().getX() == (p.getPosition()).getX());
-		assertTrue(p.getHitBox().getPosition().getY() == (p.getPosition()).getY());
 	}
 	
 	@Test
@@ -191,7 +145,6 @@ public class EnemyTest {
 				e.getPosition().getY() + e.getHitBox().getHeight()/2 - 
 				(float)(Math.sin(e.getDirection())*0.5f));
 		
-		System.out.println(projectileSpawn + " " + e.getProjectileSpawn());
 		assertTrue(e.getProjectileSpawn().getX() == projectileSpawn.getX());
 		assertTrue(e.getProjectileSpawn().getY() == projectileSpawn.getY());
 	}
@@ -235,18 +188,18 @@ public class EnemyTest {
 		e.moveBack();
 		assertTrue(e.getPosition().getX() == 1);
 		assertTrue(e.getPosition().getY() == 1);
-		
-		//TODO
 	}
 
 	@Test
 	public void getHitBox(){
-		//TODO
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getHitBox() instanceof CollisionBox);
 	}
 	
 	@Test
 	public void getMoveBox(){
-		//TODO
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		assertTrue(e.getMoveBox() instanceof CollisionBox);
 	}
 	
 	@Test
