@@ -351,6 +351,9 @@ public class World {
 		pcs.firePropertyChange(event, objOld, objNew);
 	}
 	
+	/*
+	 * Moves all sprites.
+	 */
 	private void updateSpriteMovement(){
 		for(Sprite sprite : spritesClose) {
 			sprite.moveXAxis();
@@ -383,7 +386,7 @@ public class World {
 	}
 	
 	/*
-	 *
+	 * Check if the player hit an item and tries to pick it up.
 	 */
 	private void playerHitItem(){
 		List<Item> itemsToBeRemoved = new ArrayList<Item>();
@@ -397,6 +400,9 @@ public class World {
 		this.removeitems(itemsToBeRemoved);
 	}
 	
+	/*
+	 * Update's all projectiles.
+	 */
 	private void updateProjectiles(){
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
@@ -413,7 +419,9 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 	}
 	
-	
+	/*
+	 * Check if any projectile hit an object.
+	 */
 	private void projectileHitObject(){
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		for(Projectile p : projectiles){
@@ -428,6 +436,9 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 	}
 	
+	/*
+	 * Check in any projectile hit a sprite.
+	 */
 	private void projectileHitSprite(){
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		List<Sprite> spritesToBeRemoved = new ArrayList<Sprite>();
@@ -448,6 +459,9 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 	}
 	
+	/*
+	 * Check if any projectile reached max range.
+	 */
 	private void projectilesMaxRange(){
 		List<Projectile> projectilesToBeRemoved = new ArrayList<Projectile>();
 		for(int i = 0; i < projectiles.size(); i++){
@@ -458,6 +472,9 @@ public class World {
 		this.removeProjectiles(projectilesToBeRemoved);
 	}
 	
+	/*
+	 * Check if a sprite hit another sprite. If that is the case, the sprite will move back.
+	 */
 	private void checkSpriteHitSprite(Sprite sprite){
 		for(Sprite sprite2 : spritesClose) {
 			if(isDistanceShort(sprite.getPosition(), sprite2.getPosition())){
@@ -468,6 +485,10 @@ public class World {
 		}
 	}
 	
+	/*
+	 * Updates the spriteClose and spriteFarAway lists. Every sprite will be checked once every
+	 * SPRITE_LISTS_UPDATE_INTERVAL.
+	 */
 	private void updateSpriteLists(){
 		spriteListUpdateTick++;
 		if(SPRITE_LISTS_UPDATE_INTERVAL >= spriteListUpdateTick){
@@ -490,12 +511,10 @@ public class World {
 		}
 	}
 	
-	private float getDistance(Position p1, Position p2){
-		float dx = Math.abs(p1.getX() - p2.getX());
-		float dy = Math.abs(p1.getY() - p2.getY());
-		return (float)Math.sqrt(dx*dx+dy*dy);
-	}
-	
+	/*
+	 * Return true if both the difference between both x-value and the y-value between two
+	 * positions is less than two.
+	 */
 	private boolean isDistanceShort(Position p1, Position p2){
 		float dx = Math.abs(p1.getX() - p2.getX());
 		float dy = Math.abs(p1.getY() - p2.getY());
@@ -506,6 +525,10 @@ public class World {
 		}
 	}
 	
+	/*
+	 * Return true if both the difference between both x-value and the y-value between two
+	 * positions is less than ENEMY_SHUT_DOWN_RANGE.
+	 */
 	private boolean withinShutDownRange(Position p1, Position p2){
 		float dx = Math.abs(p1.getX() - p2.getX());
 		float dy = Math.abs(p1.getY() - p2.getY());
