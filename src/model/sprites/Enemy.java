@@ -320,6 +320,8 @@ public class Enemy implements Sprite{
 		this.speed = Float.parseFloat(data[1]);
 		Position center = new Position(Float.parseFloat(data[2]), Float.parseFloat(data[3]));
 		this.setPosition(center);
+		this.direction = Float.parseFloat(data[4]);
+		this.state = State.fromString(data[5]);
 	}
 
 	@Override
@@ -328,7 +330,9 @@ public class Enemy implements Sprite{
 				this.health + "",
 				this.speed + "",
 				this.getCenter().getX() + "",
-				this.getCenter().getY() + ""
+				this.getCenter().getY() + "",
+				this.direction + "",
+				this.state.toString()
 		};
 	}
 

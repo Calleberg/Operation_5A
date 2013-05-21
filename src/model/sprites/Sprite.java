@@ -36,7 +36,24 @@ public interface Sprite extends WorldObject, Saveable {
 	/**
 	 * The Sprite's current moving direction.
 	 */
-	public static enum State{RUNNING, WALKING, STANDING};
+	public static enum State{RUNNING, WALKING, STANDING;
+	
+		/**
+		 * Gives the State which has the same text as the text provided.
+		 * @param text the text to check with.
+		 * @return the Type which has the same text as the text provided.
+		 */
+		public static State fromString(String text) {
+			if (text != null) {
+				for (State b : State.values()) {
+					if (text.equalsIgnoreCase(b.toString())) {
+						return b;
+					}
+				}
+			}
+			throw new IllegalArgumentException("No enum with name " + text + " found");
+		}
+	}
 	
 	/**
 	 * Moves the sprite along the X axis.

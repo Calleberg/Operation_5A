@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Holds which keys have been pressed and which haven't.
+ * Holds which keys have been pressed.
+ * Supports keyboard and mouse button input.
  *
  * @author Calleberg
  *
  */
 public class Input implements KeyListener, MouseListener {
 
-	private List<Boolean> keys = new ArrayList<Boolean>();
-	private List<Boolean> mouseButtons = new ArrayList<Boolean>();
+	private List<Integer> keys = new ArrayList<Integer>();
+	private List<Integer> mouseButtons = new ArrayList<Integer>();
 	
 	/**
 	 * Sets which container to listen to.
@@ -35,7 +36,7 @@ public class Input implements KeyListener, MouseListener {
 	 * @param e the key to reset.
 	 */
 	public void resetKey(int key) {
-		this.keys.set(key, false);
+		this.keys.remove(new Integer(key));
 	}
 	
 	/**
@@ -44,37 +45,27 @@ public class Input implements KeyListener, MouseListener {
 	 * @return <code>true</code> if the specified key is pressed.
 	 */
 	public boolean isPressed(int key) {
-		if(key < 0 || key >= keys.size()){
-			return false;
-		}else{
-			return keys.get(key);
-		}
+		return this.keys.contains(key);
 	}
 	
 	/**
 	 * Resets the instance and sets all the keys to false.
 	 */
 	public void reset() {
-		keys = new ArrayList<Boolean>();
-		mouseButtons = new ArrayList<Boolean>();
-		
-		for(int i = 0; i <= 254; i++){
-			keys.add(i, false);
-		}
-		
-		for(int i = 0; i <= 2; i++){
-			mouseButtons.add(i, false);
-		}
+		keys.clear();
+		mouseButtons.clear();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		this.keys.set(e.getKeyCode(), true);
+		if(!this.isPressed(e.getKeyCode())) {
+			this.keys.add(new Integer(e.getKeyCode()));
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		this.keys.set(e.getKeyCode(), false);
+		this.keys.remove(new Integer(e.getKeyCode()));
 	}
 
 	@Override
@@ -99,12 +90,12 @@ public class Input implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		this.mouseButtons.set(arg0.getButton() -1,true);
+		this.mouseButtons.add(new Integer(arg0.getButton()));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		this.mouseButtons.set(arg0.getButton() - 1, false);
+		this.mouseButtons.remove(new Integer(arg0.getButton()));
 	}
 
 	/**
@@ -113,11 +104,6 @@ public class Input implements KeyListener, MouseListener {
 	 * @return <code>true</code> if the specified mouse button is pressed.
 	 */
 	public boolean mousePressed(int mouseButton) {
-		mouseButton--;
-		if(mouseButton < 0 || mouseButton >= mouseButtons.size()) {
-			return false;
-		}else{
-			return mouseButtons.get(mouseButton);
-		}
+		return this.mouseButtons.contains(mouseButton);
 	}
 }
