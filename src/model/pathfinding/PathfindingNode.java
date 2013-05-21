@@ -90,8 +90,8 @@ public class PathfindingNode {
 	 * @return the distance between two tiles.
 	 */
 	private float getDistance(Tile t1, Tile t2){
-		float dx = Math.abs(t1.getX() - t2.getX());
-		float dy = Math.abs(t1.getY() - t2.getY());
+		float dx = Math.abs(t1.getPosition().getX() - t2.getPosition().getX());
+		float dy = Math.abs(t1.getPosition().getY() - t2.getPosition().getY());
 		return (float)Math.sqrt(dx*dx+dy*dy);
 	}
 	
@@ -100,7 +100,7 @@ public class PathfindingNode {
 	 * @return the center of the Node.
 	 */
 	public Position getCenter(){
-		return new Position(tile.getX() + 0.5f, 
-				tile.getY() + 0.5f);
+		return new Position(tile.getPosition().getX() + 0.5f, 
+				tile.getPosition().getY() + 0.5f);
 	}
 }

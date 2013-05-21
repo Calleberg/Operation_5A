@@ -14,9 +14,9 @@ import resources.Language;
 
 import view.Window;
 import view.menu.LoadingPanel;
-import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
-import view.menu.PauseMenuPanel;
+import view.menu.MenuPanel;
+import view.menu.BooleanPopupMenu;
 import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
@@ -41,7 +41,7 @@ public class MenuController{
 	 * Changes this controllers window to the main menu.
 	 */
 	public static void showMainMenu(){
-		WINDOW.add(new MainMenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
+		WINDOW.add(new MenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
 	//TODO temp public
 	public static void startGame(GameModel m){
@@ -89,7 +89,7 @@ public class MenuController{
 	 * Changes this controllers window to the paused game menu.
 	 */
 	public static void showPauseMenu(){
-		WINDOW.add(new PauseMenuPanel(Language.getPauseText(), MenuButtons.getPauseMenuButtons(), gameController.getGamePanel()));
+		WINDOW.add(new MenuPanel(Language.getPauseText(), MenuButtons.getPauseMenuButtons()));
 	}
 	
 	private static void resumeGame() {

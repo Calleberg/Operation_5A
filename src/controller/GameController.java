@@ -345,7 +345,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 	public synchronized void pauseThread(){
 		paused=true;
 		lastTimePaused=timeNow();
-		gamePanel.pauseThread();
+		if (gamePanel != null){
+			gamePanel.pauseThread();
+		}
 	}
 	/**
 	 * Resumes the thread to a running state. To pause the thread call <code>pauseThread()</code>.
@@ -354,8 +356,10 @@ public class GameController implements Runnable, PropertyChangeListener {
 		paused=false;
 		notify();
 		totalTimePaused+=timeNow()-lastTimePaused;
-		gamePanel.resumeThread();
 		gameModel.setGameTime(this.getTotalRuntime());
+		if (gamePanel != null){
+			gamePanel.resumeThread();
+		}
 	}
 	/**
 	 * Stops the thread from executing further actions, this method is irreversible. 
@@ -363,7 +367,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 	public synchronized void stopThread(){
 		isRunning=false;
 		notify();
-		gamePanel.stopThread();
+		if (gamePanel != null){
+			gamePanel.stopThread();
+		}
 	}
 	
 	/**
@@ -388,8 +394,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 		do{//TODO maxDistance on enemySpawn?
 			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
 			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-		}while(Math.abs(gameModel.getPlayer().getX() - spawnPos.getX()) <= 25 && 
-				Math.abs(gameModel.getPlayer().getY() - spawnPos.getY()) <= 25);
+		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= 25 && 
+				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= 25);
 
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 

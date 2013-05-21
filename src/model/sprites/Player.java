@@ -101,37 +101,37 @@ public class Player implements Sprite {
 		this.faceDir = faceDir;
 	}
 	
-	/**
-	 * Returns the x-coordinate of the player's position.
-	 * @return the x-coordinate of the player's position.
-	 */
-	public float getX(){
-		return hitBox.getPosition().getX();
-	}
-	
-	/**
-	 * Returns the y-coordinate of the player's position.
-	 * @return the y-coordinate of the player's position.
-	 */
-	public float getY(){
-		return hitBox.getPosition().getY();
-	}
-	
-	/**
-	 * Set the x-coordinate of the player's position.
-	 * @param x the new x-coordinate.
-	 */
-	public void setX(float x){
-		this.setPosition(new Position(x, this.getY()));
-	}
-	
-	/**
-	 * Set the y-coordinate of the player's position.
-	 * @param y the new y-coordinate.
-	 */
-	public void setY(float y){
-		this.setPosition(new Position(this.getX(),y));
-	}
+//	/**
+//	 * Returns the x-coordinate of the player's position.
+//	 * @return the x-coordinate of the player's position.
+//	 */
+//	public float getX(){
+//		return hitBox.getPosition().getX();
+//	}
+//	
+//	/**
+//	 * Returns the y-coordinate of the player's position.
+//	 * @return the y-coordinate of the player's position.
+//	 */
+//	public float getY(){
+//		return hitBox.getPosition().getY();
+//	}
+//	
+//	/**
+//	 * Set the x-coordinate of the player's position.
+//	 * @param x the new x-coordinate.
+//	 */
+//	public void setX(float x){
+//		this.setPosition(new Position(x, this.getY()));
+//	}
+//	
+//	/**
+//	 * Set the y-coordinate of the player's position.
+//	 * @param y the new y-coordinate.
+//	 */
+//	public void setY(float y){
+//		this.setPosition(new Position(this.getX(),y));
+//	}
 	
 	/**
 	 * Returns the player's weapon
@@ -234,21 +234,24 @@ public class Player implements Sprite {
 	
 	@Override
 	public Position getProjectileSpawn() {
-		return new Position(getX() + getHitBox().getWidth()/2 + (float)(Math.cos(faceDir)*0.45f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
-				getY() + getHitBox().getHeight()/2 - (float)(Math.sin(faceDir)*0.45f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
+		return new Position(this.getPosition().getX() + getHitBox().getWidth()/2 + 
+				(float)(Math.cos(faceDir)*0.45f) + (float)(Math.cos(faceDir - Math.PI/2)*0.2f), 
+				this.getPosition().getY() + getHitBox().getHeight()/2 - 
+				(float)(Math.sin(faceDir)*0.45f) - (float)(Math.sin(faceDir - Math.PI/2)*0.2f));
 	}
 	
 	@Override
 	public Position getCenter() {
-		return new Position(getX() + getHitBox().getWidth()/2, getY() + getHitBox().getHeight()/2);
+		return new Position(this.getPosition().getX() + getHitBox().getWidth()/2, 
+				this.getPosition().getY() + getHitBox().getHeight()/2);
 	}
 	
 	/**
-	 * Sets the center position.
+	 * Sets the position.
 	 */
 	@Override
 	public void setPosition(Position p) {
-		this.hitBox.setPosition(new Position(p.getX() - hitBox.getWidth()/2, p.getY() - hitBox.getHeight()/2));
+		this.hitBox.setPosition(p);
 	}
 
 	@Override
@@ -406,8 +409,9 @@ public class Player implements Sprite {
 
 	@Override
 	public CollisionBox getMoveBox() {
-		this.collisionBox.setPosition(new Position(this.getX() + (hitBox.getWidth() - collisionBox.getWidth()) / 2
-				, this.getY() + (hitBox.getHeight() - collisionBox.getHeight()) / 2));
+		this.collisionBox.setPosition(new Position(this.getPosition().getX() + 
+				(hitBox.getWidth() - collisionBox.getWidth()) / 2, this.getPosition().getY() + 
+				(hitBox.getHeight() - collisionBox.getHeight()) / 2));
 		return this.collisionBox;
 	}
 	

@@ -60,8 +60,8 @@ public class Minimap extends JPanel {
 			g.drawImage(minimap, (int)camera.getX(), (int)camera.getY(), null);
 		}
 		//Draws a small player.
-		int x = (int)(model.getPlayer().getX() * camera.getScale() + camera.getX());
-		int y = (int)(model.getPlayer().getY() *camera.getScale() + camera.getY());
+		int x = (int)(model.getPlayer().getPosition().getX() * camera.getScale() + camera.getX());
+		int y = (int)(model.getPlayer().getPosition().getY() *camera.getScale() + camera.getY());
 		
 		g.setColor(Color.RED);
 		g.drawLine(x - camera.getScale()*3, y, x + camera.getScale()*3, y);

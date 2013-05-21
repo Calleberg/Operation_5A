@@ -166,10 +166,12 @@ public class Tile implements WorldObject {
 		if(box == null) {
 			box = new ComplexShape();
 			if(hasNorthWall()) {
-				box.addShape(new Rectangle(getX(), getY() - 0.05f, 1f, 0.1f));
+				box.addShape(new Rectangle(this.getPosition().getX(), this.getPosition().getY() - 
+						0.05f, 1f, 0.1f));
 			}
 			if(hasWestWall()) {
-				box.addShape(new Rectangle(getX() - 0.05f, getY(), 0.1f, 1f));
+				box.addShape(new Rectangle(this.getPosition().getX() - 0.05f, 
+						this.getPosition().getY(), 0.1f, 1f));
 			}
 			for(int i = 0; i < this.props.size(); i++) {
 				box.addShape(props.get(i).getCollisionBox());
@@ -189,7 +191,8 @@ public class Tile implements WorldObject {
 	 * @return <code>true</code> if collision box provided intersects this tile.
 	 */
 	public boolean intersects(CollisionBox box) {
-		return box.intersects(new Rectangle(this.getX(), this.getY(), 1f, 1f));
+		return box.intersects(new Rectangle(this.getPosition().getX(), 
+				this.getPosition().getY(), 1f, 1f));
 	}
 
 	/**
@@ -208,25 +211,25 @@ public class Tile implements WorldObject {
 		return this.property;
 	}
 	
-	@Override
-	public void setX(float x) {
-		this.position.setX(x);
-	}
-
-	@Override
-	public float getX() {
-		return this.position.getX();
-	}
-
-	@Override
-	public void setY(float y) {
-		this.position.setY(y);
-	}
-
-	@Override
-	public float getY() {
-		return this.position.getY();
-	}
+//	@Override
+//	public void setX(float x) {
+//		this.position.setX(x);
+//	}
+//
+//	@Override
+//	public float getX() {
+//		return this.position.getX();
+//	}
+//
+//	@Override
+//	public void setY(float y) {
+//		this.position.setY(y);
+//	}
+//
+//	@Override
+//	public float getY() {
+//		return this.position.getY();
+//	}
 
 	@Override
 	public Position getPosition() {
