@@ -68,17 +68,20 @@ public class GameController implements Runnable, PropertyChangeListener {
 	//TODO bra värde?
 	private final static int ENEMY_SPAWN_DISTANCE = 25;
 	
+	/**
+	 * Creates a new GameController.
+	 * @param mainModel the mainModel to listen to.
+	 */
 	public GameController(MainModel mainModel){
 		this.mainModel = mainModel;
+		this.mainModel.addListener(this);
 	}
 	
 	/**
-	 * Initialises the controller with the specified model.
-	 * @param model the model this controller should control.
+	 * Initialises the controller and starts the game.
 	 */
-	public void init(GameModel model) {
-		this.gameModel = model;
-		this.setStartTime(model.getGameTime());
+	public void init() {
+		this.setStartTime(gameModel.getGameTime());
 
 		input = new Input();	
 
@@ -476,6 +479,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 		if(evt.getPropertyName().equals(IGamePanel.MOUSE_INPUT)) {
 			Position msPos = (Position)evt.getNewValue();
 			this.handleMouseAt(msPos.getX(), msPos.getY());
+		}else if(evt.getPropertyName().equals(MainModel.EVENT_NEW_GAME_MODEL)){
+			this.gameModel = mainModel.getGameModel();
 		}
 	}
 	
