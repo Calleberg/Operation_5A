@@ -342,7 +342,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 	public synchronized void pauseThread(){
 		paused=true;
 		lastTimePaused=timeNow();
-		gamePanel.pauseThread();
+		if (gamePanel != null){
+			gamePanel.pauseThread();
+		}
 	}
 	/**
 	 * Resumes the thread to a running state. To pause the thread call <code>pauseThread()</code>.
@@ -351,7 +353,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 		paused=false;
 		notify();
 		totalTimePaused+=timeNow()-lastTimePaused;
-		gamePanel.resumeThread();
+		if (gamePanel != null){
+			gamePanel.resumeThread();
+		}
 	}
 	/**
 	 * Stops the thread from executing further actions, this method is irreversible. 
@@ -359,7 +363,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 	public synchronized void stopThread(){
 		isRunning=false;
 		notify();
-		gamePanel.stopThread();
+		if (gamePanel != null){
+			gamePanel.stopThread();
+		}
 	}
 	
 	/**

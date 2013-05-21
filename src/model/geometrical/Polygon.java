@@ -18,7 +18,9 @@ public class Polygon implements CollisionBox {
 	private List<Line2D> polygon;
 	private float x, y;
 	private Position oldPosition;
-	private Position position;	//the position this polygon moves relative to.
+	private Position relativePos;	//the position this polygon moves relative to.
+	private float width, height; //values that only needs to be compiled once.
+	private Position position; //pre compiled value
 	
 	/**
 	 * Creates a new polygon with the specified position as anchor.
@@ -26,7 +28,19 @@ public class Polygon implements CollisionBox {
 	public Polygon() {
 		this.polygon = new ArrayList<Line2D>();
 		this.oldPosition = new Position(0, 0);
-		this.position = new Position(0, 0);
+		this.relativePos = new Position(0, 0);
+	}
+	
+	private Position calcPos() {
+		double x = this.getLines().get(0).getX1();
+		double y = this.getLines().get(0).getY1();
+		for(Line2D l : this.getLines()) {
+			x = Math.min(x, l.getX1());
+			x = Math.min(x, l.getX2());
+			y = Math.min(y, l.getY1());
+			y = Math.min(y, l.getY2());
+		}
+		return new Position((float)x, (float)y);
 	}
 	
 	/**
@@ -34,36 +48,39 @@ public class Polygon implements CollisionBox {
 	 * @param line the line to add.
 	 */
 	public void addLine(Line2D line) {
-		this.polygon.add(new PolygonSegement(position, (float)line.getX1(), (float)line.getY1(), 
+		this.polygon.add(new PolygonSegement(relativePos, (float)line.getX1(), (float)line.getY1(), 
 				(float)line.getX2(), (float)line.getY2()));
 	}
 	
 	@Override
 	public float getWidth() {
-		float max = 0;
-		for(Line2D l : this.getLines()) {
-			if(l.getX1() > max) {
-				max = (float)l.getX1();
+		if(width == 0f) {		
+			float max = 0;
+			for(Line2D l : this.getLines()) {
+				max = (float) Math.max(l.getX1(), max);
+				max = (float) Math.max(l.getX2(), max);
+				x = (float) Math.min(l.getX1(), x);
+				x = (float) Math.min(l.getX2(), x);
 			}
-			if(l.getX2() > max) {
-				max = (float)l.getX2();
-			}
+			width = max - this.getPosition().getX();
 		}
-		return max - this.getPosition().getX();
+		return width;
 	}
 	
 	@Override
 	public float getHeight() {
-		float max = 0;
-		for(Line2D l : this.getLines()) {
-			if(l.getY1() > max) {
-				max = (float)l.getY1();
+		if(height == 0f) {
+			float y = (float) this.getLines().get(0).getY1();			
+			float max = 0;
+			for(Line2D l : this.getLines()) {
+				max = (float) Math.max(l.getY1(), max);
+				max = (float) Math.max(l.getY2(), max);
+				y = (float) Math.min(l.getY1(), y);
+				y = (float) Math.min(l.getY2(), y);
 			}
-			if(l.getY2() > max) {
-				max = (float)l.getY2();
-			}
+			height = max - this.getPosition().getY();
 		}
-		return max - this.getPosition().getY();
+		return height;
 	}
 	
 	@Override
@@ -73,14 +90,17 @@ public class Polygon implements CollisionBox {
 
 	@Override
 	public Position getPosition() {
-		return (Position) position.clone();
+		if(this.position == null) {
+			position = this.calcPos();
+		}
+		return new Position(relativePos.getX() + position.getX(), relativePos.getY() + position.getY());
 	}
 
 	@Override
 	public void setPosition(Position pos) {
 		this.oldPosition = this.getPosition(); 
-		this.position.setX(pos.getX());
-		this.position.setY(pos.getY());
+		this.relativePos.setX(pos.getX() - this.position.getX());
+		this.relativePos.setY(pos.getY() - this.position.getY());
 	}
 
 	/**
@@ -131,7 +151,7 @@ public class Polygon implements CollisionBox {
 	@Override
 	public void move(float dx, float dy) {
 		this.oldPosition = this.getPosition();
-		this.position.setX(position.getX() + dx);
-		this.position.setY(position.getY() + dy);
+		this.relativePos.setX(relativePos.getX() + dx);
+		this.relativePos.setY(relativePos.getY() + dy);
 	}
 }
