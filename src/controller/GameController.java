@@ -75,7 +75,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	public void init(GameModel model) {
 		this.gameModel = model;
-		this.startTime = model.getGameTime();
+		this.setStartTime(model.getGameTime());
 
 		input = new Input();	
 
@@ -89,7 +89,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	@Override
 	public void run() {
-		startTime = timeNow();
 		new Thread(gamePanel).start();
 		while (isRunning){
 			runThread();
@@ -173,6 +172,10 @@ public class GameController implements Runnable, PropertyChangeListener {
 			dir += (float)(Math.PI);
 		}
 		gameModel.getPlayer().setDirection(dir + (float)Math.PI);
+	}
+	
+	private void setStartTime(long gameTime) {
+		this.startTime = this.timeNow() - gameTime;
 	}
 		
 	/**
@@ -352,6 +355,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		notify();
 		totalTimePaused+=timeNow()-lastTimePaused;
 		gamePanel.resumeThread();
+		gameModel.setGameTime(this.getTotalRuntime());
 	}
 	/**
 	 * Stops the thread from executing further actions, this method is irreversible. 
