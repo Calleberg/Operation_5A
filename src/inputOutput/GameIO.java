@@ -136,7 +136,7 @@ public class GameIO {
 
 					break;
 				case PROJECTILE:
-					Projectile projectile = new Projectile(0,0f,0f,0f,null);
+					Projectile projectile = new Projectile(0,0f,0f,0f,null,true);
 					projectile.restore(data);
 					model.getWorld().addProjectile(projectile);
 					break;
