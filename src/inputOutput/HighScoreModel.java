@@ -17,7 +17,7 @@ import savePath.SavePath;
  */
 public class HighScoreModel {
 	private HighScoreWrapper h = null;
-	/*
+	/**
 	 * Creates a new HighScoreModel.
 	 */
 	public HighScoreModel(){
