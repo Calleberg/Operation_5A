@@ -237,7 +237,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 	private void playerPickUpWeapon(){
 		if(input.isPressed(KeyEvent.VK_G)){
 			Weapon oldWeapon = gameModel.getPlayer().getActiveWeapon();
-			gameModel.getWorld().playerPickUpWeapon();
+			Weapon newWeapon = gameModel.getWorld().getIntersectedWeapon(gameModel.getPlayer().
+					getHitBox());
+			gameModel.getPlayer().pickUpWeapon(newWeapon);
 			Tile[][] t = gameModel.getWorld().getTiles();
 			input.resetKey(KeyEvent.VK_G);
 			if(oldWeapon.isDroppable()){//can't throw fists
@@ -266,7 +268,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	private void spawnWeapon(Tile t, Weapon w){
 		w.setPosition(t.getPosition());
 		gameModel.getWorld().getItems().add(w);
-		gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+		gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
 		System.out.println("Weapon supposed to spawn");
 	}
 	
@@ -279,20 +281,20 @@ public class GameController implements Runnable, PropertyChangeListener {
 		if(t.getProperty() == Tile.FOOD_SPAWN){//Create a food
 			supply = SupplyFactory.createFood(25, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
 		}else if(t.getProperty() == Tile.AMMO_SPAWN){//Create an ammo
 			supply = SupplyFactory.createAmmo(12, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
 		}else if(t.getProperty() == Tile.HEALTH_SPAWN){//Create a health
 			supply = SupplyFactory.createHealth(25, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
 		}else if(t.getProperty() == Tile.WEAPON_SPAWN){//create a weapon
 			Weapon w = WeaponFactory.createRandomWeapon();
 			w.setPosition(t.getPosition());
 			gameModel.getWorld().getItems().add(w);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
+			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
 		}	
 	}
 	

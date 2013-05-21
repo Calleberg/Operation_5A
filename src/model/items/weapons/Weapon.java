@@ -66,7 +66,7 @@ public class Weapon extends Item implements Saveable {
 	protected Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
 			int reloadTime, int rateOfFire, int iconNumber, String name, boolean droppable){
 		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
-				iconNumber, name, droppable, magazineCapacity, 0, 0);
+				iconNumber, name, droppable, magazineCapacity);
 	}
 	
 	/**
@@ -86,8 +86,7 @@ public class Weapon extends Item implements Saveable {
 	 */
 	protected Weapon(float projectileSpeed, int damage, float range,
 			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
-			boolean droppable, int ammunitionInMagazine, long lastTimeFired, 
-			long lastTimeReloaded){
+			boolean droppable, int ammunitionInMagazine){
 		super(null, iconNumber);
 		
 		this.projectileSpeed = projectileSpeed;
@@ -101,8 +100,6 @@ public class Weapon extends Item implements Saveable {
 		this.droppable = droppable;
 
 		this.ammunitionInMagazine=ammunitionInMagazine;
-		this.lastTimeFired=lastTimeFired;
-		this.lastTimeReloaded=lastTimeReloaded;
 
 	}
 	/**
@@ -117,7 +114,6 @@ public class Weapon extends Item implements Saveable {
 		if (timeNow()-lastTimeFired>rateOfFire
 				&& !isReloading()){
 			if (ammunitionInMagazine==0){
-				outOfAmmo();
 				return null;
 			} else {
 				ammunitionInMagazine-=1;
@@ -128,12 +124,6 @@ public class Weapon extends Item implements Saveable {
 			return null;
 		}
 	}
-	
-	private void outOfAmmo() {
-		//TODO no ammo error and sound...
-		System.out.println("Sound: (no ammo)");
-	}
-
 
 	private long timeNow(){
 		Date d = new Date();
@@ -239,9 +229,7 @@ public class Weapon extends Item implements Saveable {
 				this.projectileSpeed + "",
 				this.range + "",
 				this.rateOfFire + "",
-				this.reloadTime + "",
-				this.lastTimeFired + "",
-				this.lastTimeReloaded + ""
+				this.reloadTime + ""
 		};
 	}
 

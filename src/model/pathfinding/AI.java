@@ -44,20 +44,21 @@ public class AI {
 		if(pathfindingUpdateTick < PATHFINDING_UPDATE_INTERVAL){
 			for(Sprite s : world.getSprites()){
 				if(s instanceof Enemy && (world.getSprites().indexOf(s)+pathfindingUpdateTick)%
-						PATHFINDING_UPDATE_INTERVAL == 0){//All enemies will update once every
-					//20 updates, all enemies will have their updates spread out as much as possible.
+						PATHFINDING_UPDATE_INTERVAL == 0){
+					//All enemies will update once every 20 updates, all enemies will have 
+					//their updates spread out as much as possible.
 					Enemy e = (Enemy) s;
 					//If the Enemy is running, it won't loose track of the player until the 
 					//distance is 15.
 					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
-							e.setWay(pathfinder.findWay(e, player));//TODO
+							e.setWay(pathfinder.findWay(e, player));
 						}else{
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);
 						}
-					}else{//If an enemy isn't running it wont discover the player until the distance
-						//is less than eight and there is a clear sight of the player.
+					}else{//If an enemy isn't running it wont discover the player until the 
+						//distance is less than eight and there is a clear sight of the player.
 						if(getDistance(e.getCenter(), player.getCenter()) < 8 && 
 								world.canMove(e.getCenter(), player.getCenter())){
 							e.setState(Enemy.State.RUNNING);
@@ -76,27 +77,20 @@ public class AI {
 	}
 	
 	/**
-	 * If the player is in range on an enemy's weapon, the enemy will shoot.
+	 * If the player is in range on an enemy's weapon and there is a clear sight between
+	 * the enemy and the player, the enemy will shoot.
 	 */
 	private void enemyShoot() {
-		List<Player> players = new ArrayList<Player>();
 		for(Sprite s : world.getSprites()){
-			if(s instanceof Player){
-				players.add((Player)s);
-			}else{//All players will be in the first places in sprites -> all players are in 
-				//list players before we get into else
-				for(Player p : players){
-					float dx = s.getPosition().getX() - p.getPosition().getX();
-					float dy = s.getPosition().getY() - p.getPosition().getY();
-					float distance = (float) Math.sqrt(dx*dx+dy*dy);
-					if(distance <= s.getActiveWeapon().getRange() + p.getHitBox().getWidth() && 
-							world.canMove(s.getCenter(), p.getCenter())){
-						Projectile temp = s.getActiveWeapon().createProjectile(s.getDirection(), 
-								s.getProjectileSpawn());
-						if(temp != null) {
-							world.addProjectile(temp);
-							s.fireEvent(Sprite.EVENT_USE_WEAPON);
-						}
+			if(s instanceof Enemy){
+				if(getDistance(s.getPosition(), player.getPosition()) <= 
+						s.getActiveWeapon().getRange() + player.getHitBox().getWidth() &&
+						world.canMove(s.getCenter(), player.getCenter())){
+					Projectile projectile = s.getActiveWeapon().createProjectile(s.getDirection(), 
+							s.getProjectileSpawn());
+					if(projectile != null) {
+						world.addProjectile(projectile);
+						s.fireEvent(Sprite.EVENT_USE_WEAPON);
 					}
 				}
 			}
