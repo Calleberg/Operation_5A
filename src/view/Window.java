@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	private JPanel activePanel = null;
+	private boolean isFullScreen = !SettingsModel.getFullscreen();
 	
 	/**
 	 * Creates a new window.
@@ -27,19 +28,34 @@ public class Window extends JFrame {
 		this.setIconImage(resources.GameWindow.getProgramIcon());
 		this.setUndecorated(true);
 		update();
-		
+
 	}
 	private void update(){
-		if (SettingsModel.getFullscreen()){
-			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-			this.setAlwaysOnTop(true);
-		} else {
-			this.setExtendedState(NORMAL);
-			this.setSize(1000, 800);
-			this.setAlwaysOnTop(false);
+		if(isFullScreen != SettingsModel.getFullscreen()) {
+			if (SettingsModel.getFullscreen()){
+				this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				this.setAlwaysOnTop(true);
+
+				if(!this.isUndecorated()) {
+					this.dispose();
+					this.setUndecorated(true);
+					this.setVisible(true);
+				}
+			} else {
+				this.setExtendedState(NORMAL);
+				this.setSize(1000, 800);
+				this.setAlwaysOnTop(false);
+
+				if(this.isUndecorated()) {
+					this.dispose();
+					this.setUndecorated(false);
+					this.setVisible(true);
+				}
+			}
+			this.setLocationRelativeTo(null);
+			this.setVisible(true);
+			this.isFullScreen = SettingsModel.getFullscreen();
 		}
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
 	}
 	
 	/**
