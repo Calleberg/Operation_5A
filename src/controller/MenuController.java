@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import model.GameModel;
 import model.MainModel;
-import resources.Language;
+import resources.Translator;
 import view.Window;
 import view.menu.LoadingPanel;
 import view.menu.MenuButton;
@@ -17,8 +17,7 @@ import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.Settings;
 
 /**
- * The controller which is responsible for managing the program window and it's menus '
- * and the sub menus.
+ * The controller which is responsible for managing the program's window and it's menus.
  * 
  * @author Vidar Eriksson
  *
@@ -38,7 +37,7 @@ public class MenuController{
 	 * Changes this controllers window to the main menu.
 	 */
 	public static void showMainMenu(){
-		WINDOW.add(new MenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
+		WINDOW.add(new MenuPanel(Translator.getString("mainMenu"), MenuActionButtons.getMainMenuButtons()));
 	}
 	private static void startGame(GameModel m){
 		if (gameController != null){
@@ -64,199 +63,180 @@ public class MenuController{
 		System.exit(0);
 	}
 	private static void showhighscore(){
-		WINDOW.add(new Score(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Score(MenuActionButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromMainMenu(){
-		WINDOW.add(new Settings(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Settings(MenuActionButtons.getMainMenuButton()));
 	}
 	private static void showSettingsFromPauseMenu(){
-		WINDOW.add(new Settings(MenuButtons.getPauseMenuButton()));
+		WINDOW.add(new Settings(MenuActionButtons.getPauseMenuButton()));
 	}
 	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuButtons.getLoadButton(),
-				MenuButtons.getSaveButton(), MenuButtons.getPauseMenuButton()}, true));
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuActionButtons.getLoadButton(),
+				MenuActionButtons.getSaveButton(), MenuActionButtons.getPauseMenuButton()}, true));
 	}
-	private static void showLoadSavedGame(){
-		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuButtons.getLoadButton(),
-				MenuButtons.getSaveButton(), MenuButtons.getMainMenuButton()}, false));
+	private static void showLoadGame(){
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuActionButtons.getLoadButton(),
+				MenuActionButtons.getSaveButton(), MenuActionButtons.getMainMenuButton()}, false));
 	}
 	/**
 	 * Changes this controllers window to the game over view.
 	 */
 	public static void showGameOverPanel(){
-		WINDOW.add(new Score(MenuButtons.getMainMenuButton()));
+		WINDOW.add(new Score(MenuActionButtons.getMainMenuButton()));
 	}
 	/**
-	 * Changes this controllers window to the paused game menu.
+	 * Changes this controllers window to the paused game menu view.
 	 */
 	public static void showPauseMenu(){
-		WINDOW.add(new MenuPanel(Language.getPauseText(), MenuButtons.getPauseMenuButtons()));
+		WINDOW.add(new MenuPanel(Translator.getString("pause"), MenuActionButtons.getPauseMenuButtons()));
 	}
-	
 	private static void resumeGame() {
 		WINDOW.add(gameController.getGamePanel());
 		gameController.resumeThread();
 	}
 	
 	
-	private static class MenuButtons {
-		private static MenuButton mainMenuButtons[] = null;
-		private static MenuButton pauseMenuButtons[] = null;
-		private static MenuButton toMainMenuButton = null;
-		private static MenuButton toPauseMenuButton = null;
-		private static MenuButton saveButton = null;
-		private static MenuButton loadButton = null;
-		
+	private static class MenuActionButtons {
+
 		private static MenuButton getSaveButton() {
-			if (saveButton == null){
-				saveButton = new MenuButton("Save");
-				saveButton .addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						GameIO.saveGame(gameController.getGameModel());
-						//TODO
-					}
-				});
-			}
-			return saveButton;
+			MenuButton b  = new MenuButton(Translator.getString("save"));
+			b .addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					GameIO.saveGame(gameController.getGameModel());
+					WINDOW.repaint();
+				}
+			});
+				return b;
 		}
 		
 		private static MenuButton getLoadButton() {
-			if (loadButton == null){
-				loadButton = new MenuButton("Load");
-				loadButton .addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						startGame(GameIO.loadGame());
-					}
-				});
-			}
-			return loadButton;
+			MenuButton b = new MenuButton(Translator.getString("load"));
+			b .addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					startGame(GameIO.loadGame());
+				}
+			});
+			return b;
 		}
 		
 		
 		private static MenuButton getMainMenuButton() {
-			if (toMainMenuButton == null){
-				toMainMenuButton = new MenuButton(Language.getMainMenuText());
-				toMainMenuButton .addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showMainMenu();
-					}
-				});
-			}
-			return toMainMenuButton;
+			MenuButton b = new MenuButton(Translator.getString("mainMenu"));
+			b .addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showMainMenu();
+				}
+			});
+			return b;
 		}
 		
 		private static MenuButton getPauseMenuButton() {
-			if (toPauseMenuButton == null){
-				toPauseMenuButton = new MenuButton(Language.getBackToMenuText());
-				toPauseMenuButton .addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showPauseMenu();
-					}
-				});
-			}
-			return toPauseMenuButton;
+			MenuButton b = new MenuButton(Translator.getString("pauseMenu"));
+			b .addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showPauseMenu();
+				}
+			});
+			return b;
 		}
 		
 		private static MenuButton[] getMainMenuButtons() {
-			if (mainMenuButtons==null){
 				
-				MenuButton[] buttons = new MenuButton[5];
-				
-				buttons[0]= new MenuButton(resources.Language.getNewGameText());
-				buttons[0].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						startNewGame();
-					}
-				});
-				
-				buttons[1]= new MenuButton(resources.Language.getLoadGameText());
-				buttons[1].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showLoadSavedGame();
-					}
-				});
-				
-				buttons[2]= new MenuButton(resources.Language.getHighScoreText());
-				buttons[2].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showhighscore();
-					}
-				});
-				
-				buttons[3]= new MenuButton(resources.Language.getSettingsText());
-				buttons[3].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showSettingsFromMainMenu();
-					}
-				});
-				
-				buttons[4]= new MenuButton(resources.Language.getExitGameText());
-				buttons[4].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						exitGame();
-					}
-				});
-				mainMenuButtons=buttons;
-			}
+			MenuButton[] buttons = new MenuButton[5];
 			
-			return mainMenuButtons;
+			buttons[0]= new MenuButton(Translator.getString("newGame"));
+			buttons[0].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					startNewGame();
+				}
+			});
+			
+			buttons[1]= new MenuButton(Translator.getString("load"));
+			buttons[1].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showLoadGame();
+				}
+			});
+			
+			buttons[2]= new MenuButton(Translator.getString("highScore"));
+			buttons[2].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showhighscore();
+				}
+			});
+			
+			buttons[3]= new MenuButton(Translator.getString("settings"));
+			buttons[3].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showSettingsFromMainMenu();
+				}
+			});
+			
+			buttons[4]= new MenuButton(Translator.getString("exitGame"));
+			buttons[4].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					exitGame();
+				}
+			});
+		
+			return buttons;
 		}
 
 		private static MenuButton[] getPauseMenuButtons() {
-			if (pauseMenuButtons==null){
-				MenuButton buttons[] = new MenuButton[5];
-				
-				buttons[0]= new MenuButton(resources.Language.getSettingsText());
-				buttons[0].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showSettingsFromPauseMenu();
-					}
-				});
-				
-				buttons[1]= new MenuButton(resources.Language.getSaveLoadGameText());
-				buttons[1].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showSaveLoadGame();
-					}
-				});
-				
-				buttons[2]= new MenuButton(resources.Language.getMainMenuText());
-				buttons[2].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showMainMenu();
-					}
-				});
-				
-				buttons[3]= new MenuButton(resources.Language.getExitGameText());
-				buttons[3].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						exitGame();
-					}
-				});
-				
-				buttons[4]= new MenuButton(resources.Language.getResumeGameText());
-				buttons[4].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						resumeGame();
-					}
-				});
-				pauseMenuButtons=buttons;
-			}
-			return pauseMenuButtons;
+
+			MenuButton buttons[] = new MenuButton[5];
+			
+			buttons[0]= new MenuButton(Translator.getString("settings"));
+			buttons[0].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showSettingsFromPauseMenu();
+				}
+			});
+			
+			buttons[1]= new MenuButton(Translator.getString("saveLoad"));
+			buttons[1].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showSaveLoadGame();
+				}
+			});
+			
+			buttons[2]= new MenuButton(Translator.getString("mainMenu"));
+			buttons[2].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showMainMenu();
+				}
+			});
+			
+			buttons[3]= new MenuButton(Translator.getString("exitGame"));
+			buttons[3].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					exitGame();
+				}
+			});
+			
+			buttons[4]= new MenuButton(Translator.getString("resume"));
+			buttons[4].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					resumeGame();
+				}
+			});
+
+			return buttons;
 		}
 
 	}

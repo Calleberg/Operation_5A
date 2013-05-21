@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.Image;
 
 import inputOutput.SettingsModel;
 
@@ -26,12 +27,16 @@ public class Window extends JFrame {
 	public Window() {
 		super();
 
-		this.setTitle(resources.GameWindow.getGameName());
+		this.setTitle("Operation 5A");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setIconImage(resources.GameWindow.getProgramIcon());
+		this.setIconImage(getProgramIcon());
 		this.setUndecorated(true);
 		update();
 
+	}
+	private Image getProgramIcon() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	private void update(){
 		if(isFullScreen != SettingsModel.getFullscreen()) {

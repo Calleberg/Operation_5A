@@ -3,14 +3,12 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
-import controller.GameController;
-
 import model.sprites.Player;
+import resources.Translator;
+import controller.GameController;
 
 /**
  * A GUI object which renders the hp and food values of a specified player object.
@@ -38,9 +36,8 @@ public class BarPanel extends JPanel {
 		hpBar = new StatusBar(20, 150, 100, player.getHealth());
 		foodBar = new StatusBar(20, 150, 100, player.getFood());
 		
-		ResourceBundle bundle = ResourceBundle.getBundle("bundle/GamePanels", Locale.getDefault());
-		this.hp = bundle.getString("hitPoints");
-		this.food = bundle.getString("food");
+		this.hp = Translator.getString("hitPoints");
+		this.food = Translator.getString("food");
 	}
 	
 	@Override

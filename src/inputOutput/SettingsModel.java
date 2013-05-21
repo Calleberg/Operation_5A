@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
 import savePath.SavePath;
 
@@ -14,54 +15,20 @@ import savePath.SavePath;
  * @author Vidar Eriksson
  *
  */
-public class SettingsModel {
-	/**
-	 * The different languages known by the system.
-	 * @author Vidar Eriksson
-	 *
-	 */
-	public static enum Language{
-		ENGLISH,
-		SWEDISH;
-		/**
-		 * Loads a language from a given <code>String<code>.
-		 * @param s the string to lead a language from.
-		 * @return the language loaded.
-		 */
-		public static Language loadFrom(String s){
-			if (s.contains("SWE")){
-				return SWEDISH;
-			} else {
-				return ENGLISH;
-			}
-		}
-		/**
-		 * converts a language to a savable string.
-		 * @return the string to be saved.
-		 */
-		public String saveString(){
-			if (this == SWEDISH){
-				return "SWE";
-			} else {
-				return "ENG";
-			}
-		}
-	}
-	
-	
+public class SettingsModel {	
 	/**
 	 * 
 	 * @return the in game language.
 	 */
-	public static Language getLanguage(){
-		return SettingsWrapper.getLanguage();
+	public static Locale getLocale(){
+		return SettingsWrapper.getLocale();
 	}
 	/**
 	 * sets the in game language.
-	 * @param language the new language to be set.
+	 * @param locale the new language to be set.
 	 */
-	public static void setLanguage(Language language) {
-		SettingsWrapper.setLanguage(language);
+	public static void setLocale(Locale locale) {
+		SettingsWrapper.setLocale(locale);
 	}
 	/**
 	 * 
@@ -71,7 +38,7 @@ public class SettingsModel {
 		return SettingsWrapper.getUserName();
 	}
 	/**
-	 * sets the username.
+	 * Sets the username.
 	 * @param text the new username to be set.
 	 */
 	public static void setUserName(String text) {
@@ -97,29 +64,36 @@ public class SettingsModel {
 	public static void save() {
 		SettingsWrapper.write();
 	}
+	/**
+	 * 
+	 * @return a list of the available languages.
+	 */
+	public static Locale[] getAllLocales() {
+		return SettingsWrapper.getAllLocales();
+	}
 	
 	
 	private static class SettingsWrapper{
 		private static final String DATA_DIVIDER = "#";
 		
 		private static String name;
-		private static Language language;
+		private static Locale locale;
 		private static boolean fullscreen;
 
 		private static boolean getFullscreen() {
 			read();
 			return fullscreen;
 		}
-		public static String getUserName() {
+		private static String getUserName() {
 			read();
 			return name;
 		}
-		private static Language getLanguage() {
+		private static Locale getLocale() {
 			read();
-			return language;
+			return locale;
 		}
-		private static void setLanguage(Language l) {
-			language = l;
+		private static void setLocale(Locale l) {
+			locale = l;
 			write();			
 		}
 		private static void setFullscreen(boolean b) {
@@ -131,6 +105,7 @@ public class SettingsModel {
 			name = text;
 			write();			
 		}
+		
 
 		private static void read() {
 			String temp = null;
@@ -145,18 +120,18 @@ public class SettingsModel {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
-				defaultSettings();
+				setDefaultSettings();
 			}
 			if (temp!=null){
 				convertFromString(temp);
 			} else { 
-				defaultSettings();
+				setDefaultSettings();
 			}
 		}
-		private static void defaultSettings() {
-			name = "No name entered";
+		private static void setDefaultSettings() {
+			name = "Player 1";
 			fullscreen = true;
-			language=Language.ENGLISH;
+			locale = Locale.getDefault();
 		}	
 		private static void write() {
 			try {				 			
@@ -190,7 +165,7 @@ public class SettingsModel {
 			
 			temp += name + DATA_DIVIDER;
 			
-			temp += language.saveString() + DATA_DIVIDER;
+			temp += toSaveString(locale) + DATA_DIVIDER;
 
 			return temp;
 			
@@ -207,11 +182,33 @@ public class SettingsModel {
 			name = temp.substring(0, temp.indexOf(DATA_DIVIDER));
 			temp = temp.substring(temp.indexOf(DATA_DIVIDER)+1);
 			
-			language = Language.loadFrom(temp.substring(0, temp.indexOf(DATA_DIVIDER)-1));
+			locale = loadFrom(temp.substring(0, temp.indexOf(DATA_DIVIDER)));
 			
 		}
-	
-
+		
+		private static Locale loadFrom(String s){
+			if (s.contains("SWE")){
+				return new Locale("sv_SE");
+			} else {
+				return Locale.ENGLISH;
+			}
+		}
+		/**
+		 * converts a language to a savable string.
+		 * @return the string to be saved.
+		 */
+		private static String toSaveString(Locale l){
+			if (l.equals(new Locale("sv_SE"))){
+				return "SWE";
+			} else {
+				return "ENG";
+			}
+		}
+		
+		
+		private static Locale[] getAllLocales() {
+			return new Locale[]{new Locale("sv_SE"), Locale.ENGLISH};
+		}
 	}
 
 }

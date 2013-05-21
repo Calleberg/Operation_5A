@@ -3,6 +3,8 @@ package view.menu.subMenuPanels;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import resources.Translator;
+
 import view.menu.MenuButton;
 
 /**
@@ -24,14 +26,16 @@ public class SaveLoadGame extends SubMenuPanel{
 	}
 	private static String getText(boolean bol) {
 		if (bol){
-			return "Load / Save Game";
+			return Translator.getString("loadSave");
 		} else {
-			return "Load Game";
+			return Translator.getString("load");
 		}
 	}
 	private static JPanel getPanel(String timeSaved) {
 		JPanel panel = new JPanel();
-		panel.add(new JLabel("Load/SavePanel  A list of saved games should be visible"));
+		JLabel l = new JLabel(Translator.getString("lastGameSavedAt") + ": \n" + timeSaved);
+		l.setFont(resources.MenuLookAndFeel.getLargeFont());
+		panel.add(l);
 		return panel;
 	}
 

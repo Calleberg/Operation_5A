@@ -3,14 +3,12 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
-import resources.HUDFonts;
-
 import model.GameModel;
+import resources.HUDFonts;
+import resources.Translator;
 
 /**
  * A GUI object which will render a score.
@@ -33,8 +31,7 @@ public class ScorePanel extends JPanel {
 		this.setPreferredSize(new Dimension(200, 45));
 		this.model = model;
 		
-		ResourceBundle bundle = ResourceBundle.getBundle("bundle/GamePanels", Locale.getDefault());
-		this.scoreText = bundle.getString("score");
+		this.scoreText = Translator.getString("score");
 	}
 	
 	@Override

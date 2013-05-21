@@ -10,11 +10,10 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
-//TODO MVC bättrra på gemensmma metoder
 	/**
 	 * 
 	 * @param string the title of the menu.
-	 * @param buttons the buttons in the panel.
+	 * @param buttons the buttons in this panel.
 	 */
 	public MenuPanel(String string, MenuButton[] buttons) {
 		this.add(createButtonColumn(new MenuLabel(string), buttons));

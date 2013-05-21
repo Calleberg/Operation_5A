@@ -11,7 +11,7 @@ import java.io.IOException;
 import savePath.SavePath;
 
 /**
- * Models the highscores
+ * Models the high scores.
  * @author Vidar Eriksson
  *
  */
@@ -24,8 +24,8 @@ public class HighScoreModel {
 		h = new HighScoreWrapper();
 	}
 	/**
-	 * Returns the lengths of the highscore list.
-	 * @return the lengths of the highscore list.
+	 * Returns the lengths of the high score list.
+	 * @return the lengths of the high score list.
 	 */
 	public int getLenght(){
 		return h.getLenght();	
@@ -76,7 +76,7 @@ public class HighScoreModel {
 			return s[pos][0];
 		}
 		private String getScore(int pos){
-			return s[pos][1];
+			return Long.parseLong(s[pos][1])/1000+"";
 		}
 		private static String[][] readScore() {
 			String tempg = null;
