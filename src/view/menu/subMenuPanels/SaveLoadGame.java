@@ -18,8 +18,9 @@ public class SaveLoadGame extends SubMenuPanel{
 	 * @param button the buttons to be added
 	 * @param bol <code>true<code> if the user is allowed to save.
 	 */
-	public SaveLoadGame(MenuButton[] button, boolean bol) {
-		super(getText(bol), getPanel(), button);
+	public SaveLoadGame(String timeSaved, MenuButton[] button, boolean bol) {
+		super(getText(bol), getPanel(timeSaved), button);
+		button[1].setEnabled(bol);
 	}
 	private static String getText(boolean bol) {
 		if (bol){
@@ -28,7 +29,7 @@ public class SaveLoadGame extends SubMenuPanel{
 			return "Load Game";
 		}
 	}
-	private static JPanel getPanel() {
+	private static JPanel getPanel(String timeSaved) {
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Load/SavePanel  A list of saved games should be visible"));
 		return panel;
