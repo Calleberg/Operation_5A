@@ -148,8 +148,7 @@ public class WorldBuilder {
 	public Tile[][] getNewWorld(int width, int height) {
 		MapGenerator g = new MapGenerator(seed);
 		int[][] mapData = g.generateWorld(width/10, height/10);
-		mapData = this.test;
-//		mapData = this.testBig;
+//		mapData = this.test;
 		width = mapData.length * 10;
 		height = mapData[0].length * 10;
 		
@@ -172,16 +171,12 @@ public class WorldBuilder {
 					addTiles(tiles, x*10, y*10, "lots/water.lot");
 				}
 				//Adds shorelines.
-				else if(mapData[x][y] == MapGenerator.LAND) {
+				else if(mapData[x][y] == MapGenerator.SHORE) {
 					this.buildDynamicTile(tiles, mapData, x, y, BASE_SHORE, MapGenerator.WATER, false);
 				}
 				//Adds the right road part to the world.
 				if(mapData[x][y] == MapGenerator.ROAD) {
 					this.buildDynamicTile(tiles, mapData, x, y, BASE_ROAD, MapGenerator.ROAD, false);
-				}
-				//Adds the right rural road part to the world.
-				else if(mapData[x][y] == MapGenerator.RURAL_ROAD) {
-					this.buildDynamicTile(tiles, mapData, x, y, BASE_RURAL_ROAD, MapGenerator.RURAL_ROAD, false);
 				}
 				else if(mapData[x][y] == MapGenerator.HOUSE) {
 					this.tryPlaceBuilding(tiles, mapData, x, y, BASE_RESIDENTIAL, MapGenerator.HOUSE);
@@ -206,7 +201,7 @@ public class WorldBuilder {
 		//Checks if the building can be 20 in width
 		if(data[x+1][y] == type) {
 			//Checks if a 20x20 building is possible
-			if(data[x][y+1] == type && data[x+1][y+1] == type) {
+			if(data[x][y+1] == type && data[x+1][y+1] == type && random.nextInt(3) == 0) {
 				w = 2;
 				h = 2;
 			//Then the building is 20x10
@@ -225,6 +220,7 @@ public class WorldBuilder {
 			StringBuilder sb = new StringBuilder();
 			sb.append("lot" + w + "0x" + h + "0" + "/" + w + "0x" + h + "0_");
 			//Adds the appropriate direction value
+			int oldLength = sb.length();
 			if(data[x-1][y] == MapGenerator.ROAD) {
 				sb.append("W");
 			}else if(data[x+w][y] == MapGenerator.ROAD) {
@@ -234,7 +230,7 @@ public class WorldBuilder {
 			}else if(data[x][y+h] == MapGenerator.ROAD) {
 				sb.append("S");
 			}
-			if(sb.toString().length() > 6) {
+			if(sb.length() != oldLength) {
 				int n = Integer.parseInt(attributes.get(base + sb.toString()).toString());
 				if(n != 0) {
 					//Loops through all the tiles used to build a building so they
