@@ -162,6 +162,12 @@ public class GameController implements Runnable, PropertyChangeListener {
 	private void handleMouseAt(float x, float y) {
 		float dx = gameModel.getPlayer().getProjectileSpawn().getX() - x;
 		float dy = gameModel.getPlayer().getProjectileSpawn().getY() - y;
+		float distance = (float) Math.sqrt(dx*dx + dy*dy);
+		if(distance < 0.9f) {
+			dx = gameModel.getPlayer().getCenter().getX() - x;
+			dy = gameModel.getPlayer().getCenter().getY() - y;
+		}
+		
 		float dir = (float)Math.atan(-dy/dx);
 
 		if(dx < 0) {

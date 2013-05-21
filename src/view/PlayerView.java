@@ -79,8 +79,8 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 			}else{
 				rX = (int)(p.getCenter().getX() * scale + offset.getX());
 				rY = (int)(p.getCenter().getY() * scale + offset.getY());
-				x = rX - 20;
-				y = rY - 20;
+				x = rX - playerTexture[0].getWidth()/2;
+				y = rY  - playerTexture[0].getHeight()/2;
 			}
 					
 			//Rotates the graphics around the center of the sprite.
