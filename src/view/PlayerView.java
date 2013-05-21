@@ -36,11 +36,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 	private int armsFists = 20;
 	//Main image
 	private int standImage = 10;
-	
-	//TODO ta bort
-	private int wType;
-	private int FIST = 1, MELEE = 2, GUN = 3;
-	
+		
 	/**
 	 * Creates a new player view with the specified player to render.
 	 * @param p the player to render.
@@ -76,18 +72,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
-			
-			//TODO ta bort
-			if(p.getActiveWeapon().getRange() < 1f) {
-				if(p.getActiveWeapon().getRange() < 0.4f) {
-					this.wType = this.FIST;
-				}else{
-					this.wType = this.MELEE;
-				}
-			}else{
-				this.wType = this.GUN;
-			}
-			
+					
 
 			//Draws thelegs			
 			AffineTransform transformer;
@@ -108,26 +93,19 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 				this.renderWeapon(g2d, rX, rY, scale, p.getDirection(), 
 						(float)activeAnimation.getFrameIndex()/activeAnimation.getLength());
 			}else{
-				if(wType == this.FIST) {
+				switch(p.getActiveWeapon().getType()) {
+				case FISTS: 
 					g2d.drawImage(playerTexture[armsFists], transformer, null);
-				}else{
+					break;
+				case MELEE: case GUN:
 					g2d.drawImage(playerTexture[armsHolding], transformer, null);
+					break;				
 				}
 				this.renderWeapon(g2d, rX, rY, scale, p.getDirection(), 0f);
 			}
 			
 			//Draws the body
 			g2d.drawImage(playerTexture[standImage], transformer, null);
-						
-//			g2d.setColor(java.awt.Color.RED);
-//			g2d.drawString(p.getHealth() + "hp", x, y);
-//			g2d.fillRect((int)(p.getProjectileSpawn().getX() * scale + offset.getX()),
-//					(int)(p.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
-//			g2d.fillRect((int)(p.getCenter().getX() * scale + offset.getX()),
-//					(int)(p.getCenter().getY() * scale + offset.getY()), 2, 2);
-////			
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getHitBox(), java.awt.Color.RED, false, null);
-//			GamePanel.renderCollisionBox(g, offset, scale, p.getMoveBox(), java.awt.Color.ORANGE, false, null);
 		}
 	}
 	
@@ -140,7 +118,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 		}else{
 			angle -= (Math.PI/2) * ((1-percentage)/0.50f);
 		}
-		if(wType == this.GUN) {
+		if(p.getActiveWeapon().getType() == Weapon.Type.GUN) {
 			angle = -dir;
 		}
 		
@@ -158,16 +136,16 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 				this.runAnimation(reloadAnimation);
 			}
 		}else if(evt.getPropertyName().equals(Player.EVENT_USE_WEAPON)) {
-			if(p.getActiveWeapon().getRange() < 1f) {
-				if(p.getActiveWeapon().getRange() < 0.4f) {
-					this.wType = this.FIST;
-					this.runAnimation(fistAnimation);
-				}else{
-					this.wType = this.MELEE;
-					this.runAnimation(meleeAnimation);
-				}
-			}else{
-				this.wType = this.GUN;
+			switch(p.getActiveWeapon().getType()) {
+			case FISTS:
+				this.runAnimation(fistAnimation);
+				break;
+			case GUN:
+				//No animation
+				break;
+			case MELEE:
+				this.runAnimation(meleeAnimation);
+				break;				
 			}
 		}
 	}

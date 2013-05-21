@@ -116,7 +116,7 @@ public class WorldTest {
 	@Test
 	public void addProjectile(){
 		World w = new World(null);
-		Projectile p = new Projectile(1,1,1,1,new Position(1,1));
+		Projectile p = new Projectile(1,1,1,1,new Position(1,1),true);
 		
 		w.addProjectile(p);
 		
@@ -126,7 +126,7 @@ public class WorldTest {
 	@Test
 	public void removeProjectile(){
 		World w = new World(null);
-		Projectile p = new Projectile(1,1,1,1,new Position(1,1));
+		Projectile p = new Projectile(1,1,1,1,new Position(1,1),true);
 		
 		w.addProjectile(p);
 		w.removeProjectile(p);
@@ -138,8 +138,8 @@ public class WorldTest {
 	public void removeProjectiles(){
 		World w = new World(null);
 		List<Projectile> projectiles = new ArrayList<Projectile>();
-		projectiles.add(new Projectile(1,1,1,1, new Position(1,1)));
-		projectiles.add(new Projectile(1,1,1,1, new Position(1,2)));
+		projectiles.add(new Projectile(1,1,1,1, new Position(1,1),true));
+		projectiles.add(new Projectile(1,1,1,1, new Position(1,2),true));
 		
 		for(int i = 0; i < projectiles.size(); i++){
 			w.addProjectile(projectiles.get(i));
@@ -156,8 +156,8 @@ public class WorldTest {
 	@Test
 	public void getProjectiles(){
 		World w = new World(null);
-		Projectile p1 = new Projectile(1,1,1,1, new Position(1,1));
-		Projectile p2 = new Projectile(1,1,1,1, new Position(1,1));
+		Projectile p1 = new Projectile(1,1,1,1, new Position(1,1),true);
+		Projectile p2 = new Projectile(1,1,1,1, new Position(1,1),true);
 		
 		w.addProjectile(p1);
 		w.addProjectile(p2);

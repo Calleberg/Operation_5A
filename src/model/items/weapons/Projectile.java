@@ -19,6 +19,7 @@ public class Projectile implements Saveable {
 	private float direction;
 	private Position startingPosition;
 	private CollisionBox collisionBox;
+	private boolean visible;
 	
 	/**
 	 * Creates a new projectile with the specified values.
@@ -28,13 +29,22 @@ public class Projectile implements Saveable {
 	 * @param direction the direction to travel. 
 	 * @param position the starting position.
 	 */
-	public Projectile(int damage, float speed, float range, float direction, Position position) {
+	public Projectile(int damage, float speed, float range, float direction, Position position, boolean visible) {
 		this.damage = damage;
 		this.speed = speed;
 		this.range = range;
 		this.direction = direction;
 		this.collisionBox = new ScanLine(position.getX(), position.getY());
 		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
+		this.visible = visible;
+	}
+	
+	/**
+	 * Gives <code>true</code> if the projectile should be visible.
+	 * @return <code>true</code> if the projectile should be visible.
+	 */
+	public boolean isVisible() {
+		return this.visible;
 	}
 	
 	/**
