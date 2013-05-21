@@ -15,13 +15,8 @@ import resources.Language;
 import view.Window;
 import view.menu.LoadingPanel;
 import view.menu.MenuButton;
-<<<<<<< HEAD
-import view.menu.PauseMenuPanel;
-=======
 import view.menu.MenuPanel;
 import view.menu.BooleanPopupMenu;
-
->>>>>>> Vidar
 import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
