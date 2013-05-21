@@ -190,7 +190,7 @@ public class WeaponFactory {
 	 * @return a new weapon.
 	 */
 	public static Weapon createWeapon(Type type, Level level) {
-		boolean droppable = (type.getWeaponType() == Weapon.Type.FISTS) ? true : false;
+		boolean droppable = (type.getWeaponType() == Weapon.Type.FISTS) ? false : true;
 		return new Weapon(
 				type.getProjectileSpeed(),
 				type.getDamage()*level.multiplier(),
