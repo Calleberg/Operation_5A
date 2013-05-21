@@ -1,9 +1,6 @@
 package model.world.generator;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -29,20 +26,19 @@ public class MapGenerator {
 	 * The value for city road tiles.
 	 */
 	public static final int ROAD = 3;
-	/**
-	 * The value for rural road tiles.
-	 */
-	public static final int RURAL_ROAD = 4;
 	
 	public static final int HOUSE = 7;
 	public static final int COMMERCIAL = 6;
 	public static final int FOREST = 8;
 	
+	public static final int SHORE = 20;
+	
 	public static final int USED = 5;
 	
+	//Change the values bellow to change the appearance of the map.
 	private final int maxShore = 8;
-	private final int blendValue = 180;
-	private final int landHeight = 50;
+	private final int blendValue = 400;
+	private final int landHeight = 0;
 	private final int turbulence = 10;
 	
 	/**
@@ -108,63 +104,57 @@ public class MapGenerator {
 		} 
 
 		//Generates roads and towns
-		Point2D[] towns = new Point2D[2];
-		for(int i = 0; i < towns.length; i++) {
-			Point2D point = new Point2D.Float(((random.nextInt(w - maxShore * 2) + maxShore)/3)*3, 
-					((random.nextInt(w - maxShore * 2) + maxShore)/3)*3);
-			this.addTown(temp, (int)point.getX(), (int)point.getY());
-			towns[i] = point;
+		for(int i = 0; i < 2; i++) {
+			this.addStreets(temp, (int)((random.nextInt(w - maxShore * 2) + maxShore)/3)*3, 
+					(int)((random.nextInt(w - maxShore * 2) + maxShore)/3)*3);
 		}
 		
-		//Generates rural roads between towns
-		for(int i = 0; i < towns.length; i++) {
-			Point2D town1 = towns[(i+1) % towns.length];
-			Point2D town2 = towns[i];
-			this.addRoad(temp, (int)town1.getX(), (int)town1.getY(), (int)town2.getX(), (int)town2.getY());
-		}
-
-		//Generates default rural roads
-		this.addRoad(temp, maxShore * 2, maxShore * 2, w - maxShore * 2, h - maxShore * 2);
-		this.addRoad(temp, w - maxShore * 2, maxShore * 2, maxShore * 2, h - maxShore * 2);
+		for(int y = 0; y < temp[0].length; y++) {
+			for(int x = 0; x < temp.length; x++) {
+				if(temp[x][y] != WATER && temp[x][y] != ROAD) {
+					int[] around = getAround(temp, x, y);
+					for(int i = 0; i < around.length; i++) {
+						if(around[i] == WATER) {
+							temp[x][y] = SHORE;
+						}
+					}
+				}
+			}
+		} 
+		
+		this.replace(temp, LAND, HOUSE);
 
 		return temp;
 	}
 	
-	/*
-	 * Adds a rural road between the two positions provided.
+	/**
+	 * Replaces the specified value with the new one everywhere in the map provided.
+	 * @param temp the map.
+	 * @param oldValue the value to replace.
+	 * @param newValue the value to replace with.
 	 */
-	private void addRoad(int[][] temp, int x, int y, int x2, int y2) {
-		//Changes the positions
-		x = (x/3)*3;
-		y = (y/3)*3;
-		x2 = (x2/3)*3;
-		y2 = (y2/3)*3;
-		
-		List<RoadNode> points = new ArrayList<RoadNode>();
-		points.add(new RoadNode(x, y, x2, y2, RoadNode.Direction.NORTH));
-	
-		while(points.size() > 0) {
-			
-			for(RoadNode node : points) {
-				if(temp[node.getX()][node.getY()] == WATER || node.isDone(6)) {
-					points.remove(node);
-					break;
-				}else if(temp[node.getX()][node.getY()] == LAND) {
-					temp[node.getX()][node.getY()] = RURAL_ROAD;
+	private void replace(int[][] temp, int oldValue, int newValue) {
+		for(int y = 0; y < temp[0].length; y++) {
+			for(int x = 0; x < temp.length; x++) {
+				if(temp[x][y] == oldValue) {
+					temp[x][y] = newValue;
 				}
-				
-				if(random.nextInt(3) == 0 && node.getX() % 3 == 0 && node.getY() % 3 == 0) {
-					node.turn();
-				}
-				
-				node.moveStep();
-				
-			}//for
-			
-		}//while
-		
+			}
+		}
 	}
 	
+	private int[] getAround(int[][] temp, int x, int y) {
+		int[] around = new int[9];
+		int i = 0;
+		for(int xLoop = x-1; xLoop <= x+1; xLoop++) {
+			for(int yLoop = y-1; yLoop <= y+1; yLoop++) {
+				around[i] = validPosition(temp, xLoop, yLoop) ? temp[xLoop][yLoop] : USED;
+				i++;
+			}
+		}
+		return around;
+	}
+		
 	private boolean validPosition(int[][] temp,int x, int y) {
 		return !(x < 0 || y < 0 || x >= temp.length || y >= temp[0].length);
 	}
@@ -172,12 +162,12 @@ public class MapGenerator {
 	/*
 	 * Adds a town at the specified position.
 	 */
-	private void addTown(int[][] temp, int startx, int starty) {
+	private void addStreets(int[][] temp, int startx, int starty) {
 		for(int i = 0; i < 6; i++) {
 			int roadX = startx - (random.nextInt(3) + 1) * 3 + 3;
 			int roadY = starty - (random.nextInt(3) + 1) * 3 + 3;
-			int roadW = (random.nextInt(3) + 1) * 3;
-			int roadH = (random.nextInt(3) + 1) * 3;
+			int roadW = (random.nextInt(2) + 1) * 3;
+			int roadH = (random.nextInt(2) + 1) * 3;
 			for(int x = roadX; x <= roadX + roadW; x++) {
 				for(int y = roadY; y <= roadY + roadH; y++) {
 					if(temp[x][y] == LAND) {

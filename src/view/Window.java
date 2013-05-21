@@ -86,6 +86,7 @@ public class Window extends JFrame {
 		}
 		activePanel=p;
 		validate();
+		p.paintImmediately(activePanel.getBounds());
 		p.repaint();
 		p.requestFocus();
 		p.validate();

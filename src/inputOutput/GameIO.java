@@ -79,7 +79,7 @@ public class GameIO {
 	 */
 	private static GameModel initBase(long seed) {
 		WorldBuilder wb = new WorldBuilder(seed);
-		World w = new World(wb.getNewWorld(400, 400));
+		World w = new World(wb.getNewWorld(200, 200));
 		GameModel model = new GameModel(w);
 		model.setSpawns(wb.getSpawnPoints());
 		
