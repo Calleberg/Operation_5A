@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Dimension;
+
 import inputOutput.SettingsModel;
 
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 public class Window extends JFrame {
 	private JPanel activePanel = null;
 	private boolean isFullScreen = !SettingsModel.getFullscreen();
+	private static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
 	
 	/**
 	 * Creates a new window.
@@ -43,7 +46,7 @@ public class Window extends JFrame {
 				}
 			} else {
 				this.setExtendedState(NORMAL);
-				this.setSize(1000, 800);
+				this.setSize(DEFAULT_SIZE);
 				this.setAlwaysOnTop(false);
 
 				if(this.isUndecorated()) {
