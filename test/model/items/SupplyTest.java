@@ -3,7 +3,6 @@ package model.items;
 import static org.junit.Assert.*;
 
 import model.geometrical.Position;
-import model.items.Supply.Type;
 
 import org.junit.Test;
 

@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
 import savePath.SavePath;
-import controller.GameController;
 
 import model.GameModel;
 import model.geometrical.Position;

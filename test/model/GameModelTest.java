@@ -8,9 +8,6 @@ import java.util.List;
 import model.GameModel;
 import model.world.Tile;
 import model.world.World;
-import model.items.weapons.WeaponFactory;
-import model.items.weapons.WeaponFactory.Level;
-import model.items.weapons.WeaponFactory.Type;
 import model.sprites.Player;
 
 import org.junit.Test;

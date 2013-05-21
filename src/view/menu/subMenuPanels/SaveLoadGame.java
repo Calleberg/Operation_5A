@@ -1,15 +1,7 @@
 package view.menu.subMenuPanels;
 
-import inputOutput.GameIO;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import controller.GameController;
-import controller.MenuController;
 
 import view.menu.MenuButton;
 
@@ -38,7 +30,6 @@ public class SaveLoadGame extends SubMenuPanel{
 //			
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
 //				MenuController.startGame(GameIO.loadGame());
 //			}
 //		});
@@ -51,7 +42,6 @@ public class SaveLoadGame extends SubMenuPanel{
 //			
 //			@Override
 //			public void actionPerformed(ActionEvent arg0) {
-//				// TODO Auto-generated method stub
 //				GameIO.saveGame(controller.getGameModel());
 //			}
 //		});
@@ -66,7 +56,6 @@ public class SaveLoadGame extends SubMenuPanel{
 		}
 	}
 	private static JPanel getPanel() {
-		// TODO Auto-generated method stub
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Load/SavePanel  A list of saved games should be visible"));
 		return panel;

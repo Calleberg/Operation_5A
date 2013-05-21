@@ -9,7 +9,6 @@ import model.geometrical.Position;
 import model.items.SupplyFactory;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
-import model.sprites.Sprite.State;
 
 import org.junit.Test;
 

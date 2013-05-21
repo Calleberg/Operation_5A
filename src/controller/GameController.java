@@ -1,7 +1,5 @@
 package controller;
 
-import inputOutput.GameIO;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;

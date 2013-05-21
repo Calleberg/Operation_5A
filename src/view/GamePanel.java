@@ -40,7 +40,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private static final long serialVersionUID = 1L;
 	private GameModel model;
-	private long tick = 0;
+	private long tick = 0;//TODO should tick exist?
 	private TileView[][] tiles;
 	private List<ObjectRenderer<?>> objects;
 	private Camera camera;

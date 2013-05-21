@@ -2,15 +2,12 @@ package model.pathfinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import model.geometrical.Position;
 import model.items.weapons.Projectile;
 import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
-import model.sprites.Sprite.State;
-import model.world.Tile;
 import model.world.World;
 
 public class AI {

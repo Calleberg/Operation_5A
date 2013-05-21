@@ -5,8 +5,6 @@ import inputOutput.GameIO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
-
 import model.GameModel;
 
 
@@ -19,7 +17,6 @@ import view.menu.LoadingPanel;
 import view.menu.MainMenuPanel;
 import view.menu.MenuButton;
 import view.menu.PauseMenuPanel;
-import view.menu.BooleanPopupMenu;
 import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.SaveLoadGame;
 import view.menu.subMenuPanels.Settings;
