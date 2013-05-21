@@ -62,10 +62,11 @@ public class GameIO {
 		
 		Player player = new Player(pos.getX(), pos.getY());
 		//TODO decide which weapons to start with
-		player.pickUpWeapon(WeaponFactory.getDefaultWeapon());
-		player.pickUpWeapon(WeaponFactory.createTestWeapon2());
+		player.switchWeapon(0);
+		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		player.switchWeapon(2);
 		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.BAT, WeaponFactory.Level.NORMAL));
+		player.switchWeapon(0);
 		model.setPlayer(player);
 
 		return model;

@@ -97,6 +97,7 @@ public class PlayerTest {
 		
 		Weapon w1 = WeaponFactory.createTestWeapon();
 		Weapon w2 = WeaponFactory.createTestWeapon2();
+		p.switchWeapon(0);
 		p.pickUpWeapon(w1);
 		p.switchWeapon(1);
 		p.pickUpWeapon(w2);
@@ -114,13 +115,16 @@ public class PlayerTest {
 		Weapon w1 = WeaponFactory.createTestWeapon();
 		Weapon w2 = WeaponFactory.createTestWeapon2();
 		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
-		p.getWeapons()[0] = null;
-		p.getWeapons()[1] = null;
-		p.getWeapons()[2] = null;
-		p.addWeapon(w1);
-		p.addWeapon(w2);
-		p.addWeapon(w3);
-		
+		p.getWeapons()[0] = WeaponFactory.createPlayerDefaultWeapon();
+		p.getWeapons()[1] = WeaponFactory.createPlayerDefaultWeapon();
+		p.getWeapons()[2] = WeaponFactory.createPlayerDefaultWeapon();
+		p.switchWeapon(0);
+		p.pickUpWeapon(w1);
+		p.switchWeapon(1);
+		p.pickUpWeapon(w2);
+		p.switchWeapon(2);
+		p.pickUpWeapon(w3);
+				
 		assertTrue(p.getIndex(w1) == 0);
 		assertTrue(p.getIndex(w2) == 1);
 		assertTrue(p.getIndex(w3) == 2);
@@ -183,32 +187,17 @@ public class PlayerTest {
 		Weapon w1 = WeaponFactory.createTestWeapon();
 		Weapon w2 = WeaponFactory.createTestWeapon2();
 		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
+		p.switchWeapon(0);
 		p.pickUpWeapon(w1);
+		
+		assertTrue(p.getWeapons()[0] == w1);
+		
 		p.pickUpWeapon(w2);
 		p.switchWeapon(1);
 		p.pickUpWeapon(w3);
 		
 		assertTrue(p.getWeapons()[0] == w2);
 		assertTrue(p.getWeapons()[1] == w3);
-	}
-	
-	@Test
-	public void AddWeapons(){
-		Player p = new Player(1,1);
-		
-		Weapon w1 = WeaponFactory.createTestWeapon();
-		Weapon w2 = WeaponFactory.createTestWeapon2();
-		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
-		p.getWeapons()[0] = null;
-		p.getWeapons()[1] = null;
-		p.getWeapons()[2] = null;
-		p.addWeapon(w1);
-		p.addWeapon(w2);
-		p.addWeapon(w3);
-		
-		assertTrue(p.getWeapons()[0] == w1);
-		assertTrue(p.getWeapons()[1] == w2);
-		assertTrue(p.getWeapons()[2] == w3);
 	}
 	
 	@Test
@@ -221,9 +210,12 @@ public class PlayerTest {
 		p.getWeapons()[0] = null;
 		p.getWeapons()[1] = null;
 		p.getWeapons()[2] = null;
-		p.addWeapon(w1);
-		p.addWeapon(w2);
-		p.addWeapon(w3);
+		p.switchWeapon(0);
+		p.pickUpWeapon(w1);
+		p.switchWeapon(1);
+		p.pickUpWeapon(w2);
+		p.switchWeapon(2);
+		p.pickUpWeapon(w3);
 		
 		assertTrue(p.getWeapons()[0] == w1);
 		assertTrue(p.getWeapons()[1] == w2);
@@ -234,7 +226,8 @@ public class PlayerTest {
 	@Test
 	public void reload(){
 		Player p = new Player(1,1);
-		p.pickUpWeapon(WeaponFactory.createTestWeapon());
+		p.switchWeapon(0);
+		p.pickUpWeapon(WeaponFactory.createTestWeapon());		
 		p.getActiveWeapon().createProjectile(0, new Position(1, 1));
 		p.reloadActiveWeapon();
 		assertTrue(p.getActiveWeapon().getAmmunitionInMagazine() == 
@@ -261,33 +254,18 @@ public class PlayerTest {
 		Player p = new Player(1,1);
 		
 		String[] s = new String[] {
-				0.15 + "",//TODO playerspeed not to be saved?
+				p.getDirection() + "",
 				p.getHealth() + "",
 				p.getAmmoAmount() + "",
 				p.getFood() + "",
 				p.getCenter().getX() + "",
 				p.getCenter().getY() + "",
-				p.getIndex(p.getActiveWeapon()) + "",//TODO never saves weapons?
+				p.getIndex(p.getActiveWeapon()) + "",
 		};
 		for(int i = 0; i<s.length; i++){
 			assertTrue(s[i].equals(p.getData()[i]));
 		}
 	}
-	
-//	@Test
-//	public void getData(){
-//		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
-//		
-//		String[] s = new String[] {
-//				e.getHealth() + "",
-//				e.getSpeed() + "",
-//				e.getCenter().getX() + "",
-//				e.getCenter().getY() + ""
-//		};
-//		for(int i = 0; i<s.length; i++){
-//			assertTrue(s[i].equals(e.getData()[i]));
-//		}
-//	}
 	
 	@Test
 	public void pickUpItem(){
@@ -355,9 +333,10 @@ public class PlayerTest {
 	@Test
 	public void getActiveWeapon(){
 		Player p = new Player(1,1);
-		p.addWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
-		assertTrue(p.getActiveWeapon() != null);
 		
+		p.switchWeapon(0);
+		p.pickUpItem(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		assertTrue(p.getActiveWeapon() != null);
 	}
 	
 	@Test
@@ -430,7 +409,8 @@ public class PlayerTest {
 	@Test
 	public void setWeapon(){
 		Player p = new Player(1,1);
-		p.addWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
+		p.switchWeapon(0);
+		p.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		assertTrue(p.getActiveWeapon() != null);
 	}
 	

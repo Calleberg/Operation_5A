@@ -22,7 +22,7 @@ public class Tile implements WorldObject {
 	private boolean northWall, westWall;
 	private Position position;
 	private List<Prop> props;
-	private ComplexShape box;
+	private ComplexShape box; //only needs to be compiled once
 	private int property;
 	
 	/**
@@ -210,26 +210,6 @@ public class Tile implements WorldObject {
 	public int getProperty(){
 		return this.property;
 	}
-	
-//	@Override
-//	public void setX(float x) {
-//		this.position.setX(x);
-//	}
-//
-//	@Override
-//	public float getX() {
-//		return this.position.getX();
-//	}
-//
-//	@Override
-//	public void setY(float y) {
-//		this.position.setY(y);
-//	}
-//
-//	@Override
-//	public float getY() {
-//		return this.position.getY();
-//	}
 
 	@Override
 	public Position getPosition() {

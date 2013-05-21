@@ -228,6 +228,15 @@ public class WeaponFactory {
 	}
 	
 	/**
+	 * Gives the weapon the player uses bu default.
+	 * @return the weapon the player uses by default.
+	 */
+	public static Weapon createPlayerDefaultWeapon() {
+		//TODO bestäm vapen
+		return createEnemyMeleeWeapon();
+	}
+	
+	/**
 	 * Creates the weapon enemies uses
 	 * @return the weapon enemies uses.
 	 */

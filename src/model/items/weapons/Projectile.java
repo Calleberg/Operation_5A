@@ -5,7 +5,12 @@ import model.geometrical.Position;
 import model.geometrical.ScanLine;
 import model.other.Saveable;
 
-
+/**
+ * A model of a projectile.
+ * 
+ * @author 
+ *
+ */
 public class Projectile implements Saveable {
 	
 	private int damage;
@@ -15,14 +20,20 @@ public class Projectile implements Saveable {
 	private Position startingPosition;
 	private CollisionBox collisionBox;
 	
-
+	/**
+	 * Creates a new projectile with the specified values.
+	 * @param damage the damage this projectile inflicts.
+	 * @param speed the speed the projectile travel at.
+	 * @param range the range of the projectile.
+	 * @param direction the direction to travel. 
+	 * @param position the starting position.
+	 */
 	public Projectile(int damage, float speed, float range, float direction, Position position) {
 		this.damage = damage;
 		this.speed = speed;
 		this.range = range;
 		this.direction = direction;
 		this.collisionBox = new ScanLine(position.getX(), position.getY());
-//		this.collisionBox = new Rectangle(position.getX(), position.getY(), 0.1f, 0.1f);
 		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
 	}
 	
@@ -107,7 +118,6 @@ public class Projectile implements Saveable {
 
 	@Override
 	public void restore(String[] data) {
-		//TODO Wrong
 		this.damage = Integer.parseInt(data[0]);
 		this.direction = Float.parseFloat(data[1]);
 		this.range = Float.parseFloat(data[2]);

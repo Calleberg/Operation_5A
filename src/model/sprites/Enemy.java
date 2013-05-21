@@ -138,7 +138,6 @@ public class Enemy implements Sprite{
 		}
 	}
 	
-
 	@Override
 	public float getDirection() {
 		return direction;
@@ -153,38 +152,6 @@ public class Enemy implements Sprite{
 	public void setDirection(float direction) {
 		this.direction = direction;
 	}
-
-//	/**
-//	 * Gives the x-coordinate.
-//	 * @return the x-coordinate.
-//	 */
-//	public float getX() {
-//		return this.hitBox.getPosition().getX();
-//	}
-//
-//	/**
-//	 * Gives the y-coordinate.
-//	 * @return the y-coordinate.
-//	 */
-//	public float getY() {
-//		return this.hitBox.getPosition().getY();
-//	}
-//
-//	/**
-//	 * Sets the x-coordinate.
-//	 * @param x the x-coordinate.
-//	 */
-//	public void setX(float x) {
-//		this.setPosition(new Position(x, this.getY()));
-//	}
-//
-//	/**
-//	 * Sets the y-coordinate.
-//	 * @param y the y-coordinate.
-//	 */
-//	public void setY(float y) {
-//		this.setPosition(new Position(this.getX(),y));
-//	}
 
 	@Override
 	public Weapon getActiveWeapon() {

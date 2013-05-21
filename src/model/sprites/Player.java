@@ -46,8 +46,17 @@ public class Player implements Sprite {
 		this.food = 100;
 		this.ammo = 20;
 		this.weapons = new Weapon[3];
-		this.setStartingWeapons();
 		this.setPosition(new Position(x, y));
+		this.pickUpDefaultWeapon();
+	}
+	
+	/**
+	 * Adds the default weapon to all the slots on the player.
+	 */
+	private void pickUpDefaultWeapon() {
+		for(int i = 0; i < this.getWeapons().length; i++) {
+			this.getWeapons()[i] = WeaponFactory.createPlayerDefaultWeapon();
+		}
 	}
 	
 	@Override
@@ -101,38 +110,6 @@ public class Player implements Sprite {
 		this.faceDir = faceDir;
 	}
 	
-//	/**
-//	 * Returns the x-coordinate of the player's position.
-//	 * @return the x-coordinate of the player's position.
-//	 */
-//	public float getX(){
-//		return hitBox.getPosition().getX();
-//	}
-//	
-//	/**
-//	 * Returns the y-coordinate of the player's position.
-//	 * @return the y-coordinate of the player's position.
-//	 */
-//	public float getY(){
-//		return hitBox.getPosition().getY();
-//	}
-//	
-//	/**
-//	 * Set the x-coordinate of the player's position.
-//	 * @param x the new x-coordinate.
-//	 */
-//	public void setX(float x){
-//		this.setPosition(new Position(x, this.getY()));
-//	}
-//	
-//	/**
-//	 * Set the y-coordinate of the player's position.
-//	 * @param y the new y-coordinate.
-//	 */
-//	public void setY(float y){
-//		this.setPosition(new Position(this.getX(),y));
-//	}
-	
 	/**
 	 * Returns the player's weapon
 	 * @return the player's weapon
@@ -149,7 +126,6 @@ public class Player implements Sprite {
 		return this.weapons;
 	}
 	
-	//TODO dropped weapon still exist or destroyed?
 	/**
 	 * The player drops the active weapon and picks up another. If w == null
 	 * the player will get a melee weapon
@@ -162,42 +138,20 @@ public class Player implements Sprite {
 					weapons[i] = w;
 					activeWeapon = w;
 				}else{
-					weapons[i] = WeaponFactory.createEnemyMeleeWeapon();//TODO decide "standard" weapon
+					weapons[i] = WeaponFactory.createPlayerDefaultWeapon();
 					activeWeapon = weapons[i];
 				}
 			}
 		}
 	}
 	
-	//TODO remove this method, exist for testing purposes with starting weapon
-	/**
-	 * Try to add a weapon to the player. The player can carry a maxiumum
-	 * of three weapons.
-	 * @param w The weapon which is tried to add.
-	 * @return true if the weapon is added, false if the player carry three
-	 * weapons before.
-	 */
-	public boolean addWeapon(Weapon w){
-		for(int i = 0; i<3; i++){
-			if(weapons[i] == null){
-				weapons[i] = w;
-				if(activeWeapon == null){
-					activeWeapon = w;
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	/**
 	 * Switch to a new active weapon.
 	 * @param i the index of the new weapon.
-	 * @return <code>false</code> if the index was out of bounds or if the
-	 * specified index didn't hold any weapon.
+	 * @return <code>false</code> if the index was out of bounds.
 	 */
 	public boolean switchWeapon(int i){
-		if(i >= 0 && i < weapons.length && weapons[i] != null){
+		if(i >= 0 && i < weapons.length){
 			this.activeWeapon = weapons[i];
 			return true;
 		}
@@ -322,16 +276,7 @@ public class Player implements Sprite {
 	public void fireEvent(String event) {
 		this.pcs.firePropertyChange(event, 0, 1);
 	}
-	
-	//TODO
-	private void setStartingWeapons(){
-		weapons = new Weapon[3];
-		for(int i = 0; i<3; i++){
-			weapons[i] = WeaponFactory.getDefaultWeapon();
-		}
-		activeWeapon = weapons[0];
-	}
-	
+		
 	/**
 	 * Return the direction the player is currently moving
 	 * @return the direction of movement
@@ -376,35 +321,36 @@ public class Player implements Sprite {
 	public boolean pickUpItem(Item i) {
 		if(i instanceof Supply){
 			Supply s = (Supply)i;
-			if(s.getType() == Supply.Type.FOOD){
-				if(this.food >= 100){
-					return false;
-				}else{
-					this.addFood(s.getAmount());
-					return true;	
-				}
-			}else if(s.getType() == Supply.Type.AMMO){
+			switch(s.getType()) {
+			case AMMO:
+				
 				if(this.ammo >= 100){
 					return false;
 				}else{
 					this.increaseAmmo(s.getAmount());
 					return true;
 				}
-
-			}else if(s.getType() == Supply.Type.HEALTH){
+				
+			case FOOD:
+				
+				if(this.food >= 100){
+					return false;
+				}else{
+					this.addFood(s.getAmount());
+					return true;	
+				}
+				
+			case HEALTH:
+				
 				if(this.health >= 100){
 					return false;
 				}else{
 					this.increaseHealth(s.getAmount());
 					return true;
 				}
-
-			}else{
-				return false;
 			}
-		}else{
-			return false;
 		}
+		return false;
 	}
 
 	@Override

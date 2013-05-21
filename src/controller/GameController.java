@@ -39,15 +39,15 @@ public class GameController implements Runnable, PropertyChangeListener {
 	private GamePanel gamePanel;
 	private Input input;
 	
-	private long startTime = 0;
-	private long totalTimePaused = 0;
-	private long lastTimePaused = 0;
+	private long startTime;
+	private long totalTimePaused;
+	private long lastTimePaused;
 
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
 	
 	private int nbrOfUpdates;
-	private int suppliesTick = 0;
+	private int suppliesTick;
 	private int foodTicks;
 	private int enemySpawnTick;
 	private AI ai;
@@ -63,16 +63,13 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	public final static int FOOD_LOW = 29;
 	
+	//TODO bra värde?
+	private final static int ENEMY_SPAWN_DISTANCE = 25;
 	
 	/**
-	 * Creates a new GameController. The controller will not
-	 * start in a running state so the method<code>start()<code>
-	 * need to be called before the execution starts.
+	 * Initialises the controller with the specified model.
+	 * @param model the model this controller should control.
 	 */
-	public GameController(){
-		
-	}	
-
 	public void init(GameModel model) {
 		this.gameModel = model;
 		this.setStartTime(model.getGameTime());
@@ -136,7 +133,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
 				player.getProjectileSpawn());
 		if(p != null) {
-//			p.setOwner(player);
 			this.gameModel.getWorld().addProjectile(p);
 			player.fireEvent(Player.EVENT_USE_WEAPON);
 		}
@@ -212,6 +208,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		foodTicks++;
 		if(foodTicks >= 120){
 			reducePlayerFood();
+			foodTicks = 0;
 		}
 		
 		if(gameModel.getPlayer().getHealth() <= 0){
@@ -227,10 +224,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 		this.gameModel.setGameTime(this.getTotalRuntime());
 		
 		gameModel.update();
-		
-		//Write dev data to console
-//		System.out.println("Number of updates since start (ctr): " + this.getNumbersOfUpdates() 
-//				+ ", average: " + this.getNumbersOfUpdates()/(int)(1 + this.getMsSinceStart()/1000) + "/s");
 	}
 	
 	/**
@@ -295,12 +288,11 @@ public class GameController implements Runnable, PropertyChangeListener {
 			supply = SupplyFactory.createHealth(25, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, supply);
-		}else /*if(t.getProperty() == Tile.WEAPON_SPAWN)*/{//create a weapon
+		}else if(t.getProperty() == Tile.WEAPON_SPAWN){//create a weapon
 			Weapon w = WeaponFactory.createRandomWeapon();
 			w.setPosition(t.getPosition());
 			gameModel.getWorld().getItems().add(w);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, w);
-			System.out.println("Weapon supposed to spawn");
 		}	
 	}
 	
@@ -391,11 +383,11 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	private void spawnEnemy(){
 		Position spawnPos;
-		do{//TODO maxDistance on enemySpawn?
+		do{
 			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
 			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
-		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= 25 && 
-				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= 25);
+		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= ENEMY_SPAWN_DISTANCE && 
+				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= ENEMY_SPAWN_DISTANCE);
 
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
@@ -434,7 +426,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	}
 	
 	/*
-	 * Reduce the player's food level once every 120 updates. If the food level
+	 * Reduce the player's food level once every call. If the food level
 	 * is higher or equal to FOOD_HIGH also increases the player's health by one.
 	 * If the food level is lower or equal to FOOD_LOW also decreases the player's
 	 * health by one.
@@ -446,7 +438,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 			gameModel.getPlayer().increaseHealth(1);
 		}
 		gameModel.getPlayer().removeFood(1);
-		foodTicks = 0;
 	}
 
 	/*

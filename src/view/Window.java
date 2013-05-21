@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class Window extends JFrame {
 	private JPanel activePanel = null;
 	private boolean isFullScreen = !SettingsModel.getFullscreen();
-	private static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
+	private static final Dimension DEFAULT_SIZE = new Dimension(1000, 700);
 	
 	/**
 	 * Creates a new window.
