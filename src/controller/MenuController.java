@@ -51,7 +51,8 @@ public class MenuController{
 		WINDOW.add(new LoadingPanel());
 		
 		gameController = new GameController(mainModel);
-		gameController.init(m);
+		mainModel.setGameModel(m);
+		gameController.init();
 
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
