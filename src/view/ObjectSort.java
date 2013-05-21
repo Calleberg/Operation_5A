@@ -3,8 +3,8 @@ package view;
 import java.util.Comparator;
 
 /**
- * Comparator which can be used to sort ObjectRenderers after the layer they are supposed to be drawn
- * at.
+ * Comparator which can be used to sort ObjectRenderers after the layer they are supposed to be 
+ * drawn at.
  * 
  * @author Calleberg
  *

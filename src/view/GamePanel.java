@@ -40,7 +40,6 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private static final long serialVersionUID = 1L;
 	private GameModel model;
-	private long tick = 0;//TODO should tick exist?
 	private TileView[][] tiles;
 	private List<ObjectRenderer<?>> objects;
 	private Camera camera;
@@ -81,7 +80,6 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 	private synchronized void runThread(){
 		if (!paused) {
 			repaint();
-			tick++;
 			try{
 				Thread.sleep(SLEEP);
 			}catch (InterruptedException e) {
@@ -147,11 +145,6 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         add(new ScorePanel(model), gridBagConstraints);
-        
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        add(new DevPanel(model), gridBagConstraints);
 	}
 	
 	/*
@@ -294,10 +287,5 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 
 		//Draw cursor
 		cursor.render(g2d);
-
-		//data:
-		//Write dev data to console
-//		System.out.println("Number of updates since start (view): " + tick 
-//				+ ", average: " + tick/(int)(1 + this.model.getGameTime()/1000) + "/s");
 	}
 }
