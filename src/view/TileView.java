@@ -53,8 +53,8 @@ public class TileView {
 	 */
 	public void render(Graphics g, Position offset, int scale) {
 		if(t != null) {
-			int x = (int)(t.getX() * scale + offset.getX()); 
-			int y = (int)(t.getY() * scale + offset.getY());
+			int x = (int)(t.getPosition().getX() * scale + offset.getX()); 
+			int y = (int)(t.getPosition().getY() * scale + offset.getY());
 			g.drawImage(floors[t.getFloor()], x, y, scale, scale, null);
 			for(int i = 0; i < t.getProps().size(); i++) {
 				g.drawImage(props[t.getProps().get(i).getImageNbr()], x, y, scale, scale, null);

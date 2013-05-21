@@ -66,8 +66,10 @@ public class EnemyPathfinder {
 		
 		//Looping through the tiles to find the fastest way. End the loop if the fastest way is found, 
 		//no way was found or if there is a straight way found towards the goal.
-		while(((currentNode.getTile().getX() != this.goal.getTile().getX() ||
-				currentNode.getTile().getY() != this.goal.getTile().getY())) && !noWayFound && 
+		while(((currentNode.getTile().getPosition().getX() != 
+				this.goal.getTile().getPosition().getX() ||
+				currentNode.getTile().getPosition().getY() != 
+				this.goal.getTile().getPosition().getY())) && !noWayFound && 
 				!(adjustedCanMove(currentNode.getCenter(), this.goal.getCenter()))){
 			findWay(start);
 		}
@@ -82,8 +84,10 @@ public class EnemyPathfinder {
 		
 		//if there exist a straight way found from the currentNode towards the goal, 
 		//add the goal as currentNode.
-		if(currentNode.getTile().getX() != this.goal.getTile().getX() || 
-				currentNode.getTile().getY() != this.goal.getTile().getY()){
+		if(currentNode.getTile().getPosition().getX() != 
+				this.goal.getTile().getPosition().getX() || 
+				currentNode.getTile().getPosition().getY() != 
+				this.goal.getTile().getPosition().getY()){
 			this.goal.setParentNode(currentNode);
 			currentNode = this.goal;
 		}
@@ -142,8 +146,10 @@ public class EnemyPathfinder {
 	 */
 	private List<PathfindingNode> surroundingTiles(PathfindingNode t){//TODO comments
 		List<PathfindingNode> surroundingTiles = new ArrayList<PathfindingNode>();
-		for(float x = currentNode.getTile().getX() - 1; x < currentNode.getTile().getX() + 2; x++){
-			for(float y = currentNode.getTile().getY() - 1; y < currentNode.getTile().getY() + 2; y++){
+		for(float x = currentNode.getTile().getPosition().getX() - 1; x < 
+				currentNode.getTile().getPosition().getX() + 2; x++){
+			for(float y = currentNode.getTile().getPosition().getY() - 1; y < 
+					currentNode.getTile().getPosition().getY() + 2; y++){
 				if(x >= 0 && y >= 0 && getDistance(nodes[(int)x][(int)y].getTile().getPosition(), 
 						goal.getTile().getPosition()) < 15){
 					if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 

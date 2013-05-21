@@ -138,8 +138,8 @@ public class PlayerTest {
 	public void getCenter(){
 		Player p = new Player(1,1);
 		
-		float targetX = p.getX() + p.getHitBox().getWidth()/2;
-		float targetY = p.getY() + p.getHitBox().getHeight()/2; 
+		float targetX = p.getPosition().getX() + p.getHitBox().getWidth()/2;
+		float targetY = p.getPosition().getY() + p.getHitBox().getHeight()/2; 
 		
 		assertTrue(p.getCenter().getX() == targetX && p.getCenter().getY() == targetY);
 		
@@ -223,10 +223,7 @@ public class PlayerTest {
 	@Test
 	public void reload(){
 		Player p = new Player(1,1);
-		p.addWeapon(WeaponFactory.createRandomWeapon());
-//		System.out.println("t " + p.getActiveWeapon().getAmmunitionInMagazine());
-//		p.getActiveWeapon().reload(10000);
-//		System.out.println("y " + p.getActiveWeapon().getMagazineCapacity());
+		p.pickUpWeapon(WeaponFactory.createTestWeapon());
 		p.getActiveWeapon().createProjectile(0, new Position(1, 1));
 		p.reloadActiveWeapon();
 		assertTrue(p.getActiveWeapon().getAmmunitionInMagazine() == 
@@ -367,7 +364,7 @@ public class PlayerTest {
 		p.setState(State.RUNNING);
 		p.moveXAxis();
 		p.moveYAxis();
-		assertTrue(p.getX() != 1 || p.getY() != 1);
+		assertTrue(p.getPosition().getX() != 1 || p.getPosition().getY() != 1);
 	}
 	
 	@Test
@@ -377,33 +374,33 @@ public class PlayerTest {
 		assertTrue(p.getDirection() == 1);
 	}
 
-	@Test
-	public void setX(){
-		Player p = new Player(1,1);
-		p.setX(4);
-		System.out.println("" + p.getX());
-		assertTrue(p.getX() == 4);
-	}
+//	@Test
+//	public void setX(){
+//		Player p = new Player(1,1);
+//		p.setX(4);
+//		System.out.println("" + p.getX());
+//		assertTrue(p.getX() == 4);
+//	}
 	
-	@Test
-	public void setY(){
-		Player p = new Player(1,1);
-		p.setY(6);
-		assertTrue(p.getY() == 6);
-	}
+//	@Test
+//	public void setY(){
+//		Player p = new Player(1,1);
+//		p.setY(6);
+//		assertTrue(p.getY() == 6);
+//	}
 	
-	@Test
-	public void getX(){
-		Player p = new Player(1,1);
-		assertTrue(p.getX() == 1);
-	}
+//	@Test
+//	public void getX(){
+//		Player p = new Player(1,1);
+//		assertTrue(p.getX() == 1);
+//	}
 	
-	@Test
-	public void getY(){
-		Player p = new Player(1,1);
-		assertTrue(p.getY() == 1);
-	}
-	
+//	@Test
+//	public void getY(){
+//		Player p = new Player(1,1);
+//		assertTrue(p.getY() == 1);
+//	}
+//	
 	@Test
 	public void setWeapon(){
 		Player p = new Player(1,1);
@@ -421,7 +418,7 @@ public class PlayerTest {
 	public void setPosition(){
 		Player p = new Player(1,1);
 		p.setPosition(new Position(2,5));
-		assertTrue(p.getX() == 2 && p.getY() == 5);
+		assertTrue(p.getPosition().getX() == 2 && p.getPosition().getY() == 5);
 	}
 	
 	@Test
