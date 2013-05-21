@@ -6,19 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.GameModel;
-
-
 import resources.Language;
-
-
-
 import view.Window;
 import view.menu.LoadingPanel;
 import view.menu.MenuButton;
 import view.menu.MenuPanel;
-import view.menu.BooleanPopupMenu;
-import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.SaveLoadGame;
+import view.menu.subMenuPanels.Score;
 import view.menu.subMenuPanels.Settings;
 
 /**
@@ -29,7 +23,7 @@ import view.menu.subMenuPanels.Settings;
  */
 public class MenuController{
 	private static final Window WINDOW = new Window();
-	private static GameController gameController = new GameController();
+	private static GameController gameController = null;
 	
 	/**
 	 * Creates a new game window and starts the main menu for the game.
@@ -43,14 +37,17 @@ public class MenuController{
 	public static void showMainMenu(){
 		WINDOW.add(new MenuPanel(Language.getMainMenuText(), MenuButtons.getMainMenuButtons()));
 	}
-	//TODO temp public
-	public static void startGame(GameModel m){
+	private static void startGame(GameModel m){
+		if (gameController != null){
+			gameController.stopThread();
+		}
 		if (m == null){
 			startNewGame();
 		}
 		
 		WINDOW.add(new LoadingPanel());
 		
+		gameController = new GameController();
 		gameController.init(m);
 
 		WINDOW.add(gameController.getGamePanel());
@@ -72,12 +69,12 @@ public class MenuController{
 		WINDOW.add(new Settings(MenuButtons.getPauseMenuButton()));
 	}
 	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGame(new MenuButton[]{MenuButtons.getLoadButton(),
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuButtons.getLoadButton(),
 				MenuButtons.getSaveButton(), MenuButtons.getPauseMenuButton()}, true));
 	}
 	private static void showLoadSavedGame(){
-		WINDOW.add(new SaveLoadGame(new MenuButton[]{MenuButtons.getLoadButton(),
-				MenuButtons.getSaveButton(), MenuButtons.getPauseMenuButton()}, false));
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuButtons.getLoadButton(),
+				MenuButtons.getSaveButton(), MenuButtons.getMainMenuButton()}, false));
 	}
 	/**
 	 * Changes this controllers window to the game over view.
@@ -113,7 +110,7 @@ public class MenuController{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						GameIO.saveGame(gameController.getGameModel());
-//						showMainMenu();//TODO
+						//TODO
 					}
 				});
 			}
@@ -127,7 +124,6 @@ public class MenuController{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						startGame(GameIO.loadGame());
-//						showMainMenu();//TODO
 					}
 				});
 			}
@@ -235,44 +231,7 @@ public class MenuController{
 				buttons[2].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-//						int optionButton = JOptionPane.YES_NO_OPTION;
-//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-//								"Confirm", optionButton);
-//						if(optionButton == JOptionPane.YES_OPTION){
-//							showMainMenu();
-//						}else{
-//							showPauseMenu();
-//						}
 						showMainMenu();
-						
-//						//TODO
-////						PopupMenu popup = new PopupMenu("test 1", "test22222");
-//						int optionButton = BooleanPopupMenu.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-//								"Confirm", BooleanPopupMenu.YES_NO_OPTION);
-//						if(optionButton == BooleanPopupMenu.YES_OPTION){
-//							showMainMenu();
-//						}else{
-//							showPauseMenu();
-//						}
-						
-//						BooleanPopupMenu popup = new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No");
-//						popup.repaint();
-//						while (!popup.hasGotResult()){
-//							//Wait
-//						}
-//						BooleanPopupMenu popup = new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult());
-	
-						
-//						if (new BooleanPopupMenu("Return to Main Menu Without saving?", "Yes", "No").getResult()){
-//							showMainMenu();
-//							System.out.println("answear: yES");
-//						} else {
-//							System.out.println("Answear: no");
-//							showPauseMenu();
-//						}
-						
-						
-						
 					}
 				});
 				
@@ -280,16 +239,6 @@ public class MenuController{
 				buttons[3].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
-//						int optionButton = JOptionPane.YES_NO_OPTION;
-//						optionButton = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", 
-//								"Confirm", optionButton);
-//						if(optionButton == JOptionPane.YES_OPTION){
-//							exitGame();
-//						}else{
-//							showPauseMenu();
-//						}
-						//TODO
 						exitGame();
 					}
 				});

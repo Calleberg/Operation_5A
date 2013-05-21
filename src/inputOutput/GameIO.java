@@ -231,4 +231,9 @@ public class GameIO {
 		}
 		return sb.toString();
 	}
+	
+	public static String getSaveTime(){
+		//TODO skapa tid
+		return "Not implemented time yet";
+	}
 }
