@@ -16,22 +16,22 @@ public class WeaponFactory {
 	 */
 	public static enum Type{
 		//Range
-		PISTOL (0.75f,5,50f,6,6000,1000,10, "Pistol"),
-		SHOTGUN (0.45f, 10, 50f, 6, 10000, 3000, 11, "Shotgun"),
+		PISTOL (0.75f,5,50f,6,6000,1000,10, "Pistol", Weapon.Type.GUN),
+		SHOTGUN (0.45f, 10, 50f, 6, 10000, 3000, 11, "Shotgun", Weapon.Type.GUN),
 //		REVOLVER,
 //		HUNTING_RIFLE,
-		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "Sub Machinegun"),
+		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "Sub Machinegun", Weapon.Type.GUN),
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
 //TODO more weapons
 		//Melee
-		FISTS (1.8f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 1000, 0, "Fists"),
+		FISTS (1.8f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 1000, 0, "Fists", Weapon.Type.FISTS),
 //		POCKET_KNIFE,
 //		MACHETTE,
-		BAT(0.35f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat"),
+		BAT(0.35f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat", Weapon.Type.MELEE),
 //		PIPE,
 		
-		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "Test weapon");
+		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "Test weapon", Weapon.Type.GUN);
 		
 		private final float projectileSpeed;
 		private final int damage;
@@ -41,6 +41,7 @@ public class WeaponFactory {
 		private final int rateOfFire;
 		private final int iconNumber;
 		private final String name;
+		private final Weapon.Type weaponType;
 		
 		/**
 		 * Creates a new type.
@@ -60,7 +61,8 @@ public class WeaponFactory {
 				int reloadTime,
 				int rateOfFire,
 				int iconNumber,
-				String name){
+				String name, 
+				Weapon.Type type){
 			this.projectileSpeed = projectileSpeed;
 			this.damage = damage;
 			this.range = range;
@@ -69,6 +71,7 @@ public class WeaponFactory {
 			this.rateOfFire=rateOfFire;
 			this.iconNumber=iconNumber;
 			this.name=name;
+			this.weaponType = type;
 		}
 
 		/**
@@ -85,6 +88,14 @@ public class WeaponFactory {
 		 */
 		public int getDamage() {
 			return damage;
+		}
+		
+		/**
+		 * Gives the type of the weapon.
+		 * @return the type of the weapon.
+		 */
+		public Weapon.Type getWeaponType() {
+			return weaponType;
 		}
 
 		/**
@@ -171,25 +182,15 @@ public class WeaponFactory {
 			return name;
 		}
 	}
-	
-	/**
-	 * Creates a new weapon of the specified type and with the specified level.
-	 * @param type the type of the weapon to create.
-	 * @param level the level of the weapon to create.
-	 * @return a new weapon of the specified type.
-	 */
-	public static Weapon createWeapon(Type type, Level level) {
-		return createWeapon(type, level, true);
-	}
-	
+		
 	/**
 	 * Creates a new weapon with the specified type, level and if its droppable or not.
 	 * @param type the type of the weapon.
 	 * @param level the level of the weapon.
-	 * @param droppable specify if the weapon can be dropped.
 	 * @return a new weapon.
 	 */
-	public static Weapon createWeapon(Type type, Level level, boolean droppable) {
+	public static Weapon createWeapon(Type type, Level level) {
+		boolean droppable = (type.getWeaponType() == Weapon.Type.FISTS) ? false : true;
 		return new Weapon(
 				type.getProjectileSpeed(),
 				type.getDamage()*level.multiplier(),
@@ -199,7 +200,9 @@ public class WeaponFactory {
 				type.getRateOfFire(),
 				type.getIconNumber(),
 				level.toString() + " " + type.toString(),
-				droppable
+				droppable,
+				type.getMagazineCapacity(),
+				type.getWeaponType()
 				);
 	}
 
@@ -241,7 +244,7 @@ public class WeaponFactory {
 	 * @return the weapon enemies uses.
 	 */
 	public static Weapon createEnemyMeleeWeapon(){
-		return createWeapon(Type.FISTS, Level.RUSTY, false);
+		return createWeapon(Type.FISTS, Level.RUSTY);
 	}
 	
 	/**
@@ -269,6 +272,7 @@ public class WeaponFactory {
 				Integer.parseInt(data[3]),
 				data[5],
 				Boolean.parseBoolean(data[3]),
-				Integer.parseInt(data[0]));
+				Integer.parseInt(data[0]),
+				Weapon.Type.fromString(data[10]));
 	}
 }

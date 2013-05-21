@@ -26,49 +26,34 @@ public class Weapon extends Item implements Saveable {
 	
 	private int ammunitionInMagazine;
 	
-	private long lastTimeFired=0;
-	private long lastTimeReloaded=0;
+	private long lastTimeFired;
+	private long lastTimeReloaded;
+	
+	public static enum Type{MELEE, GUN, FISTS;
+		
+		/**
+		 * Gives the Type which has the same text as the text provided.
+		 * @param text the text to check with.
+		 * @return the Type which has the same text as the text provided.
+		 */
+		public static Type fromString(String text) {
+			if (text != null) {
+				for (Type b : Type.values()) {
+					if (text.equalsIgnoreCase(b.toString())) {
+						return b;
+					}
+				}
+			}
+			throw new IllegalArgumentException("No enum with name " + text + " found");
+		}
+	}
+	private Type type;
 	
 	/**
 	 * Value which specifieS if a weapon has unlimited ammo.
 	 */
 	public static final int UNLIMITED_AMMO = -1;
-	
-	/**
-	 * Creates a weapon with the specified parameters.
-	 * @param projectileSpeed the speed of the projectile
-	 * @param damage the damage done by the projectile
-	 * @param range the numbers of tiles the projectile travels
-	 * @param magazineCapacity the capacity of of the magazine for the weapon
-	 * @param reloadTime the time it takes to reload the weapon in milliseconds
-	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
-	 * @param iconNumber the icon number corresponding to this icon
-	 * @param name the name of the weapon.
-	 */
-	protected Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
-			int reloadTime, int rateOfFire, int iconNumber, String name){
-		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
-				iconNumber, name, true);
-	}
-	
-	/**
-	 * Creates a weapon with the specified parameters.
-	 * @param projectileSpeed the speed of the projectile
-	 * @param damage the damage done by the projectile
-	 * @param range the numbers of tiles the projectile travels
-	 * @param magazineCapacity the capacity of of the magazine for the weapon
-	 * @param reloadTime the time it takes to reload the weapon in milliseconds
-	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
-	 * @param iconNumber the icon number corresponding to this icon
-	 * @param name the name of the weapon.
-	 * @param droppable whether the weapon is droppable or not.
-	 */
-	protected Weapon(float projectileSpeed, int damage, float range, int magazineCapacity, 
-			int reloadTime, int rateOfFire, int iconNumber, String name, boolean droppable){
-		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, 
-				iconNumber, name, droppable, magazineCapacity);
-	}
-	
+		
 	/**
 	 * Creates a weapon with the specified parameters.
 	 * @param projectileSpeed the speed of the projectile
@@ -83,10 +68,11 @@ public class Weapon extends Item implements Saveable {
 	 * @param ammunitionInMagazine the amount of ammunition in the magazine.
 	 * @param lastTimeFired how many milliseconds since the weapon was fired.
 	 * @param lastTimeReloaded how many milliseconds since the weapon was reloaded
+	 * @param type the type of the weapon.
 	 */
 	protected Weapon(float projectileSpeed, int damage, float range,
 			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
-			boolean droppable, int ammunitionInMagazine){
+			boolean droppable, int ammunitionInMagazine, Type type){
 		super(null, iconNumber);
 		
 		this.projectileSpeed = projectileSpeed;
@@ -100,8 +86,9 @@ public class Weapon extends Item implements Saveable {
 		this.droppable = droppable;
 
 		this.ammunitionInMagazine=ammunitionInMagazine;
-
+		this.type = type;
 	}
+	
 	/**
 	 * The weapon creates a projectile corresponding to the weapons specifications.
 	 * If the weapon does not fire ie no ammo left in magazine or overheated it will
@@ -118,11 +105,20 @@ public class Weapon extends Item implements Saveable {
 			} else {
 				ammunitionInMagazine-=1;
 				lastTimeFired=timeNow();
-				return new Projectile(damage, projectileSpeed, range, direction, pos);
+				boolean visible = (getType() == Type.GUN) ? true : false;
+				return new Projectile(damage, projectileSpeed, range, direction, pos, visible);
 			}
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Gives the type of weapon.
+	 * @return the type of weapon.
+	 */
+	public Type getType() {
+		return this.type;
 	}
 
 	private long timeNow(){
@@ -189,26 +185,7 @@ public class Weapon extends Item implements Saveable {
 	public String toString() {
 		return name;
 	}
-	/**
-	 * Returns a string containing the values of the weapon.
-	 * @return a string containing the values of the weapon.
-	 */
-	public String saveWeapon(){
-		String s=
-				projectileSpeed+"#"+
-				damage+"#"+
-				range+"#"+
-				magazineCapacity+"#"+
-				reloadTime+"#"+
-				rateOfFire+"#"+
-				iconNumber+"#"+
-				name+"#"+
-				ammunitionInMagazine+"#"+
-				lastTimeFired+"#"+
-				lastTimeReloaded+"#";
-		return s;
-	}
-
+	
 	/**
 	 * NOTE: Use the factory instead!!
 	 */
@@ -229,7 +206,8 @@ public class Weapon extends Item implements Saveable {
 				this.projectileSpeed + "",
 				this.range + "",
 				this.rateOfFire + "",
-				this.reloadTime + ""
+				this.reloadTime + "",
+				this.type.toString()
 		};
 	}
 

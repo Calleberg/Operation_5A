@@ -1,4 +1,4 @@
-package model.world;
+package model.world.props;
 
 import static org.junit.Assert.*;
 

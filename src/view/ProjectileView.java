@@ -42,7 +42,7 @@ public class ProjectileView implements ObjectRenderer<Projectile> {
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {
-		if(p != null) {			
+		if(p != null && p.isVisible()) {			
 			if(lastPos != null) {
 				g.setColor(Color.ORANGE);
 				g.drawLine((int)(p.getPosition().getX() * scale + offset.getX()),

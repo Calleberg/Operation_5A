@@ -36,24 +36,9 @@ public class Window extends JFrame {
 	private void update(){
 		if(isFullScreen != SettingsModel.getFullscreen()) {
 			if (SettingsModel.getFullscreen()){
-				this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-				this.setAlwaysOnTop(true);
-
-				if(!this.isUndecorated()) {
-					this.dispose();
-					this.setUndecorated(true);
-					this.setVisible(true);
-				}
+				this.fullScreen();
 			} else {
-				this.setExtendedState(NORMAL);
-				this.setSize(DEFAULT_SIZE);
-				this.setAlwaysOnTop(false);
-
-				if(this.isUndecorated()) {
-					this.dispose();
-					this.setUndecorated(false);
-					this.setVisible(true);
-				}
+				this.windowed();
 			}
 			this.setLocationRelativeTo(null);
 			this.setVisible(true);
@@ -62,21 +47,45 @@ public class Window extends JFrame {
 	}
 	
 	/**
+	 * Sets the window to fullscreen mode.
+	 */
+	private void fullScreen() {
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		this.setAlwaysOnTop(true);
+
+		if(!this.isUndecorated()) {
+			this.dispose();
+			this.setUndecorated(true);
+			this.setVisible(true);
+		}
+	}
+	
+	/**
+	 * Sets the window to windowed mode.
+	 */
+	private void windowed() {
+		this.setExtendedState(NORMAL);
+		this.setSize(DEFAULT_SIZE);
+		this.setAlwaysOnTop(false);
+
+		if(this.isUndecorated()) {
+			this.dispose();
+			this.setUndecorated(false);
+			this.setVisible(true);
+		}
+	}
+	
+	/**
 	 * Adds a JPanel to the window and removes the old ones.
 	 * @param p the panel to be added.
 	 */
 	public void add(JPanel p){
-		//TODO
 		super.add(p);
-
 		if (activePanel != null){
 			remove(activePanel);
 		}
 		activePanel=p;
-//		revalidate();
-//		invalidate();
 		validate();
-		p.paintImmediately(p.getBounds());
 		p.repaint();
 		p.requestFocus();
 		p.validate();

@@ -8,8 +8,8 @@ import org.junit.Test;
 
 public class ProjectileTest {
 
-	Projectile p = new Projectile(1, 0.2f, 10f, 0f, new Position(1,1));
-	Projectile p2 = new Projectile(1,2,3,4, new Position(5,6));
+	Projectile p = new Projectile(1, 0.2f, 10f, 0f, new Position(1,1),true);
+	Projectile p2 = new Projectile(1,2,3,4, new Position(5,6),true);
 	String[] data = p2.getData();
 	
 	
@@ -69,34 +69,15 @@ public class ProjectileTest {
 	
 	@Test
 	public void testRestoreSave() {
-		Projectile p3 = new Projectile(1, 0.2f, 10f, 0f, new Position(1,1));
+		Projectile p3 = new Projectile(1, 0.2f, 10f, 0f, new Position(1,1),true);
 		String data1[] = p3.getData();
 		
-		Projectile p4 = new Projectile(2, 0.1f, 70f, 12f, new Position(3,6));
+		Projectile p4 = new Projectile(2, 0.1f, 70f, 12f, new Position(3,6),true);
 		p4.restore(data1);
 		String data2[] = p4.getData();
 
 		for(int i = 0; i < data1.length; i++) {
 			assertTrue(data1[i].equals(data2[i]));
 		}
-	}
-
-	@Test
-	public void getData(){
-		assertTrue(data[0].equals("1") && data[1].equals("4.0") && data[2].equals("3.0") && 
-				data[3].equals("2.0") && data[4].equals("5.0") && data[5].equals("6.0")
-				&& data[6].equals("5.0") && data[7].equals("6.0"));
-	}
-	
-	@Test
-	public void restore(){
-		p2.restore(data);
-		System.out.println("" + p.getRange());
-		assertTrue(p.getDamage() == 1);
-		assertTrue(p.getSpeed() == 2);
-		assertTrue(p.getRange() == 3);
-		assertTrue(p.getDirection() == 4);
-		assertTrue(p.getCollisionBox().getPosition().getX() == 5); 
-		assertTrue(p.getCollisionBox().getPosition().getY() == 6);
 	}
 }
