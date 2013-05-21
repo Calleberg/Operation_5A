@@ -63,8 +63,6 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 	public void render(Graphics g, Position offset, int scale) {
 		if(sprite != null) {
 			//Saves some values for quick access.
-//			int x = (int)(sprite.getMoveBox().getPosition().getX() * scale + offset.getX());
-//			int y = (int)(sprite.getMoveBox().getPosition().getY() * scale + offset.getY());
 			int rX = (int)(sprite.getCenter().getX() * scale + offset.getX());
 			int rY = (int)(sprite.getCenter().getY() * scale + offset.getY());
 			int x = rX - 20;
@@ -93,16 +91,6 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 			//Draws dev data
 			hpbar.setValue(sprite.getHealth());
 			hpbar.render(g2d, x, y - (int)(scale/10), scale);
-			
-//			g2d.setColor(Color.RED);
-//			g2d.drawString(sprite.getHealth() + "hp", x, y);
-//			g2d.fillRect((int)(sprite.getProjectileSpawn().getX() * scale + offset.getX()),
-//					(int)(sprite.getProjectileSpawn().getY() * scale + offset.getY()), 2, 2);
-//			g2d.fillRect((int)(sprite.getCenter().getX() * scale + offset.getX()),
-//					(int)(sprite.getCenter().getY() * scale + offset.getY()), 2, 2);
-			
-//			GamePanel.renderCollisionBox(g, offset, scale, sprite.getHitBox(), Color.RED, false, null);
-//			GamePanel.renderCollisionBox(g, offset, scale, sprite.getMoveBox(), Color.ORANGE, false, null);
 		}
 	}
 
