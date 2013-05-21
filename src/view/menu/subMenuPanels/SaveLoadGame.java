@@ -20,7 +20,7 @@ public class SaveLoadGame extends SubMenuPanel{
 	 */
 	public SaveLoadGame(String timeSaved, MenuButton[] button, boolean bol) {
 		super(getText(bol), getPanel(timeSaved), button);
-		button[2].setEnabled(bol);
+		button[1].setEnabled(bol);
 	}
 	private static String getText(boolean bol) {
 		if (bol){
