@@ -310,4 +310,10 @@ public class Enemy implements Sprite{
 	public void setWeapon(Weapon w) {
 		this.weapon = w;
 	}
+
+	@Override
+	public void setCenter(Position center) {
+		this.setPosition(new Position(center.getX() - this.getHitBox().getWidth()/2, 
+				center.getY() - this.getHitBox().getHeight()/2));
+	}
 }

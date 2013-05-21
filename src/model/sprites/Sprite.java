@@ -135,6 +135,13 @@ public interface Sprite extends WorldObject, Saveable {
 	 * @return the position of the center of the sprite.
 	 */
 	public Position getCenter();
+	
+	/**
+	 * Sets the center of the sprite.
+	 * @param center the center of the sprite.
+	 */
+	public void setCenter(Position center);
+	
 	/**
 	 * picks up an item if the Sprite is eligible
 	 * @return if the Sprite is eligible

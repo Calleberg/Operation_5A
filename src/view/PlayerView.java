@@ -63,16 +63,28 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 
 	@Override
 	public void render(Graphics g, Position offset, int scale) {
+		this.render(g, offset, scale, null);
+	}
+	
+	public void render(Graphics g, Position offset, int scale, Position forcedPos) {
 		if(p != null) {
 			//Saves some values for quick access.
-			int rX = (int)(p.getCenter().getX() * scale + offset.getX());
-			int rY = (int)(p.getCenter().getY() * scale + offset.getY());
-			int x = rX - 20;
-			int y = rY - 20;
-			
-			//Rotates the graphics around the center of the sprite.
-			Graphics2D g2d = (Graphics2D)g;
+			int rX, rY;
+			int x, y;
+			if(forcedPos != null) {
+				rX = (int)forcedPos.getX();
+				rY = (int)forcedPos.getY();
+				x = (int)rX - playerTexture[0].getWidth()/2;
+				y = (int)rY - playerTexture[0].getHeight()/2;
+			}else{
+				rX = (int)(p.getCenter().getX() * scale + offset.getX());
+				rY = (int)(p.getCenter().getY() * scale + offset.getY());
+				x = rX - 20;
+				y = rY - 20;
+			}
 					
+			//Rotates the graphics around the center of the sprite.
+			Graphics2D g2d = (Graphics2D)g;		
 
 			//Draws thelegs			
 			AffineTransform transformer;

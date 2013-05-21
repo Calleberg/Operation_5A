@@ -370,7 +370,7 @@ public class Player implements Sprite {
 	public void moveBack() {
 		this.hitBox.moveBack();
 	}
-
+	
 	@Override
 	public void restore(String[] data) {
 		this.faceDir = Float.parseFloat(data[0]);
@@ -378,7 +378,7 @@ public class Player implements Sprite {
 		this.ammo = Integer.parseInt(data[2]);
 		this.food = Integer.parseInt(data[3]);
 		Position center = new Position(Float.parseFloat(data[4]), Float.parseFloat(data[5]));
-		this.setPosition(center);
+		this.setCenter(center);
 		this.switchWeapon(Integer.parseInt(data[6]));
 	}
 
@@ -393,5 +393,11 @@ public class Player implements Sprite {
 				this.getCenter().getY() + "",
 				this.getIndex(getActiveWeapon()) + "",
 		};
+	}
+	
+	@Override
+	public void setCenter(Position center) {
+		this.setPosition(new Position(center.getX() - this.getHitBox().getWidth()/2, 
+				center.getY() - this.getHitBox().getHeight()/2));
 	}
 }

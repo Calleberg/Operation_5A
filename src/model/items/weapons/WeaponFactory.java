@@ -207,13 +207,9 @@ public class WeaponFactory {
 	}
 
 	/**
-	 * Creates a test weapon for debugging.
-	 * @return a test weapon for debugging.
+	 * Gives a random implemented weapon.
+	 * @return a random implemented weapon.
 	 */
-	public static Weapon createTestWeapon() {
-		return createWeapon(Type.PISTOL, Level.EPIC);
-		//TODO ta bort?
-	}
 	public static Weapon createRandomWeapon(){
 		int typeLength = Type.values().length;
 		int LevelLentgh = Level.values().length;
@@ -221,13 +217,14 @@ public class WeaponFactory {
 		return createWeapon(Type.values()[random.nextInt(typeLength)], 
 				Level.values()[random.nextInt(LevelLentgh)]);
 	}
+	
 	/**
-	 * Creates a test weapon for debugging.
-	 * @return a test weapon for debugging.
+	 * Gives the weapon used when testing.
+	 * @param type the type of the weapon.
+	 * @return the weapon used when testing.
 	 */
-	public static Weapon createTestWeapon2(){
-		return createWeapon(Type.PISTOL, Level.NORMAL);
-		//TODO ta bort?
+	public static Weapon createTestWeapon(Weapon.Type type) {
+		return new Weapon(1, 2, 3, 4, 5, 6, 7, "", true, 8, type);
 	}
 	
 	/**

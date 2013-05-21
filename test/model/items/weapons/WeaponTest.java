@@ -11,7 +11,7 @@ public class WeaponTest {
 //	public void createProjectileTest(){
 //		//TODO fix with a better weapon
 //		
-//		Weapon w = new Weapon(1, 1, 1, 1, 1, 1000, 1, "testName");
+//		Weapon w = WeaponFactory.createTestWeapon(Weapon.Type.GUN);
 //		assertTrue(w.createProjectile(1, new Position(1,1)) != null);
 //		
 //		assertTrue("Should not be able to fire two shots in a row", 

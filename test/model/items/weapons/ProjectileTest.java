@@ -2,6 +2,7 @@ package model.items.weapons;
 
 import static org.junit.Assert.*;
 
+import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 
 import org.junit.Test;
@@ -53,10 +54,7 @@ public class ProjectileTest {
 	
 	@Test
 	public void getCollisionBox(){
-		p.setPosition(new Position(2,2));
-		assertTrue(p.getPosition().getX() == 2 && p.getPosition().getY() == 2
-			&& p.getCollisionBox().getHeight() == 0.1f &&
-				p.getCollisionBox().getWidth() == 0.1f);
+		assertTrue(p.getCollisionBox() instanceof CollisionBox);
 	}
 	
 	@Test

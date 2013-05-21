@@ -95,8 +95,8 @@ public class PlayerTest {
 	public void switchWeapon(){
 		Player p = new Player(1,1);
 		
-		Weapon w1 = WeaponFactory.createTestWeapon();
-		Weapon w2 = WeaponFactory.createTestWeapon2();
+		Weapon w1 = WeaponFactory.createPlayerDefaultWeapon();
+		Weapon w2 = WeaponFactory.createPlayerDefaultWeapon();
 		p.switchWeapon(0);
 		p.pickUpWeapon(w1);
 		p.switchWeapon(1);
@@ -112,8 +112,8 @@ public class PlayerTest {
 	public void getIndex(){
 		Player p = new Player(1,1);
 		
-		Weapon w1 = WeaponFactory.createTestWeapon();
-		Weapon w2 = WeaponFactory.createTestWeapon2();
+		Weapon w1 = WeaponFactory.createPlayerDefaultWeapon();
+		Weapon w2 = WeaponFactory.createPlayerDefaultWeapon();
 		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
 		p.getWeapons()[0] = WeaponFactory.createPlayerDefaultWeapon();
 		p.getWeapons()[1] = WeaponFactory.createPlayerDefaultWeapon();
@@ -184,8 +184,8 @@ public class PlayerTest {
 	public void pickUpWeapon(){
 		Player p = new Player(1,1);
 		
-		Weapon w1 = WeaponFactory.createTestWeapon();
-		Weapon w2 = WeaponFactory.createTestWeapon2();
+		Weapon w1 = WeaponFactory.createPlayerDefaultWeapon();
+		Weapon w2 = WeaponFactory.createPlayerDefaultWeapon();
 		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
 		p.switchWeapon(0);
 		p.pickUpWeapon(w1);
@@ -204,8 +204,8 @@ public class PlayerTest {
 	public void getWeapons(){
 		Player p = new Player(1,1);
 		
-		Weapon w1 = WeaponFactory.createTestWeapon();
-		Weapon w2 = WeaponFactory.createTestWeapon2();
+		Weapon w1 = WeaponFactory.createPlayerDefaultWeapon();
+		Weapon w2 = WeaponFactory.createPlayerDefaultWeapon();
 		Weapon w3 = WeaponFactory.createEnemyMeleeWeapon();
 		p.getWeapons()[0] = null;
 		p.getWeapons()[1] = null;
@@ -227,12 +227,11 @@ public class PlayerTest {
 	public void reload(){
 		Player p = new Player(1,1);
 		p.switchWeapon(0);
-		p.pickUpWeapon(WeaponFactory.createTestWeapon());		
+		p.pickUpWeapon(WeaponFactory.createTestWeapon(Weapon.Type.GUN));
 		p.getActiveWeapon().createProjectile(0, new Position(1, 1));
 		p.reloadActiveWeapon();
 		assertTrue(p.getActiveWeapon().getAmmunitionInMagazine() == 
 				p.getActiveWeapon().getMagazineCapacity());
-		//TODO
 	}
 	
 	@Test
@@ -242,8 +241,9 @@ public class PlayerTest {
 		Player p2 = new Player(1,1);
 		p2.restore(s);
 		assertTrue(p.getHealth() == p2.getHealth());
-//		assertTrue(p.getPosition().getX() == p2.getPosition().getX());//TODO
-//		assertTrue(p.getPosition().getY() == p2.getPosition().getY());
+		
+		assertTrue(p.getCenter().getX() == p2.getCenter().getX());
+		assertTrue(p.getCenter().getY() == p2.getCenter().getY());
 		assertTrue(p.getAmmoAmount() == p2.getAmmoAmount());
 		assertTrue(p.getFood() == p2.getFood());
 		assertTrue(p.getIndex(p.getActiveWeapon()) == p2.getIndex(p2.getActiveWeapon()));
