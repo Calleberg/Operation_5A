@@ -65,7 +65,8 @@ public class EnemyTest {
 			(WeaponFactory.Type.FISTS, WeaponFactory.Level.RUSTY), 50, 0);
 		Weapon w = e.getActiveWeapon();
 		
-		assertTrue(w.toString().equals("Rusty Fists"));
+		assertTrue(w.getKeys()[0].equals("Rusty"));
+		assertTrue(w.getKeys()[1].equals("Fists"));
 	}
 	
 	@Test
