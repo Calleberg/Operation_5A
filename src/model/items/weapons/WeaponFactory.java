@@ -1,5 +1,7 @@
 package model.items.weapons;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -272,4 +274,36 @@ public class WeaponFactory {
 				Integer.parseInt(data[0]),
 				Weapon.Type.fromString(data[9]));
 	}
+	
+	//TODO fix times -> change javadoc when times is set
+		/**
+		 * Return a semirandom weapon. If the time is < than 10, the type will be 1-3, if the time
+		 * is > 10 and < 20, the type will be 2-4 and if the time is > 20, the type will be 3-5.
+		 * This method will not return a weapon with the type fists.
+		 * @param time the time which passed since the game was started. 
+		 */
+		public Weapon getSemiRandomWeapon(long time){
+			List<Level> levelList = new ArrayList<Level>();
+			if(time < 10){
+				levelList.add(WeaponFactory.Level.RUSTY);
+				levelList.add(WeaponFactory.Level.NORMAL);
+				levelList.add(WeaponFactory.Level.LARGE);
+			}else if(time > 20){
+				levelList.add(WeaponFactory.Level.LARGE);
+				levelList.add(WeaponFactory.Level.BADASS);
+				levelList.add(WeaponFactory.Level.EPIC);
+			}else{
+				levelList.add(WeaponFactory.Level.NORMAL);
+				levelList.add(WeaponFactory.Level.LARGE);
+				levelList.add(WeaponFactory.Level.BADASS);
+			}
+			int levelLength = levelList.size();
+			Random random = new Random();
+			WeaponFactory.Type type = Type.values()[random.nextInt(levelLength)];
+			WeaponFactory.Level level = levelList.get(random.nextInt(levelLength));
+			while(type == WeaponFactory.Type.FISTS){
+				type = Type.values()[random.nextInt(levelLength)];
+			}
+			return createWeapon(type, level);
+		}
 }
