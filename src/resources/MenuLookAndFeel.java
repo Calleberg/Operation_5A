@@ -14,45 +14,51 @@ import javax.swing.border.LineBorder;
  */
 public class MenuLookAndFeel {
 
+	private static final Color BACKGROUND = new Color(67,137,187);
+	private static final Color BUTTON = new Color(144,180,204);
+	private static final Color BACKGROUND2 = new Color(177,194,206);
+	
 	/**
 	 * 
 	 * @return the gap between all components.
 	 */
 	public static int getGap() {
-		// TODO Auto-generated method stub
 		return 10;
+	}
+	/**
+	 * Gives the color used by input fields.
+	 * @return
+	 */
+	public static Color getInputFieldColor() {
+		return Color.WHITE;
 	}
 	/**
 	 * 
 	 * @return the color of the sub menu.
 	 */
 	public static Color getSubMenuColor() {
-		// TODO Auto-generated method stub
-		return Color.ORANGE;
+		return BACKGROUND;
 	}
 	/**
 	 * 
 	 * @return the color of the sub menu's content panel.
 	 */
 	public static Color getSubMenuPanelColor() {
-		// TODO Auto-generated method stub
-		return Color.PINK;
+		return BACKGROUND2;
 	}
 	/**
 	 * 
 	 * @return the color which all high level menu have.
 	 */
 	public static Color getMenuColor() {
-		// TODO Auto-generated method stub
-		return Color.GREEN;
+		return BACKGROUND;
 	}
 	/**
 	 * 
 	 * @return the color for the systems buttons.
 	 */
 	public static Color getButtonColor() {
-		// TODO Auto-generated method stub
-		return Color.YELLOW;
+		return BUTTON;
 	}
 	/**
 	 * 
@@ -66,7 +72,6 @@ public class MenuLookAndFeel {
 	 * @return the font used by the buttons in the menu.
 	 */
 	public static Font getButtonFont() {
-		// TODO Auto-generated method stub
 		return getLargeFont();
 	}
 	/**
@@ -74,7 +79,6 @@ public class MenuLookAndFeel {
 	 * @return the border the buttons should have in the menu.
 	 */
 	public static Border getButtonBorder() {
-		// TODO Auto-generated method stub
 		return new LineBorder(getButtonColor(), 5, false);
 	}
 	/**
@@ -82,7 +86,6 @@ public class MenuLookAndFeel {
 	 * @return the border a highlighted button will have.
 	 */
 	public static Border getButtonHighlightedBorder() {
-		// TODO Auto-generated method stub
 		return new LineBorder(Color.RED, 5, false);
 	}
 	/**
@@ -90,7 +93,6 @@ public class MenuLookAndFeel {
 	 * @return the color the menu popups will have.
 	 */
 	public static Color getPopupColor() {
-		// TODO Auto-generated method stub
 		return Color.red;
 	}
 	/**
@@ -98,7 +100,6 @@ public class MenuLookAndFeel {
 	 * @return the icon the popup window will have.
 	 */
 	public static Image setPopupMenuIcon() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	/**
@@ -106,7 +107,6 @@ public class MenuLookAndFeel {
 	 * @return the border the popup window will have.
 	 */
 	public static Border getPopupBorder() {
-		// TODO Auto-generated method stub
 		return new LineBorder(Color.black, 2, false);
 	}
 	/**
@@ -114,7 +114,6 @@ public class MenuLookAndFeel {
 	 * @return the border used for text fields in settings.
 	 */
 	public static LineBorder getSettingsTextFieldFont() {
-		// TODO Auto-generated method stub
 		return new LineBorder(Color.black, 2, false);
 	}
 
