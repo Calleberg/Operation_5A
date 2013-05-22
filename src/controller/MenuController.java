@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import model.GameModel;
 import model.MainModel;
+import model.save.SavePath;
 import resources.Translator;
 import view.Window;
 import view.menu.LoadingPanel;
@@ -105,7 +106,7 @@ public class MenuController{
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					GameIO.saveGame(gameController.getGameModel());
+					GameIO.saveGame(gameController.getGameModel(), SavePath.savedGame());
 					WINDOW.repaint();
 				}
 			});
@@ -117,7 +118,7 @@ public class MenuController{
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					startGame(GameIO.loadGame());
+					startGame(GameIO.loadGame(SavePath.savedGame()));
 				}
 			});
 			return b;

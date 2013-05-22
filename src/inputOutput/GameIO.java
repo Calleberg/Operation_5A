@@ -18,7 +18,6 @@ import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
-import model.save.SavePath;
 import model.sprites.Enemy;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
@@ -90,8 +89,7 @@ public class GameIO {
 	 * @param path the path to the file.
 	 * @return a restored game model.
 	 */
-	public static GameModel loadGame() {
-		String path = SavePath.savedGame();
+	public static GameModel loadGame(String path) {
 		try {
 			BufferedReader	reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "ISO-8859-1"));
 			
@@ -161,13 +159,11 @@ public class GameIO {
 	}
 
 	/**
-	 * Saves the specified controller's model.
-	 * @param controller the controller which handles the model to save.
+	 * Saves the specified model.
+	 * @param model the model to save.
 	 * @param path the path to the file to save to.
 	 */
-	public static void saveGame(GameModel model) {
-		String path = SavePath.savedGame();
-		
+	public static void saveGame(GameModel model, String path) {
 		File f  = new File(path);
 		if(!f.exists()) {
 			try {

@@ -36,8 +36,7 @@ public class Window extends JFrame {
 
 	}
 	private Image getProgramIcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return Resources.getSingleImage("Icon.png");
 	}
 	private void update(){
 		if(isFullScreen != SettingsModel.getFullscreen()) {
