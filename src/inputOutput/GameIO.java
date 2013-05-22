@@ -61,7 +61,6 @@ public class GameIO {
 		}while(!model.getWorld().canMove(pos, new Position(pos.getX() + 1, pos.getY() + 1)));
 		
 		Player player = new Player(pos.getX(), pos.getY());
-		//TODO decide which weapons to start with
 		player.switchWeapon(0);
 		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		player.switchWeapon(2);

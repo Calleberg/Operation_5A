@@ -8,7 +8,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This class holds the look and feel of the menu. One change herein should result in all menu copnents adopoting it.
+ * This class holds the look and feel of the menu. One change herein should result in all menu components adopting it.
  * @author Vidar Eriksson
  *
  */

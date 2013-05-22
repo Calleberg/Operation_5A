@@ -88,7 +88,6 @@ public class ScanLine implements CollisionBox {
 	 */
 	@Override
 	public boolean moveBack() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

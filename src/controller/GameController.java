@@ -65,7 +65,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	public final static int FOOD_LOW = 29;
 	
-	//TODO bra värde?
 	private final static int ENEMY_SPAWN_DISTANCE = 25;
 	
 	/**
