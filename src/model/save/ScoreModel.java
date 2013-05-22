@@ -14,12 +14,12 @@ import java.io.IOException;
  * @author Vidar Eriksson
  *
  */
-public class HighScoreModel {
+public class ScoreModel {
 	private HighScoreWrapper h = null;
 	/**
 	 * Creates a new HighScoreModel.
 	 */
-	public HighScoreModel(){
+	public ScoreModel(){
 		h = new HighScoreWrapper();
 	}
 	/**

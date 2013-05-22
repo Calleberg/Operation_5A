@@ -6,8 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.save.HighScoreModel;
-
+import model.save.ScoreModel;
 import resources.Translator;
 import view.menu.MenuButton;
 
@@ -18,14 +17,13 @@ import view.menu.MenuButton;
  */
 @SuppressWarnings("serial")
 public class Score extends SubMenuPanel {
-	
 	public Score(MenuButton button) {
 		super(Translator.getString("highScore"), getPanel(), button);
 	}
 	
 	private static JPanel getPanel(){
 		JPanel p = new JPanel();
-		HighScoreModel h = new HighScoreModel();
+		ScoreModel h = new ScoreModel();
 		
 		p.setLayout(new GridLayout(0, 1, 0, resources.MenuLookAndFeel.getGap()));
 		
