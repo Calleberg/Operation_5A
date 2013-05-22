@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import resources.Translator;
+
 
 import model.items.weapons.Weapon;
 import model.sprites.Player;
@@ -42,14 +44,23 @@ public class SlotPanel extends JPanel{
 		g.setColor(new Color(0, 0, 0, 100));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		g.setColor(Color.WHITE);
-		String name = player.getWeapons()[weaponIndex].toString();
-		g.drawString(name, this.getWidth()/2 - (int)g.getFontMetrics().getStringBounds(name, g).getWidth()/2, this.getHeight() - 4);
 		g.drawImage(slot, this.getWidth()/2 - slot.getWidth()/2, 5, null);
-		g.drawImage(textures[player.getWeapons()[weaponIndex].getIconNumber()], this.getWidth()/2 - slot.getWidth()/2, 5, null);
+		Weapon w = player.getWeapons()[weaponIndex];
+		if(w != null) {
+			g.setColor(Color.WHITE);
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < w.getKeys().length; i++) {
+				sb.append(Translator.getWeaponString(w.getKeys()[i]) + " ");
+			}
+			String text = sb.toString();
+			g.drawString(text, this.getWidth()/2 - 
+					(int)g.getFontMetrics().getStringBounds(text, g).getWidth()/2, this.getHeight() - 4);
+			g.drawImage(textures[player.getWeapons()[weaponIndex].getIconNumber()], this.getWidth()/2 - slot.getWidth()/2, 5, null);
+		}		
+		
 		g.setColor(new Color(76, 76, 76));
 		g.drawRect(this.getWidth()/2 - slot.getWidth()/2, 5, slot.getWidth(), slot.getHeight());
-		
+
 		//If this is the active weapon, draw some indications
 		if(player.getActiveWeapon() == player.getWeapons()[weaponIndex]){
 			g.setColor(Color.RED);

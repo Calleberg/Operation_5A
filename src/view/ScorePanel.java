@@ -39,7 +39,7 @@ public class ScorePanel extends JPanel {
 		
 		g.setFont(HUDFonts.getScoreFont());
 		g.setColor(Color.WHITE);
-		String text = Translator.getString("score") + ": " + model.getScore();
+		String text = Translator.getMenuString("score") + ": " + model.getScore();
 		g.drawString(text, this.getWidth()/2 - 
 				(int)g.getFontMetrics().getStringBounds(text, g).getWidth()/2, 30);
 	}

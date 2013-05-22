@@ -13,7 +13,7 @@ import resources.Translator;
 @SuppressWarnings("serial")
 public class LoadingPanel extends JPanel{
 	public LoadingPanel() {
-		JLabel lblLoading = new JLabel(Translator.getString("loading"));
+		JLabel lblLoading = new JLabel(Translator.getMenuString("loading"));
 		add(lblLoading);
 		lblLoading.setFont(MenuLookAndFeel.getLargeFont());
 		setBackground(MenuLookAndFeel.getMenuColor());

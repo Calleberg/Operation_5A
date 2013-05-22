@@ -20,7 +20,7 @@ public class WeaponFactory {
 		SHOTGUN (0.45f, 10, 50f, 6, 10000, 3000, 11, "Shotgun", Weapon.Type.GUN),
 //		REVOLVER,
 //		HUNTING_RIFLE,
-		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "Sub Machinegun", Weapon.Type.GUN),
+		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "SubMachinegun", Weapon.Type.GUN),
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
 //TODO more weapons
@@ -31,7 +31,7 @@ public class WeaponFactory {
 		BAT(0.35f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat", Weapon.Type.MELEE),
 //		PIPE,
 		
-		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "Test weapon", Weapon.Type.GUN);
+		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "TestWeapon", Weapon.Type.GUN);
 		
 		private final float projectileSpeed;
 		private final int damage;
@@ -199,7 +199,7 @@ public class WeaponFactory {
 				type.getReloadTime()/level.multiplier(),
 				type.getRateOfFire(),
 				type.getIconNumber(),
-				level.toString() + " " + type.toString(),
+				new String[]{level.toString(), type.toString()},
 				droppable,
 				type.getMagazineCapacity(),
 				type.getWeaponType()
@@ -224,7 +224,7 @@ public class WeaponFactory {
 	 * @return the weapon used when testing.
 	 */
 	public static Weapon createTestWeapon(Weapon.Type type) {
-		return new Weapon(1, 2, 3, 4, 5, 6, 7, "", true, 8, type);
+		return new Weapon(1, 2, 3, 4, 5, 6, 7, new String[]{"Key1", "Key2"}, true, 8, type);
 	}
 	
 	/**
@@ -260,16 +260,16 @@ public class WeaponFactory {
 	 */
 	public static Weapon loadWeapon(String[] data) {
 		return new Weapon(
-				Float.parseFloat(data[6]),
+				Float.parseFloat(data[5]),
 				Integer.parseInt(data[1]),
-				Float.parseFloat(data[7]),
+				Float.parseFloat(data[6]),
 				Integer.parseInt(data[4]),
-				Integer.parseInt(data[9]),
 				Integer.parseInt(data[8]),
+				Integer.parseInt(data[7]),
 				Integer.parseInt(data[3]),
-				data[5],
-				Boolean.parseBoolean(data[3]),
+				new String[]{data[10], data[11]},
+				Boolean.parseBoolean(data[2]),
 				Integer.parseInt(data[0]),
-				Weapon.Type.fromString(data[10]));
+				Weapon.Type.fromString(data[9]));
 	}
 }

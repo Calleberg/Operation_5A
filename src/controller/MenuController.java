@@ -38,7 +38,7 @@ public class MenuController{
 	 * Changes this controllers window to the main menu.
 	 */
 	public static void showMainMenu(){
-		WINDOW.add(new MenuPanel(Translator.getString("mainMenu"), MenuActionButtons.getMainMenuButtons()));
+		WINDOW.add(new MenuPanel(Translator.getMenuString("mainMenu"), MenuActionButtons.getMainMenuButtons()));
 	}
 	private static void startGame(GameModel m){
 		if (gameController != null){
@@ -90,7 +90,7 @@ public class MenuController{
 	 * Changes this controllers window to the paused game menu view.
 	 */
 	public static void showPauseMenu(){
-		WINDOW.add(new MenuPanel(Translator.getString("pause"), MenuActionButtons.getPauseMenuButtons()));
+		WINDOW.add(new MenuPanel(Translator.getMenuString("pause"), MenuActionButtons.getPauseMenuButtons()));
 	}
 	private static void resumeGame() {
 		WINDOW.add(gameController.getGamePanel());
@@ -101,7 +101,7 @@ public class MenuController{
 	private static class MenuActionButtons {
 
 		private static MenuButton getSaveButton() {
-			MenuButton b  = new MenuButton(Translator.getString("save"));
+			MenuButton b  = new MenuButton(Translator.getMenuString("save"));
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class MenuController{
 		}
 		
 		private static MenuButton getLoadButton() {
-			MenuButton b = new MenuButton(Translator.getString("load"));
+			MenuButton b = new MenuButton(Translator.getMenuString("load"));
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -125,7 +125,7 @@ public class MenuController{
 		
 		
 		private static MenuButton getMainMenuButton() {
-			MenuButton b = new MenuButton(Translator.getString("mainMenu"));
+			MenuButton b = new MenuButton(Translator.getMenuString("mainMenu"));
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class MenuController{
 		}
 		
 		private static MenuButton getPauseMenuButton() {
-			MenuButton b = new MenuButton(Translator.getString("pauseMenu"));
+			MenuButton b = new MenuButton(Translator.getMenuString("pauseMenu"));
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -150,7 +150,7 @@ public class MenuController{
 				
 			MenuButton[] buttons = new MenuButton[5];
 			
-			buttons[0]= new MenuButton(Translator.getString("newGame"));
+			buttons[0]= new MenuButton(Translator.getMenuString("newGame"));
 			buttons[0].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -158,7 +158,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[1]= new MenuButton(Translator.getString("load"));
+			buttons[1]= new MenuButton(Translator.getMenuString("load"));
 			buttons[1].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -166,7 +166,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[2]= new MenuButton(Translator.getString("highScore"));
+			buttons[2]= new MenuButton(Translator.getMenuString("highScore"));
 			buttons[2].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -174,7 +174,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[3]= new MenuButton(Translator.getString("settings"));
+			buttons[3]= new MenuButton(Translator.getMenuString("settings"));
 			buttons[3].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -182,7 +182,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[4]= new MenuButton(Translator.getString("exitGame"));
+			buttons[4]= new MenuButton(Translator.getMenuString("exitGame"));
 			buttons[4].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -197,7 +197,7 @@ public class MenuController{
 
 			MenuButton buttons[] = new MenuButton[5];
 			
-			buttons[0]= new MenuButton(Translator.getString("settings"));
+			buttons[0]= new MenuButton(Translator.getMenuString("settings"));
 			buttons[0].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -205,7 +205,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[1]= new MenuButton(Translator.getString("saveLoad"));
+			buttons[1]= new MenuButton(Translator.getMenuString("saveLoad"));
 			buttons[1].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -213,7 +213,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[2]= new MenuButton(Translator.getString("mainMenu"));
+			buttons[2]= new MenuButton(Translator.getMenuString("mainMenu"));
 			buttons[2].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -221,7 +221,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[3]= new MenuButton(Translator.getString("exitGame"));
+			buttons[3]= new MenuButton(Translator.getMenuString("exitGame"));
 			buttons[3].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -229,7 +229,7 @@ public class MenuController{
 				}
 			});
 			
-			buttons[4]= new MenuButton(Translator.getString("resume"));
+			buttons[4]= new MenuButton(Translator.getMenuString("resume"));
 			buttons[4].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

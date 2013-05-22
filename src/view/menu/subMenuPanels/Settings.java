@@ -30,7 +30,7 @@ public class Settings extends SubMenuPanel {
 	private static JCheckBox fullscreen = new JCheckBox();
 	
 	public Settings(MenuButton button) {
-		super(Translator.getString("settings"), getPanel(), button);
+		super(Translator.getMenuString("settings"), getPanel(), button);
 		button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -45,7 +45,7 @@ public class Settings extends SubMenuPanel {
 		
 		p.setLayout(new GridLayout(0, 2, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
 		
-		p.add(new MenuLabel(Translator.getString("playerName")+ ":"));
+		p.add(new MenuLabel(Translator.getMenuString("playerName")+ ":"));
 		p.add(nameField);
 		nameField.setFont(resources.MenuLookAndFeel.getLargeFont());
 		nameField.setText(SettingsModel.getUserName());
@@ -53,12 +53,12 @@ public class Settings extends SubMenuPanel {
 		nameField.setBorder(MenuLookAndFeel.getSettingsTextFieldFont());
 		
 		startComboBox();
-		p.add(new MenuLabel(Translator.getString("language")+":"));
+		p.add(new MenuLabel(Translator.getMenuString("language")+":"));
 		p.add(language);
 		
-		p.add(new MenuLabel(Translator.getString("fullscreen")+":"));
+		p.add(new MenuLabel(Translator.getMenuString("fullscreen")+":"));
 		p.add(fullscreen);
-		fullscreen.setText(Translator.getString("on"));
+		fullscreen.setText(Translator.getMenuString("on"));
 		fullscreen.setBackground(MenuLookAndFeel.getSubMenuPanelColor());
 		fullscreen.setFont(resources.MenuLookAndFeel.getLargeFont());
 		fullscreen.setSelected(SettingsModel.getFullscreen());
