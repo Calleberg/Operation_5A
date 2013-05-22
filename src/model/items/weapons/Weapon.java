@@ -76,6 +76,30 @@ public class Weapon extends Item implements Saveable {
 	protected Weapon(float projectileSpeed, int damage, float range,
 			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String[] keys,
 			boolean droppable, int ammunitionInMagazine, Type type){
+		this(projectileSpeed, damage, range, magazineCapacity, reloadTime, rateOfFire, iconNumber, 
+				keys, droppable, ammunitionInMagazine, type, new Position(0, 0));
+	}
+	
+	/**
+	 * Creates a weapon with the specified parameters.
+	 * @param projectileSpeed the speed of the projectile
+	 * @param damage the damage done by the projectile
+	 * @param range the numbers of tiles the projectile travels
+	 * @param magazineCapacity the capacity of of the magazine for the weapon
+	 * @param reloadTime the time it takes to reload the weapon in milliseconds
+	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
+	 * @param iconNumber the icon number corresponding to this icon
+	 * @param keys the name of the weapon by using keys.
+	 * @param droppable whether the weapon is droppable or not.
+	 * @param ammunitionInMagazine the amount of ammunition in the magazine.
+	 * @param lastTimeFired how many milliseconds since the weapon was fired.
+	 * @param lastTimeReloaded how many milliseconds since the weapon was reloaded
+	 * @param type the type of the weapon.
+	 * @param pos the position of the weapon, if placed on the ground.
+	 */
+	protected Weapon(float projectileSpeed, int damage, float range,
+			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String[] keys,
+			boolean droppable, int ammunitionInMagazine, Type type, Position pos){
 		super(null, iconNumber);
 		
 		this.projectileSpeed = projectileSpeed;
@@ -89,7 +113,8 @@ public class Weapon extends Item implements Saveable {
 		this.droppable = droppable;
 
 		this.ammunitionInMagazine=ammunitionInMagazine;
-		this.type = type;
+		this.type = type;	
+		this.setPosition(pos);
 	}
 	
 	/**
@@ -214,7 +239,9 @@ public class Weapon extends Item implements Saveable {
 				this.reloadTime + "",
 				this.type.toString(),
 				this.keys[0],
-				this.keys[1]
+				this.keys[1],
+				this.getPosition().getX() + "",
+				this.getPosition().getY() + ""
 		};
 	}
 
