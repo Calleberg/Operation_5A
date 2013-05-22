@@ -25,6 +25,7 @@ import model.GameModel;
 import model.geometrical.CollisionBox;
 import model.geometrical.Position;
 import model.items.weapons.Projectile;
+import model.sprites.Enemy;
 import model.sprites.Player;
 import model.sprites.Sprite;
 import model.items.Item;
@@ -157,7 +158,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 			if(s instanceof Player) {
 				objects.add(new PlayerView((Player)s));
 			}else{
-				objects.add(new SpriteView(s));
+				objects.add(new EnemyView((Enemy)s));
 			}
 		}
 		for(Projectile p : this.model.getWorld().getProjectiles()) {
@@ -212,7 +213,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 			if(e.getNewValue() instanceof Player) {
 				this.objects.add(new PlayerView((Player)e.getNewValue()));
 			}else{
-				this.objects.add(new SpriteView((Sprite)e.getNewValue()));
+				this.objects.add(new EnemyView((Enemy)e.getNewValue()));
 			}
 		}else if(e.getPropertyName().equals(GameModel.REMOVED_OBJECT)) {
 			for(ObjectRenderer<?> or : this.objects) {

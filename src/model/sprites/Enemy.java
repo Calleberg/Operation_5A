@@ -23,6 +23,7 @@ public class Enemy implements Sprite{
 	private CollisionBox hitBox;
 	private List<Position> pathfindingList;
 	private int pathfindingListIndex;
+	private int imageNbr;
 
 	/**
 	 * Creates a new enemy.
@@ -30,8 +31,9 @@ public class Enemy implements Sprite{
 	 * @param speed the speed of the enemy.
 	 * @param weapon the weapon of the enemy.
 	 * @param health the health of the ememy.
+	 * @param imageNbr the image to use.
 	 */
-	protected Enemy(Position position, float speed, Weapon weapon, int health){
+	protected Enemy(Position position, float speed, Weapon weapon, int health, int imageNbr){
 		this.setState(Sprite.State.STANDING);
 		this.speed = speed;
 		this.weapon = weapon;
@@ -39,6 +41,15 @@ public class Enemy implements Sprite{
 		collisionBox = new Rectangle(0, 0, 0.7f, 0.7f);
 		hitBox = new Rectangle(0, 0, 0.5f, 0.5f);
 		this.setPosition(position);
+		this.imageNbr = imageNbr;
+	}
+	
+	/**
+	 * Gives the number of the image to use.
+	 * @return the number of the image to use.
+	 */
+	public int getImageNbr() {
+		return this.imageNbr;
 	}
 	
 	/**
@@ -289,6 +300,7 @@ public class Enemy implements Sprite{
 		this.setPosition(center);
 		this.direction = Float.parseFloat(data[4]);
 		this.state = State.fromString(data[5]);
+		this.imageNbr = Integer.parseInt(data[6]);
 	}
 
 	@Override
@@ -299,7 +311,8 @@ public class Enemy implements Sprite{
 				this.getCenter().getX() + "",
 				this.getCenter().getY() + "",
 				this.direction + "",
-				this.state.toString()
+				this.state.toString(),
+				this.imageNbr + "",
 		};
 	}
 

@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 
 import model.geometrical.Position;
 import model.other.Animation;
+import model.sprites.Enemy;
 import model.sprites.Sprite;
 
 /**
@@ -18,11 +19,15 @@ import model.sprites.Sprite;
  * @author
  *
  */
-public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListener {
+public class EnemyView implements ObjectRenderer<Enemy>, PropertyChangeListener {
 
-	private Sprite sprite;
+	private Enemy sprite;
 	private StatusBar hpbar;
-	private static BufferedImage[] texture1 = Resources.splitImages("zombie01.png", 5, 4);
+	private static BufferedImage[][] texture = {
+		Resources.splitImages("zombie00.png", 5, 4),
+		Resources.splitImages("zombie01.png", 5, 4),
+		Resources.splitImages("zombie02.png", 5, 4)
+	};
 	
 	//Leg animations
 	private Animation walkAnimation = new Animation(new int[]{0,1,2,3,4,5,6,7}, 200, true);
@@ -38,17 +43,17 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 	 * Creates a new sprite view which will render the specified sprite.
 	 * @param sprite the sprite to render.
 	 */
-	public SpriteView(Sprite sprite) {
+	public EnemyView(Enemy sprite) {
 		this.setObject(sprite);
 	}
 	
 	@Override
-	public Sprite getObject() {
+	public Enemy getObject() {
 		return this.sprite;
 	}
 
 	@Override
-	public void setObject(Sprite object) {
+	public void setObject(Enemy object) {
 		this.sprite = object;
 		this.hpbar = new StatusBar(0.1f, 1f, object.getHealth());
 		object.addListener(this);
@@ -76,16 +81,16 @@ public class SpriteView implements ObjectRenderer<Sprite>, PropertyChangeListene
 			transformer.concatenate(AffineTransform.getRotateInstance(-sprite.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
 			if(sprite.getState() == Sprite.State.RUNNING) {
-				g2d.drawImage(texture1[runAnimation.getFrame()], transformer, null);
+				g2d.drawImage(texture[sprite.getImageNbr()][runAnimation.getFrame()], transformer, null);
 			}else if(sprite.getState() == Sprite.State.WALKING) {
-				g2d.drawImage(texture1[walkAnimation.getFrame()], transformer, null);
+				g2d.drawImage(texture[sprite.getImageNbr()][walkAnimation.getFrame()], transformer, null);
 			}
-			g2d.drawImage(texture1[standImage], transformer, null);
+			g2d.drawImage(texture[sprite.getImageNbr()][standImage], transformer, null);
 			
 			if(activeAnimation != null && activeAnimation.isRunning()) {
-				g2d.drawImage(texture1[activeAnimation.getFrame()], transformer, null);
+				g2d.drawImage(texture[sprite.getImageNbr()][activeAnimation.getFrame()], transformer, null);
 			}else{
-				g2d.drawImage(texture1[idleArms], transformer, null);
+				g2d.drawImage(texture[sprite.getImageNbr()][idleArms], transformer, null);
 			}
 			
 			//Draws dev data

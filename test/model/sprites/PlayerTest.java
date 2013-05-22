@@ -35,7 +35,7 @@ public class PlayerTest {
 		assertTrue(p.getPosition().getX() < 1);
 		assertTrue(p.getPosition().getY() == 1);
 		
-		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
+		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50, 0);
 		e.setState(Enemy.State.RUNNING);
 		
 		e.setDirection((float) (Math.PI/2));
