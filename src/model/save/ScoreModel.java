@@ -49,8 +49,8 @@ public class ScoreModel {
 	 * Adds a new score to the highscore list. This will sort the in the new score at the proper place.
 	 * @param newScore the score to be added.
 	 */
-	public static void addNewScore(long newScore){
-		HighScoreWrapper.writeScore(newScore);
+	public void addNewScore(long newScore){
+		h.writeScore(newScore);
 	}
 	/**
 	 * 
@@ -61,7 +61,7 @@ public class ScoreModel {
 	}
 
 	private static class HighScoreWrapper{
-		private static String[][] s = readScore();
+		private String[][] s = readScore();
 		private static final String DATA_DIVIDER1 = "#";
 		private static final String DATA_DIVIDER2 = "##";
 
@@ -77,7 +77,7 @@ public class ScoreModel {
 		private String getScore(int pos){
 			return Long.parseLong(s[pos][1])+"";
 		}
-		private static String[][] readScore() {
+		private String[][] readScore() {
 			String tempg = null;
 			try {
 				File file = new File(SavePath.getHighScorePath());
@@ -94,7 +94,7 @@ public class ScoreModel {
 
 			return createScoreList(tempg);
 		}
-		private static String[][] createScoreList(String string){
+		private String[][] createScoreList(String string){
 			if (string==null){
 				return null;
 			} else {
@@ -125,7 +125,7 @@ public class ScoreModel {
 			return number;
 		}
 		
-		private static void writeScore(long newScore) {
+		private void writeScore(long newScore) {
 			try {				 
 				String scoreToAdd[][] = {{SettingsModel.getUserName(), ""+newScore}};
 				
