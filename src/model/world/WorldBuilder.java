@@ -134,7 +134,6 @@ public class WorldBuilder {
 	public Tile[][] getNewWorld(int width, int height) {
 		MapGenerator g = new MapGenerator(seed);
 		int[][] mapData = g.generateWorld(width/10, height/10);
-//		mapData = this.test;
 		width = mapData.length * 10;
 		height = mapData[0].length * 10;
 		
