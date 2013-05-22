@@ -56,6 +56,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 	
 	private int lastSecondStamp;
 	
+	private static final int SUPPLY_SPAWN_DISTANCE = 25;
+	
 	/**
 	 * When food level is higher or equal to FOOD_HIGH the health of the player increases.
 	 */
@@ -291,24 +293,28 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	private void spawnSupplies(Tile t){
 		Supply supply;
-		if(t.getProperty() == Tile.FOOD_SPAWN && Math.random() > 0.8){//Create a food
-			supply = SupplyFactory.createFood(25, t.getPosition());
-			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.AMMO_SPAWN && Math.random() > 0.85){//Create an ammo
-			supply = SupplyFactory.createAmmo(12, t.getPosition());
-			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.HEALTH_SPAWN && Math.random() > 0.9){//Create a health
-			supply = SupplyFactory.createHealth(25, t.getPosition());
-			gameModel.getWorld().getItems().add(supply);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.WEAPON_SPAWN && Math.random() > 0.9){//create a weapon
-			Weapon w = WeaponFactory.getSemiRandomWeapon(this.getTotalRuntime());
-			w.setPosition(t.getPosition());
-			gameModel.getWorld().getItems().add(w);
-			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
-		}	
+		float dx = t.getPosition().getX() - this.gameModel.getPlayer().getCenter().getX();
+		float dy = t.getPosition().getY() - this.gameModel.getPlayer().getCenter().getY();
+		if(Math.sqrt(dx*dx + dy*dy) > SUPPLY_SPAWN_DISTANCE) {
+			if(t.getProperty() == Tile.FOOD_SPAWN && Math.random() > 0.8){//Create a food
+				supply = SupplyFactory.createFood(25, t.getPosition());
+				gameModel.getWorld().getItems().add(supply);
+				gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
+			}else if(t.getProperty() == Tile.AMMO_SPAWN && Math.random() > 0.85){//Create an ammo
+				supply = SupplyFactory.createAmmo(12, t.getPosition());
+				gameModel.getWorld().getItems().add(supply);
+				gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
+			}else if(t.getProperty() == Tile.HEALTH_SPAWN && Math.random() > 0.9){//Create a health
+				supply = SupplyFactory.createHealth(25, t.getPosition());
+				gameModel.getWorld().getItems().add(supply);
+				gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
+			}else if(t.getProperty() == Tile.WEAPON_SPAWN && Math.random() > 0.9){//create a weapon
+				Weapon w = WeaponFactory.getSemiRandomWeapon(this.getTotalRuntime());
+				w.setPosition(t.getPosition());
+				gameModel.getWorld().getItems().add(w);
+				gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
+			}	
+		}
 	}
 	
 	

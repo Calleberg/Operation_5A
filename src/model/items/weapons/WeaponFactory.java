@@ -26,6 +26,7 @@ public class WeaponFactory {
 		//Melee
 		FISTS (0.35f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 500, 0, "Fists", Weapon.Type.FISTS),
 		BAT(0.35f, 8, 0.5f, Weapon.UNLIMITED_AMMO, 0, 500, 1, "Bat", Weapon.Type.MELEE),
+		//Test
 		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "TestWeapon", Weapon.Type.GUN);
 		
 		private final float projectileSpeed;

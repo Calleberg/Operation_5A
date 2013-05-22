@@ -14,6 +14,6 @@ public class ObjectSort implements Comparator<ObjectRenderer>{
 
 	@Override
 	public int compare(ObjectRenderer o1, ObjectRenderer o2) {
-		return o2.getLayer() - o1.getLayer();
+		return o1.getLayer() - o2.getLayer();
 	}
 }
