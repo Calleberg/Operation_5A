@@ -3,7 +3,6 @@ package view.menu.subMenuPanels;
 
 import java.awt.Component;
 import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
