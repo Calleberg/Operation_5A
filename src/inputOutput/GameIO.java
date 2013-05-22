@@ -1,4 +1,4 @@
-package model.save;
+package inputOutput;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +18,7 @@ import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
+import model.save.SavePath;
 import model.sprites.Enemy;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;

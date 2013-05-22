@@ -1,12 +1,13 @@
 package controller;
 
 
+import inputOutput.GameIO;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.GameModel;
 import model.MainModel;
-import model.save.GameIO;
 import resources.Translator;
 import view.Window;
 import view.menu.LoadingPanel;

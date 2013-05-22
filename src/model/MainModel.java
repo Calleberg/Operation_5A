@@ -3,7 +3,7 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import model.save.HighScoreModel;
+import model.save.ScoreModel;
 import model.save.SettingsModel;
 
 
@@ -16,7 +16,7 @@ import model.save.SettingsModel;
 public class MainModel {
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private HighScoreModel scoreModel;
+	private ScoreModel scoreModel;
 	private SettingsModel settingsModel;
 	private GameModel gameModel;
 	
@@ -37,7 +37,7 @@ public class MainModel {
 	 * Creates a new default model.
 	 */
 	public MainModel() {
-		this.scoreModel = new HighScoreModel();
+		this.scoreModel = new ScoreModel();
 		this.settingsModel = new SettingsModel();
 		this.gameModel = null;		
 	}
@@ -54,7 +54,7 @@ public class MainModel {
 	 * Gives the high score model.
 	 * @return the high score model.
 	 */
-	public HighScoreModel getScoreModel() {
+	public ScoreModel getScoreModel() {
 		return scoreModel;
 	}
 
@@ -79,7 +79,7 @@ public class MainModel {
 	 * Sets the high score model.
 	 * @param scoreModel the new high score model.
 	 */
-	public void setScoreModel(HighScoreModel scoreModel) {
+	public void setScoreModel(ScoreModel scoreModel) {
 		this.scoreModel = scoreModel;
 		this.pcs.firePropertyChange(EVENT_NEW_HIGH_SCORE_MODEL, null, scoreModel);
 	}
