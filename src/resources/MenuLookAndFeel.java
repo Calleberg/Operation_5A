@@ -93,7 +93,7 @@ public class MenuLookAndFeel {
 	    return new CompoundBorder(border, getMargin());
 	}
 	private static Border getMargin() {
-		return new EmptyBorder(0,50,0,50);
+		return new EmptyBorder(0,40,0,40);
 	}
 	/**
 	 * 
