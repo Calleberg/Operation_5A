@@ -1,6 +1,9 @@
 package view.menu.subMenuPanels;
 
 
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,25 +44,35 @@ public class Settings extends SubMenuPanel {
 			}
 		});
 	}
+	private static JPanel getCombinedPanel(Component c1, Component c2){
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(1, 0, MenuLookAndFeel.getGap(), MenuLookAndFeel.getGap()));
 
+		p.setBackground(MenuLookAndFeel.getSubMenuPanelColor());
+		p.add(c1);
+		c1.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		p.add(c2);
+		
+		return p;
+	}
+	
+	
 	private static JPanel getPanel() {
 		JPanel p = new JPanel();		
 		
-		p.setLayout(new GridLayout(0, 2, MenuLookAndFeel.getGap(), MenuLookAndFeel.getGap()));
+		p.setLayout(new GridLayout(0, 1, MenuLookAndFeel.getGap(), MenuLookAndFeel.getGap()));
 		
-		p.add(new MenuLabel(Translator.getMenuString("playerName")+ ":"));
-		p.add(nameField);
+		
+		p.add(getCombinedPanel(new MenuLabel(Translator.getMenuString("playerName")+ ":"), nameField));
 		nameField.setFont(MenuLookAndFeel.getLargeFont());
 		nameField.setText(SettingsModel.getUserName());
 		nameField.setBackground(MenuLookAndFeel.getInputFieldColor());
 		nameField.setBorder(MenuLookAndFeel.getSettingsTextFieldFont());
 		
 		startComboBox();
-		p.add(new MenuLabel(Translator.getMenuString("language")+":"));
-		p.add(language);
+		p.add(getCombinedPanel(new MenuLabel(Translator.getMenuString("language")+":"), language));
 		
-		p.add(new MenuLabel(Translator.getMenuString("fullscreen")+":"));
-		p.add(fullscreen);
+		p.add(getCombinedPanel(new MenuLabel(Translator.getMenuString("fullscreen")+":"), fullscreen));
 		if(fullscreen.isSelected()) {
 			fullscreen.setText(Translator.getMenuString("on"));
 		}else{
