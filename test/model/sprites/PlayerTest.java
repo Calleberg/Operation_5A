@@ -78,9 +78,6 @@ public class PlayerTest {
 		assertTrue(p.getPosition().getX() == 1);
 		assertTrue(p.getPosition().getY() < 1);
 	}
-	//TODO remove move
-	//TODO getMoveBox, getHitBox, moveBack,
-	//TODO remove getcollisionBox
 	
 	@Test
 	public void moveBack(){
@@ -362,14 +359,6 @@ public class PlayerTest {
 		assertTrue(p.getDirection() == 5f);
 		p.setDirection((float)Math.PI/2);
 		assertTrue(p.getDirection() == (float)Math.PI/2);
-	}
-	
-	@Test
-	public void getCollisionBox(){
-		//TODO more tests?
-		Player p = new Player(1,1);
-		assertTrue(p.getHitBox().getPosition().getX() == (p.getPosition()).getX());
-		assertTrue(p.getHitBox().getPosition().getY() == (p.getPosition()).getY());
 	}
 	
 	@Test

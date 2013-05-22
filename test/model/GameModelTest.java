@@ -17,7 +17,6 @@ public class GameModelTest {
 	World w = new World();
 	GameModel model = new GameModel(w);
 	Player p = new Player(1,1);
-	//TODO update, propertyChange cant be tested?
 	
 	
 	@Test

@@ -275,30 +275,6 @@ public class World {
 		return true;
 	}
 	
-	//TODO might not be needed
-	/**
-	 * Checks if it is possible to move between the two sprites without crossing an obstacle or
-	 * another sprite, excluding all sprites in excludingSprites.
-	 * @param sprite1 one of the two sprites.
-	 * @param sprite2 one of the two sprites.
-	 * @param excludingSprites these sprites' collisionboxes will not be checked for collision.
-	 * @return
-	 */
-	public boolean canMove(Position pos1, Position pos2, Sprite[] excludingSprites) {
-		if(!canMove(pos1, pos2)){
-			return false;
-		}
-		Line l = new Line(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
-		for(Sprite s : sprites){
-			if(s != excludingSprites[0] && s != excludingSprites[1]){
-				if(l.intersects(s.getMoveBox())){
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
 	/**
 	 * Checks if the specified position is a valid position on the map.
 	 * @param pos the position to check.

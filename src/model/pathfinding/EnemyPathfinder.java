@@ -106,8 +106,7 @@ public class EnemyPathfinder {
 		}
 		
 		//Currently the last position is the center of the node the player stands on
-		//(this.goal, last index), switch the last position to the playerCenter(goal) instead 
-		correctList.remove(correctList.size()-1);
+		//(this.goal, last index), add the last position as the playerCenter(goal) instead 
 		correctList.add(goal);
 		
 		removeUnnecessaryPositions(correctList);
@@ -156,7 +155,8 @@ public class EnemyPathfinder {
 				currentNode.getTile().getPosition().getX() + 2; x++){
 			for(float y = currentNode.getTile().getPosition().getY() - 1; y < 
 					currentNode.getTile().getPosition().getY() + 2; y++){
-				// TODO world bigger than tile[0][0]? replace this with comment
+				//An enemy aren't allowed to take a path which would take the enemy more than
+				//15 away from the goal.
 				if(x >= 0 && y >= 0 && getDistance(nodes[(int)x][(int)y].getTile().getPosition(), 
 						goal.getTile().getPosition()) < MAX_DISTANCE_FROM_GOAL){
 					//If closedTileList contains the node there is no need to try the node again.

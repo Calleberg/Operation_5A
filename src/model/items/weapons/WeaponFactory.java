@@ -270,7 +270,6 @@ public class WeaponFactory {
 				pos);
 	}
 	
-	//TODO fix times -> change javadoc when times is set
 		/**
 		 * Return a semirandom weapon. If the time is < than 50000, the type will be 1-3, if the time
 		 * is > 10 and < 100000, the type will be 2-4 and if the time is > 20, the type will be 3-5.
