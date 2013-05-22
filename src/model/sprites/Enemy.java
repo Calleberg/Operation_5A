@@ -297,7 +297,7 @@ public class Enemy implements Sprite{
 		this.health = Integer.parseInt(data[0]);
 		this.speed = Float.parseFloat(data[1]);
 		Position center = new Position(Float.parseFloat(data[2]), Float.parseFloat(data[3]));
-		this.setPosition(center);
+		this.setCenter(center);
 		this.direction = Float.parseFloat(data[4]);
 		this.state = State.fromString(data[5]);
 		this.imageNbr = Integer.parseInt(data[6]);
