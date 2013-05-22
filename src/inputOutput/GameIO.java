@@ -144,6 +144,10 @@ public class GameIO {
 					item.restore(data);
 					model.getWorld().addItem(item);
 					break;
+				case WEAPON:
+					Weapon w = WeaponFactory.loadWeapon(data);
+					model.getWorld().addItem(w);
+					break;
 				}
 			}
 
@@ -203,7 +207,11 @@ public class GameIO {
 
 			//Writes all the items
 			for(Item i : model.getWorld().getItems()) {
-				osw.write(convertToString(i.getData(), ITEM) + "\r\n");
+				if(i instanceof Weapon) {
+					osw.write(convertToString(i.getData(), WEAPON) + "\r\n");
+				}else{
+					osw.write(convertToString(i.getData(), ITEM) + "\r\n");
+				}
 			}
 
 			//Close all the streams 
