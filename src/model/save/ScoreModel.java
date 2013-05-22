@@ -75,7 +75,7 @@ public class ScoreModel {
 			return s[pos][0];
 		}
 		private String getScore(int pos){
-			return Long.parseLong(s[pos][1])/1000+"";
+			return Long.parseLong(s[pos][1])+"";
 		}
 		private static String[][] readScore() {
 			String tempg = null;

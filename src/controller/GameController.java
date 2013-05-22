@@ -459,7 +459,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 * Add the score to the highscoreModel, show's the gameOverPanel and stop the thread.
 	 */
 	private void gameOver(){
-		model.save.ScoreModel.addNewScore(getTotalRuntime());
+		model.save.ScoreModel.addNewScore(gameModel.getScore());
 		MenuController.showGameOverPanel();
 		this.stopThread();
 	}
