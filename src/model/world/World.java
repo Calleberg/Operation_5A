@@ -46,7 +46,7 @@ public class World {
 	/*
 	 * The max distance between a player and an enemy before an enemy don't take any actions. 
 	 */
-	private static final int ENEMY_SHUT_DOWN_RANGE = 25;
+	private static final int ENEMY_SHUT_DOWN_RANGE = 35;
 
 
 	/**
