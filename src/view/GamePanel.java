@@ -282,12 +282,12 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 		}
 
 		//Draws all the dynamic items.
-		for(@SuppressWarnings("rawtypes") ObjectRenderer ob : objects) {				
-			if(ob instanceof PlayerView) {
-				((PlayerView)ob).render(g2d, camera.getOffset(), camera.getScale(), 
+		for(int i = 0; i < objects.size(); i++) {	
+			if(objects.get(i) instanceof PlayerView) {
+				((PlayerView)objects.get(i)).render(g2d, camera.getOffset(), camera.getScale(), 
 						new Position(this.getWidth()/2, this.getHeight()/2));
 			}else{
-				ob.render(g2d, camera.getOffset(), camera.getScale());
+				objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
 			}
 		}
 
