@@ -9,9 +9,19 @@ import javax.swing.JToggleButton;
 
 import resources.MenuLookAndFeel;
 
+/**
+ * A button which can toggle but with custom design.
+ * 
+ * @author
+ *
+ */
 @SuppressWarnings("serial")
 public class MenuToggleButton extends JToggleButton implements MouseListener, ActionListener{ 
 
+	/**
+	 * Creates a new MenuToggleButton with the specified string as text to display.
+	 * @param s the text to display.
+	 */
 	public MenuToggleButton(String s){
 		setText(s);
 		setBackground(MenuLookAndFeel.getButtonColor());
@@ -30,20 +40,17 @@ public class MenuToggleButton extends JToggleButton implements MouseListener, Ac
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Not used here
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Not used here
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Not used here
 	}
 
 	@Override
