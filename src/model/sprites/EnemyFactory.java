@@ -18,7 +18,7 @@ public class EnemyFactory {
 	public static Enemy createEasyEnemy(Position pos){
 		return new Enemy(pos, 0.045f, 
 			WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
-				WeaponFactory.Level.RUSTY), 50);
+				WeaponFactory.Level.NORMAL), 50);
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class EnemyFactory {
 	 * @return a medium enemy
 	 */
 	public static Enemy createMediumEnemy(Position pos){
-		return new Enemy(pos, 0.06f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
+		return new Enemy(pos, 0.08f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
 				WeaponFactory.Level.LARGE), 100);
 	}
 	
@@ -35,8 +35,8 @@ public class EnemyFactory {
 	 * @return a hard enemy
 	 */
 	public static Enemy createHardEnemy(Position pos){
-		return new Enemy(pos, 0.65f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
-				WeaponFactory.Level.EPIC), 150);
+		return new Enemy(pos, 0.09f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
+				WeaponFactory.Level.BADASS), 150);
 	}
 
 }
