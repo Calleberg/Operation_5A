@@ -80,7 +80,7 @@ public class ScoreModel {
 		private static String[][] readScore() {
 			String tempg = null;
 			try {
-				File file = new File(SavePath.highScore());
+				File file = new File(SavePath.getHighScorePath());
 				if(file.exists()) {
 					FileReader fileReader = new FileReader(file.getAbsoluteFile());
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -131,7 +131,7 @@ public class ScoreModel {
 				
 				String content=convertToSaveableString(insertSorted(scoreToAdd, s));
 				
-				File file = new File(SavePath.highScore());
+				File file = new File(SavePath.getHighScorePath());
 	 
 				if (!file.exists()) {
 					file.createNewFile();

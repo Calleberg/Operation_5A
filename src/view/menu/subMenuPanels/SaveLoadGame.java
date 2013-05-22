@@ -1,11 +1,21 @@
 package view.menu.subMenuPanels;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import inputOutput.GameIO;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import model.save.SavePath;
+
+import resources.MenuLookAndFeel;
 import resources.Translator;
 
 import view.menu.MenuButton;
+import view.menu.MenuToggleButton;
 
 /**
  * Panel to save and load the game.
@@ -13,7 +23,11 @@ import view.menu.MenuButton;
  *
  */
 @SuppressWarnings("serial")
-public class SaveLoadGame extends SubMenuPanel{
+public class SaveLoadGame extends SubMenuPanel {
+	
+	private static JButton loadButton;
+	private static JButton saveButton;
+	private static boolean canSave;
 	
 	/**
 	 * 
@@ -23,6 +37,17 @@ public class SaveLoadGame extends SubMenuPanel{
 	public SaveLoadGame(String timeSaved, MenuButton[] button, boolean bol) {
 		super(getText(bol), getPanel(timeSaved), button);
 		button[1].setEnabled(bol);
+		loadButton = button[0];
+		saveButton = button[1];
+		saveButton.setEnabled(false);
+		canSave = bol;
+		final JButton backB = button[2];
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				backB.doClick();
+			}
+		});
 	}
 	private static String getText(boolean bol) {
 		if (bol){
@@ -32,11 +57,44 @@ public class SaveLoadGame extends SubMenuPanel{
 		}
 	}
 	private static JPanel getPanel(String timeSaved) {
-		JPanel panel = new JPanel();
-		JLabel l = new JLabel(Translator.getMenuString("lastGameSavedAt") + ": \n" + timeSaved);
-		l.setFont(resources.MenuLookAndFeel.getLargeFont());
-		panel.add(l);
-		return panel;
-	}
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(0, 1, MenuLookAndFeel.getGap(), MenuLookAndFeel.getGap()));
+				
+		String[] saveFiles = SavePath.getSaveFiles();
+		ButtonGroup group1 = new ButtonGroup();
 
+		final MenuToggleButton tb1 = new MenuToggleButton(Translator.getMenuString("newSave"));
+		group1.add(tb1);
+		tb1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadButton.setEnabled(true);
+				loadButton.setActionCommand(tb1.getText());
+				saveButton.setActionCommand(GameIO.NEW_NAME);
+				if(canSave) {
+					saveButton.setEnabled(true);
+				}
+			}
+		});
+		p.add(tb1);
+
+		for(int i = 0; i < saveFiles.length; i++) {
+			final MenuToggleButton tb2 = new MenuToggleButton(saveFiles[i]);
+			group1.add(tb2);
+			tb2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					loadButton.setEnabled(true);
+					loadButton.setActionCommand(tb2.getText());
+					saveButton.setActionCommand(tb2.getText());
+					if(canSave) {
+						saveButton.setEnabled(true);
+					}
+				}
+			});
+			p.add(tb2);
+		}
+		
+		return p;
+	}
 }

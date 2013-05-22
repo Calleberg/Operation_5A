@@ -5,7 +5,6 @@ import inputOutput.GameIO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import model.GameModel;
 import model.MainModel;
 import model.save.SavePath;
@@ -106,7 +105,7 @@ public class MenuController{
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					GameIO.saveGame(gameController.getGameModel(), SavePath.savedGame());
+					GameIO.saveGame(gameController.getGameModel(), e.getActionCommand());
 					WINDOW.repaint();
 				}
 			});
@@ -115,10 +114,11 @@ public class MenuController{
 		
 		private static MenuButton getLoadButton() {
 			MenuButton b = new MenuButton(Translator.getMenuString("load"));
+			b.setEnabled(false);
 			b .addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					startGame(GameIO.loadGame(SavePath.savedGame()));
+					startGame(GameIO.loadGame(SavePath.getSaveFolder() + e.getActionCommand()));
 				}
 			});
 			return b;

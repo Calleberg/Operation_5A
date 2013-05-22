@@ -21,6 +21,7 @@ import resources.MenuLookAndFeel;
 import resources.Translator;
 import view.menu.MenuButton;
 import view.menu.MenuLabel;
+import view.menu.MenuToggleButton;
 
 /**
  * 
@@ -31,7 +32,7 @@ import view.menu.MenuLabel;
 public class Settings extends SubMenuPanel {
 	private static JTextField nameField = new JTextField();
 	private static JComboBox<Locale> language = new JComboBox<Locale>();
-	private static JToggleButton fullscreen = new JToggleButton();
+	private static JToggleButton fullscreen = new MenuToggleButton(null);
 	
 	public Settings(MenuButton button) {
 		super(Translator.getMenuString("settings"), getPanel(), button);
@@ -78,10 +79,6 @@ public class Settings extends SubMenuPanel {
 		}else{
 			fullscreen.setText(Translator.getMenuString("off"));
 		}
-		fullscreen.setFont(MenuLookAndFeel.getLargeFont());
-		fullscreen.setSelected(SettingsModel.getFullscreen());
-		fullscreen.setBorder(MenuLookAndFeel.getButtonBorder());
-		fullscreen.setBackground(MenuLookAndFeel.getButtonColor());
 		fullscreen.addMouseListener(new MouseListener() {
 
 			@Override
@@ -100,11 +97,9 @@ public class Settings extends SubMenuPanel {
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				fullscreen.setBorder(MenuLookAndFeel.getButtonHighlightedBorder());
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				fullscreen.setBorder(MenuLookAndFeel.getButtonBorder());
 			}
 		});
 

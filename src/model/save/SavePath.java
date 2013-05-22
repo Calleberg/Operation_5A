@@ -8,31 +8,58 @@ import java.io.File;
  *
  */
 public class SavePath {
-	private static String getSavePath(){
-		File file2 = new File(System.getenv("APPDATA") + "/Operation5a/");
-		file2.mkdir();
+	
+	
+	
+	/**
+	 * Gives the folder where all the data should be stored.
+	 * @return the folder where all the data should be stored.
+	 */
+	public static String getSavePath(){
+		File file = new File(System.getenv("APPDATA") + "/Operation5a/");
+		file.mkdir();
 		
-		return file2.getPath() + "/";
+		return file.getPath() + "/";
 	}
+	
+	/**
+	 * Gives the folder the savefiles should be stored in.
+	 * @return the folder the savefiles should be stored in.
+	 */
+	public static String getSaveFolder() {
+		File file = new File(getSavePath() + "saves/");
+		file.mkdir();
+		
+		return file.getPath() + "/";
+	}
+	
+	/**
+	 * Gives an array of all paths to all the save files that exists.
+	 * @return an array of all paths to all the save files that exists.
+	 */
+	public static String[] getSaveFiles() {
+		File file = new File(SavePath.getSaveFolder());
+		File[] files = file.listFiles();
+		
+		String[] arr = new String[files.length];
+		for(int i = 0; i < files.length; i++) {
+			arr[i] = files[i].getName();
+		}
+		return arr;
+	}
+	
 	/**
 	 * 
 	 * @return the path settings is to be saved at.
 	 */
-	public static  String settings(){
+	public static String getSettingsPath(){
 		return getSavePath() + "Settings.txt";
 	}
 	/**
 	 * 
 	 * @return the path the high score is to be saved at.
 	 */
-	public static String highScore(){
+	public static String getHighScorePath(){
 		return getSavePath() + "HighScore.txt";
-	}
-	/**
-	 * 
-	 * @return the path a game is to be saved at.
-	 */
-	public static  String savedGame(){
-		return getSavePath() + "SavedGame.txt";
 	}
 }

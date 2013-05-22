@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -18,6 +19,7 @@ import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
+import model.save.SavePath;
 import model.sprites.Enemy;
 import model.sprites.EnemyFactory;
 import model.sprites.Player;
@@ -46,6 +48,8 @@ public class GameIO {
 	/*The seed used when loading/creating a new model*/
 	private static long seed = Calendar.getInstance().getTimeInMillis();
 	
+	public static final String NEW_NAME = "newName";
+	
 	/**
 	 * Gives a fresh new game.
 	 * @return a new game.
@@ -59,7 +63,9 @@ public class GameIO {
 					(int)(Math.random() * model.getWorld().getHeight()) +0.5f);
 		}while(!model.getWorld().canMove(pos, new Position(pos.getX() + 1, pos.getY() + 1)));
 		
-		Player player = new Player(pos.getX(), pos.getY());
+		Player player = new Player(0, 0);
+		player.setCenter(pos);
+		System.out.println(player.getCenter());
 		player.switchWeapon(0);
 		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		player.switchWeapon(2);
@@ -164,6 +170,13 @@ public class GameIO {
 	 * @param path the path to the file to save to.
 	 */
 	public static void saveGame(GameModel model, String path) {
+		if(path.equals(NEW_NAME)) {
+			SimpleDateFormat dt = new SimpleDateFormat("yyyy mm dd - hh.mm.ss"); 
+			path = SavePath.getSaveFolder() + dt.format(Calendar.getInstance().getTime()) + ".save";
+		}else{
+			path = SavePath.getSaveFolder() + path;
+		}
+		
 		File f  = new File(path);
 		if(!f.exists()) {
 			try {

@@ -109,7 +109,7 @@ public class SettingsModel {
 		private static void read() {
 			String temp = null;
 			try {
-				File file = new File(SavePath.settings());
+				File file = new File(SavePath.getSettingsPath());
 				if(file.exists()) {
 					FileReader fileReader = new FileReader(file.getAbsoluteFile());
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -134,7 +134,7 @@ public class SettingsModel {
 		}	
 		private static void write() {
 			try {				 			
-				File file = new File(SavePath.settings());
+				File file = new File(SavePath.getSettingsPath());
 	 
 				if (!file.exists()) {
 					file.createNewFile();

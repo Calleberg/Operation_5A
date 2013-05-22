@@ -1,9 +1,11 @@
 package view.menu.subMenuPanels;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import view.menu.MenuButton;
 import view.menu.MenuLabel;
@@ -28,19 +30,27 @@ public abstract class SubMenuPanel extends JPanel{
 		JPanel textFieldPanel = new JPanel();
 		textFieldPanel.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		add(textFieldPanel, BorderLayout.NORTH);
-			textFieldPanel.add(new MenuLabel(s));
-		
-		JPanel centerPanel = new JPanel();
-		centerPanel.add(p);
-		centerPanel.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
-		add(centerPanel, BorderLayout.CENTER);
+		textFieldPanel.add(new MenuLabel(s));
+
+		JScrollPane pane = new JScrollPane();
 		p.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
-		
+		pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pane.setBorder(resources.MenuLookAndFeel.getPopupBorder());
+		pane.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
+		pane.getVerticalScrollBar().setUnitIncrement(16);
+		JPanel paneContent = new JPanel();
+		paneContent.setLayout(new FlowLayout());
+		pane.setViewportView(paneContent);
+		paneContent.add(p);
+		paneContent.setBackground(resources.MenuLookAndFeel.getSubMenuPanelColor());
+		add(pane, BorderLayout.CENTER);
+
+
 		JPanel buttonFieldPanel = new JPanel();
 		buttonFieldPanel.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		add(buttonFieldPanel, BorderLayout.SOUTH);
 		buttonFieldPanel.setLayout(new GridLayout(1, 0, resources.MenuLookAndFeel.getGap(), resources.MenuLookAndFeel.getGap()));
-		
+
 		JPanel buttonFieldPanelLeft = new JPanel();
 		buttonFieldPanelLeft.setBackground(resources.MenuLookAndFeel.getSubMenuColor());
 		buttonFieldPanel.add(buttonFieldPanelLeft);
@@ -48,7 +58,7 @@ public abstract class SubMenuPanel extends JPanel{
 		for (int a=0; a<b.length-1; a++){
 			buttonFieldPanelLeft.add(b[a]);
 		}
-		buttonFieldPanel.add(b[b.length-1], BorderLayout.SOUTH);	
+		buttonFieldPanel.add(b[b.length-1], BorderLayout.SOUTH);
 	}
 	/**
 	 * Creates a sub menu panel.
