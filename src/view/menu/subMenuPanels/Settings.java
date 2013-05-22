@@ -72,6 +72,7 @@ public class Settings extends SubMenuPanel {
 		p.add(getCombinedPanel(new MenuLabel(Translator.getMenuString("language")+":"), language));
 		
 		p.add(getCombinedPanel(new MenuLabel(Translator.getMenuString("fullscreen")+":"), fullscreen));
+		fullscreen.setSelected(SettingsModel.getFullscreen());
 		if(fullscreen.isSelected()) {
 			fullscreen.setText(Translator.getMenuString("on"));
 		}else{
