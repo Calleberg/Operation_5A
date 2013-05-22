@@ -130,7 +130,7 @@ public class SettingsModel {
 		private static void setDefaultSettings() {
 			name = "Player 1";
 			fullscreen = true;
-			locale = Locale.getDefault();
+			locale = Locale.ENGLISH;
 		}	
 		private static void write() {
 			try {				 			
