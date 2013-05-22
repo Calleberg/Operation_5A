@@ -1,11 +1,12 @@
 package view.menu.subMenuPanels;
 
-import inputOutput.HighScoreModel;
 
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import model.save.HighScoreModel;
 
 import resources.Translator;
 import view.menu.MenuButton;

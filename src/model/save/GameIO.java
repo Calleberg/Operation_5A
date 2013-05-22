@@ -1,4 +1,4 @@
-package inputOutput;
+package model.save;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
-import savePath.SavePath;
 
 import model.GameModel;
 import model.geometrical.Position;

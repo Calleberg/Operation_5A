@@ -1,4 +1,4 @@
-package savePath;
+package model.save;
 
 public class SavePath {
 	private static String getSavePath(){
