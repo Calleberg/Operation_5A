@@ -28,23 +28,9 @@ public class WorldBuilder {
 	private long seed;
 	private Random random;
 		
-	private int[][] test = new int[][]{
-			{0,0,0,0,0,0,0,0,0,0},
-			{0,1,7,7,3,7,7,3,7,0},
-			{0,1,1,1,3,1,1,3,7,0},
-			{0,1,3,3,3,3,3,3,3,0},
-			{0,1,3,7,3,7,1,7,3,0},
-			{0,1,3,7,3,7,1,7,3,0},
-			{0,1,3,3,3,3,3,3,3,0},
-			{0,1,1,1,1,1,1,1,1,0},
-			{0,1,1,1,1,1,0,1,1,0},
-			{0,0,0,0,0,0,0,0,0,0},
-	};
-	
 	/*Paths to where the different files are located*/
 	private final String BASE_SHORE = "shoreline/10x10_shore_";
 	private final String BASE_ROAD = "road/10x10_road_";
-	private final String BASE_RURAL_ROAD = "rural/10x10_road_";
 	private final String BASE_RESIDENTIAL = "residential/";
 	private Properties attributes;
 	
