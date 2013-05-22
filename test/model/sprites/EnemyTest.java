@@ -105,31 +105,6 @@ public class EnemyTest {
 		assertTrue(e.getDirection() == 1);
 	}
 	
-//	@Test
-//	public void setX(){
-//		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
-//		e.getPosition().setX(4);
-//		assertTrue(e.getPosition().getX() == 4);
-//	}
-//	
-//	@Test
-//	public void setY(){
-//		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
-//		e.getPosition().setY(5);
-//		assertTrue(e.getPosition().getY() == 5);
-//	}
-//	@Test
-//	public void getX(){
-//		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
-//		assertTrue(e.getPosition().getX() == 1);
-//	}
-//	
-//	@Test
-//	public void getY(){
-//		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50);
-//		assertTrue(e.getPosition().getY() == 1);
-//	}
-//	
 	@Test 
 	public void ReduceHealth(){
 		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50, 0);
@@ -169,8 +144,9 @@ public class EnemyTest {
 		e2.restore(s);
 		assertTrue(e.getHealth() == e2.getHealth());
 		assertTrue(e.getSpeed() == e2.getSpeed());
-//		assertTrue(e.getPosition().getX() == e2.getPosition().getX());//TODO
-//		assertTrue(e.getPosition().getY() == e2.getPosition().getY());
+		System.out.println(e.getPosition() + " " + e2.getPosition());
+		assertTrue(e.getPosition().getX() == e2.getPosition().getX());
+		assertTrue(e.getPosition().getY() == e2.getPosition().getY());
 	}
 	
 	@Test
