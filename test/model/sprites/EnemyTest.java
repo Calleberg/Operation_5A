@@ -144,7 +144,6 @@ public class EnemyTest {
 		e2.restore(s);
 		assertTrue(e.getHealth() == e2.getHealth());
 		assertTrue(e.getSpeed() == e2.getSpeed());
-		System.out.println(e.getPosition() + " " + e2.getPosition());
 		assertTrue(e.getPosition().getX() == e2.getPosition().getX());
 		assertTrue(e.getPosition().getY() == e2.getPosition().getY());
 	}
