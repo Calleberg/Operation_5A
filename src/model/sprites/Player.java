@@ -39,7 +39,7 @@ public class Player implements Sprite {
 	 */
 	public Player(float x, float y){
 		state = State.STANDING;
-		this.speed = 0.15f;
+		this.speed = 0.10f;
 		this.health = 100;
 		collisionBox = new Rectangle(0, 0, 0.8f, 0.8f);
 		hitBox = new Rectangle(0, 0, 0.6f, 0.6f);
