@@ -18,19 +18,19 @@ public class WeaponFactory {
 	 */
 	public static enum Type{
 		//Range
-		PISTOL (0.75f,5,50f,6,6000,1000,10, "Pistol", Weapon.Type.GUN),
-		SHOTGUN (0.45f, 10, 50f, 6, 10000, 3000, 11, "Shotgun", Weapon.Type.GUN),
+		PISTOL (0.75f,10,50f,6,6000,1000,10, "Pistol", Weapon.Type.GUN),
+		SHOTGUN (0.45f, 20, 50f, 6, 10000, 3000, 11, "Shotgun", Weapon.Type.GUN),
 //		REVOLVER,
 //		HUNTING_RIFLE,
-		SUB_MACHINEGUN(0.55f, 3, 50f, 20, 7000, 250, 12, "SubMachinegun", Weapon.Type.GUN),
+		SUB_MACHINEGUN(0.55f, 6, 50f, 20, 7000, 250, 12, "SubMachinegun", Weapon.Type.GUN),
 //		MINIGUN,
 //		ROCKET_LAUNCHER,
 //TODO more weapons
 		//Melee
-		FISTS (1.8f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 1000, 0, "Fists", Weapon.Type.FISTS),
+		FISTS (1.8f, 1, 0.3f, Weapon.UNLIMITED_AMMO, 0, 500, 0, "Fists", Weapon.Type.FISTS),
 //		POCKET_KNIFE,
 //		MACHETTE,
-		BAT(0.35f, 4, 0.5f, Weapon.UNLIMITED_AMMO, 0, 700, 1, "Bat", Weapon.Type.MELEE),
+		BAT(0.35f, 8, 0.5f, Weapon.UNLIMITED_AMMO, 0, 500, 1, "Bat", Weapon.Type.MELEE),
 //		PIPE,
 		
 		TEST_WEAPON (1.0f,2,100f,100000000,5,1000,4, "TestWeapon", Weapon.Type.GUN);
@@ -277,25 +277,25 @@ public class WeaponFactory {
 	
 	//TODO fix times -> change javadoc when times is set
 		/**
-		 * Return a semirandom weapon. If the time is < than 10, the type will be 1-3, if the time
-		 * is > 10 and < 20, the type will be 2-4 and if the time is > 20, the type will be 3-5.
+		 * Return a semirandom weapon. If the time is < than 50000, the type will be 1-3, if the time
+		 * is > 10 and < 100000, the type will be 2-4 and if the time is > 20, the type will be 3-5.
 		 * This method will not return a weapon with the type fists.
 		 * @param time the time which passed since the game was started. 
 		 */
-		public Weapon getSemiRandomWeapon(long time){
+		public static Weapon getSemiRandomWeapon(long time){
 			List<Level> levelList = new ArrayList<Level>();
-			if(time < 10){
+			if(time < 50000){
 				levelList.add(WeaponFactory.Level.RUSTY);
 				levelList.add(WeaponFactory.Level.NORMAL);
 				levelList.add(WeaponFactory.Level.LARGE);
-			}else if(time > 20){
-				levelList.add(WeaponFactory.Level.LARGE);
-				levelList.add(WeaponFactory.Level.BADASS);
-				levelList.add(WeaponFactory.Level.EPIC);
-			}else{
+			}else if(time < 100000){
 				levelList.add(WeaponFactory.Level.NORMAL);
 				levelList.add(WeaponFactory.Level.LARGE);
 				levelList.add(WeaponFactory.Level.BADASS);
+			}else{
+				levelList.add(WeaponFactory.Level.LARGE);
+				levelList.add(WeaponFactory.Level.BADASS);
+				levelList.add(WeaponFactory.Level.EPIC);
 			}
 			int levelLength = levelList.size();
 			Random random = new Random();

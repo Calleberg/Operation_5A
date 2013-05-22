@@ -207,21 +207,21 @@ public class GameController implements Runnable, PropertyChangeListener {
 		playerPickUpWeapon();
 
 		enemySpawnTick++;
-		if(enemySpawnTick >= 5){
+		if(enemySpawnTick >= 20){
 			spawnEnemy();
 			enemySpawnTick = 0;
 		}
 		ai.updateEnemies();
 
 		suppliesTick++;
-		if(suppliesTick >= 600){
+		if(suppliesTick >= 20){
 			spawnSupplies();
 			suppliesTick = 0;
 		}
 
 		//reducePlayerFoodLevel and changes the player's health according to current food level
 		foodTicks++;
-		if(foodTicks >= 120){
+		if(foodTicks >= 40){
 			reducePlayerFood();
 			foodTicks = 0;
 		}
@@ -292,20 +292,20 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	private void spawnSupplies(Tile t){
 		Supply supply;
-		if(t.getProperty() == Tile.FOOD_SPAWN){//Create a food
+		if(t.getProperty() == Tile.FOOD_SPAWN && Math.random() > 0.8){//Create a food
 			supply = SupplyFactory.createFood(25, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.AMMO_SPAWN){//Create an ammo
+		}else if(t.getProperty() == Tile.AMMO_SPAWN && Math.random() > 0.85){//Create an ammo
 			supply = SupplyFactory.createAmmo(12, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.HEALTH_SPAWN){//Create a health
+		}else if(t.getProperty() == Tile.HEALTH_SPAWN && Math.random() > 0.9){//Create a health
 			supply = SupplyFactory.createHealth(25, t.getPosition());
 			gameModel.getWorld().getItems().add(supply);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, supply);
-		}else if(t.getProperty() == Tile.WEAPON_SPAWN){//create a weapon
-			Weapon w = WeaponFactory.createRandomWeapon();
+		}else if(t.getProperty() == Tile.WEAPON_SPAWN && Math.random() > 0.9){//create a weapon
+			Weapon w = WeaponFactory.getSemiRandomWeapon(this.getTotalRuntime());
 			w.setPosition(t.getPosition());
 			gameModel.getWorld().getItems().add(w);
 			gameModel.getWorld().fireEvent(GameModel.ADDED_SUPPLY, null, w);
@@ -408,9 +408,9 @@ public class GameController implements Runnable, PropertyChangeListener {
 		Tile[][] tiles = gameModel.getWorld().getTiles();
 		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
 				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
-			if((int)getTotalRuntime()/1000 < 120){
+			if((int)getTotalRuntime()/1000 < 45){
 				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
-			}else if((int)getTotalRuntime()/1000 < 480){
+			}else if((int)getTotalRuntime()/1000 < 120){
 				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
 			}else{
 				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));
