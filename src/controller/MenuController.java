@@ -24,9 +24,10 @@ import view.menu.subMenuPanels.Settings;
  *
  */
 public class MenuController{
-	private static final Window WINDOW = new Window();
-	private static GameController gameController = null;
-	private static MainModel mainModel = new MainModel();
+	private Window WINDOW = new Window();
+	private GameController gameController = null;
+	private MainModel mainModel = new MainModel();
+	private MenuActionButtons buttons = new MenuActionButtons();
 	
 	/**
 	 * Creates a new game window and starts the main menu for the game.
@@ -37,10 +38,10 @@ public class MenuController{
 	/**
 	 * Changes this controllers window to the main menu.
 	 */
-	public static void showMainMenu(){
-		WINDOW.add(new MenuPanel(Translator.getMenuString("mainMenu"), MenuActionButtons.getMainMenuButtons()));
+	public void showMainMenu(){
+		WINDOW.add(new MenuPanel(Translator.getMenuString("mainMenu"), buttons.getMainMenuButtons()));
 	}
-	private static void startGame(GameModel m){
+	private void startGame(GameModel m){
 		if (gameController != null){
 			gameController.stopThread();
 		}
@@ -50,57 +51,57 @@ public class MenuController{
 		
 		WINDOW.add(new LoadingPanel());
 		
-		gameController = new GameController(mainModel);
+		gameController = new GameController(mainModel, this);
 		mainModel.setGameModel(m);
 		gameController.init();
 
 		WINDOW.add(gameController.getGamePanel());
 		new Thread(gameController).start();
 	}
-	private static void startNewGame(){
+	private void startNewGame(){
 		startGame(GameIO.newGame());
 	}
 	private static void exitGame(){
 		System.exit(0);
 	}
-	private static void showhighscore(){
-		WINDOW.add(new Score(MenuActionButtons.getMainMenuButton()));
+	private void showhighscore(){
+		WINDOW.add(new Score(buttons.getMainMenuButton()));
 	}
-	private static void showSettingsFromMainMenu(){
-		WINDOW.add(new Settings(MenuActionButtons.getMainMenuButton()));
+	private void showSettingsFromMainMenu(){
+		WINDOW.add(new Settings(buttons.getMainMenuButton()));
 	}
-	private static void showSettingsFromPauseMenu(){
-		WINDOW.add(new Settings(MenuActionButtons.getPauseMenuButton()));
+	private void showSettingsFromPauseMenu(){
+		WINDOW.add(new Settings(buttons.getPauseMenuButton()));
 	}
-	private static void showSaveLoadGame(){
-		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuActionButtons.getLoadButton(),
-				MenuActionButtons.getSaveButton(), MenuActionButtons.getPauseMenuButton()}, true));
+	private void showSaveLoadGame(){
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{buttons.getLoadButton(),
+			buttons.getSaveButton(), buttons.getPauseMenuButton()}, true));
 	}
-	private static void showLoadGame(){
-		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{MenuActionButtons.getLoadButton(),
-				MenuActionButtons.getSaveButton(), MenuActionButtons.getMainMenuButton()}, false));
+	private void showLoadGame(){
+		WINDOW.add(new SaveLoadGame(GameIO.getSaveTime(), new MenuButton[]{buttons.getLoadButton(),
+			buttons.getSaveButton(), buttons.getMainMenuButton()}, false));
 	}
 	/**
 	 * Changes this controllers window to the game over view.
 	 */
-	public static void showGameOverPanel(){
-		WINDOW.add(new Score(MenuActionButtons.getMainMenuButton()));
+	public void showGameOverPanel(){
+		WINDOW.add(new Score(buttons.getMainMenuButton()));
 	}
 	/**
 	 * Changes this controllers window to the paused game menu view.
 	 */
-	public static void showPauseMenu(){
-		WINDOW.add(new MenuPanel(Translator.getMenuString("pause"), MenuActionButtons.getPauseMenuButtons()));
+	public void showPauseMenu(){
+		WINDOW.add(new MenuPanel(Translator.getMenuString("pause"), buttons.getPauseMenuButtons()));
 	}
-	private static void resumeGame() {
+	private void resumeGame() {
 		WINDOW.add(gameController.getGamePanel());
 		gameController.resumeThread();
 	}
 	
 	
-	private static class MenuActionButtons {
+	private class MenuActionButtons {
 
-		private static MenuButton getSaveButton() {
+		private MenuButton getSaveButton() {
 			MenuButton b  = new MenuButton(Translator.getMenuString("save"));
 			b .addActionListener(new ActionListener() {
 				@Override
@@ -112,7 +113,7 @@ public class MenuController{
 				return b;
 		}
 		
-		private static MenuButton getLoadButton() {
+		private MenuButton getLoadButton() {
 			MenuButton b = new MenuButton(Translator.getMenuString("load"));
 			b.setEnabled(false);
 			b .addActionListener(new ActionListener() {
@@ -125,7 +126,7 @@ public class MenuController{
 		}
 		
 		
-		private static MenuButton getMainMenuButton() {
+		private MenuButton getMainMenuButton() {
 			MenuButton b = new MenuButton(Translator.getMenuString("mainMenu"));
 			b .addActionListener(new ActionListener() {
 				@Override
@@ -136,7 +137,7 @@ public class MenuController{
 			return b;
 		}
 		
-		private static MenuButton getPauseMenuButton() {
+		private MenuButton getPauseMenuButton() {
 			MenuButton b = new MenuButton(Translator.getMenuString("pauseMenu"));
 			b .addActionListener(new ActionListener() {
 				@Override
@@ -147,7 +148,7 @@ public class MenuController{
 			return b;
 		}
 		
-		private static MenuButton[] getMainMenuButtons() {
+		private MenuButton[] getMainMenuButtons() {
 				
 			MenuButton[] buttons = new MenuButton[5];
 			
@@ -194,7 +195,7 @@ public class MenuController{
 			return buttons;
 		}
 
-		private static MenuButton[] getPauseMenuButtons() {
+		private MenuButton[] getPauseMenuButtons() {
 
 			MenuButton buttons[] = new MenuButton[5];
 			

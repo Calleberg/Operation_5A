@@ -36,6 +36,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 	private static final int SLEEP = 1000 / 45;
 	
+	private MenuController menuController;
 	private MainModel mainModel;
 	private GameModel gameModel;
 	private GamePanel gamePanel;
@@ -73,7 +74,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 * Creates a new GameController.
 	 * @param mainModel the mainModel to listen to.
 	 */
-	public GameController(MainModel mainModel){
+	public GameController(MainModel mainModel, MenuController m){
+		this.menuController=m;
 		this.mainModel = mainModel;
 		this.mainModel.addListener(this);
 	}
@@ -466,7 +468,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	private void gameOver(){
 		model.save.ScoreModel.addNewScore(gameModel.getScore());
-		MenuController.showGameOverPanel();
+		menuController.showGameOverPanel();
 		this.stopThread();
 	}
 	
@@ -474,7 +476,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		if(input.isPressed(KeyEvent.VK_ESCAPE) || input.isPressed(KeyEvent.VK_P)){
 			input.reset();
 			pauseThread();
-			MenuController.showPauseMenu();
+			menuController.showPauseMenu();
 			return;
 		}
 	}
