@@ -1,5 +1,7 @@
 package model.save;
 
+import java.io.File;
+
 /**
  * Holds and returns the different save paths for the game.
  * @author Vidar Eriksson
@@ -7,8 +9,10 @@ package model.save;
  */
 public class SavePath {
 	private static String getSavePath(){
-		//TODO var sparas?
-		return System.getenv("APPDATA") + "/";
+		File file2 = new File(System.getenv("APPDATA") + "/Operation5a/");
+		file2.mkdir();
+		
+		return file2.getPath() + "/";
 	}
 	/**
 	 * 
