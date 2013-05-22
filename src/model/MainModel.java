@@ -3,8 +3,9 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import inputOutput.HighScoreModel;
-import inputOutput.SettingsModel;
+import model.save.HighScoreModel;
+import model.save.SettingsModel;
+
 
 /**
  * The main model class which holds all the sub model systems.

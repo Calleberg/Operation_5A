@@ -1,4 +1,4 @@
-package inputOutput;
+package model.save;
 
 
 import java.io.BufferedReader;
@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import savePath.SavePath;
 
 /**
  * Models the high scores.

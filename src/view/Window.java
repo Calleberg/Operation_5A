@@ -3,10 +3,11 @@ package view;
 import java.awt.Dimension;
 import java.awt.Image;
 
-import inputOutput.SettingsModel;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import model.save.SettingsModel;
 
 
 /**

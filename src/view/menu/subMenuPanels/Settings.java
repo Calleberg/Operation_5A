@@ -1,6 +1,5 @@
 package view.menu.subMenuPanels;
 
-import inputOutput.SettingsModel;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +10,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import model.save.SettingsModel;
 
 import resources.MenuLookAndFeel;
 import resources.Translator;
@@ -68,10 +69,10 @@ public class Settings extends SubMenuPanel {
 	
 	private static void startComboBox() {
 		language.removeAllItems();
-		language.addItem(inputOutput.SettingsModel.getLocale());
-		Locale[] l = inputOutput.SettingsModel.getAllLocales();
+		language.addItem(model.save.SettingsModel.getLocale());
+		Locale[] l = model.save.SettingsModel.getAllLocales();
 		for (int a=0; a< l.length; a++){
-			if (!(l[a]).equals(inputOutput.SettingsModel.getLocale())){
+			if (!(l[a]).equals(model.save.SettingsModel.getLocale())){
 				language.addItem(l[a]);
 			}
 		}
