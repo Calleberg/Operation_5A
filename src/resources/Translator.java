@@ -36,6 +36,9 @@ public class Translator {
 		return getString("bundle/GamePanels", key);
 	}
 	
+	/*
+	 * Loads the bundle at the specified path and returns the String with the specified key.
+	 */
 	private static String getString(String path, String key) {
 		ResourceBundle bundle = ResourceBundle.getBundle(path, SettingsModel.getLocale());
 		return bundle.getString(key);
