@@ -50,7 +50,7 @@ public class SlotPanel extends JPanel{
 			g.setColor(Color.WHITE);
 			StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < w.getKeys().length; i++) {
-				sb.append(Translator.getWeaponString(w.getKeys()[i]) + " ");
+				sb.append(Translator.getWeaponString(w.getKeys()[i]));
 			}
 			String text = sb.toString();
 			g.drawString(text, this.getWidth()/2 - 
