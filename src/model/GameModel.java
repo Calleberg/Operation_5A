@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import model.sprites.Enemy;
 import model.sprites.Player;
 import model.world.Tile;
 import model.world.World;
@@ -26,6 +27,10 @@ public class GameModel implements PropertyChangeListener {
 	private int score;
 	private long gameTime;
 	
+	/**
+	 * The message sent when more score is added.
+	 */
+	public static final String EVENT_ADDED_SCORE = "addedScore";	
 	/**
 	 * The message sent when a new sprite is added.
 	 */
@@ -74,6 +79,7 @@ public class GameModel implements PropertyChangeListener {
 	 */
 	public void addScore(int score) {
 		this.score += score;
+		this.pcs.firePropertyChange(EVENT_ADDED_SCORE, 0, score);
 	}
 	
 	/**
@@ -149,6 +155,9 @@ public class GameModel implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equals(REMOVED_OBJECT) && evt.getOldValue() instanceof Enemy) {
+			this.addScore(100);
+		}		
 		//Sends the event down
 		this.pcs.firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
 	}
