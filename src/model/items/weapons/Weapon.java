@@ -21,7 +21,7 @@ public class Weapon extends Item implements Saveable {
 	private final int reloadTime;
 	private final int rateOfFire;
 	private final int iconNumber;
-	private final String name;
+	private final String[] keys;
 	private final boolean droppable;
 	
 	private int ammunitionInMagazine;
@@ -29,6 +29,9 @@ public class Weapon extends Item implements Saveable {
 	private long lastTimeFired;
 	private long lastTimeReloaded;
 	
+	/**
+	 * A type of weapon a Weapon model can be. 
+	 */
 	public static enum Type{MELEE, GUN, FISTS;
 		
 		/**
@@ -63,7 +66,7 @@ public class Weapon extends Item implements Saveable {
 	 * @param reloadTime the time it takes to reload the weapon in milliseconds
 	 * @param rateOfFire the numbers of rounds fired per minute (AKA RPM, rounds per minutue)
 	 * @param iconNumber the icon number corresponding to this icon
-	 * @param name the name of the weapon.
+	 * @param keys the name of the weapon by using keys.
 	 * @param droppable whether the weapon is droppable or not.
 	 * @param ammunitionInMagazine the amount of ammunition in the magazine.
 	 * @param lastTimeFired how many milliseconds since the weapon was fired.
@@ -71,7 +74,7 @@ public class Weapon extends Item implements Saveable {
 	 * @param type the type of the weapon.
 	 */
 	protected Weapon(float projectileSpeed, int damage, float range,
-			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String name,
+			int magazineCapacity, int reloadTime, int rateOfFire, int iconNumber, String[] keys,
 			boolean droppable, int ammunitionInMagazine, Type type){
 		super(null, iconNumber);
 		
@@ -81,7 +84,7 @@ public class Weapon extends Item implements Saveable {
 		this.magazineCapacity = magazineCapacity;
 		this.reloadTime = reloadTime;
 		this.rateOfFire=rateOfFire;
-		this.name=name;
+		this.keys=keys;
 		this.iconNumber=iconNumber;
 		this.droppable = droppable;
 
@@ -181,9 +184,12 @@ public class Weapon extends Item implements Saveable {
 		return range;
 	}
 	
-	@Override
-	public String toString() {
-		return name;
+	/**
+	 * Gives an array of two keys used to construct the name of the weapon.
+	 * @return an array of two keys used to construct the name of the weapon.
+	 */
+	public String[] getKeys() {
+		return this.keys;
 	}
 	
 	/**
@@ -202,12 +208,13 @@ public class Weapon extends Item implements Saveable {
 				this.droppable + "",
 				this.iconNumber + "",
 				this.magazineCapacity + "",
-				this.name,
 				this.projectileSpeed + "",
 				this.range + "",
 				this.rateOfFire + "",
 				this.reloadTime + "",
-				this.type.toString()
+				this.type.toString(),
+				this.keys[0],
+				this.keys[1]
 		};
 	}
 

@@ -49,10 +49,10 @@ public class BarPanel extends JPanel {
 		g.setColor(Color.BLACK);
 		
 		hpBar.render(g, 10, 25, 1);
-		g.drawString(Translator.getString("hitPoints"), 15, 40);
+		g.drawString(Translator.getMenuString("hitPoints"), 15, 40);
 				
 		foodBar.render(g, 10, 60, 1);
-		g.drawString(Translator.getString("food"), 15, 75);
+		g.drawString(Translator.getMenuString("food"), 15, 75);
 	}
 	/*
 	 * Sets the color of the food bar depending on the food level of the player

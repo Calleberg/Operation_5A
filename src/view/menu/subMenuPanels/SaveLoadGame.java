@@ -26,14 +26,14 @@ public class SaveLoadGame extends SubMenuPanel{
 	}
 	private static String getText(boolean bol) {
 		if (bol){
-			return Translator.getString("loadSave");
+			return Translator.getMenuString("loadSave");
 		} else {
-			return Translator.getString("load");
+			return Translator.getMenuString("load");
 		}
 	}
 	private static JPanel getPanel(String timeSaved) {
 		JPanel panel = new JPanel();
-		JLabel l = new JLabel(Translator.getString("lastGameSavedAt") + ": \n" + timeSaved);
+		JLabel l = new JLabel(Translator.getMenuString("lastGameSavedAt") + ": \n" + timeSaved);
 		l.setFont(resources.MenuLookAndFeel.getLargeFont());
 		panel.add(l);
 		return panel;

@@ -20,7 +20,7 @@ import view.menu.MenuButton;
 public class Score extends SubMenuPanel {
 	
 	public Score(MenuButton button) {
-		super(Translator.getString("highScore"), getPanel(), button);
+		super(Translator.getMenuString("highScore"), getPanel(), button);
 	}
 	
 	private static JPanel getPanel(){
@@ -30,20 +30,20 @@ public class Score extends SubMenuPanel {
 		p.setLayout(new GridLayout(0, 1, 0, resources.MenuLookAndFeel.getGap()));
 		
 		if (h.existsNoScore()){
-			JLabel l = new JLabel(Translator.getString("noScoreExplain"));
+			JLabel l = new JLabel(Translator.getMenuString("noScoreExplain"));
 			l.setFont(resources.MenuLookAndFeel.getLargeFont());
 			p.add(l);
 		} else {
 			for (int a=0; a<h.getLenght(); a++){
 				String s = a+1 + ". "; 
 				if (h.getScore(a).length() < 1){
-					s+=Translator.getString("noScore");
+					s+=Translator.getMenuString("noScore");
 				} else {
 					s+=h.getScore(a) + "p ";
 				}
 				
 				if (h.getName(a).length() < 1){
-					s+=Translator.getString("noName");
+					s+=Translator.getMenuString("noName");
 				} else {
 					s+=h.getName(a) + "";
 				}
