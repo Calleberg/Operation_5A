@@ -20,7 +20,6 @@ public class ScorePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private GameModel model;
-	private final String scoreText;
 	
 	/**
 	 * Creates a new instance of the object.
@@ -31,7 +30,6 @@ public class ScorePanel extends JPanel {
 		this.setPreferredSize(new Dimension(200, 45));
 		this.model = model;
 		
-		this.scoreText = Translator.getString("score");
 	}
 	
 	@Override
@@ -41,7 +39,7 @@ public class ScorePanel extends JPanel {
 		
 		g.setFont(HUDFonts.getScoreFont());
 		g.setColor(Color.WHITE);
-		String text = scoreText + ": " + model.getScore();
+		String text = Translator.getString("score") + ": " + model.getScore();
 		g.drawString(text, this.getWidth()/2 - 
 				(int)g.getFontMetrics().getStringBounds(text, g).getWidth()/2, 30);
 	}

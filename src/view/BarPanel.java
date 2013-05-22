@@ -22,8 +22,6 @@ public class BarPanel extends JPanel {
 	private Player player;
 	private StatusBar hpBar;
 	private StatusBar foodBar;
-	
-	private final String hp, food;
 
 	/**
 	 * Creates a new instance which will display info about the specified player.
@@ -36,8 +34,6 @@ public class BarPanel extends JPanel {
 		hpBar = new StatusBar(20, 150, 100, player.getHealth());
 		foodBar = new StatusBar(20, 150, 100, player.getFood());
 		
-		this.hp = Translator.getString("hitPoints");
-		this.food = Translator.getString("food");
 	}
 	
 	@Override
@@ -53,10 +49,10 @@ public class BarPanel extends JPanel {
 		g.setColor(Color.BLACK);
 		
 		hpBar.render(g, 10, 25, 1);
-		g.drawString(hp, 15, 40);
+		g.drawString(Translator.getString("hitPoints"), 15, 40);
 				
 		foodBar.render(g, 10, 60, 1);
-		g.drawString(food, 15, 75);
+		g.drawString(Translator.getString("food"), 15, 75);
 	}
 	/*
 	 * Sets the color of the food bar depending on the food level of the player
