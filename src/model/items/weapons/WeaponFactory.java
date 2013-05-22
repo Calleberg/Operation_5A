@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.geometrical.Position;
+
 /**
  * Creates different types of weapons.
  * @author Vidar Eriksson
@@ -261,6 +263,7 @@ public class WeaponFactory {
 	 * @return a new weapon based on the data provided.
 	 */
 	public static Weapon loadWeapon(String[] data) {
+		Position pos = new Position(Float.parseFloat(data[12]), Float.parseFloat(data[13]));
 		return new Weapon(
 				Float.parseFloat(data[5]),
 				Integer.parseInt(data[1]),
@@ -272,7 +275,8 @@ public class WeaponFactory {
 				new String[]{data[10], data[11]},
 				Boolean.parseBoolean(data[2]),
 				Integer.parseInt(data[0]),
-				Weapon.Type.fromString(data[9]));
+				Weapon.Type.fromString(data[9]),
+				pos);
 	}
 	
 	//TODO fix times -> change javadoc when times is set
