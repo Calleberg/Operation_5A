@@ -26,7 +26,7 @@ import view.menu.MenuLabel;
 public class Settings extends SubMenuPanel {
 	private static JTextField nameField = new JTextField();
 	private static JComboBox<Locale> language = new JComboBox<Locale>();
-	private static JCheckBox fullscreen = new JCheckBox(Translator.getString("on"));
+	private static JCheckBox fullscreen = new JCheckBox();
 	
 	public Settings(MenuButton button) {
 		super(Translator.getString("settings"), getPanel(), button);
@@ -57,6 +57,7 @@ public class Settings extends SubMenuPanel {
 		
 		p.add(new MenuLabel(Translator.getString("fullscreen")+":"));
 		p.add(fullscreen);
+		fullscreen.setText(Translator.getString("on"));
 		fullscreen.setBackground(MenuLookAndFeel.getSubMenuPanelColor());
 		fullscreen.setFont(resources.MenuLookAndFeel.getLargeFont());
 		fullscreen.setSelected(SettingsModel.getFullscreen());
