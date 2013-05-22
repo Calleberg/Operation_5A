@@ -1,6 +1,5 @@
 package model.pathfinding;
-//TODO if adjustmovesprite doesnt work when an enemy take a straight path, test adjustedmove and
-//set a point at half distance with adjustedmovesprite, repeat until free spot or close distance
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,16 @@ public class EnemyPathfinder {
 	private boolean noWayFound = false;
 	private Sprite[] excludingSprites;
 	private Position start;
+	
+	/*
+	 * The minimum width of the path created.
+	 */
+	private static final float PATHWIDTH = 0.7f;
+	/*
+	 * The max distance a path will be allowed from the goal, if there is a path towards the
+	 *  goal longer than this, it will still be ignored.
+	 */
+	private static final int MAX_DISTANCE_FROM_GOAL = 15;
 	
 	/**
 	 * This class is used to find the fastest way between two positions.
@@ -63,15 +72,20 @@ public class EnemyPathfinder {
 		currentNode = openTileList.get(0);
 		currentNode.setParentNode(null);
 		
-		
 		//Looping through the tiles to find the fastest way. End the loop if the fastest way is found, 
 		//no way was found or if there is a straight way found towards the goal.
 		while(((currentNode.getTile().getPosition().getX() != 
 				this.goal.getTile().getPosition().getX() ||
 				currentNode.getTile().getPosition().getY() != 
-				this.goal.getTile().getPosition().getY())) && !noWayFound && 
-				!(adjustedCanMove(currentNode.getCenter(), this.goal.getCenter()))){
+				this.goal.getTile().getPosition().getY())) && !noWayFound){
 			findWay(start);
+			//if there exist a straight way found from the currentNode towards the goal, 
+			//add the goal as currentNode. 
+			if(adjustedCanMove(currentNode.getCenter(), this.goal.getCenter())){
+				this.goal.setParentNode(currentNode);
+				currentNode = this.goal;
+				break;
+			}
 		}
 		
 		//if noWayFound set the direction straight towards the goal. This won't solve the problem but
@@ -82,25 +96,17 @@ public class EnemyPathfinder {
 			return l;
 		}
 		
-		//if there exist a straight way found from the currentNode towards the goal, 
-		//add the goal as currentNode.
-		if(currentNode.getTile().getPosition().getX() != 
-				this.goal.getTile().getPosition().getX() || 
-				currentNode.getTile().getPosition().getY() != 
-				this.goal.getTile().getPosition().getY()){
-			this.goal.setParentNode(currentNode);
-			currentNode = this.goal;
-		}
-		
 		List<Position> correctList = createListOfPositions();
 		
-		//This is necessary to stop enemies from getting stuck next to some props. 
+		//Remove(0) is necessary to make enemies stop enemies from often doing unnatural turns when
+		//new path is given. The if condition is necessary to stop enemies from getting stuck
+		//next to some props.
 		if(!adjustedCanMove(start, correctList.get(0))){
 			correctList.remove(0);
 		}
 		
-		//Currently the last position is the center of the node the player stands on(this.goal, last index),
-		//switch the last position the the playerCenter(goal) instead 
+		//Currently the last position is the center of the node the player stands on
+		//(this.goal, last index), switch the last position to the playerCenter(goal) instead 
 		correctList.remove(correctList.size()-1);
 		correctList.add(goal);
 		
@@ -144,17 +150,21 @@ public class EnemyPathfinder {
 	 * @param t the pathfindingNode to get all surrounding tiles around.
 	 * @return all surrounding tiles around t which is possible to be currentNode
 	 */
-	private List<PathfindingNode> surroundingTiles(PathfindingNode t){//TODO comments
+	private List<PathfindingNode> surroundingTiles(PathfindingNode t){
 		List<PathfindingNode> surroundingTiles = new ArrayList<PathfindingNode>();
 		for(float x = currentNode.getTile().getPosition().getX() - 1; x < 
 				currentNode.getTile().getPosition().getX() + 2; x++){
 			for(float y = currentNode.getTile().getPosition().getY() - 1; y < 
 					currentNode.getTile().getPosition().getY() + 2; y++){
+				// TODO world bigger than tile[0][0]? replace this with comment
 				if(x >= 0 && y >= 0 && getDistance(nodes[(int)x][(int)y].getTile().getPosition(), 
-						goal.getTile().getPosition()) < 15){
+						goal.getTile().getPosition()) < MAX_DISTANCE_FROM_GOAL){
+					//If closedTileList contains the node there is no need to try the node again.
 					if(!(closedTileList.contains(nodes[(int)x][(int)y])) && 
 							adjustedCanMove(currentNode.getCenter(), 
 									nodes[(int)x][(int)y].getCenter())){
+						//If openTileList contains the node, check if this is a shorter path to
+						//the node than previous one calculated. If so make this the new path.
 						if((openTileList.contains(nodes[(int)x][(int)y]))){
 							if(currentNode.getDistanceFromStart()+getDistance(
 									currentNode.getTile().getPosition(), 
@@ -173,7 +183,6 @@ public class EnemyPathfinder {
 		return surroundingTiles;
 	}
 	
-	//TODO dynamic pathWidth.
 	/*
 	 * Returns if there is a straight path between two positions with a 0.7 width.
 	 * Does not take other sprites into account.
@@ -182,15 +191,7 @@ public class EnemyPathfinder {
 	 * @return true if there is a path, false otherwise.
 	 */
 	private boolean adjustedCanMove(Position start, Position goal){
-		float halfPathWidth = 0.35f;
-		//The enemy will only consider sprites very close to him and will not get it's path
-		//changed because of another sprite far away. Without this enemies would act strange
-		//if another enemy chased the player through a door.
-//		if(this.start.getX() - start.getX() < 0.5 && this.start.getY() - start.getY() < 0.5  && 
-//				getDistance(this.start, goal) < 1){
-//			return adjustedCanMoveSprites(start, goal);
-//		}
-		
+		float halfPathWidth = PATHWIDTH/2;
 		//If every corner of the enemy can move from start to goal, the path is wide enough.
 		//also check if center can move to see if there is a small prop which could be between
 		//the lines between the corners.
@@ -205,25 +206,6 @@ public class EnemyPathfinder {
 				world.canMove(start, goal));
 	}
 	
-	/*
-	 * Returns if there is a straight way between two positions with a 0.7 width.
-	 * @param start the start position.
-	 * @param goal the end position.
-	 * @return true if there is a path, false otherwise.
-	 */
-	private boolean adjustedCanMoveSprites(Position start, Position goal){
-		float halfPathWidth = 0.35f;
-		return(world.canMove(getAdjustedPosition(start, halfPathWidth, halfPathWidth), 
-				getAdjustedPosition(goal, halfPathWidth, halfPathWidth), excludingSprites) &&
-				world.canMove(getAdjustedPosition(start, halfPathWidth, -halfPathWidth), 
-						getAdjustedPosition(goal, halfPathWidth, -halfPathWidth), excludingSprites) &&
-				world.canMove(getAdjustedPosition(start, -halfPathWidth, halfPathWidth), 
-						getAdjustedPosition(goal, -halfPathWidth, halfPathWidth), excludingSprites) &&
-				world.canMove(getAdjustedPosition(start, -halfPathWidth, -halfPathWidth), 
-						getAdjustedPosition(goal, -halfPathWidth, -halfPathWidth), excludingSprites) &&
-				world.canMove(start, goal, excludingSprites));
-	}
-	
 	private Position getAdjustedPosition(Position p, float dx, float dy){
 		return new Position((float) p.getX()+dx, (float) p.getY()+dy);
 	}
@@ -234,9 +216,12 @@ public class EnemyPathfinder {
 		float dy = Math.abs(t1.getY() - t2.getY());
 		return (float)Math.sqrt(dx*dx+dy*dy);
 	}
+	
+	/*
+	 * Create a list of the chain of parentNodes, starting from currentNode. The list
+	 * will be a path starting with goal and ending the the start.
+	 */
 	private List<Position> createListOfPositions(){
-		//Create a list of the chain of parentNodes, starting from currentNode. The list
-		//will be a path starting with goal and ending the the start.
 		List<PathfindingNode> correctList = new ArrayList<PathfindingNode>();
 		correctList.add(currentNode);
 		while(currentNode.getParentNode() != null){
@@ -254,6 +239,9 @@ public class EnemyPathfinder {
 		return correctListInverted;
 	}
 	
+	/*
+	 * If it is possible to walk between list(x) to list(x+2), remove list(x+1).
+	 */
 	private void removeUnnecessaryPositions(List<Position> list){
 		for(int i = 0; i<list.size()-2; i++){
 			if(adjustedCanMove(list.get(i), list.get(i+2))){
