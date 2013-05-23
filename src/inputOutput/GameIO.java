@@ -14,7 +14,6 @@ import java.util.Calendar;
 import model.GameModel;
 import model.geometrical.Position;
 import model.items.Item;
-import model.items.Supply;
 import model.items.SupplyFactory;
 import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
@@ -113,8 +112,7 @@ public class GameIO {
 				
 				switch(id) {
 				case ENEMY:
-					Enemy e = EnemyFactory.createEasyEnemy(new Position(0,0));
-					e.restore(data);
+					Enemy e = EnemyFactory.createRestoredEnemy(data);
 					model.getWorld().addSprite(e);
 					
 					line = reader.readLine();
@@ -124,7 +122,7 @@ public class GameIO {
 					
 					break;
 				case PLAYER:
-					Player p = new Player(0, 0);
+					Player p = new Player(); 
 					model.setPlayer(p);
 					
 					for(int i = 0; i < p.getWeapons().length; i++) {
@@ -138,14 +136,12 @@ public class GameIO {
 
 					break;
 				case PROJECTILE:
-					Projectile projectile = new Projectile(0,0f,0f,0f,null,true);
+					Projectile projectile = new Projectile();
 					projectile.restore(data);
 					model.getWorld().addProjectile(projectile);
 					break;
 				case ITEM:
-					Supply item = SupplyFactory.createFood(0, new Position(0,0));
-					item.restore(data);
-					model.getWorld().addItem(item);
+					model.getWorld().addItem(SupplyFactory.createRestoredSupply(data));
 					break;
 				case WEAPON:
 					Weapon w = WeaponFactory.loadWeapon(data);

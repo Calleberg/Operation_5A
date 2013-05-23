@@ -38,5 +38,16 @@ public class EnemyFactory {
 		return new Enemy(pos, 0.09f, WeaponFactory.createWeapon(WeaponFactory.Type.FISTS, 
 				WeaponFactory.Level.BADASS), 150, 2);
 	}
+	
+	/**
+	 * Creates a enemy from an array of data.
+	 * @param data the data to use when creating the enemy.
+	 * @return a restored enemy.
+	 */
+	public static Enemy createRestoredEnemy(String[] data) {
+		Enemy e = EnemyFactory.createEasyEnemy(new Position(0,0));
+		e.restore(data);
+		return e;
+	}
 
 }
