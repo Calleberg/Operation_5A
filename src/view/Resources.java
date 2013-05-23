@@ -6,7 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -32,7 +31,7 @@ public class Resources {
 		BufferedImage image = null;
 		try{
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			InputStream input = classLoader.getResourceAsStream(path);
+			InputStream input = classLoader.getResourceAsStream(path);	
 			image = ImageIO.read(input);
 		}catch (IOException e) {
 			System.out.println("Could not find resources");
