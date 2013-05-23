@@ -82,7 +82,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 		if (!paused) {
 			repaint();
 			try{
-				Thread.sleep(SLEEP);
+				wait(SLEEP);
 			}catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -94,9 +94,9 @@ public class MapGenerator {
 		for(int y = 0; y < temp[0].length; y++) {
 			for(int x = 0; x < temp.length; x++) {
 				if(temp[x][y] > landHeight) {
-					temp[x-1][y-1] = (validPosition(temp, x-1, y-1) ? LAND : null);
-					temp[x][y-1] = (validPosition(temp, x, y-1) ? LAND : null);
-					temp[x-1][y] = (validPosition(temp, x-1, y) ? LAND : null);
+					temp[x-1][y-1] = (validPosition(temp, x-1, y-1) ? LAND : 0);
+					temp[x][y-1] = (validPosition(temp, x, y-1) ? LAND : 0);
+					temp[x-1][y] = (validPosition(temp, x-1, y) ? LAND : 0);
 				}else{
 					temp[x][y] = WATER;
 				}

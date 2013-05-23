@@ -109,7 +109,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 			update();
 			nbrOfUpdates++;
 			try{
-				Thread.sleep(SLEEP);
+				wait(SLEEP);
 			}catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -36,24 +36,26 @@ public class Resources {
 		}catch (IOException e) {
 			System.out.println("Could not find resources");
 		}
-		int frame = 0; //counter, or array position.
-		int width = image.getWidth() / col;
-		int height = image.getHeight() / row;
-		BufferedImage[] images = new BufferedImage[col * row];
-		
-		for(int y = 0; y < row; y++) {
-			for(int x = 0; x < col; x++) {
-				images[frame] = new BufferedImage(width, height, image.getTransparency());
-				Graphics2D g = images[frame].createGraphics();
-				g.drawImage(image, 0, 0, width, height,	//destination of image.
-						x * width, y * height, (x + 1) * width, (y + 1) * height, //source of the image on the sheet.
-						null);
-				g.dispose();
-				frame++;
-			}//x
-		}//y
-		
-		return images;
+		if (image != null){
+			int frame = 0; //counter, or array position.
+			int width = image.getWidth() / col;
+			int height = image.getHeight() / row;
+			BufferedImage[] images = new BufferedImage[col * row];
+			
+			for(int y = 0; y < row; y++) {
+				for(int x = 0; x < col; x++) {
+					images[frame] = new BufferedImage(width, height, image.getTransparency());
+					Graphics2D g = images[frame].createGraphics();
+					g.drawImage(image, 0, 0, width, height,	//destination of image.
+							x * width, y * height, (x + 1) * width, (y + 1) * height, //source of the image on the sheet.
+							null);
+					g.dispose();
+					frame++;
+				}//x
+			}//y
+			return images;
+		}
+		return null;
 	}
 	
 	/**

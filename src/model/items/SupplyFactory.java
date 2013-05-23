@@ -17,7 +17,7 @@ public final class SupplyFactory {
 	 */
 	public static Supply createRandomSupply(Position pos){
 		Supply s;
-		int random=(int)Math.random()*100;
+		int random=(int) (Math.random()*100);
 		if (random<33){
 			s=createRandomAmmo(pos);
 		} else if (random < 66){
@@ -43,7 +43,7 @@ public final class SupplyFactory {
 	 * @return an Ammo with a random value
 	 */
 	public static Supply createRandomAmmo(Position pos) {
-		return new Supply((int)Math.random()*18, Type.AMMO, pos);
+		return new Supply((int) (Math.random()*18), Type.AMMO, pos);
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public final class SupplyFactory {
 	 * @return a Food with a random value
 	 */
 	public static Supply createRandomFood(Position pos) {
-		return new Supply((int)Math.random()*50, Type.FOOD, pos);
+		return new Supply((int) (Math.random()*50), Type.FOOD, pos);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public final class SupplyFactory {
 	 * @return a Health with a random value
 	 */
 	public static Supply createRandomHealth(Position pos) {
-		return new Supply((int)Math.random()*50, Type.HEALTH, pos);
+		return new Supply((int) (Math.random()*50), Type.HEALTH, pos);
 	}
 	
 	/**

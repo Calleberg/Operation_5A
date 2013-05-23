@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import model.save.ScoreModel;
-import model.save.SettingsModel;
 
 
 /**
@@ -17,7 +16,6 @@ public class MainModel {
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private ScoreModel scoreModel;
-	private SettingsModel settingsModel;
 	private GameModel gameModel;
 	
 	/**
@@ -38,7 +36,6 @@ public class MainModel {
 	 */
 	public MainModel() {
 		this.scoreModel = new ScoreModel();
-		this.settingsModel = new SettingsModel();
 		this.gameModel = null;		
 	}
 	
@@ -59,14 +56,6 @@ public class MainModel {
 	}
 
 	/**
-	 * Gives the settings model.
-	 * @return the settings model.
-	 */
-	public SettingsModel getSettingsModel() {
-		return settingsModel;
-	}
-	
-	/**
 	 * Sets the game model.
 	 * @param gameModel the new game model.
 	 */
@@ -84,15 +73,6 @@ public class MainModel {
 		this.pcs.firePropertyChange(EVENT_NEW_HIGH_SCORE_MODEL, null, scoreModel);
 	}
 
-	/**
-	 * Sets the settings model.
-	 * @param settingsModel the new settings model.
-	 */
-	public void setSettingsModel(SettingsModel settingsModel) {
-		this.settingsModel = settingsModel;
-		this.pcs.firePropertyChange(EVENT_NEW_SETTINGS_MODEL, null, settingsModel);
-	}
-	
 	/**
 	 * Adds a listener to this model. 
 	 * The listener will be notified when any of the models this main model holds

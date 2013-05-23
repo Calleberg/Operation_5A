@@ -100,8 +100,7 @@ public class SettingsModel {
 			write();		
 		}
 		private static void setName(String text) {
-			text.replace(DATA_DIVIDER, "");
-			name = text;
+			name = text.replace(DATA_DIVIDER, "");
 			write();			
 		}
 		

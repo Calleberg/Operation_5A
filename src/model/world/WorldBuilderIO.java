@@ -109,7 +109,7 @@ public class WorldBuilderIO {
 			}else{
 				//Walls are saved as: 1 = west, 2 = north, 3 = both
 				int walls = Integer.parseInt(data[i]);
-				if(walls > 0 && walls % 2 == 1) {
+				if(walls > 0 && walls % 2 != 0) {
 					tile.setWestWall(true);
 					walls--;
 				}
