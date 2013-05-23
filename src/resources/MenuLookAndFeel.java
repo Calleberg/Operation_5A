@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 /**
@@ -79,14 +81,19 @@ public class MenuLookAndFeel {
 	 * @return the border the buttons should have in the menu.
 	 */
 	public static Border getButtonBorder() {
-		return new LineBorder(getButtonColor(), 5, false);
+		Border border = new LineBorder(getButtonColor(), 5, false);
+	    return new CompoundBorder(border, getMargin());
 	}
 	/**
 	 * 
 	 * @return the border a highlighted button will have.
 	 */
 	public static Border getButtonHighlightedBorder() {
-		return new LineBorder(Color.RED, 5, false);
+		Border border = new LineBorder(Color.RED, 5, false);
+	    return new CompoundBorder(border, getMargin());
+	}
+	private static Border getMargin() {
+		return new EmptyBorder(0,40,0,40);
 	}
 	/**
 	 * 

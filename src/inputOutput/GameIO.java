@@ -65,7 +65,6 @@ public class GameIO {
 		
 		Player player = new Player(0, 0);
 		player.setCenter(pos);
-		System.out.println(player.getCenter());
 		player.switchWeapon(0);
 		player.pickUpWeapon(WeaponFactory.createWeapon(WeaponFactory.Type.PISTOL, WeaponFactory.Level.NORMAL));
 		player.switchWeapon(2);
