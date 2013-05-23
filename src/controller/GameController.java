@@ -211,7 +211,6 @@ public class GameController implements Runnable, PropertyChangeListener {
 		enemySpawnTick++;
 		if(enemySpawnTick >= 20 && this.gameModel.getWorld().getSprites().size() < 
 				MAX_AMOUNT_OF_SPRITES){
-			System.out.println(this.gameModel.getWorld().getSprites().size() +"");
 			spawnEnemy();
 			enemySpawnTick = 0;
 		}
@@ -409,16 +408,21 @@ public class GameController implements Runnable, PropertyChangeListener {
 		Position spawnPos;
 		do{
 			spawnPos = new Position((int)(Math.random()*gameModel.getWorld().getWidth()) +0.5f, 
-			(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
+					(int)(Math.random()*gameModel.getWorld().getHeight()) +0.5f);
 		}while(Math.abs(gameModel.getPlayer().getPosition().getX() - spawnPos.getX()) <= ENEMY_SPAWN_DISTANCE && 
 				Math.abs(gameModel.getPlayer().getPosition().getY() - spawnPos.getY()) <= ENEMY_SPAWN_DISTANCE);
 
 		Tile[][] tiles = gameModel.getWorld().getTiles();
-		if(gameModel.getWorld().canMove(spawnPos, new Position(spawnPos.getX()+1 , spawnPos.getY()+1)) 
-				&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
-			if((int)getTotalRuntime()/1000 < 45){
+		if(gameModel.getWorld().canMove(
+					new Position(spawnPos.getX()-0.5f , spawnPos.getY()-0.5f), 
+					new Position(spawnPos.getX()+0.5f , spawnPos.getY()+0.5f), true)
+				&& gameModel.getWorld().canMove(
+						new Position(spawnPos.getX()-0.5f , spawnPos.getY()+0.5f), 
+						new Position(spawnPos.getX()+0.5f , spawnPos.getY()-0.5f), true)
+						&& tiles[(int)spawnPos.getX()][(int)spawnPos.getY()].getProperty() != Tile.UNWALKABLE){
+			if((int)getTotalRuntime()/1000 < 90){
 				gameModel.getWorld().addSprite(EnemyFactory.createEasyEnemy(spawnPos));
-			}else if((int)getTotalRuntime()/1000 < 120){
+			}else if((int)getTotalRuntime()/1000 < 240){
 				gameModel.getWorld().addSprite(EnemyFactory.createMediumEnemy(spawnPos));
 			}else{
 				gameModel.getWorld().addSprite(EnemyFactory.createHardEnemy(spawnPos));

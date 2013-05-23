@@ -262,11 +262,30 @@ public class World {
 	 * @return <code>true</code> if it is possible to move between the two positions.
 	 */
 	public boolean canMove(Position pos1, Position pos2) {
+		return this.canMove(pos1, pos2, false);
+	}
+	
+	/**
+	 * Checks if it is possible to move between two positions.
+	 * @param pos1 the first pos.
+	 * @param pos2 the second pos.
+	 * @param sprite set true if it shoudl check against sprites too.
+	 * @return <code>true</code> if it is possible to move between the two positions.
+	 */
+	public boolean canMove(Position pos1, Position pos2, boolean sprite) {
 		Line l = new Line(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
 		for(int x = (int)Math.min(pos1.getX(), pos2.getX()); x < Math.max(pos1.getX(), pos2.getX()); x++) {
 			for(int y = (int)Math.min(pos1.getY(), pos2.getY()); y < Math.max(pos1.getY(), pos2.getY()); y++) {
 				if(l.intersects(tiles[x][y].getCollisionBox()) || 
 						(tiles[x][y].getProperty() == Tile.UNWALKABLE && tiles[x][y].intersects(l))) {
+					return false;
+				}
+			}
+		}
+		
+		if(sprite) {
+			for(Sprite s : this.getSprites()) {
+				if(l.intersects(s.getMoveBox())) {
 					return false;
 				}
 			}
