@@ -39,13 +39,13 @@ public class PropFactory {
 		case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39: 				
 			return new AnimatedProp(null, WATER); //animated water
 		case 40: case 41: case 42:
-			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_S);
+			return new AnimatedProp(new Rectangle(pos.getX() + 0.175f, pos.getY() + 0.15f, 0.65f, 0.525f), TRAFFIC_LIGHT_S);
 		case 43: case 44: case 45:
-			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_N);
+			return new AnimatedProp(new Rectangle(pos.getX() + 0.175f, pos.getY() + 0.325f, 0.65f, 0.525f), TRAFFIC_LIGHT_N);
 		case 50: case 51: case 52:
-			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_E);
+			return new AnimatedProp(new Rectangle(pos.getX() + 0.15f, pos.getY() + 0.175f, 0.525f, 0.65f), TRAFFIC_LIGHT_E);
 		case 53: case 54: case 55:
-			return new AnimatedProp(new Rectangle(pos.getX() + 0.25f, pos.getY() + 0.2f, 0.5f, 0.375f), TRAFFIC_LIGHT_W);
+			return new AnimatedProp(new Rectangle(pos.getX() + 0.325f, pos.getY() + 0.175f, 0.525f, 0.65f), TRAFFIC_LIGHT_W);
 		case 70: 
 			return new Prop(new Circle(pos.getX() + 0.5f, pos.getY() + 0.5f, 1f, 8), propNbr);
 		case 90: case 91: case 92: case 93: case 94: case 95: case 96: case 97:
@@ -58,6 +58,14 @@ public class PropFactory {
 			return new Prop(new Rectangle(pos.getX() + 0.1f, pos.getY() + 0.175f, 0.575f, 0.65f), propNbr);
 		case 143: //Chair
 			return new Prop(new Rectangle(pos.getX() + 0.175f, pos.getY() + 0.1f, 0.65f, 0.575f), propNbr);
+		case 144: case 145:
+			return new Prop(new Rectangle(pos.getX(), pos.getY() + 0.325f, 1f, 0.675f), propNbr);
+		case 158: case 159:
+			return new Prop(new Rectangle(pos.getX(), pos.getY(), 1f, 0.675f), propNbr);
+		case 162: case 165:
+			return new Prop(new Rectangle(pos.getX(), pos.getY(), 0.675f, 1f), propNbr);
+		case 166: case 170:
+			return new Prop(new Rectangle(pos.getX() + 0.325f, pos.getY(), 0.675f, 1f), propNbr);
 		default:	
 			return new Prop(new Rectangle(pos.getX(), pos.getY(), 1f, 1f), propNbr);
 		}
