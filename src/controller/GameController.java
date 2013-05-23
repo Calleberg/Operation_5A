@@ -459,11 +459,13 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 * Reduce the player's food level once every call. If the food level
 	 * is higher or equal to FOOD_HIGH also increases the player's health by one.
 	 * If the food level is lower or equal to FOOD_LOW also decreases the player's
-	 * health by one.
+	 * health by one. The player will not go below two health from low food level.
 	 */
 	private void reducePlayerFood(){
 		if(gameModel.getPlayer().getFood() <= FOOD_LOW){
-			gameModel.getPlayer().reduceHealth(1);
+			if(gameModel.getPlayer().getHealth() > 2){
+				gameModel.getPlayer().reduceHealth(1);
+			}//The player will will not get less than one health from low food.
 		}else if(gameModel.getPlayer().getFood() >= FOOD_HIGH){
 			gameModel.getPlayer().increaseHealth(1);
 		}
