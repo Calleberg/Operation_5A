@@ -67,7 +67,7 @@ public class MenuLookAndFeel {
 	 * @return the large font the menu uses.
 	 */
 	public static Font getLargeFont() {
-		return new Font("Garamond", Font.BOLD, 48);
+		return new Font(Font.SANS_SERIF, Font.BOLD, 48);
 	}
 	/**
 	 * 
