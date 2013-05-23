@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import model.save.ScoreModel;
-import model.save.SettingsModel;
 
 
 /**
