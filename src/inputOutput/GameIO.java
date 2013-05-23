@@ -115,22 +115,25 @@ public class GameIO {
 					Enemy e = EnemyFactory.createRestoredEnemy(data);
 					model.getWorld().addSprite(e);
 					
-					line = reader.readLine();
-					line = line.substring(2);
-					data = line.split(DATA_DIVIDER);
-					e.setWeapon(WeaponFactory.loadWeapon(data));
-					
+					if ((line = reader.readLine()) != null){
+						if (line!=null){
+							line = line.substring(2);
+							data = line.split(DATA_DIVIDER);
+							e.setWeapon(WeaponFactory.loadWeapon(data));
+						}
+					}
 					break;
 				case PLAYER:
 					Player p = new Player(); 
 					model.setPlayer(p);
 					
-					for(int i = 0; i < p.getWeapons().length; i++) {
-						line = reader.readLine();
-						line = line.substring(2);
-						String[] data2 = line.split(DATA_DIVIDER);
-						p.switchWeapon(i);
-						p.pickUpWeapon(WeaponFactory.loadWeapon(data2));
+					for(int i = 0; i < p.getWeapons().length && ((line = reader.readLine()) != null); i++) {
+						if (line != null){
+							line = line.substring(2);
+							String[] data2 = line.split(DATA_DIVIDER);
+							p.switchWeapon(i);
+							p.pickUpWeapon(WeaponFactory.loadWeapon(data2));
+						}
 					}
 					p.restore(data);
 
