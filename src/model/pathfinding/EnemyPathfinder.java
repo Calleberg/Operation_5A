@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.geometrical.Position;
-import model.sprites.Sprite;
 import model.world.Tile;
 import model.world.World;
 
 /**
- * Calculates the quickest path from one position from another using the A* algorithm.
+ * Calculates the quickest path from one position to another position. The path is calculated
+ * with an extended A* algorithm.
  * 
  * @author Linus Hagvall
  *
@@ -22,7 +22,6 @@ public class EnemyPathfinder {
 	private PathfindingNode[][] nodes;
 	private World world;
 	private boolean noWayFound = false;
-	private Sprite[] excludingSprites;
 	private Position start;
 	
 	/*
@@ -41,7 +40,6 @@ public class EnemyPathfinder {
 	 */
 	public EnemyPathfinder(World world){
 		this.world = world;
-		excludingSprites = new Sprite[2];
 		Tile[][] tempTiles = world.getTiles();
 		nodes = new PathfindingNode[tempTiles.length][tempTiles[0].length];
 		for(int i = 0; i<tempTiles.length; i++){
@@ -49,16 +47,6 @@ public class EnemyPathfinder {
 				this.nodes[i][j] = new PathfindingNode(tempTiles[i][j]);
 			}
 		}
-	}
-	
-	public List<Position> findWay(Sprite start, Sprite goal){
-		excludingSprites[0] = start;
-		excludingSprites[1] = goal;
-		List<Position> temp = findWay(start.getCenter(), goal.getCenter());
-		excludingSprites[0] = null;
-		excludingSprites[1] = null;
-		
-		return temp;
 	}
 	
 	/**
