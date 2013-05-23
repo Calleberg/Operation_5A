@@ -56,7 +56,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	
 	private int lastSecondStamp;
 	
-	private static final int MAX_AMOUNT_OF_SPRITES = 70;
+	private static final int MAX_AMOUNT_OF_SPRITES = 100;
 	private static final int SUPPLY_SPAWN_DISTANCE = 25;
 	
 	/**
