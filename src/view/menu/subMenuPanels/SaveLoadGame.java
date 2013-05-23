@@ -34,8 +34,8 @@ public class SaveLoadGame extends SubMenuPanel {
 	 * @param button the buttons to be added
 	 * @param bol <code>true<code> if the user is allowed to save.
 	 */
-	public SaveLoadGame(String timeSaved, MenuButton[] button, boolean bol) {
-		super(getText(bol), getPanel(timeSaved), button);
+	public SaveLoadGame(MenuButton[] button, boolean bol) {
+		super(getText(bol), getPanel(), button);
 		button[1].setEnabled(bol);
 		loadButton = button[0];
 		saveButton = button[1];
@@ -56,7 +56,7 @@ public class SaveLoadGame extends SubMenuPanel {
 			return Translator.getMenuString("load");
 		}
 	}
-	private static JPanel getPanel(String timeSaved) {
+	private static JPanel getPanel() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(0, 1, MenuLookAndFeel.getGap(), MenuLookAndFeel.getGap()));
 				
