@@ -40,7 +40,7 @@ public class Enemy implements Sprite{
 		this.health = health;
 		collisionBox = new Rectangle(0, 0, 0.7f, 0.7f);
 		hitBox = new Rectangle(0, 0, 0.5f, 0.5f);
-		this.setPosition(position);
+		this.setCenter(position);
 		this.imageNbr = imageNbr;
 	}
 	
