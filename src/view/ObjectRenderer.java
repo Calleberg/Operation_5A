@@ -8,9 +8,7 @@ import model.geometrical.Position;
  * An interface for creating view classes which will render specific objects.
  * 
  * @author Martin Calleberg
- * @param <T>
- *
- * @param <T>
+ * 
  */
 public interface ObjectRenderer<T> {
 
@@ -37,7 +35,8 @@ public interface ObjectRenderer<T> {
 	 * Renders the object this holds.
 	 * @param g the graphics instance to draw to.
 	 * @param offset the offset to draw at.
+	 * @param defaultSize the default size to draw at.
 	 * @param scale the scale to draw at.
 	 */
-	public void render(Graphics g, Position offset, int scale);
+	public void render(Graphics g, Position offset, int defaultSize, float scale);
 }

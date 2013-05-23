@@ -1,17 +1,17 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 
 import model.geometrical.Position;
 import model.items.Item;
-import model.items.Supply;
-import model.items.weapons.Weapon;
 
 /**
  * A class which will render a item.
- * @author Jonatan Magnusson
+ * @author Jonatan Magnusson and Martin Calleberg
  *
  */
 public class ItemView implements ObjectRenderer<Item>{
@@ -43,21 +43,17 @@ public class ItemView implements ObjectRenderer<Item>{
 	}
 
 	@Override
-	public void render(Graphics g, Position offset, int scale) {
+	public void render(Graphics g, Position offset, int defaultSize, float scale) {
 		if(i != null) {
-			int x = (int)(i.getPosition().getX() * scale + offset.getX()); 
-			int y = (int)(i.getPosition().getY() * scale + offset.getY());
-			if(i instanceof Supply){
-				Supply s = (Supply) i;
-				g.drawImage(textures[s.getType().getIconNumber()], x, y, 
-						(int)(s.getCollisionBox().getWidth()*scale), 
-						(int)(s.getCollisionBox().getHeight()*scale), null);
-			}else if(i instanceof Weapon){
-				Weapon w = (Weapon) i;
-				g.drawImage(textures[w.getIconNumber()], x, y, 
-						(int)(w.getCollisionBox().getWidth()*scale), 
-						(int)(w.getCollisionBox().getHeight()*scale), null);
-			}
+			int x = (int)(i.getPosition().getX() * defaultSize * scale + offset.getX()); 
+			int y = (int)(i.getPosition().getY() * defaultSize * scale + offset.getY());
+
+			Graphics2D g2d = (Graphics2D)g;
+			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
+			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
+
+			g2d.drawImage(textures[i.getIconNumber()], transformer, null);
 		}
 	}
 	/**

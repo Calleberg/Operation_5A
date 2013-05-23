@@ -48,6 +48,7 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 	private volatile boolean paused = false;
 	private volatile boolean isRunning = true;
 	private CustomCursor cursor;
+	private static final int DEFAULT_SIZE = 40;
 	
 	/**
 	 * Creates a new panel with the specified model and controller.
@@ -277,17 +278,17 @@ public class GamePanel extends IGamePanel implements PropertyChangeListener, Mou
 		camera.setToCenter(model.getPlayer().getCenter(), getSize());
 		for(int x = Math.max((int)drawMin.getX(), 0); x < Math.min(model.getWorld().getWidth(), drawMax.getX()); x++) {
 			for(int y = Math.max((int)drawMin.getY(), 0); y < Math.min(model.getWorld().getHeight(), drawMax.getY()); y++) {
-				tiles[x][y].render(g2d, camera.getOffset(), camera.getScale());
+				tiles[x][y].render(g2d, camera.getOffset(), 40, camera.getScale()/40f);
 			}
 		}
 
 		//Draws all the dynamic items.
 		for(int i = 0; i < objects.size(); i++) {	
 			if(objects.get(i) instanceof PlayerView) {
-				((PlayerView)objects.get(i)).render(g2d, camera.getOffset(), camera.getScale(), 
+				((PlayerView)objects.get(i)).render(g2d, camera.getOffset(), DEFAULT_SIZE, (float)camera.getScale()/DEFAULT_SIZE, 
 						new Position(this.getWidth()/2, this.getHeight()/2));
 			}else{
-				objects.get(i).render(g2d, camera.getOffset(), camera.getScale());
+				objects.get(i).render(g2d, camera.getOffset(), DEFAULT_SIZE, (float)camera.getScale()/DEFAULT_SIZE);
 			}
 		}
 

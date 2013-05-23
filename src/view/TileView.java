@@ -49,24 +49,25 @@ public class TileView {
 	 * Renders the tile.
 	 * @param g the graphics instance to draw to.
 	 * @param offset the offset to render at.
+	 * @param defaultSize the default size of objects.
 	 * @param scale the scale to render at.
 	 */
-	public void render(Graphics g, Position offset, int scale) {
+	public void render(Graphics g, Position offset, int defaultSize, float scale) {
 		if(t != null) {
-			int x = (int)(t.getPosition().getX() * scale + offset.getX()); 
-			int y = (int)(t.getPosition().getY() * scale + offset.getY());
-			g.drawImage(floors[t.getFloor()], x, y, scale, scale, null);
+			int x = (int)(t.getPosition().getX() * (defaultSize*scale) + offset.getX()); 
+			int y = (int)(t.getPosition().getY() * (defaultSize*scale) + offset.getY());
+			g.drawImage(floors[t.getFloor()], x, y, (int)(defaultSize*scale), (int)(defaultSize*scale), null);
 			for(int i = 0; i < t.getProps().size(); i++) {
-				g.drawImage(props[t.getProps().get(i).getImageNbr()], x, y, scale, scale, null);
+				g.drawImage(props[t.getProps().get(i).getImageNbr()], x, y, (int)(defaultSize*scale), (int)(defaultSize*scale), null);
 			}
 			
 			if(t.hasNorthWall()) {
 				g.setColor(Color.BLACK);
-				g.fillRect(x, y - scale/20, scale, scale/10);
+				g.fillRect(x, (int)(y - (defaultSize*scale)/20), (int)(defaultSize*scale), (int)((defaultSize*scale)/10));
 			}
 			if(t.hasWestWall()) {
 				g.setColor(Color.BLACK);
-				g.fillRect(x - scale/20, y, scale/10, scale);
+				g.fillRect((int)(x - (defaultSize*scale)/20), y, (int)((defaultSize*scale)/10), (int)(defaultSize*scale));
 			}
 		}
 	}
