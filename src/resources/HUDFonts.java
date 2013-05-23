@@ -12,7 +12,7 @@ public class HUDFonts {
 	 * @return the font for the Ammo
 	 */
 	public static Font getAmmoFont(){
-		return new Font("Garamond", Font.PLAIN, 32);
+		return new Font(Font.SANS_SERIF, Font.PLAIN, 32);
 	}
 	
 	/**
@@ -20,6 +20,6 @@ public class HUDFonts {
 	 * @return the font for the score
 	 */
 	public static Font getScoreFont(){
-		return new Font("Garamond", Font.PLAIN, 24);
+		return new Font(Font.SANS_SERIF, Font.PLAIN, 24);
 	}
 }
