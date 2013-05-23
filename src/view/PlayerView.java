@@ -62,11 +62,21 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 	}
 
 	@Override
-	public void render(Graphics g, Position offset, int scale) {
-		this.render(g, offset, scale, null);
+	public void render(Graphics g, Position offset, int defaultSize, float scale) {
+		this.render(g, offset, defaultSize, scale, null);
 	}
 	
-	public void render(Graphics g, Position offset, int scale, Position forcedPos) {
+	/**
+	 * Renders the player.
+	 * @param g the graphics instance to draw to.
+	 * @param offset the offset to draw at.
+	 * @param defaultSize the default size of objects.
+	 * @param scale the scale to draw at.
+	 * @param forcedPos the forced screen position to draw to. If this is set to <code>null</code>
+	 * then the player will be drawn to its correct position (same as calling 
+	 * <code>render(Graphics, Position, int, float)</code>).
+	 */
+	public void render(Graphics g, Position offset, int defaultSize, float scale, Position forcedPos) {
 		if(p != null) {
 			//Saves some values for quick access.
 			int rX, rY;
@@ -74,11 +84,11 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 			if(forcedPos != null) {
 				rX = (int)forcedPos.getX();
 				rY = (int)forcedPos.getY();
-				x = (int)rX - playerTexture[0].getWidth()/2;
-				y = (int)rY - playerTexture[0].getHeight()/2;
+				x = (int)(rX - playerTexture[0].getWidth()/2 * scale);
+				y = (int)(rY - playerTexture[0].getHeight()/2 * scale);
 			}else{
-				rX = (int)(p.getCenter().getX() * scale + offset.getX());
-				rY = (int)(p.getCenter().getY() * scale + offset.getY());
+				rX = (int)(p.getCenter().getX() * defaultSize * scale + offset.getX());
+				rY = (int)(p.getCenter().getY() * defaultSize * scale + offset.getY());
 				x = rX - playerTexture[0].getWidth()/2;
 				y = rY  - playerTexture[0].getHeight()/2;
 			}
@@ -92,17 +102,19 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 				transformer = (AffineTransform)g2d.getTransform().clone();
 				transformer.concatenate(AffineTransform.getRotateInstance(-p.getMoveDir(), rX, rY));
 				transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+				transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
 				g2d.drawImage(playerTexture[walkAnimation.getFrame()], transformer, null);
 			}
 			
 			transformer = (AffineTransform)g2d.getTransform().clone();
 			transformer.concatenate(AffineTransform.getRotateInstance(-p.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
 			
 			//Draw the arms
 			if(activeAnimation != null && activeAnimation.isRunning()) {
 				g2d.drawImage(playerTexture[activeAnimation.getFrame()], transformer, null);
-				this.renderWeapon(g2d, rX, rY, scale, p.getDirection(), 
+				this.renderWeapon(g2d, rX, rY, defaultSize, scale, p.getDirection(), 
 						(float)activeAnimation.getFrameIndex()/activeAnimation.getLength());
 			}else{
 				switch(p.getActiveWeapon().getType()) {
@@ -113,7 +125,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 					g2d.drawImage(playerTexture[armsHolding], transformer, null);
 					break;				
 				}
-				this.renderWeapon(g2d, rX, rY, scale, p.getDirection(), 0f);
+				this.renderWeapon(g2d, rX, rY, defaultSize, scale, p.getDirection(), 0f);
 			}
 			
 			//Draws the body
@@ -121,7 +133,7 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 		}
 	}
 	
-	private void renderWeapon(Graphics g, int x, int y, int scale, float dir, float percentage) {		
+	private void renderWeapon(Graphics g, int x, int y, int defaultSize, float scale, float dir, float percentage) {		
 		Graphics2D g2d = (Graphics2D)g;
 		
 		float angle = (float) (-dir + Math.PI/4);
@@ -136,7 +148,8 @@ public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListene
 		
 		AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
 		transformer.concatenate(AffineTransform.getRotateInstance(angle, x, y));
-		transformer.concatenate(AffineTransform.getTranslateInstance(x - scale/4, y - scale/2));
+		transformer.concatenate(AffineTransform.getTranslateInstance(x - (defaultSize*scale)/4, y - (defaultSize*scale)/2));
+		transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
 		
 		g2d.drawImage(weapons[p.getActiveWeapon().getIconNumber()], transformer, null);
 	}

@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import model.geometrical.Position;
@@ -42,12 +44,16 @@ public class BloodPool implements ObjectRenderer<Position> {
 	}
 
 	@Override
-	public void render(Graphics g, Position offset, int scale) {
+	public void render(Graphics g, Position offset, int size, float scale) {
 		if(pos != null) {
-			int x = (int)((pos.getX() -0.5f) * scale + offset.getX());
-			int y = (int)((pos.getY() -0.5f) * scale + offset.getY());
-			
-			g.drawImage(texture[image], x, y, null);
+			int x = (int)((pos.getX() -0.5f) * size * scale + offset.getX());
+			int y = (int)((pos.getY() -0.5f) * size * scale + offset.getY());
+
+			Graphics2D g2d = (Graphics2D)g;
+			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
+			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
+			g2d.drawImage(texture[image], transformer, null);
 		}
 	}
 

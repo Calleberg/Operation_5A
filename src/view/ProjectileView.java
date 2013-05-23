@@ -41,14 +41,15 @@ public class ProjectileView implements ObjectRenderer<Projectile> {
 	}
 
 	@Override
-	public void render(Graphics g, Position offset, int scale) {
+	public void render(Graphics g, Position offset, int defaultSize, float scale) {
 		if(p != null && p.isVisible()) {			
 			if(lastPos != null) {
+				float size = defaultSize * scale;
 				g.setColor(Color.ORANGE);
-				g.drawLine((int)(p.getPosition().getX() * scale + offset.getX()),
-						(int)(p.getPosition().getY() * scale + offset.getY()),
-						(int)(lastPos.getX() * scale + offset.getX()),
-						(int)(lastPos.getY() * scale + offset.getY()));
+				g.drawLine((int)(p.getPosition().getX() * size + offset.getX()),
+						(int)(p.getPosition().getY() * size + offset.getY()),
+						(int)(lastPos.getX() * size + offset.getX()),
+						(int)(lastPos.getY() * size + offset.getY()));
 			}
 			
 			lastPos = p.getPosition();

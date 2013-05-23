@@ -65,13 +65,13 @@ public class EnemyView implements ObjectRenderer<Enemy>, PropertyChangeListener 
 	}
 	
 	@Override
-	public void render(Graphics g, Position offset, int scale) {
+	public void render(Graphics g, Position offset, int defaultSize, float scale) {
 		if(sprite != null) {
 			//Saves some values for quick access.
-			int rX = (int)(sprite.getCenter().getX() * scale + offset.getX());
-			int rY = (int)(sprite.getCenter().getY() * scale + offset.getY());
-			int x = rX - 20;
-			int y = rY - 20;
+			int rX = (int)(sprite.getCenter().getX() * defaultSize * scale + offset.getX());
+			int rY = (int)(sprite.getCenter().getY() * defaultSize * scale + offset.getY());
+			int x = rX - (int)(defaultSize*scale/2);
+			int y = rY - (int)(defaultSize*scale/2);
 			
 			//Rotates the graphics around the center of the sprite.
 			Graphics2D g2d = (Graphics2D)g;
@@ -80,6 +80,8 @@ public class EnemyView implements ObjectRenderer<Enemy>, PropertyChangeListener 
 			AffineTransform transformer = (AffineTransform)g2d.getTransform().clone();
 			transformer.concatenate(AffineTransform.getRotateInstance(-sprite.getDirection(), rX, rY));
 			transformer.concatenate(AffineTransform.getTranslateInstance(x, y));
+			transformer.concatenate(AffineTransform.getScaleInstance(scale, scale));
+			
 			if(sprite.getState() == Sprite.State.RUNNING) {
 				g2d.drawImage(texture[sprite.getImageNbr()][runAnimation.getFrame()], transformer, null);
 			}else if(sprite.getState() == Sprite.State.WALKING) {
@@ -95,7 +97,7 @@ public class EnemyView implements ObjectRenderer<Enemy>, PropertyChangeListener 
 			
 			//Draws dev data
 			hpbar.setValue(sprite.getHealth());
-			hpbar.render(g2d, x, y - (int)(scale/10), scale);
+			hpbar.render(g2d, x, y - (int)(defaultSize*scale/10), (int)(defaultSize*scale));
 		}
 	}
 

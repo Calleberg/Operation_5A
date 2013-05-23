@@ -45,7 +45,7 @@ public class Minimap extends JPanel {
 		for(int x = 0; x < model.getWorld().getTiles().length; x++) {
 			for(int y = 0; y < model.getWorld().getTiles()[0].length; y++) {
 				TileView tv = new TileView(model.getWorld().getTiles()[x][y]);
-				tv.render(g2d, new Position(0, 0), camera.getScale());
+				tv.render(g2d, new Position(0, 0), 40, camera.getScale()/40f);
 			}
 		}
 		return minimap;
