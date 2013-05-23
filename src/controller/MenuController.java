@@ -65,7 +65,7 @@ public class MenuController{
 		System.exit(0);
 	}
 	private void showhighscore(){
-		WINDOW.add(new Score(buttons.getMainMenuButton()));
+		WINDOW.add(new Score(buttons.getMainMenuButton(), mainModel));
 	}
 	private void showSettingsFromMainMenu(){
 		WINDOW.add(new Settings(buttons.getMainMenuButton()));
@@ -85,7 +85,7 @@ public class MenuController{
 	 * Changes this controllers window to the game over view.
 	 */
 	public void showGameOverPanel(){
-		WINDOW.add(new Score(buttons.getMainMenuButton()));
+		WINDOW.add(new Score(buttons.getMainMenuButton(), mainModel));
 	}
 	/**
 	 * Changes this controllers window to the paused game menu view.
