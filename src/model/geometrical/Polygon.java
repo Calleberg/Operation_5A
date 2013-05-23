@@ -69,8 +69,7 @@ public class Polygon implements CollisionBox {
 	
 	@Override
 	public float getHeight() {
-		if(height == 0f) {
-			float y = (float) this.getLines().get(0).getY1();			
+		if(height == 0f) {			
 			float max = 0;
 			for(Line2D l : this.getLines()) {
 				max = (float) Math.max(l.getY1(), max);
