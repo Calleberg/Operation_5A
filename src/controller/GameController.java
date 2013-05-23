@@ -56,6 +56,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	
 	private int lastSecondStamp;
 	
+	private static final int MAX_AMOUNT_OF_SPRITES = 200;
 	private static final int SUPPLY_SPAWN_DISTANCE = 25;
 	
 	/**
@@ -208,7 +209,8 @@ public class GameController implements Runnable, PropertyChangeListener {
 		playerPickUpWeapon();
 
 		enemySpawnTick++;
-		if(enemySpawnTick >= 20){
+		if(enemySpawnTick >= 20 && this.gameModel.getWorld().getSprites().size() < 
+				MAX_AMOUNT_OF_SPRITES){
 			spawnEnemy();
 			enemySpawnTick = 0;
 		}
