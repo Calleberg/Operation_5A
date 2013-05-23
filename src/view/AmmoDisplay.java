@@ -28,17 +28,17 @@ public class AmmoDisplay extends JPanel {
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) {	
-		g.setColor(new Color(0, 0, 0, 100));
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
-		g.setColor(Color.WHITE);
-		g.setFont(HUDFonts.getAmmoFont());
-		
+	public void paintComponent(Graphics g) {			
 		int total = player.getAmmoAmount();
 		int inGun = player.getActiveWeapon().getAmmunitionInMagazine();
 		
 		if(inGun >= 0){
+			g.setColor(new Color(0, 0, 0, 100));
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			
+			g.setColor(Color.WHITE);
+			g.setFont(HUDFonts.getAmmoFont());
+			
 			String info = inGun + "/" + total;
 			g.drawString(info, this.getWidth()/2 - (int)g.getFontMetrics().getStringBounds(info, g).getWidth()/2, 
 					this.getHeight() - 20);

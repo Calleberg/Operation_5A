@@ -27,6 +27,17 @@ public final class SupplyFactory {
 		}
 		return s;
 	}
+	
+	/**
+	 * Creates a restored supply item.
+	 * @param data the data to use when restoring.
+	 * @return a restored supply item.
+	 */
+	public static Supply createRestoredSupply(String[] data) {
+		Supply item = SupplyFactory.createFood(0, new Position(0,0));
+		item.restore(data);
+		return item;
+	}
 	/**
 	 * Creates an Ammo with a random value between 0 and 18
 	 * @return an Ammo with a random value

@@ -20,7 +20,7 @@ public class Projectile implements Saveable {
 	private Position startingPosition;
 	private CollisionBox collisionBox;
 	private boolean visible;
-	
+		
 	/**
 	 * Creates a new projectile with the specified values.
 	 * @param damage the damage this projectile inflicts.
@@ -28,6 +28,7 @@ public class Projectile implements Saveable {
 	 * @param range the range of the projectile.
 	 * @param direction the direction to travel. 
 	 * @param position the starting position.
+	 * @param visible specifies if the projectile should be visible.
 	 */
 	public Projectile(int damage, float speed, float range, float direction, Position position, boolean visible) {
 		this.damage = damage;
@@ -37,6 +38,13 @@ public class Projectile implements Saveable {
 		this.collisionBox = new ScanLine(position.getX(), position.getY());
 		this.startingPosition = new Position(collisionBox.getPosition().getX(), collisionBox.getPosition().getY());
 		this.visible = visible;
+	}
+	
+	/**
+	 * Creates a new default visible projectile.
+	 */
+	public Projectile() {
+		this(0, 0, 0, 0, new Position(0, 0), true);
 	}
 	
 	/**

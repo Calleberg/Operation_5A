@@ -33,6 +33,13 @@ public class Player implements Sprite {
 	private int food;
 	
 	/**
+	 * Creates a new default player.
+	 */
+	public Player() {
+		this(0, 0);
+	}
+	
+	/**
 	 * Creates a new player with a specific position.
 	 * @param x The x-coordinate for the player's position.
 	 * @param y The y-coordinate for the player's position.
