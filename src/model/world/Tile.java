@@ -13,7 +13,7 @@ import model.world.props.Prop;
 /**
  * Holds the data of one tile in a world.
  * 
- * @author Calleberg, Jonatan Magnusson
+ * @author Martin Calleberg, Jonatan Magnusson
  *
  */
 public class Tile implements WorldObject {

@@ -8,6 +8,12 @@ import model.sprites.Sprite;
 import model.world.Tile;
 import model.world.World;
 
+/**
+ * Calculates the quickest path from one position from another using the A* algorithm.
+ * 
+ * @author Linus Hagvall
+ *
+ */
 public class EnemyPathfinder {
 	private List<PathfindingNode> openTileList;
 	private List<PathfindingNode> closedTileList;

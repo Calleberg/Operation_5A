@@ -12,7 +12,7 @@ import java.util.List;
  * Holds which keys have been pressed.
  * Supports keyboard and mouse button input.
  *
- * @author Calleberg
+ * @author Martin Calleberg, Jonatan Magnusson
  *
  */
 public class Input implements KeyListener, MouseListener {

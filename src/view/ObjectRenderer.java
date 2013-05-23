@@ -7,7 +7,7 @@ import model.geometrical.Position;
 /**
  * An interface for creating view classes which will render specific objects.
  * 
- * @author 
+ * @author Martin Calleberg
  * @param <T>
  *
  * @param <T>

@@ -8,7 +8,7 @@ import model.other.Saveable;
 /**
  * A model of a projectile.
  * 
- * @author 
+ * @author Martin Calleberg, Linus Hagvall, Jonatan Magnusson, Vidar Eriksson
  *
  */
 public class Projectile implements Saveable {

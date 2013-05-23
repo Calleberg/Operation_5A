@@ -8,6 +8,11 @@ import model.world.props.PropFactory;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Martin Calleberg
+ *
+ */
 public class PropTest {
 
 	@Test

@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 /**
  * A basic model of a circle.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class Circle extends Polygon {

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * A cursor with a custom image and which supports alpha values on the image.
  * Note: For this cursor to work correctly it must listen to the panel it should display on.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class CustomCursor implements MouseMotionListener {

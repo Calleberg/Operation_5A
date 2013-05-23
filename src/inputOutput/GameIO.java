@@ -30,7 +30,7 @@ import model.world.WorldBuilder;
 /**
  * Class which can save, load and create game models.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class GameIO {

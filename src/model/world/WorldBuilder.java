@@ -20,7 +20,7 @@ import model.world.generator.MapGenerator;
  * This will build new worlds by using specific seeds which always will produce the
  * same map every time.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class WorldBuilder {

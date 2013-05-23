@@ -31,9 +31,9 @@ import model.sprites.Sprite;
 import model.items.Item;
 
 /**
+ * This panel draws the game.
  * 
- * 
- * @author 
+ * @author Vidar Eriksson, Jonatan Magnusson, Martin Calleberg
  *
  */
 public class GamePanel extends IGamePanel implements PropertyChangeListener, MouseMotionListener, Runnable {

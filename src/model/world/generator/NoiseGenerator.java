@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * This class generates noise.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class NoiseGenerator {

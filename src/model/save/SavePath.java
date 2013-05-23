@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * Holds and returns the different save paths for the game.
- * @author Vidar Eriksson
+ * @author Vidar Eriksson, Linus Hagvall
  *
  */
 public class SavePath {

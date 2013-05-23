@@ -4,6 +4,11 @@ import java.awt.Dimension;
 
 import model.geometrical.Position;
 
+/**
+ * Hold the scale and position of the camera.
+ * @author Martin Calleberg
+ *
+ */
 public class Camera {
 
 	private int scale;

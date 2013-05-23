@@ -16,7 +16,7 @@ import model.world.props.PropFactory;
 /**
  * This class reads strings and converts them to tiles and can save tiles as strings.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class WorldBuilderIO {

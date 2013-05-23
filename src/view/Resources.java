@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 /**
  * Class used to load resources.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class Resources {

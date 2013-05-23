@@ -29,7 +29,7 @@ import model.world.Tile;
 /**
  * Controls a specific GameModel.
  * 
- * @author
+ * @author Martin Calleberg, Vidar Eriksson, Jonatan Magnusson, Linus Hagvall
  *
  */
 public class GameController implements Runnable, PropertyChangeListener {

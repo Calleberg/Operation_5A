@@ -8,7 +8,7 @@ import model.geometrical.Position;
 
 /**
  * Creates different types of weapons.
- * @author Vidar Eriksson
+ * @author Vidar Eriksson, Linus Hagvall, Jonatan Magnusson
  *
  */
 public class WeaponFactory {

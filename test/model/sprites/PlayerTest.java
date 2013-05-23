@@ -12,6 +12,11 @@ import model.sprites.Sprite.State;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Linus Hagvall
+ *
+ */
 public class PlayerTest {
 
 	
@@ -34,26 +39,6 @@ public class PlayerTest {
 		p.moveXAxis();
 		assertTrue(p.getPosition().getX() < 1);
 		assertTrue(p.getPosition().getY() == 1);
-		
-		Enemy e = new Enemy(new Position(1,1), 0.2f, null, 50, 0);
-		e.setState(Enemy.State.RUNNING);
-		
-		e.setDirection((float) (Math.PI/2));
-		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 0.8f);
-		
-		e.setDirection((float) (Math.PI));
-		e.moveBack();
-		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1);
-		
-		e.setDirection((float) (Math.PI/4));
-		e.moveBack();
-		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == (float)(1 - Math.sqrt(0.02)));
 	}
 	
 	@Test

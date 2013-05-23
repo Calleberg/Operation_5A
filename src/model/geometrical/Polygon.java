@@ -10,7 +10,7 @@ import java.util.List;
  * A basic polygon. 
  * Note: This will not autocomplete itself even if it is not a closed circuit.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class Polygon implements CollisionBox {

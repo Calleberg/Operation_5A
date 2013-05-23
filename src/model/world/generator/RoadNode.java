@@ -1,5 +1,10 @@
 package model.world.generator;
 
+/**
+ * 
+ * @author Martin Calleberg
+ *
+ */
 public class RoadNode {
 
 	public static enum Direction{NORTH, SOUTH, WEST, EAST};

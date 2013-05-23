@@ -3,7 +3,7 @@ package model.geometrical;
 /**
  * A class which holds a position as float values.
  * 
- * @author 
+ * @author Jonatan Magnusson
  *
  */
 public class Position implements Cloneable{

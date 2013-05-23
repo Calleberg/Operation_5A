@@ -13,7 +13,7 @@ import controller.GameController;
 /**
  * A GUI object which renders the hp and food values of a specified player object.
  * 
- * @author 
+ * @author Vidar Eriksson, Jonatan Magnusson
  *
  */
 public class BarPanel extends JPanel {

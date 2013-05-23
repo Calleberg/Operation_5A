@@ -7,6 +7,12 @@ import model.sprites.Player;
 import model.sprites.Sprite;
 import model.world.World;
 
+/**
+ * A class handling the enemy pathfinding as well as calculating when an enemy should attack.
+ * 
+ * @author Linus Hagvall
+ *
+ */
 public class AI {
 	private World world;
 	private Player player;

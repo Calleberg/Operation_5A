@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 /**
  * Used by polygons as the segments.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class PolygonSegement extends Line2D.Float {

@@ -3,7 +3,7 @@ package model.other;
 /**
  * Objects which should be able to be saved and restored should implement this interface.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public interface Saveable {

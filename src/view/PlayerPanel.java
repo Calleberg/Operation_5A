@@ -10,7 +10,7 @@ import model.sprites.Player;
 /**
  * The GUI object which displays information about the player.
  * 
- * @author 
+ * @author Martin Calleberg, Jonatan Magnusson 
  *
  */
 public class PlayerPanel extends JPanel {

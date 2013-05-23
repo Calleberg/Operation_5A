@@ -6,6 +6,11 @@ import model.geometrical.Position;
 
 import org.junit.Test;
 
+/**
+ * Tests the Supply class.
+ * @author Jonatan Magnusson
+ *
+ */
 public class SupplyTest {
 
 	 Supply ammo = SupplyFactory.createAmmo(20, new Position(1,1));

@@ -10,7 +10,7 @@ import model.save.SettingsModel;
 /**
  * The main model class which holds all the sub model systems.
  * 
- * @author 
+ * @author Martin Calleberg 
  *
  */
 public class MainModel {

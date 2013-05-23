@@ -16,7 +16,7 @@ import resources.Translator;
 /**
  * A GUI object which will render a score.
  * 
- * @author 
+ * @author Martn Calleberg, Jonatan Magnusson
  *
  */
 public class ScorePanel extends JPanel implements PropertyChangeListener {

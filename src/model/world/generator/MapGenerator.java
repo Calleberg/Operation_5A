@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * 
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class MapGenerator {

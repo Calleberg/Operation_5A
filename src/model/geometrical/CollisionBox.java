@@ -7,7 +7,7 @@ import java.util.List;
  * An interface for collision boxes.
  * Every collision box should support <code>intersects(CollisionBox b)</code>.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public interface CollisionBox {

@@ -11,7 +11,7 @@ import javax.swing.border.LineBorder;
 
 /**
  * This class holds the look and feel of the menu. One change herein should result in all menu components adopting it.
- * @author Vidar Eriksson
+ * @author Vidar Eriksson, Martin Calleberg
  *
  */
 public class MenuLookAndFeel {
