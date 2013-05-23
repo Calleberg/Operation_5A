@@ -55,7 +55,7 @@ public class AI {
 					//distance is 15.
 					if(e.getState() == Enemy.State.RUNNING){
 						if(getDistance(e.getCenter(), player.getCenter()) < 15){
-							e.setWay(pathfinder.findWay(e, player));
+							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
 						}else{
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);
@@ -65,7 +65,7 @@ public class AI {
 						if(getDistance(e.getCenter(), player.getCenter()) < 8 && 
 								world.canMove(e.getCenter(), player.getCenter())){
 							e.setState(Enemy.State.RUNNING);
-							e.setWay(pathfinder.findWay(e, player));
+							e.setWay(pathfinder.findWay(e.getCenter(), player.getCenter()));
 						}else{
 							//when an enemys pathfindinglist = null it will randomwalk
 							e.setPathfindingList(null);
