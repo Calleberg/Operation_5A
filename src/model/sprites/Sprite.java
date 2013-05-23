@@ -9,7 +9,11 @@ import model.other.Saveable;
 import model.other.WorldObject;
 import model.items.Item;
 
-
+/**
+ * 
+ * @author Jonatan Magnusson, Martin Calleberg
+ *
+ */
 public interface Sprite extends WorldObject, Saveable {
 	
 	/**

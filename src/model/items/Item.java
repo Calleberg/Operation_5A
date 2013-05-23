@@ -6,7 +6,11 @@ import model.geometrical.Rectangle;
 import model.other.Saveable;
 import model.other.WorldObject;
 
-
+/**
+ * 
+ * @author Vidar Eriksson
+ *
+ */
 public abstract class Item implements WorldObject, Saveable{
 	
 	private Position pos;

@@ -16,7 +16,7 @@ import model.sprites.Sprite;
 /**
  * A class which renders a player.
  * 
- * @author 
+ * @author Martin Calleberg, Jonatan Magnusson
  *
  */
 public class PlayerView implements ObjectRenderer<Player>, PropertyChangeListener {

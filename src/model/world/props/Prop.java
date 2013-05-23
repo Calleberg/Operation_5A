@@ -6,7 +6,7 @@ import model.geometrical.CollisionBox;
  * Models a simple prop which can populate a world.
  * It can obstruct or simple serve as an overlay.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class Prop {

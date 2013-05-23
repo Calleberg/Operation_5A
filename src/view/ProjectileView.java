@@ -9,7 +9,7 @@ import model.items.weapons.Projectile;
 /**
  * A class which will render a projectile.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class ProjectileView implements ObjectRenderer<Projectile> {

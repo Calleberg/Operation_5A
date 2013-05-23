@@ -8,7 +8,7 @@ import model.other.Animation;
 /**
  * A factory for props.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class PropFactory {

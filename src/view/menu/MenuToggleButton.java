@@ -12,7 +12,7 @@ import resources.MenuLookAndFeel;
 /**
  * A button which can toggle but with custom design.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 @SuppressWarnings("serial")

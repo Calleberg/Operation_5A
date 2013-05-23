@@ -3,7 +3,7 @@ package resources;
 import java.awt.Font;
 /**
  * A class that creates and returns a font for the HUD
- * @author Jonatan
+ * @author Jonatan Magnusson
  *
  */
 public class HUDFonts {

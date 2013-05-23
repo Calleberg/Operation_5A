@@ -14,7 +14,7 @@ import model.sprites.Player;
 /**
  * A class that draws the picture that each weapon slot has in the HUD(PlayerPanel).
  * 
- * @author Jonatan and Martin
+ * @author Jonatan Magnusson, Martin Calleberg
  *
  */
 public class SlotPanel extends JPanel{

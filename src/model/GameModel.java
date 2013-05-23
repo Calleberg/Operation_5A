@@ -16,7 +16,7 @@ import model.world.World;
 /**
  * This is the main model class. This will hold all data.
  * 
- * @author
+ * @author Vidar Eriksson, Linus Hagvall, Martin Calleberg, Jonatan Magnusson
  *
  */
 public class GameModel implements PropertyChangeListener {

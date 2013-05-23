@@ -8,7 +8,7 @@ import model.geometrical.Position;
 /**
  * An interface used when creating objects that will populate a world.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public interface WorldObject {

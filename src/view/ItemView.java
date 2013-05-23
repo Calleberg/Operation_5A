@@ -10,7 +10,7 @@ import model.items.Supply;
 import model.items.weapons.Weapon;
 
 /**
- * A class which will render a supply
+ * A class which will render a item.
  * @author Jonatan Magnusson
  *
  */
