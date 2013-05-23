@@ -26,19 +26,19 @@ public class EnemyTest {
 		e.setState(Enemy.State.RUNNING);
 		e.setDirection((float) (Math.PI/2));
 		e.moveXAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == 1);
 		
 		e.setDirection((float) (Math.PI));
 		e.moveXAxis();
-		assertTrue(e.getPosition().getX() == 1-e.getSpeed());
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == 1-e.getSpeed());
+		assertTrue(e.getCenter().getY() == 1);
 		
 		e.setDirection((float) (Math.PI/4));
 		e.moveBack();
 		e.moveXAxis();
-		assertTrue(e.getPosition().getX() == (float)(1 + Math.sqrt(e.getSpeed()*e.getSpeed()/2)));
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == (float)(1 + Math.sqrt(e.getSpeed()*e.getSpeed()/2)));
+		assertTrue(e.getCenter().getY() == 1);
 	}
 	
 	@Test
@@ -48,20 +48,20 @@ public class EnemyTest {
 		
 		e.setDirection((float) (Math.PI/2));
 		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1-e.getSpeed());
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == 1-e.getSpeed());
 		
 		e.setDirection((float) (Math.PI));
 		e.moveBack();
 		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == 1);
 		
 		e.setDirection((float) (Math.PI/4));
 		e.moveBack();
 		e.moveYAxis();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == (float)(1 - Math.sqrt(0.02)));
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == (float)(1 - Math.sqrt(0.02)));
 	}
 
 	@Test
@@ -160,15 +160,15 @@ public class EnemyTest {
 		e.moveYAxis();
 		e.moveXAxis();
 		e.moveBack();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == 1);
 		
 		e.setDirection((float) (Math.PI/3.5));
 		e.moveYAxis();
 		e.moveXAxis();
 		e.moveBack();
-		assertTrue(e.getPosition().getX() == 1);
-		assertTrue(e.getPosition().getY() == 1);
+		assertTrue(e.getCenter().getX() == 1);
+		assertTrue(e.getCenter().getY() == 1);
 	}
 
 	@Test
