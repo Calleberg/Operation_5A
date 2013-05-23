@@ -6,6 +6,11 @@ import model.geometrical.Position;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Jonatan Magnusson, Linus Hagvall
+ *
+ */
 public class WeaponTest {
 	@Test
 	public void createProjectileTest(){

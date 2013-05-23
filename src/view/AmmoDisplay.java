@@ -11,7 +11,7 @@ import resources.HUDFonts;
 /**
  * Renders the ammo a player currently possesses.
  * 
- * @author
+ * @author Martin Calleberg, Jonatan Magnusson
  *
  */
 public class AmmoDisplay extends JPanel {

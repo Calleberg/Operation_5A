@@ -19,7 +19,7 @@ import model.sprites.Sprite;
 /**
  * Hold all the objects that populates the world.
  * 
- * @author Calleberg
+ * @author Martin Calleberg, Vidar Eriksson, Linus Hagvall, Jonatan Magnusson
  *
  */
 public class World {

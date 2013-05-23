@@ -16,7 +16,7 @@ import model.sprites.Sprite;
 /**
  * A class which will take and then draw a specific Sprite instance.
  * 
- * @author
+ * @author Jonatan Magnusson, Martin Calleberg
  *
  */
 public class EnemyView implements ObjectRenderer<Enemy>, PropertyChangeListener {

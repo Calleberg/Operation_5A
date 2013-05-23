@@ -5,7 +5,7 @@ import java.util.Calendar;
 /**
  * An animation with the ability to start and stop.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class Animation {

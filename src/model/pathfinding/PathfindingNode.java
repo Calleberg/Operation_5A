@@ -5,7 +5,7 @@ import model.world.Tile;
 /**
  * Hold all data for a node which is needed to calculate pathfinding.
  * 
- * @author
+ * @author Linus Hagvall
  *
  */
 public class PathfindingNode {

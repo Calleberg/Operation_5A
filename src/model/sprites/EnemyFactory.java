@@ -6,7 +6,7 @@ import model.items.weapons.WeaponFactory;
 /**
  * A factory which creates enemies.
  * 
- * @author 
+ * @author Jonatan Magnusson
  *
  */
 public class EnemyFactory {

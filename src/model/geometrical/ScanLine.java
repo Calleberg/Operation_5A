@@ -9,7 +9,7 @@ import java.util.List;
  * See <code>setPosition()</code> for more information about how this line
  * behaves.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class ScanLine implements CollisionBox {

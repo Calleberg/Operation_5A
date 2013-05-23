@@ -8,7 +8,7 @@ import model.geometrical.Position;
 /**
  * Draws a small pool of blood at the specified position.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class BloodPool implements ObjectRenderer<Position> {

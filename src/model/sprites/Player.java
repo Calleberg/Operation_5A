@@ -14,7 +14,7 @@ import model.items.weapons.WeaponFactory;
 /**
  * Models a player which can populate a world.
  * 
- * @author
+ * @author Linus Hagvall, Jonatan Magnusson, Martin Calleberg, Vidar Eriksson
  *
  */
 public class Player implements Sprite {

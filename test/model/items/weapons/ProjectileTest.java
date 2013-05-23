@@ -7,6 +7,11 @@ import model.geometrical.Position;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Jonatan Magnusson
+ *
+ */
 public class ProjectileTest {
 
 	Projectile p = new Projectile(1, 0.2f, 10f, 0f, new Position(1,1),true);

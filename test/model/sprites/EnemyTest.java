@@ -13,6 +13,11 @@ import model.items.weapons.WeaponFactory;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Linus Hagvall
+ *
+ */
 public class EnemyTest {
 
 	@Test

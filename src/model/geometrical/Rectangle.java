@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 /**
  * A basic model of a rectangle.
  * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class Rectangle extends Polygon {

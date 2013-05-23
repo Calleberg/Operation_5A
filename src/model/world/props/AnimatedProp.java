@@ -6,7 +6,7 @@ import model.other.Animation;
 /**
  * A prop which can be animated.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class AnimatedProp extends Prop {

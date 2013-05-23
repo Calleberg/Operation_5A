@@ -11,6 +11,11 @@ import model.geometrical.Rectangle;
 import model.items.Item;
 import model.items.weapons.Weapon;
 
+/**
+ * 
+ * @author Linus Hagvall, Jonatan Magnusson
+ *
+ */
 public class Enemy implements Sprite{
 
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);

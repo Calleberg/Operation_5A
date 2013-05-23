@@ -4,7 +4,7 @@ import model.geometrical.*;
 
 /**
  * 
- * @author Vidar
+ * @author Vidar Eriksson, Jonatan Magnusson
  *
  */
 public class Supply extends Item {

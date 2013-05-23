@@ -11,9 +11,9 @@ import model.GameModel;
 import model.geometrical.Position;
 
 /**
+ * Creates a small versio of the map.
  * 
- * 
- * @author
+ * @author Martin Calleberg
  *
  */
 public class Minimap extends JPanel {

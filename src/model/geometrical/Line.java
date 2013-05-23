@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * A simple model of a line.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class Line implements CollisionBox {

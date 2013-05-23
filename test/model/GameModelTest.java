@@ -12,6 +12,11 @@ import model.sprites.Player;
 
 import org.junit.Test;
 
+/**
+ * Tests the GameModel.
+ * @author Linus Hagvall
+ *
+ */
 public class GameModelTest {
 	
 	World w = new World();

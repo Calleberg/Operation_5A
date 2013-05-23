@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * A <code>CollisionBox</code> made up out of other combined <code>CollisionBox</code>:es.
  * 
- * @author 
+ * @author Martin Calleberg
  *
  */
 public class ComplexShape implements CollisionBox  {

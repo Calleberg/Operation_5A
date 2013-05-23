@@ -12,7 +12,7 @@ import model.world.Tile;
 /**
  * Used to render a single tile.
  * 
- * @author Calleberg
+ * @author Martin Calleberg
  *
  */
 public class TileView {
