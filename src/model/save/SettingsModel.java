@@ -186,7 +186,7 @@ public class SettingsModel {
 		
 		private static Locale loadFrom(String s){
 			if (s.contains("SWE")){
-				return new Locale("sv_SE");
+				return new Locale("sv");
 			} else {
 				return Locale.ENGLISH;
 			}
@@ -196,7 +196,7 @@ public class SettingsModel {
 		 * @return the string to be saved.
 		 */
 		private static String toSaveString(Locale l){
-			if (l.equals(new Locale("sv_SE"))){
+			if (l.equals(new Locale("sv"))){
 				return "SWE";
 			} else {
 				return "ENG";
@@ -205,7 +205,7 @@ public class SettingsModel {
 		
 		
 		private static Locale[] getAllLocales() {
-			return new Locale[]{new Locale("sv_SE"), Locale.ENGLISH};
+			return new Locale[]{new Locale("sv"), Locale.ENGLISH};
 		}
 	}
 
