@@ -143,8 +143,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 	 */
 	public void playerShoot(){
 		Player player = this.gameModel.getPlayer();
-		Projectile p = player.getActiveWeapon().createProjectile(player.getDirection(), 
-				player.getProjectileSpawn());
+		Projectile p = player.createProjectile();
 		if(p != null) {
 			this.gameModel.getWorld().addProjectile(p);
 			player.fireEvent(Player.EVENT_USE_WEAPON);
@@ -201,7 +200,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 		checkPauseGame();
 		
 		this.updatePlayerPosition();
-		if(input.mousePressed(MouseEvent.BUTTON1)){
+		if(input.mousePressed(MouseEvent.BUTTON1) || input.isPressed(KeyEvent.VK_SPACE)){
 			this.playerShoot();
 		}
 		if(input.isPressed(KeyEvent.VK_R)){

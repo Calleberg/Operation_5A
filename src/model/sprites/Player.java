@@ -8,6 +8,7 @@ import model.geometrical.Position;
 import model.geometrical.Rectangle;
 import model.items.Item;
 import model.items.Supply;
+import model.items.weapons.Projectile;
 import model.items.weapons.Weapon;
 import model.items.weapons.WeaponFactory;
 
@@ -64,6 +65,14 @@ public class Player implements Sprite {
 		for(int i = 0; i < this.getWeapons().length; i++) {
 			this.getWeapons()[i] = WeaponFactory.createPlayerDefaultWeapon();
 		}
+	}
+	
+	/**
+	 * Gives the projectile created by the active weapon the player holds.
+	 * @return the projectile created by the weapon.
+	 */
+	public Projectile createProjectile() {
+		return this.getActiveWeapon().createProjectile(this.getDirection(), this.getProjectileSpawn());
 	}
 	
 	@Override
