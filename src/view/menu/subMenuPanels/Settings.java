@@ -31,7 +31,7 @@ import view.menu.MenuToggleButton;
 @SuppressWarnings("serial")
 public class Settings extends SubMenuPanel {
 	private static JTextField nameField = new JTextField();
-	private static JComboBox<Locale> language = new JComboBox<Locale>();
+	private static JComboBox<String> language = new JComboBox<String>();
 	private static JToggleButton fullscreen = new MenuToggleButton(null);
 	
 	public Settings(MenuButton button) {
@@ -108,11 +108,11 @@ public class Settings extends SubMenuPanel {
 	
 	private static void startComboBox() {
 		language.removeAllItems();
-		language.addItem(model.save.SettingsModel.getLocale());
+		language.addItem(model.save.SettingsModel.getLocale().getDisplayLanguage());
 		Locale[] l = model.save.SettingsModel.getAllLocales();
 		for (int a=0; a< l.length; a++){
 			if (!(l[a]).equals(model.save.SettingsModel.getLocale())){
-				language.addItem(l[a]);
+				language.addItem(l[a].getDisplayLanguage());
 			}
 		}
 		
@@ -124,7 +124,12 @@ public class Settings extends SubMenuPanel {
 	private static void saveSettings(){
 		SettingsModel.setUserName(nameField.getText());
 		SettingsModel.setFullscreen(fullscreen.isSelected());
-		SettingsModel.setLocale((Locale) language.getSelectedItem());
+		Locale [] l = model.save.SettingsModel.getAllLocales();
+		for(int a=0; a<l.length; a++){
+			if (l[a].getDisplayLanguage().equalsIgnoreCase(language.getSelectedItem().toString())){
+				SettingsModel.setLocale(l[a]);
+			}
+		}
 		SettingsModel.save();
 	}
 
