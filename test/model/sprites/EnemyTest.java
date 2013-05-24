@@ -76,11 +76,12 @@ public class EnemyTest {
 	
 	@Test
 	public void getDirection(){
-		Player p = new Player(1,1);
-		p.setDirection(5f);
-		assertTrue(p.getDirection() == 5f);
-		p.setDirection((float)Math.PI/2);
-		assertTrue(p.getDirection() == (float)Math.PI/2);
+		Enemy e = new Enemy(new Position(1,1), 0.2f, WeaponFactory.createWeapon
+				(WeaponFactory.Type.FISTS, WeaponFactory.Level.RUSTY), 50, 0);
+		e.setDirection(5f);
+		assertTrue(e.getDirection() == 5f);
+		e.setDirection((float)Math.PI/2);
+		assertTrue(e.getDirection() == (float)Math.PI/2);
 	}
 	
 	@Test

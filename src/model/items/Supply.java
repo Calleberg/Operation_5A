@@ -106,6 +106,7 @@ public class Supply extends Item {
 		this.setPosition(pos);
 		this.setIconNumber(Integer.parseInt(data[0]));
 		this.type = Type.fromString(data[3]);
+		this.amount = Integer.parseInt(data[4]);
 	}
 
 	@Override
@@ -114,7 +115,8 @@ public class Supply extends Item {
 				this.getIconNumber() + "",
 				this.getPosition().getX() + "",
 				this.getPosition().getY() + "",
-				this.getType().toString()
+				this.getType().toString(),
+				this.getAmount() + ""
 		};
 	}
 }
