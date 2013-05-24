@@ -15,11 +15,23 @@ public class SavePath {
 	 * Gives the folder where all the data should be stored.
 	 * @return the folder where all the data should be stored.
 	 */
-	public static String getSavePath(){
-		File file = new File(System.getenv("APPDATA") + "/Operation5a/");
-		file.mkdir();
-		
-		return file.getPath() + "/";
+	public static String getSavePath(){		
+		String OS = System.getProperty("os.name").toUpperCase();
+		String path = null;
+		String subFolder = "Operation5a";
+	    if (OS.contains("WIN"))
+	    	path = System.getenv("APPDATA") + "/" + subFolder + "/";
+	    else if (OS.contains("MAC"))
+	    	path = System.getProperty("user.home") + "/Library/Application\\ Support/" + subFolder + "/";
+	    else if (OS.contains("NUX")){
+	    	path = System.getProperty("$XDG_DATA_HOME") + "/" + subFolder + "/";
+	    }else{
+	    	path = System.getProperty("user.dir") + "/" + subFolder + "/";
+	    }
+	    
+	    File file = new File(path);
+	    file.mkdir();
+	    return path;
 	}
 	
 	/**
