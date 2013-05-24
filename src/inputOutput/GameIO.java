@@ -169,7 +169,7 @@ public class GameIO {
 	 */
 	public static void saveGame(GameModel model, String path) {
 		if(path.equals(NEW_NAME)) {
-			SimpleDateFormat dt = new SimpleDateFormat("yyyy mm dd - hh.mm.ss"); 
+			SimpleDateFormat dt = new SimpleDateFormat("yyyy MM dd - HH.mm.ss"); 
 			path = SavePath.getSaveFolder() + dt.format(Calendar.getInstance().getTime()) + ".save";
 		}else{
 			path = SavePath.getSaveFolder() + path;

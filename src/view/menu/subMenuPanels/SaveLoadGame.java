@@ -78,7 +78,7 @@ public class SaveLoadGame extends SubMenuPanel {
 		});
 		p.add(tb1);
 
-		for(int i = 0; i < saveFiles.length; i++) {
+		for(int i = saveFiles.length - 1; i >= 0; i--) {
 			final MenuToggleButton tb2 = new MenuToggleButton(saveFiles[i]);
 			group1.add(tb2);
 			tb2.addActionListener(new ActionListener() {
