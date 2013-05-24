@@ -225,7 +225,7 @@ public class GameController implements Runnable, PropertyChangeListener {
 
 		//reducePlayerFoodLevel and changes the player's health according to current food level
 		foodTicks++;
-		if(foodTicks >= 40){
+		if(foodTicks >= 60){
 			reducePlayerFood();
 			foodTicks = 0;
 		}
