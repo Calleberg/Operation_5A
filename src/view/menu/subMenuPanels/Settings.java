@@ -108,11 +108,12 @@ public class Settings extends SubMenuPanel {
 	
 	private static void startComboBox() {
 		language.removeAllItems();
-		language.addItem(model.save.SettingsModel.getLocale().getDisplayLanguage());
+		language.addItem(model.save.SettingsModel.getLocale().getDisplayLanguage(
+				model.save.SettingsModel.getLocale()));
 		Locale[] l = model.save.SettingsModel.getAllLocales();
 		for (int a=0; a< l.length; a++){
 			if (!(l[a]).equals(model.save.SettingsModel.getLocale())){
-				language.addItem(l[a].getDisplayLanguage());
+				language.addItem(l[a].getDisplayLanguage(l[a]));
 			}
 		}
 		
@@ -126,7 +127,7 @@ public class Settings extends SubMenuPanel {
 		SettingsModel.setFullscreen(fullscreen.isSelected());
 		Locale [] l = model.save.SettingsModel.getAllLocales();
 		for(int a=0; a<l.length; a++){
-			if (l[a].getDisplayLanguage().equalsIgnoreCase(language.getSelectedItem().toString())){
+			if (l[a].getDisplayLanguage(l[a]).equalsIgnoreCase(language.getSelectedItem().toString())){
 				SettingsModel.setLocale(l[a]);
 			}
 		}
